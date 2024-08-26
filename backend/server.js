@@ -11,7 +11,9 @@ import './config/database.js'
 // import routes
 import { router as profilesRouter } from './routes/profiles.js'
 import { router as authRouter } from './routes/auth.js'
+
 import { router as machinesRouter } from './routes/machines.js'
+
 
 // create the express app
 const app = express()
@@ -25,6 +27,7 @@ app.use(formData.parse())
 // mount imported routes
 app.use('/api/profiles', profilesRouter)
 app.use('/api/auth', authRouter)
+
 app.use('/api/machines', machinesRouter)
 
 // handle 404 errors

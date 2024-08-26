@@ -15,13 +15,16 @@ const userSchema = new Schema({
 
 userSchema.set('toJSON', {
   transform: function (doc, ret) {
+
     delete ret.password // Removing the password field from the serialized user object
+
     return ret
   }
 })
 
 userSchema.pre('save', async function (next) {
   const user = this
+
   if (!user.isModified('password')) return next() // If the password is not modified, move to the next middleware
 
   try {
@@ -30,13 +33,16 @@ userSchema.pre('save', async function (next) {
     next() // Moving to the next middleware
   } catch (err) {
     next(err) // Handling any errors that occur during password hashing
+
   }
 })
 
 userSchema.methods.comparePassword = async function (tryPassword) {
+
   return await bcrypt.compare(tryPassword, this.password) // Comparing a provided password with the stored hashed password
 }
 
 const User = mongoose.model('User', userSchema) // Creating a User model using the userSchema
 
 export { User } // Exporting the User model for use in other files
+

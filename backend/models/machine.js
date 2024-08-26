@@ -15,6 +15,7 @@ const machineSchema = new Schema(
     }
     );
 
+
 const Machine = mongoose.model("Machine", machineSchema);
 
 export { Machine };

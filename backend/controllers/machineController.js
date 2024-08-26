@@ -32,7 +32,9 @@ async function create(req, res) {
 
 async function update(req, res) {
   try {
+
     const machine = await Machine.findOne({id: req.params.id});
+
     Object.assign(machine, req.body);
     await machine.save();
     res.json(machine);
@@ -52,6 +54,7 @@ async function destroy(req, res) {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: error });
+
   }
 }
 

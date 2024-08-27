@@ -6,23 +6,23 @@ const getAllEmployees = async (req, res, next) => {
   let Employees;
 
   try{
-    employees = await Employee.find();
+    Employees = await Employee.find();
   }catch (err) {
     console.log(err);
   }
 
-  if (!employees){
+  if (!Employees){
     return res.status(404).json({message:"Employee not found"})
   }
 
-  return res.status(200).json({employees});
+  return res.status(200).json({Employees});
 
 };
 
 // data insert 
 const addEmployees = async(req, res, next) => {
 
-    const {firstName,lastName,id,email,designation,address,age,dateOfBirth,dateOfJoining,department,salary} = req.body;
+    const {firstName,lastName,Idd,email,designation,address,age,dateOfBirth,dateOfJoining,department,salary} = req.body;
 
     let employees;
     

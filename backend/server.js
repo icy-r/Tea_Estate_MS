@@ -15,6 +15,9 @@ import { router as machinesRouter } from './routes/machines.js'
 import { router as machinesRouter } from './routes/machines.js'
 import { router as EmployeeManagement } from './routes/Employeemanagement.js'
 
+import { router as machinesRouter } from './routes/machines.js'
+
+
 // create the express app
 const app = express()
 
@@ -29,6 +32,8 @@ app.use('/api/profiles', profilesRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/machines', machinesRouter)
 app.use('/api/empManagement' , EmployeeManagement)
+
+app.use('/api/machines', machinesRouter)
 
 // handle 404 errors
 app.use(function (req, res, next) {

@@ -9,11 +9,9 @@ import formData from 'express-form-data'
 import './config/database.js'
 
 // import routes
-import { router as profilesRouter } from './routes/profiles.js'
-import { router as authRouter } from './routes/auth.js'
-import { router as machinesRouter } from './routes/machines.js'
-
-import { router as machinesRouter } from './routes/machines.js'
+import { router as profilesRouter } from './routes/user-management/profiles-route.js'
+import { router as authRouter } from './routes/authentication/auth-route.js'
+import { router as machinesRouter } from './routes/repair-management/machines-route.js'
 
 
 // create the express app

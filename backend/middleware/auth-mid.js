@@ -12,7 +12,7 @@ const decodeUserFromToken = (req, res, next) => {
 
     req.user = decoded.user
     next()
-  })
+  }) }
 
 function checkAuth(req, res, next) {
 
@@ -22,4 +22,5 @@ function checkAuth(req, res, next) {
     return  next()
 }
 
-export { decodeUserFromToken, checkAuth }
+
+export { decodeUserFromToken, checkAuth } 

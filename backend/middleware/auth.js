@@ -12,7 +12,7 @@ const decodeUserFromToken = (req, res, next) => {
 
     req.user = decoded.user
     next()
-  })
+  })}
 
 function checkAuth(req, res, next) {
 

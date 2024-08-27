@@ -12,8 +12,8 @@ import './config/database.js'
 import { router as profilesRouter } from './routes/profiles.js'
 import { router as authRouter } from './routes/auth.js'
 import { router as machinesRouter } from './routes/machines.js'
-
-import { router as machinesRouter } from './routes/machines.js'
+import { router as vehiclesRouter } from './routes/transport-management/vehicleRoute.js'
+import { router as routeRouter } from './routes/transport-management/route-Route.js'
 
 
 // create the express app
@@ -28,9 +28,9 @@ app.use(formData.parse())
 // mount imported routes
 app.use('/api/profiles', profilesRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/vehicles', vehiclesRouter)
 app.use('/api/machines', machinesRouter)
-
-app.use('/api/machines', machinesRouter)
+app.use('/api/routes', routeRouter)
 
 // handle 404 errors
 app.use(function (req, res, next) {

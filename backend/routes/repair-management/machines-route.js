@@ -1,6 +1,6 @@
 import { Router } from "express";
-import * as machineController from "../controllers/machineController.js";
-import {checkAuth, decodeUserFromToken} from "../middleware/auth.js";
+import * as machineController from "../../controllers/repair-management/machine-controller.js";
+import {checkAuth, decodeUserFromToken} from "../../middleware/auth-mid.js";
 
 const router = Router();
 

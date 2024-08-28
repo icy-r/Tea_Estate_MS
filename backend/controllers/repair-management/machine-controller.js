@@ -1,4 +1,4 @@
-import { Machine } from '../models/machine.js';
+import { Machine } from '../../models/repair-management/machine-model.js';
 
 async function index(req, res) {
   try {

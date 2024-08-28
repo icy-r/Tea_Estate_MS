@@ -1,4 +1,4 @@
-import Invoice from '../models/inovice.js';
+import Invoice  from '../../models/sales-management/invoice.js';
 
 async function index(req, res) {
   try {

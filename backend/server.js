@@ -9,7 +9,7 @@ import formData from 'express-form-data'
 import './config/database.js'
 
 // import routes
-import { router as invoicesRouter } from './routes/invoices.js'
+import { router as invoicesRouter } from './routes/sales-management/invoices.js'
 import { router as profilesRouter } from './routes/user-management/profiles-route.js'
 import { router as authRouter } from './routes/authentication/auth-route.js'
 import { router as machinesRouter } from './routes/repair-management/machines-route.js'

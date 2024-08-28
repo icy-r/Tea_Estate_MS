@@ -1,6 +1,6 @@
 import { Router } from "express";
-import * as invoiceController from "../controllers/invoiceController.js";
-import {checkAuth, decodeUserFromToken} from "../middleware/auth.js";
+import * as invoiceController from "../../controllers/sales-management/invoiceController.js";
+import {checkAuth, decodeUserFromToken} from "../../middleware/auth-mid.js";
 
 const router = Router();
 

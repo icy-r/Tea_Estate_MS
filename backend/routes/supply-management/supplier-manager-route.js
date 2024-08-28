@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as supplierManagerController from "../../controllers/supply-management/supplierManager-controller.js";
+import * as supplierManagerController from "../../controllers/supply-management/supplier-manager-controller.js";
 import {checkAuth, decodeUserFromToken} from "../../middleware/auth-mid.js";
 
 const router = Router();

@@ -1,4 +1,4 @@
-import { SupplierManager } from '../../models/supply-management/supplierManager-model.js';
+import { SupplierManager } from '../../models/supply-management/supplier-manager-model.js';
 
 
 async function index(req, res) {

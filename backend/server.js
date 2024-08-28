@@ -13,7 +13,7 @@ import { router as profilesRouter } from './routes/user-management/profiles-rout
 import { router as authRouter } from './routes/authentication/auth-route.js'
 import { router as machinesRouter } from './routes/repair-management/machines-route.js'
 import { router as supplierRouter } from './routes/supply-management/supplier-route.js'
-import { router as supplierManagerRouter } from './routes/supply-management/supplierManager-route.js'
+import { router as supplierManagerRouter } from './routes/supply-management/supplier-manager-route.js'
 import { router as supplyRouter } from './routes/supply-management/supply-route.js'
 
 

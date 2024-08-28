@@ -1,4 +1,4 @@
-import {Field} from '../models/field-model.js'
+import {Field} from '../../models/field-management/field-model.js'
 
 async function index(req, res) {
   try {

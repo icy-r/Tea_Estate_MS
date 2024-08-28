@@ -1,6 +1,6 @@
 import { Router } from "express";
-import * as fieldController from "../controllers/field-ctrl.js";
-import {checkAuth, decodeUserFromToken} from "../middleware/auth.js";
+import * as fieldController from "../../controllers/field-management/field-controller.js";
+import {checkAuth, decodeUserFromToken} from "../../middleware/auth-mid.js";
 
 const router = Router();
 

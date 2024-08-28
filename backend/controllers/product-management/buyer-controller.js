@@ -34,7 +34,7 @@ async function create(req, res) {
 async function update(req, res) {
     try {
 
-        const buyer = await Buyer.findOne({id: req.params.id});
+        const buyer = await Buyer.findByIdAndUpdate(req.params.id);
 
         Object.assign(buyer, req.body);
         await buyer.save();
@@ -46,7 +46,7 @@ async function update(req, res) {
 
 async function destroy(req, res) {
     try {
-        const buyer = await Buyer.findOne({ id: req.params.id });
+        const buyer = await Buyer.findByIdAndDelete(req.params.id );
         if (!buyer) {
             return res.status(404).json({ error: 'Buyer not found' });
         }

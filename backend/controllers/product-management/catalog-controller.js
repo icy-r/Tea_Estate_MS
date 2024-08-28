@@ -44,7 +44,7 @@ async function create(req, res) {
 
 async function update(req, res) {
     try {
-        const catalog = await Catalog.findOne({id: req.params.id});
+        const catalog = await Catalog.findByIdAndUpdate(req.params.id);
         Object.assign(catalog, req.body);
         await catalog.save();
         res.json(catalog);
@@ -55,7 +55,7 @@ async function update(req, res) {
 
 async function destroy(req, res) {
     try {
-        const catalog = await Catalog.findOne({ id: req.params.id });
+        const catalog = await Catalog.findByIdAndDelete( req.params.id );
         if (!catalog) {
             return res.status(404).json({ error: 'Catalog not found' });
         }

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import * as catalogCtrl from "../../controllers/product-management/catalog-controller.js";
-import { decodeUserFromToken, checkAuth } from "../middleware/auth.js";
+import { decodeUserFromToken, checkAuth } from "../../middleware/auth-mid.js";
 
 const router = Router();
 

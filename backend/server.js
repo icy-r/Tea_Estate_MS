@@ -8,8 +8,12 @@ import formData from 'express-form-data'
 // connect to MongoDB with mongoose
 import './config/database.js'
 
-// import routes
+// sales-management
 import { router as invoicesRouter } from './routes/sales-management/invoices-route.js'
+import { router as salesRouter } from './routes/sales-management/sales-route.js'
+import { router as orderRouter } from './routes/sales-management/orders-route.js'
+import { router as auctionRouter } from './routes/sales-management/auction-route.js'
+
 //transport-management
 import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js'
 import { router as routeRouter } from './routes/transport-management/route-route.js'
@@ -25,8 +29,7 @@ import { router as repairsRouter } from './routes/repair-management/repair-req-r
 //product-management
 import { router as catalogRouter } from './routes/product-management/catalog-route.js'
 import { router as buyersRouter } from './routes/product-management/buyer-route.js'
-import { router as vehiclesRouter } from './routes/repair-management/vehicle-route.js'
-import { router as orderRouter } from './routes/sales-management/orders-route.js'
+
 
 
 
@@ -57,8 +60,9 @@ app.use('/api/invoices', invoicesRouter)
 app.use('/api/logs', logsRouter)
 app.use('/api/maintenances', maintenancesRouter)
 app.use('/api/repairs', repairsRouter)
-app.use('/api/vehicles', vehiclesRouter)
 app.use('/api/orders', orderRouter)
+app.use('/api/sales', salesRouter)
+app.use('/api/auction', auctionRouter)
 
 // handle 404 errors
 app.use(function (req, res, next) {

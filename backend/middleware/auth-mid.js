@@ -12,14 +12,15 @@ const decodeUserFromToken = (req, res, next) => {
 
     req.user = decoded.user
     next()
-  })
-}
+  }) }
 
-function checkAuth(req, res, next) {  
+function checkAuth(req, res, next) {
+
   // return req.user ? next() : res.status(401).json({ err: 'Not Authorized' })
     if (req.user) return next()
   //for testing purposes
     return  next()
 }
 
-export { decodeUserFromToken, checkAuth }
+
+export { decodeUserFromToken, checkAuth } 

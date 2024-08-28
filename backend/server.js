@@ -9,10 +9,15 @@ import formData from 'express-form-data'
 import './config/database.js'
 
 // import routes
-import { router as profilesRouter } from './routes/profiles.js'
-import { router as authRouter } from './routes/auth.js'
-import { router as machinesRouter } from './routes/machines.js'
 import { router as inventoryRoute } from './routes/inventory-management/inventory-route.js';
+import { router as profilesRouter } from './routes/user-management/profiles-route.js'
+import { router as authRouter } from './routes/authentication/auth-route.js'
+import { router as machinesRouter } from './routes/repair-management/machines-route.js'
+import { router as logsRouter } from './routes/repair-management/log-route.js'
+import { router as maintenancesRouter } from './routes/repair-management/maintenance-route.js'
+import { router as repairsRouter } from './routes/repair-management/repair-req-route.js'
+import { router as vehiclesRouter } from './routes/repair-management/vehicle-route.js'
+
 
 
 // create the express app
@@ -29,6 +34,10 @@ app.use('/api/profiles', profilesRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/machines', machinesRouter)
 app.use('/api/inventory', inventoryRoute);
+app.use('/api/logs', logsRouter)
+app.use('/api/maintenances', maintenancesRouter)
+app.use('/api/repairs', repairsRouter)
+app.use('/api/vehicles', vehiclesRouter)
 
 // handle 404 errors
 app.use(function (req, res, next) {

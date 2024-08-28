@@ -1,4 +1,4 @@
-import { Profile } from '../models/profile.js'
+import { Profile } from '../../models/user-management/profile-model.js'
 
 async function index(req, res) {
   try {

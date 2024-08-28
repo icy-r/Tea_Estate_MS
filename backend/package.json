@@ -1,10 +1,10 @@
 {
-  "name": "mern-jwt-template-back-end",
+  "name": "tea_estate",
   "version": "0.2.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node ./bin/www.js"
+    "start": "nodemon ./bin/www.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -15,6 +15,7 @@
     "express-validator": "^7.2.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.3.3",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.4"
   }
 }

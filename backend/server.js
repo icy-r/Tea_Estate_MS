@@ -9,6 +9,12 @@ import formData from 'express-form-data'
 import './config/database.js'
 
 // import routes
+
+//transport-management
+import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js'
+import { router as routeRouter } from './routes/transport-management/route-Route.js'
+import { router as transportRouter } from './routes/transport-management/transport-route.js'
+//repair-management
 import { router as profilesRouter } from './routes/user-management/profiles-route.js'
 import { router as authRouter } from './routes/authentication/auth-route.js'
 import { router as machinesRouter } from './routes/repair-management/machines-route.js'
@@ -33,6 +39,10 @@ app.use(formData.parse())
 app.use('/api/profiles', profilesRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/machines', machinesRouter)
+
+//transport-management
+app.use('/api/transports', transportRouter)
+app.use('/api/routes', routeRouter)
 app.use('/api/logs', logsRouter)
 app.use('/api/maintenances', maintenancesRouter)
 app.use('/api/repairs', repairsRouter)

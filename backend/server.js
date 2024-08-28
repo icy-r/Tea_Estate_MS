@@ -16,6 +16,8 @@ import { router as logsRouter } from './routes/repair-management/log-route.js'
 import { router as maintenancesRouter } from './routes/repair-management/maintenance-route.js'
 import { router as repairsRouter } from './routes/repair-management/repair-req-route.js'
 import { router as vehiclesRouter } from './routes/repair-management/vehicle-route.js'
+import { router as productsRouter } from './routes/product-management/product-route.js'
+import { router as buyersRouter } from './routes/product-management/buyer-route.js'
 
 
 // create the express app
@@ -35,6 +37,8 @@ app.use('/api/logs', logsRouter)
 app.use('/api/maintenances', maintenancesRouter)
 app.use('/api/repairs', repairsRouter)
 app.use('/api/vehicles', vehiclesRouter)
+app.use('/api/products', productsRouter)
+app.use('/api/buyers', buyersRouter)
 
 // handle 404 errors
 app.use(function (req, res, next) {

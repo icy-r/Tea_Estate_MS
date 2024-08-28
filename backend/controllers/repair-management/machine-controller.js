@@ -1,9 +1,9 @@
-import { Machine } from '../models/machine.js';
+import { MachineModel } from '../../models/repair-management/machine-model.js';
 
 async function index(req, res) {
   try {
     //get all machines
-    const machines = await Machine.find({});
+    const machines = await MachineModel.find({});
     res.json(machines);
   } catch (error) {
     res.status(500).json({ error: error });
@@ -13,7 +13,7 @@ async function index(req, res) {
 async function show(req, res) {
   try {
     //id_machine = req.params.id
-    const machine = await Machine.find({id: req.params.id});
+    const machine = await MachineModel.find({id: req.params.id});
     res.json(machine);
   } catch (error) {
     res.status(404).json({ error: error });
@@ -22,7 +22,7 @@ async function show(req, res) {
 
 async function create(req, res) {
   try {
-    const machine = new Machine(req.body);
+    const machine = new MachineModel(req.body);
     await machine.save();
     res.json(machine);
   } catch (error) {
@@ -32,7 +32,9 @@ async function create(req, res) {
 
 async function update(req, res) {
   try {
-    const machine = await Machine.findById(req.params.id);
+
+    const machine = await MachineModel.findOne({id: req.params.id});
+
     Object.assign(machine, req.body);
     await machine.save();
     res.json(machine);
@@ -43,11 +45,16 @@ async function update(req, res) {
 
 async function destroy(req, res) {
   try {
-    const machine = await Machine.findById(req.params.id);
-    await machine.remove();
+    const machine = await MachineModel.findOne({ id: req.params.id });
+    if (!machine) {
+      return res.status(404).json({ error: 'Machine not found' });
+    }
+    await machine.deleteOne();
     res.json({ message: 'Machine deleted' });
   } catch (error) {
-    res.status(404).json({ error: error });
+    console.log(error);
+    res.status(500).json({ error: error });
+
   }
 }
 

@@ -2,15 +2,7 @@ import mongoose from "mongoose";
 
     const Schema = mongoose.Schema;
 
-    const fertilizerSchema = new Schema({
-    
-//id string pk
- // name string
-  //cropStage string
-  //type string
- // fertilizers string
-  //applicationRate double
-  //laborsRequired int
+    const fertilizerSchema = new Schema({    
 
         id: {
             type: String,

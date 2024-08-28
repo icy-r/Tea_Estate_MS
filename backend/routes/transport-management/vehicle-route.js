@@ -1,7 +1,8 @@
 import { Router } from "express";
 import * as vehicleController from "../../controllers/transport-management/vehicle-controller.js";
 import * as vehicleModel from "../../models/transport-management/vehicle-model.js";
-import {checkAuth, decodeUserFromToken} from "../../middleware/auth.js";
+import {checkAuth, decodeUserFromToken} from "../../middleware/auth-mid.js";
+
 
 const router = Router();
 

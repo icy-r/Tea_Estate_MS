@@ -9,8 +9,12 @@ import formData from 'express-form-data'
 import './config/database.js'
 
 // import routes
-import { router as vehiclesRouter } from './routes/transport-management/vehicleRoute.js'
+
+//transport-management
+import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js'
 import { router as routeRouter } from './routes/transport-management/route-Route.js'
+import { router as transportRouter } from './routes/transport-management/transport-route.js'
+//repair-management
 import { router as profilesRouter } from './routes/user-management/profiles-route.js'
 import { router as authRouter } from './routes/authentication/auth-route.js'
 import { router as machinesRouter } from './routes/repair-management/machines-route.js'
@@ -28,8 +32,11 @@ app.use(formData.parse())
 // mount imported routes
 app.use('/api/profiles', profilesRouter)
 app.use('/api/auth', authRouter)
-app.use('/api/vehicles', vehiclesRouter)
 app.use('/api/machines', machinesRouter)
+
+//transport-management
+app.use('/api/vehicles', vehiclesRouter)
+app.use('/api/transports', transportRouter)
 app.use('/api/routes', routeRouter)
 
 // handle 404 errors

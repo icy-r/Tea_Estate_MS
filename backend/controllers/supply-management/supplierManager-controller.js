@@ -34,7 +34,7 @@ async function index(req, res) {
   async function update(req, res) {
     try {
   
-      const supplierManager = await SupplierManager.findOne({id: req.params.id});
+      const supplierManager = await SupplierManager.findByIdAndUpdate(req.params.id);
   
       Object.assign(supplierManager, req.body);
       await supplierManager.save();
@@ -46,7 +46,7 @@ async function index(req, res) {
   
   async function destroy(req, res) {
     try {
-      const supplierManager = await SupplierManager.findOne({ id: req.params.id });
+      const supplierManager = await SupplierManager.findByIdAndDelete(req.params.id );
       if (!supplierManager) {
         return res.status(404).json({ error: 'Supplier Manager not found' });
       }

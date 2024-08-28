@@ -34,7 +34,7 @@ async function index(req, res) {
   async function update(req, res) {
     try {
   
-      const supplier = await Supplier.findOne({id: req.params.id});
+      const supplier = await Supplier.findByIdAndUpdate( req.params.id);
   
       Object.assign(supplier, req.body);
       await supplier.save();
@@ -46,7 +46,7 @@ async function index(req, res) {
   
   async function destroy(req, res) {
     try {
-      const supplier = await Supplier.findOne({ id: req.params.id });
+      const supplier = await Supplier.findByIdAndDelete( req.params.id );
       if (!supplier) {
         return res.status(404).json({ error: 'Supplier not found' });
       }

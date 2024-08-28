@@ -1,4 +1,6 @@
 import {Field} from '../../models/field-management/field-model.js'
+import {Fertilizer} from '../../models/field-management/fertilizer-model.js'
+import {Labour} from '../../models/field-management/labour-model.js'
 
 async function index(req, res) {
   try {
@@ -22,11 +24,21 @@ async function show(req, res) {
 
 async function create(req, res) {
   try {
-    const field = new Field(req.body);
+    const { fertilizerSchedule, labour, ...fieldData } = req.body;
+
+    // Validate fertilizerSchedule
+    const fertilizer = await Fertilizer.findById(fertilizerSchedule);
+    if (!fertilizer) return res.status(400).json({ error: 'Invalid fertilizer schedule' });
+
+    // Validate labour
+    const labor = await Labour.findById(labour);
+    if (!labor) return res.status(400).json({ error: 'Invalid labour' });
+
+    const field = new Field({ ...fieldData, fertilizerSchedule, labour });
     await field.save();
     res.json(field);
   } catch (error) {
-    res.status(400).json({ error: error });
+    res.status(400).json({ error: error.message });
   }
 }
 

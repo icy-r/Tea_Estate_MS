@@ -31,6 +31,12 @@ const harvestSchema = new Schema({
         type: String,
         required: Schema.Types.ObjectId, ref: 'Labour'
     },
+
+    total:{
+        type: Number,
+        required: true
+    },
+
 });
 
 const Harvest = mongoose.model('Harvest', harvestSchema)

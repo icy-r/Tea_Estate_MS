@@ -27,6 +27,8 @@ import { router as buyersRouter } from './routes/product-management/buyer-route.
 //field-management
 import { router as fieldRouter } from './routes/field-management/field-route.js';
 import { router as fertilizerRouter } from './routes/field-management/fertilizer-route.js';
+import { router as harvestRouter } from './routes/field-management/harvest-route.js';
+import { router as labourRouter } from './routes/field-management/labour-route.js';
 
 
 // create the express app
@@ -59,6 +61,8 @@ app.use('/api/repairs', repairsRouter)
 //field-management
 app.use('/api/fields', fieldRouter);
 app.use('/api/fertilizers', fertilizerRouter);
+app.use('/api/harvests', harvestRouter);
+app.use('/api/labours', labourRouter);
 
 // handle 404 errors
 app.use(function (req, res, next) {

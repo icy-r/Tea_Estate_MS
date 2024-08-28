@@ -28,10 +28,7 @@ import mongoose from "mongoose";
             type: Number,
             required: true
         },
-        laborsRequired: {
-            type: Number,
-            required: true
-        }
+       
     });
 
     const Fertilizer = mongoose.model('Fertilizer', fertilizerSchema)

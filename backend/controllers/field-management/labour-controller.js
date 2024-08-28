@@ -19,3 +19,15 @@ async function show(req, res) {
     res.status(404).json({ error: error });
   }
 }
+
+async function create(req, res) {
+  try {
+    const labour = new Labour(req.body);
+    await labour.save();
+    res.json(labour);
+  } catch (error) {
+    res.status(400).json({ error: error });
+  }
+}
+
+export { index, show, create };

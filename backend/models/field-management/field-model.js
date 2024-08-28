@@ -37,6 +37,21 @@ const fieldSchema = new Schema({
     cropStage: {
         type: String,
         required: true
+    },
+
+    emp_required:{
+        type: Number,
+        required: true
+    },
+
+    emp_assigned:{
+        type: String,
+        required: true
+    },
+
+    no_emp_assigned:{
+        type: Number,
+        required: true
     }
 
 });

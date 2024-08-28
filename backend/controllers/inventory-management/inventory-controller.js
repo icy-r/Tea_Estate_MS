@@ -14,7 +14,7 @@ async function index(req, res) {
 // Get a single inventory item by ID
 async function show(req, res) {
   try {
-    const inventory = await Inventory.findById(req.params.id);
+    const inventory = await Inventory.findOne({ inventoryId: req.params.id });
     if (!inventory) throw new Error('Inventory item not found');
     res.json(inventory);
   } catch (error) {
@@ -46,22 +46,28 @@ async function update(req, res) {
   }
 
   try {
-    const inventory = await Inventory.findById(req.params.id);
-    if (!inventory) throw new Error('Inventory item not found');
-    Object.assign(inventory, req.body);
-    await inventory.save();
-    res.json(inventory);
+    const updatedInventory = await Inventory.findOneAndUpdate(
+      { inventoryId: req.params.id }, // Use inventoryId for finding the document
+      req.body,
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedInventory) {
+      return res.status(404).json({ error: 'Inventory item not found' });
+    }
+
+    res.json(updatedInventory);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 }
+
 
 // Delete an inventory item
 async function destroy(req, res) {
   try {
-    const inventory = await Inventory.findById(req.params.id);
+    const inventory = await Inventory.findOneAndDelete({ inventoryId: req.params.id });
     if (!inventory) throw new Error('Inventory item not found');
-    await inventory.remove();
     res.json({ message: 'Inventory item deleted' });
   } catch (error) {
     res.status(404).json({ error: error.message });

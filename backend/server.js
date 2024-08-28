@@ -11,8 +11,8 @@ import './config/database.js'
 // import routes
 import { router as profilesRouter } from './routes/profiles.js'
 import { router as authRouter } from './routes/auth.js'
-
 import { router as machinesRouter } from './routes/machines.js'
+import { router as inventoryRoute } from './routes/inventory-management/inventory-route.js';
 
 
 // create the express app
@@ -27,8 +27,8 @@ app.use(formData.parse())
 // mount imported routes
 app.use('/api/profiles', profilesRouter)
 app.use('/api/auth', authRouter)
-
 app.use('/api/machines', machinesRouter)
+app.use('/api/inventory', inventoryRoute);
 
 // handle 404 errors
 app.use(function (req, res, next) {

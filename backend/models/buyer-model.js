@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 const buyerSchema = new Schema(
     {
+        id:String,
         fName: String,
         lName: String,
         position: String,
@@ -13,7 +14,6 @@ const buyerSchema = new Schema(
         email: String,
         userName: String,
         password: String,
-    
     },
     {
         timestamps: true,

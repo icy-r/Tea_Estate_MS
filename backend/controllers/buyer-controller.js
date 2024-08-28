@@ -8,6 +8,7 @@ async function index(req, res) {
     } catch (error) {
         res.status(500).json({ error: error });
     }
+
 }
 
 async function show(req, res) {
@@ -57,4 +58,4 @@ async function destroy(req, res) {
 
     }
 }
-export { index, show, create, update, destroy };
+export { index, show, create, update, destroy }; 

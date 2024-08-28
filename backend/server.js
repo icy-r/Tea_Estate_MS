@@ -9,7 +9,7 @@ import formData from 'express-form-data'
 import './config/database.js'
 
 // import routes
-import { router as invoicesRouter } from './routes/sales-management/invoices.js'
+import { router as invoicesRouter } from './routes/sales-management/invoices-route.js'
 import { router as profilesRouter } from './routes/user-management/profiles-route.js'
 import { router as authRouter } from './routes/authentication/auth-route.js'
 import { router as machinesRouter } from './routes/repair-management/machines-route.js'
@@ -30,7 +30,6 @@ app.use('/api/profiles', profilesRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/machines', machinesRouter)
 app.use('/api/invoices', invoicesRouter)
-
 app.use('/api/machines', machinesRouter)
 
 // handle 404 errors

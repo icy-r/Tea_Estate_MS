@@ -1,4 +1,6 @@
-import { Fertilizer } from "../../models/field-management/fertilizer-model";
+import { Fertilizer } from "../../models/field-management/fertilizer-model.js";
+
+//create index, show, create, update, destroy functions
 
 async function index(req, res) {
     try {

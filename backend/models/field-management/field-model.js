@@ -21,7 +21,7 @@ const fieldSchema = new Schema({
 
     fertilizerSchedule: {
         type: String,
-        required: true
+        required: Schema.Types.ObjectId, ref: 'Fertilizer'
     },
 
     area: {
@@ -31,7 +31,7 @@ const fieldSchema = new Schema({
 
     labour: {
         type: String,
-        required: true
+        required: Schema.Types.ObjectId, ref: 'Labour'
     },
 
     cropStage: {

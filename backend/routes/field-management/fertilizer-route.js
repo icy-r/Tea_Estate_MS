@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as fertilizerController from "../../controllers/field-management/field-controller.js";
+import * as fertilizerController from "../../controllers/field-management/fertilizer-controller.js";
 import {checkAuth, decodeUserFromToken} from "../../middleware/auth-mid.js";
 
 const router = Router();

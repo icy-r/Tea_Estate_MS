@@ -55,6 +55,11 @@ const employeeSchema = new Schema({
     salary:{
       type:Number,
       required:true,
+    },
+
+    leavesLeft:{
+      type:String,
+      required:true,
     }
 });
 

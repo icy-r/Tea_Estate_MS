@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 
-import { User } from '../models/user.js'
-import { Profile } from '../models/profile.js'
+import { User } from '../../models/user-management/user-model.js'
+import { Profile } from '../../models/user-management/profile-model.js'
 
 async function signup(req, res) {
   try {

@@ -10,12 +10,12 @@ const router = Router();
 /*---------- Protected Routes ----------*/
 // router.use(decodeUserFromToken)
 // index for getting all machines defined in machineController
-router.get("/", harvestController.index);
+router.get("/", labourController.index);
 
 // show for getting a single machine defined in machineController
-router.get("/:id", harvestController.show);
+router.get("/:id", labourController.show);
 
 // create for creating a new machine defined in machineController
-router.post("/", checkAuth, harvestController.create);
+router.post("/", checkAuth, labourController.create);
 
 export { router };

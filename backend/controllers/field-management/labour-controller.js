@@ -1,4 +1,4 @@
-import { Labour } from "../../models/field-management/labour-model";
+import { Labour } from "../../models/field-management/labour-model.js";
 
 async function index(req, res) {
   try {

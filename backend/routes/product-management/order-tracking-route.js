@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as orderTrackingController from "../../controllers/product-management/orderTracking-controller.js";
+import * as orderTrackingController from "../../controllers/product-management/order-tracking-controller.js";
 import { checkAuth, decodeUserFromToken } from "../../middleware/auth-mid.js";
 
 const router = Router();

@@ -24,7 +24,7 @@ import { router as repairsRouter } from './routes/repair-management/repair-req-r
 //product-management
 import { router as catalogRouter } from './routes/product-management/catalog-route.js'
 import { router as buyersRouter } from './routes/product-management/buyer-route.js'
-import { router as orderTrackingRouter } from './routes/product-management/orderTracking-route.js'
+import { router as orderTrackingRouter } from './routes/product-management/order-tracking-route.js'
 
 
 // create the express app

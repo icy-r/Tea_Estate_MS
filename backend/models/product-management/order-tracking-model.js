@@ -4,15 +4,17 @@ const Schema = mongoose.Schema;
 
 const orderTrackingSchema = new Schema(
     {
-        orderID: String,
-        orderDate: String,
-        orderStatus: String,
-        orderTotal: number,
-        orderPayment: String,
-        orderItems: Array,
-        orderCustomer: String,
-        orderShipping: String,
-        orderTracking: String,
+        order_id: { type: String, required: true },
+        order_status: { type: String, required: true },
+        order_date: { type: Date, required: true },
+        order_ship_date: { type: Date, required: true },
+        order_delivery_date: { type: Date, required: true },
+        order_delivery_address: { type: String, required: true },
+        order_tracking_number: { type: String, required: true },
+        order_tracking_url: { type: String, required: true },
+        order_tracking_status: { type: String, required: true },
+        order_tracking_date: { type: Date, required: true },
+        order_tracking_location: { type: String, required: true },
     },
     {
         timestamps: true,

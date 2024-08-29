@@ -1,4 +1,4 @@
-import { OrderTracking } from "../../models/product-management/order-tracking-model";
+import { OrderTracking } from "../../models/product-management/order-tracking-model.js";
 
 async function index(req, res) {
   try {

@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App.jsx";
 import LandingPage from "./pages/landingPage/LandingPage.jsx";
+import Admin from "./Admin.jsx";
 
 const router = createBrowserRouter([
     {
@@ -10,6 +11,11 @@ const router = createBrowserRouter([
     {
         path: "/admin",
         element: <App />,
+        element: <div>user </div>
+    },
+    {
+        path: "/admin/*",
+        element: <Admin />,
     },
     {
         path: "*",

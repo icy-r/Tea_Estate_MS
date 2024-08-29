@@ -4,7 +4,7 @@ import "./ActionButtonColor.css";
 // Key - just some data to identyfy. acts as a primary ID
 // href - the link to redirect to
 // text - the text to display on the button
-const ActionButtonColor = ({ key, href, text }) => {
+const ActionButtonColor = ({ index, href, text, onclickfun }) => {
     return (
         <a
             key={index}

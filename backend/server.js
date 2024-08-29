@@ -9,7 +9,6 @@ import formData from 'express-form-data'
 import './config/database.js'
 
 // import routes
-
 //transport-management
 import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js'
 import { router as routeRouter } from './routes/transport-management/route-Route.js'
@@ -18,15 +17,14 @@ import { router as transportRouter } from './routes/transport-management/transpo
 import { router as profilesRouter } from './routes/user-management/profiles-route.js'
 import { router as authRouter } from './routes/authentication/auth-route.js'
 import { router as machinesRouter } from './routes/repair-management/machines-route.js'
-import { router as supplierRouter } from './routes/supply-management/supplier-route.js'
-import { router as supplierManagerRouter } from './routes/supply-management/supplier-manager-route.js'
-import { router as supplyRouter } from './routes/supply-management/supply-route.js'
-
-
 import { router as logsRouter } from './routes/repair-management/log-route.js'
 import { router as maintenancesRouter } from './routes/repair-management/maintenance-route.js'
 import { router as repairsRouter } from './routes/repair-management/repair-req-route.js'
-import { router as vehiclesRouter } from './routes/repair-management/vehicle-route.js'
+//supply-management
+import { router as supplierRouter } from './routes/supply-management/supplier-route.js'
+import { router as supplierManagerRouter } from './routes/supply-management/supplier-manager-route.js'
+import { router as supplyRouter } from './routes/supply-management/supply-route.js'
+//buyer-management
 import { router as catalogRouter } from './routes/product-management/catalog-route.js'
 import { router as buyersRouter } from './routes/product-management/buyer-route.js'
 

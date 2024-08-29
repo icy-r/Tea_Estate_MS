@@ -39,7 +39,7 @@ const Header = () => {
     <div className="flex w-full p-3 justify-between">
       <div className="flex justify-between items-center">
         <img src={Logo} alt="Logo" className="h-10" />
-        <p>Bio Tea</p>
+        <p className="px-3">Bio Tea</p>
       </div>
       <div className="flex justify-between items-center">
         {normalMenu.map((item, index) => (

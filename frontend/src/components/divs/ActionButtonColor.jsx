@@ -1,4 +1,5 @@
 import {color_button} from "../../constants/colors.js";
+import "./ActionButtonColor.css";
 
 const styles = {
     button: {
@@ -9,9 +10,7 @@ const styles = {
         color: "black",
         cursor: "pointer",
         transition: "background-color 0.3s",
-        "&:hover": {
-            backgroundColor: "#F9AFAF",
-        },
+        textDecoration: "none",
     },
 }
 
@@ -20,8 +19,8 @@ const ActionButtonColor = ({ key, href, text }) => {
         <a
             key={key}
             href={href}
-            style={styles.button}
-            className="hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium"
+            // style={styles.button}
+            className="action-button-color"
         >
             {text}
         </a>

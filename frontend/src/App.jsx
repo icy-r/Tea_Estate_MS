@@ -1,11 +1,13 @@
-import Header from "./components/NavBar/Header.jsx";
+import Header from './components/NavBar/Header'
+import Menubar from './components/MenuBar/Menubar'   
 import './App.css'
 
 function App() {
 
   return (
     <>
-        <Header />
+    <Header />
+    <Menubar />
     </>
   )
 }

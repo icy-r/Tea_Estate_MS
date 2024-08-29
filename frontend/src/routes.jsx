@@ -1,10 +1,14 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from "./App.jsx";
+import Admin from "./Admin.jsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <App />,
+        element: <div>user </div>
+    },
+    {
+        path: "/admin/*",
+        element: <Admin />,
     },
     {
         path: "*",

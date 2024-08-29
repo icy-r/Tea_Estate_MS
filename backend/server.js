@@ -46,7 +46,7 @@ app.use('/api/profiles', profilesRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/machines', machinesRouter)
 app.use('/api/supplier', supplierRouter)
-app.use('/api/supplierManager', supplierManagerRouter)
+app.use('/api/supplierManager', supplierMa  nagerRouter)
 app.use('/api/supply', supplyRouter)
 
 

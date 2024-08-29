@@ -1,7 +1,7 @@
-import Logo from "../../assets/logo.png";
+import Logo from "@assets/logo.png";
 import { useState } from "react";
-import ActionButtonTransparent from "../divs/ActionButtonTransparent.jsx";
-import ActionButtonColor from "../divs/ActionButtonColor.jsx";
+import ActionButtonTransparent from"@divs/ActionButtonTransparent.jsx";
+import ActionButtonColor from "@divs/ActionButtonColor.jsx";
 import { motion } from "framer-motion";
 
 const menuItems = [
@@ -34,7 +34,7 @@ const Header = () => {
             </div>
 
             {/* Mobile Menu Toggle Button */}
-            <div className="md:hidden flex flex-row-reverse">
+            <div className="md:hidden flex flex-row-reverse  ">
                 <button onClick={toggleNav} className="focus:outline-none">
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                          xmlns="http://www.w3.org/2000/svg">

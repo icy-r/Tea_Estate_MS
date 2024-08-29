@@ -21,6 +21,10 @@ import { router as machinesRouter } from './routes/repair-management/machines-ro
 import { router as logsRouter } from './routes/repair-management/log-route.js'
 import { router as maintenancesRouter } from './routes/repair-management/maintenance-route.js'
 import { router as repairsRouter } from './routes/repair-management/repair-req-route.js'
+//supply-management
+import { router as supplierRouter } from './routes/supply-management/supplier-route.js'
+import { router as supplierManagerRouter } from './routes/supply-management/supplier-manager-route.js'
+import { router as supplyRouter } from './routes/supply-management/supply-route.js'
 //product-management
 import { router as catalogRouter } from './routes/product-management/catalog-route.js'
 import { router as buyersRouter } from './routes/product-management/buyer-route.js'
@@ -40,6 +44,13 @@ app.use(formData.parse())
 //user-management
 app.use('/api/profiles', profilesRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/machines', machinesRouter)
+app.use('/api/supplier', supplierRouter)
+app.use('/api/supplierManager', supplierManagerRouter)
+app.use('/api/supply', supplyRouter)
+
+
+
 
 //transport-management
 app.use('/api/transports', transportRouter)

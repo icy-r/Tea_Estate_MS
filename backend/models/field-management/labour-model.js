@@ -10,7 +10,7 @@ const labourSchema = new Schema({
    
     assignedField: {
         type: String,
-        required: Schema.Types.ObjectId, ref: 'Field'
+        required: true
     },
 
     harvest_qnty: {
@@ -20,7 +20,7 @@ const labourSchema = new Schema({
 
     emp_id:{
         type: String,
-        required: Schema.Types.ObjectId, ref: 'Employee'
+        required: true
     },
     });
 

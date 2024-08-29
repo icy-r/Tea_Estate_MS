@@ -8,8 +8,8 @@ const harvestSchema = new Schema({
         required: true
     },
     field_id: {
-        type: String,
-        required: Schema.Types.ObjectId, ref: 'Field'
+        type: Schema.Types.ObjectId, ref: 'Field',
+        required: true
     },
     good_qnty:{
         type: Number,
@@ -21,20 +21,24 @@ const harvestSchema = new Schema({
     },
     damaged_qnty:{
         type: Number,
-        required
+        required: true
     },
     date: {
         type: Date,
-        required: true
+        required: true,
+        default: Date.now
     },
     labour_id: {
-        type: String,
-        required: Schema.Types.ObjectId, ref: 'Labour'
+        type: Schema.Types.ObjectId, ref: 'Labour',
+        required: true
     },
 
     total:{
         type: Number,
-        required: true
+        required: true,
+        default: function() {
+            return this.good_qnty + this.best_qnty + this.damaged_qnty;
+        }
     },
 
 });

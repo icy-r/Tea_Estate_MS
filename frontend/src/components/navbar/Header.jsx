@@ -12,16 +12,23 @@ const menuItems = [
     { name: "Login", link: "/login", special: true }
 ];
 
-const Header = () => {
+const Header = (props) => {
+    const setOpen = props.props;
     const [nav, setNav] = useState(false);
 
     const toggleNav = () => {
         setNav(!nav);
     };
 
+    const closeNav = () => {
+        //toggle setOpen
+        setOpen(true);
+        console.log("closeNav");
+    };
+
     return (
         <div className="flex w-full p-3 justify-between items-center shadow-md">
-            <div className="flex items-center">
+            <div className="flex items-center" onClick={closeNav}>
                 <img src={Logo} alt="Bio Tea Logo" className="h-10" />
                 <p className="px-3 font-semibold text-lg">Bio Tea</p>
             </div>

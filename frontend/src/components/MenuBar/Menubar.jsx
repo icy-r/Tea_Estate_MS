@@ -1,66 +1,51 @@
-const Menubar = () => {
-  const menu = [
-    {
-      name: 'Home',
-      link: '/',
-      submenu: []
-    },
-    {
-      name: 'Employee Management',
-      link: '/employee',
-      submenu: [
-        { name: 'Add Employee', link: '/employee/add' },
-        { name: 'View Employee', link: '/employee/view' }
-      ]
-    },
-    {
-      name: 'Field Management',
-      link: '/field',
-      submenu: [
-        { name: 'Add Field', link: '/field/add' },
-        { name: 'View Fields', link: '/field/view' }
-      ]
-    },
-    {
-      name: 'Inventory Management',
-      link: '/inventory',
-      submenu: [
-        { name: 'Add Inventory', link: '/inventory/add' },
-        { name: 'View Inventory', link: '/inventory/view' }
-      ]
-    },
-    {
-      name: 'Supply Management',
-      link: '/supply',
-      submenu: [
-        { name: 'Add Supply', link: '/supply/add' },
-        { name: 'View Supplies', link: '/supply/view' }
-      ]
-    },
-  ];
+import * as React from 'react';
+import Drawer from '@mui/joy/Drawer';
+import menu from './menuContent';
+import { color_extra } from '../../constants/colors';
+import { color } from 'framer-motion';
+
+
+const Menubar = (props) => {
+  const isOpen = props.props[0];
+  const setOpen = props.props[1];
+  const toggleDrawer = (inOpen) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setOpen(inOpen);
+  };
 
   return (
     <div className='flex'>
-      <div className={'w-72 h-screen bg-color_focus p-2'}>
-        <ul>
-          {menu.map((item, index) => (
-            <li key={index} className='text-white-400 text-sm flex flex-col gap-y-2 cursor-pointer p-2'>
-              <div className=" hover:bg-color_extra p-2">
-              {item.name}
+      <Drawer open={isOpen} onClose={toggleDrawer(false)}>
+        <div
+          className='h-full bg-color_focus'
+          role='presentation'
+          onClick={toggleDrawer(false)}
+          onKeyDown={toggleDrawer(false)}
+        >
+          <div className='p-4'>
+            <h1 className='text-2xl font-semibold dark:text-white text-black'>Menu</h1>
+          </div>
+          <div className='border-t border-gray-200 dark:text-white text-black'>
+            {menu.map((item) => (
+              <div key={item.name} className='p-4'>
+                <a href={item.link}>{item.name}</a>
+                {item.submenu.length > 0 && (
+                  <div className='pl-4 py-1 border-l border-gray-200 dark:text-white text-black'>
+                    {item.submenu.map((subItem) => (
+                      <a key={subItem.name} href={subItem.link}>
+                        {subItem.name}
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
-              {item.submenu.length > 0 && (
-                <ul className='ml-4 mt-1'>
-                  {item.submenu.map((subItem, subIndex) => (
-                    <li key={subIndex} className='text-white-400 text-sm flex flex-col gap-y-2 cursor-pointer p-2 hover:bg-color_extra'>
-                      {subItem.name}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
+            ))}
+          </div>
+        </div>
+      </Drawer>
       <div className="p-7 text-2xl font-semibold flex-1 h-screen">
         <h1>Home Page</h1>
       </div>

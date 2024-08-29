@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import Logo from "../../assets/logo.png";
 import { useEffect } from "react";
 import ActionButtonTransparent from "../divs/ActionButtonTransparent.jsx";

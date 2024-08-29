@@ -24,6 +24,7 @@ import { router as repairsRouter } from './routes/repair-management/repair-req-r
 //product-management
 import { router as catalogRouter } from './routes/product-management/catalog-route.js'
 import { router as buyersRouter } from './routes/product-management/buyer-route.js'
+import { router as orderTrackingRouter } from './routes/product-management/order-tracking-route.js'
 
 
 // create the express app
@@ -44,8 +45,11 @@ app.use('/api/auth', authRouter)
 app.use('/api/transports', transportRouter)
 app.use('/api/routes', routeRouter)
 app.use('/api/vehicles', vehiclesRouter)
+
+//product-management
 app.use('/api/catalog', catalogRouter)
 app.use('/api/buyers', buyersRouter)
+app.use('/api/ordersTracking', orderTrackingRouter)
 
 //repair-management
 app.use('/api/machines', machinesRouter)

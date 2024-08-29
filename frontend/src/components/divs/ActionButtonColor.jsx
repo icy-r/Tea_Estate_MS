@@ -2,10 +2,10 @@ import "./ActionButtonColor.css";
 
 
 // eslint-disable-next-line react/prop-types
-const ActionButtonColor = ({ key, href, text, onclickfun }) => {
+const ActionButtonColor = ({ index, href, text, onclickfun }) => {
     return (
         <a
-            key={key}
+            key={index}
             href={href}
             // style={styles.button}
             className="action-button-color"

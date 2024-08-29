@@ -1,11 +1,11 @@
 import "./ActionButtonColor.css"
 
 // eslint-disable-next-line react/prop-types
-const ActionButtonTransparent = ({ key, href, text, onclickfun }) => {
+const ActionButtonTransparent = ({ index, href, text, onclickfun }) => {
 
     return (
         <a
-            key={key}
+            key={index}
             href={href}
             className="action-button-transparent"
             onClick={onclickfun ? onclickfun : undefined}

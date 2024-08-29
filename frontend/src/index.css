@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom color variables */
+
+/*export const color_focus = "#0D294D";*/
+/*export const color_button = "#15F5BA";*/
+/*export const color_extra = "#1AACAC";*/
+/*export const white = "#FFFFFF";*/
+/*export const white_modified = "#EBE7E7";*/
+/*export const action = "#FA7070";*/
+:root {
+  --color-button: #15f5ba;
+    --color-extra: #1aacac;
+    --color-focus: #0d294d;
+    --color-white: #ffffff;
+    --color-white-modified: #ebe7e7;
+    --color-action: #fa7070;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

@@ -1,27 +1,15 @@
-import {color_button} from "../../constants/colors.js";
+import "./ActionButtonColor.css";
 
-const styles = {
-    button: {
-        backgroundColor: color_button,
-        padding: "0.5rem 1rem",
-        borderRadius: "0.25rem",
-        fontSize: "1rem",
-        color: "black",
-        cursor: "pointer",
-        transition: "background-color 0.3s",
-        "&:hover": {
-            backgroundColor: "#F9AFAF",
-        },
-    },
-}
 
-const ActionButtonColor = ({ key, href, text }) => {
+// eslint-disable-next-line react/prop-types
+const ActionButtonColor = ({ index, href, text, onclickfun }) => {
     return (
         <a
-            key={key}
+            key={index}
             href={href}
-            style={styles.button}
-            className="hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium"
+            // style={styles.button}
+            className="action-button-color"
+            onClick={onclickfun ? onclickfun : undefined}
         >
             {text}
         </a>

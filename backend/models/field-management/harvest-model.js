@@ -21,7 +21,7 @@ const harvestSchema = new Schema({
     },
     damaged_qnty:{
         type: Number,
-        required: true
+        required
     },
     date: {
         type: Date,

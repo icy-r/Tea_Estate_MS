@@ -1,4 +1,4 @@
-import { Harvest } from "../../models/field-management/harvest-model.js";
+import { Harvest } from "../../models/field-management/harvest-model";
 
 async function index(req, res) {
     try {

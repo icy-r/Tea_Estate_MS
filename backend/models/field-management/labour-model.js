@@ -20,7 +20,7 @@ const labourSchema = new Schema({
 
     emp_id:{
         type: String,
-        required: true
+        required: Schema.Types.ObjectId, ref: 'Employee'
     },
     });
 

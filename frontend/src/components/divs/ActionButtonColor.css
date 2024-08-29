@@ -22,7 +22,6 @@
     color: white;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.3s;
-    box-shadow: 0 0 0.5rem 0.1rem rgba(0, 0, 0, 0.1);
 }
 
 .action-button-transparent:hover {

@@ -34,6 +34,7 @@ app.use('/api/applicanttManagement' , ApplicantManagement)
 
 
 
+
 // handle 404 errors
 app.use(function (req, res, next) {
   res.status(404).json({ err: 'Not found' })

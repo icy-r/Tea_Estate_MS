@@ -34,20 +34,27 @@ const Header = () => {
             </div>
 
             {/* Mobile Menu Toggle Button */}
-            <div className="md:hidden">
+            <div className="md:hidden flex flex-row-reverse">
                 <button onClick={toggleNav} className="focus:outline-none">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"/>
                     </svg>
                 </button>
+                <div className="md:hidden items-center space-x-4 px-3">
+                    {menuItems.filter(item => item.special).map(item => (
+                        <ActionButtonColor key={item.name} href={item.link} text={item.name}/>
+                    ))}
+                </div>
             </div>
+
 
             {/* Mobile Menu */}
             {nav && (
                 <motion.div
-                    initial={{ x: '-100%' }}
-                    animate={{ x: 0 }}
-                    transition={{ type: 'spring', stiffness: 100 }}
+                    initial={{x: '-100%'}}
+                    animate={{x: 0}}
+                    transition={{type: 'spring', stiffness: 100}}
                     className="absolute top-16 left-0 w-full flex flex-col items-center justify-center space-y-4 z-50"
                 >
                     {menuItems.filter(item => !item.special).map(item => (

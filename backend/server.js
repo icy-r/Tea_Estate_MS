@@ -9,6 +9,8 @@ import formData from 'express-form-data'
 import './config/database.js'
 
 // import routes
+import { router as invoicesRouter } from './routes/sales-management/invoices-route.js'
+
 //transport-management
 import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js'
 import { router as routeRouter } from './routes/transport-management/route-route.js'
@@ -31,6 +33,7 @@ import { router as buyersRouter } from './routes/product-management/buyer-route.
 import { router as orderTrackingRouter } from './routes/product-management/order-tracking-route.js'
 
 
+
 // create the express app
 const app = express()
 
@@ -45,6 +48,8 @@ app.use(formData.parse())
 app.use('/api/profiles', profilesRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/machines', machinesRouter)
+
+app.use('/api/invoices', invoicesRouter)
 app.use('/api/supplier', supplierRouter)
 app.use('/api/supplierManager', supplierManagerRouter)
 app.use('/api/supply', supplyRouter)

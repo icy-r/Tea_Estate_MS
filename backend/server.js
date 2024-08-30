@@ -28,6 +28,11 @@ import { router as supplyRouter } from './routes/supply-management/supply-route.
 //product-management
 import { router as catalogRouter } from './routes/product-management/catalog-route.js'
 import { router as buyersRouter } from './routes/product-management/buyer-route.js'
+//field-management
+import { router as fieldRouter } from './routes/field-management/field-route.js';
+import { router as fertilizerRouter } from './routes/field-management/fertilizer-route.js';
+import { router as harvestRouter } from './routes/field-management/harvest-route.js';
+import { router as labourRouter } from './routes/field-management/labour-route.js';
 import { router as orderTrackingRouter } from './routes/product-management/order-tracking-route.js'
 
 
@@ -67,6 +72,12 @@ app.use('/api/machines', machinesRouter)
 app.use('/api/logs', logsRouter)
 app.use('/api/maintenances', maintenancesRouter)
 app.use('/api/repairs', repairsRouter)
+
+//field-management
+app.use('/api/fields', fieldRouter);
+app.use('/api/fertilizers', fertilizerRouter);
+app.use('/api/harvests', harvestRouter);
+app.use('/api/labours', labourRouter);
 
 // handle 404 errors
 app.use(function (req, res, next) {

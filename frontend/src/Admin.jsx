@@ -1,22 +1,21 @@
+import { useState } from 'react';
+import Menubar from './components/MenuBar/Menubar'
 import {Route, RouterProvider, Routes} from "react-router-dom";
 import Header from "./components/navbar/Header.jsx";
 import './App.css'
 
-function Admin() {
-
-  return (
-    <>
-        <Header />
-        <Routes>
-            <Route  path="/" element={<div>Home</div>} />
-            <Route path="/about" element={<div>About</div>} />
-            <Route path="/repair">
-                <Route index element={<div>Repair Home</div>} />
-                <Route path="requests/:id" element={<div>Repair ID</div>} />
-            </Route>
-        </Routes>
-    </>
-  )
+function App() {
+    const [open, setOpen] = useState(false);
+    return (
+        <>
+            <Header props={setOpen} />
+            <Menubar props={[open, setOpen]} />
+            <Routes>
+                <Route path="/" element={<div>Home</div>} />
+                <Route path="/about" element={<div>About</div>} />
+            </Routes>
+        </>
+    )
 }
 
-export default Admin
+export default App

@@ -27,7 +27,7 @@ const Header = (props) => {
     };
 
     return (
-        <div className="flex w-full p-3 justify-between items-center shadow-md">
+        <div className="flex w-full p-3 justify-between items-center shadow-md bg-white bg-opacity-50 dark:bg-transparent">
             <div className="flex items-center" onClick={closeNav}>
                 <img src={Logo} alt="Bio Tea Logo" className="h-10" />
                 <p className="px-3 font-semibold text-lg">Bio Tea</p>

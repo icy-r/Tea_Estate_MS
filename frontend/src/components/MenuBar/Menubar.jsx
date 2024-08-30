@@ -23,18 +23,22 @@ const Menubar = (props) => {
           onKeyDown={toggleDrawer(false)}
         >
           <div className='p-4'>
-            <h1 className='text-2xl font-semibold dark:text-white text-black'>Menu</h1>
+            <h1 className='text-2xl font-semibold dark:text-white text-white'>Menu</h1>
           </div>
-          <div className='border-t border-gray-200 dark:text-white text-black'>
+          <div className='border-t border-gray-200 dark:text-white text-white'>
             {menu.map((item) => (
               <div key={item.name} className='p-4'>
-                <a href={item.link}>{item.name}</a>
+                <div className='p-3 hover:bg-color_extra'>
+                <a href={item.link}>{item.name}</a></div>
                 {item.submenu.length > 0 && (
-                  <div className='pl-4 py-1 border-l border-gray-200 dark:text-white text-black'>
+                  <div className='pl-4 py-2 border-l border-gray-200 dark:text-white text-white'>
                     {item.submenu.map((subItem) => (
-                      <a key={subItem.name} href={subItem.link}>
-                        {subItem.name}
-                      </a>
+                      <div key={subItem.name}>
+                        <div  className= 'p-3 hover:bg-color_extra'>
+                        <a href={subItem.link}>
+                          {subItem.name} 
+                        </a></div>
+                      </div>
                     ))}
                   </div>
                 )}

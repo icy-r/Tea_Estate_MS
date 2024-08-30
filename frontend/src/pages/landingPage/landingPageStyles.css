@@ -6,3 +6,15 @@
 .no-scrollbar::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }
+
+.about-section{
+  margin-top: -5%;
+  position: absolute;
+}
+
+@media (max-width: 768px) {
+  .about-section {
+    margin-top: 0;
+    position: relative;
+  }
+}

@@ -29,6 +29,13 @@ import { router as buyersRouter } from './routes/product-management/buyer-route.
 //employee management
 import { router as EmployeeManagement } from './routes/employee-management/employee-route.js'
 import { router as ApplicantManagement } from './routes/employee-management/applicant-route.js'
+//field-management
+import { router as fieldRouter } from './routes/field-management/field-route.js';
+import { router as fertilizerRouter } from './routes/field-management/fertilizer-route.js';
+import { router as harvestRouter } from './routes/field-management/harvest-route.js';
+import { router as labourRouter } from './routes/field-management/labour-route.js';
+import { router as orderTrackingRouter } from './routes/product-management/order-tracking-route.js'
+
 
 // create the express app
 const app = express()
@@ -45,8 +52,15 @@ app.use(formData.parse())
 app.use('/api/profiles', profilesRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/machines', machinesRouter)
+
 app.use('/api/empManagement' , EmployeeManagement)
 app.use('/api/applicanttManagement' , ApplicantManagement)
+
+app.use('/api/invoices', invoicesRouter)
+app.use('/api/supplier', supplierRouter)
+app.use('/api/supplierManager', supplierMa  nagerRouter)
+app.use('/api/supply', supplyRouter)
+
 
 
 
@@ -65,6 +79,12 @@ app.use('/api/repairs', repairsRouter)
 app.use('/api/logs', logsRouter)
 app.use('/api/maintenances', maintenancesRouter)
 app.use('/api/repairs', repairsRouter)
+
+//field-management
+app.use('/api/fields', fieldRouter);
+app.use('/api/fertilizers', fertilizerRouter);
+app.use('/api/harvests', harvestRouter);
+app.use('/api/labours', labourRouter);
 
 // handle 404 errors
 app.use(function (req, res, next) {

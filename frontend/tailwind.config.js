@@ -1,3 +1,5 @@
+import { dark_blue } from './src/constants/colors';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -13,7 +15,7 @@ export default {
             color_extra: "#1AACAC",
             white: "#FFFFFF",
             white_modified: "#EBE7E7",
-            action: "#FA7070"
+            action: "#FA7070",
         },
     },
   },

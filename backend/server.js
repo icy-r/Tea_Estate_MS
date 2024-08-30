@@ -9,6 +9,8 @@ import formData from 'express-form-data'
 import './config/database.js'
 
 // import routes
+import { router as invoicesRouter } from './routes/sales-management/invoices-route.js'
+//user-management
 //transport-management
 import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js'
 import { router as routeRouter } from './routes/transport-management/route-route.js'
@@ -18,15 +20,15 @@ import { router as profilesRouter } from './routes/user-management/profiles-rout
 import { router as authRouter } from './routes/authentication/auth-route.js'
 //repair-management
 import { router as machinesRouter } from './routes/repair-management/machines-route.js'
-import { router as EmployeeManagement } from './routes/employee-management/employee-route.js'
-import { router as ApplicantManagement } from './routes/employee-management/applicant-route.js'
 import { router as logsRouter } from './routes/repair-management/log-route.js'
 import { router as maintenancesRouter } from './routes/repair-management/maintenance-route.js'
 import { router as repairsRouter } from './routes/repair-management/repair-req-route.js'
 //product-management
 import { router as catalogRouter } from './routes/product-management/catalog-route.js'
 import { router as buyersRouter } from './routes/product-management/buyer-route.js'
-
+//employee management
+import { router as EmployeeManagement } from './routes/employee-management/employee-route.js'
+import { router as ApplicantManagement } from './routes/employee-management/applicant-route.js'
 
 // create the express app
 const app = express()
@@ -38,6 +40,7 @@ app.use(express.json())
 app.use(formData.parse())
 
 // mount imported routes
+//user-management
 //user-management
 app.use('/api/profiles', profilesRouter)
 app.use('/api/auth', authRouter)
@@ -56,6 +59,9 @@ app.use('/api/buyers', buyersRouter)
 
 //repair-management
 app.use('/api/machines', machinesRouter)
+app.use('/api/logs', logsRouter)
+app.use('/api/maintenances', maintenancesRouter)
+app.use('/api/repairs', repairsRouter)
 app.use('/api/logs', logsRouter)
 app.use('/api/maintenances', maintenancesRouter)
 app.use('/api/repairs', repairsRouter)

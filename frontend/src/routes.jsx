@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     {
         path: "*",
         element: <div>Not Found</div>,
-    },
+    }
 ]);
 
 export default function Routes() {

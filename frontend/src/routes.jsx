@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Admin from "./pages/Admin.jsx";
 import LandingPage from "./pages/landingPage/LandingPage.jsx";
+import Employee from "./pages/Employee.jsx";
 
 const router = createBrowserRouter([
     {
@@ -15,6 +16,12 @@ const router = createBrowserRouter([
         path: "*",
         element: <div>Not Found</div>,
     },
+    {
+        path: "/employee/*",
+        element: <Employee />,
+    },
+
+
 ]);
 
 export default function Routes() {

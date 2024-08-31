@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Menubar from "../components/menubar/Menubar.jsx";
+// eslint-disable-next-line no-unused-vars
 import {Route, RouterProvider, Routes} from "react-router-dom";
 import Home from "../components/repair-management/pages/home.jsx";
 import Header from "../components/navbar/Header.jsx";
@@ -14,6 +15,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<div>Home</div>} />
                 <Route path="/about" element={<div>About</div>} />
+                <Route path="/repair/*" element={<Home />} />
             </Routes>
         </>
     )

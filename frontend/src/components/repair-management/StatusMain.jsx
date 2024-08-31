@@ -39,7 +39,7 @@ const StatusMain = () => {
     }, [machines.length, vehicle.length, request.length, maintenance.length]);
 
     return (
-        <div className='w-full flex items-center justify-between p-2'>
+        <div className='w-full flex items-center bg-color_extra justify-between p-2'>
             <StatusCard data={count} />
         </div>
     );

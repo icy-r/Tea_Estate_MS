@@ -1,0 +1,31 @@
+.action-button-color {
+    background-color: var(--color-button);
+    padding: 0.3rem 1rem;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    color: black;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 0 0.5rem 0.1rem rgba(0, 0, 0, 0.1);
+}
+
+.action-button-color:hover {
+    background-color: #F9AFAF;
+    transform: scale(1.05);
+}
+
+.action-button-transparent{
+    background-color: transparent;
+    padding: 0.3rem 1rem;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.action-button-transparent:hover {
+    background-color: #F9AFAF;
+    color: black;
+    transform: scale(1.05);
+}

@@ -75,5 +75,42 @@ Launch the app with:
 ```bash
 nodemon
 ```
+## Project Structure
+The project files are organized in a modular structure to ensure clarity and maintainability. Below is an overview of the main directories and their subfolders:
+```
+ /controllers
+  /employee-management
+  /field-and-harvest-management
+  /inventory-management
+  ...
+
+ /models
+  /employee-management
+  /field-and-harvest-management
+  /inventory-management
+  ...
+
+ /routes
+  /employee-management
+  /field-and-harvest-management
+  /inventory-management
+  ...
+```
+
+## Kebab Case Naming Convention
+In this project, we adhere to the kebab case naming convention for file and folder names.
+
+ > 🚨 Kebab case is a method where words are all lowercase and separated by hyphens (-). 
+
+ > 🚨 We use it in our project ONLY for file naming
+ 
+ This is often used in URLs and file names for better readability and consistency.
+```
+-employeeManagement (Camel Case)
+-Employee_Management (Snake Case)
+-employee-management (Kebab Case)
+```
+
+In our project, you'll see that folder and file names follow this pattern, such as employee-management, field-and-harvest-management, and so on.
 
 You're done!

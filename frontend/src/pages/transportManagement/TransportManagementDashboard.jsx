@@ -40,13 +40,13 @@ const TransportManagementDashboard = () => {
     ];
 
     return (
-        <div className="flex h-screen">
+        <div className="flex h-full">
         <Sidebar menuItems={menuItems} />
         <div className="flex flex-col w-full">
             <Header mainTitle="Route Management" subTitle="Adding New Route" />
             <Content>
-                {/* You can place the page content here */}
-                <h2 className="text-2xl font-semibold">Your Page Content Goes Here</h2>
+                
+
             </Content>
         </div>
     </div>

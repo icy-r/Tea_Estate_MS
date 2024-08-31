@@ -3,6 +3,7 @@ import Menubar from "../components/menubar/Menubar.jsx";
 import {Route, RouterProvider, Routes} from "react-router-dom";
 import Home from "../components/repair-management/pages/home.jsx";
 import Header from "../components/navbar/Header.jsx";
+import AddSupplierForm from "../pages/supplyManagement/AddSupplierForm.jsx"
 import '../App.css'
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
         <>
             <Header props={setOpen} />
             <Menubar props={[open, setOpen]} />
+            <AddSupplierForm/>
             <Routes>
                 <Route path="/" element={<div>Home</div>} />
                 <Route path="/about" element={<div>About</div>} />

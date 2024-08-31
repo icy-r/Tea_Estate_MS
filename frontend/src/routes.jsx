@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Admin from "./pages/Admin.jsx";
 import LandingPage from "./pages/landingPage/LandingPage.jsx";
+import TransportManagementDashboard from "./pages/transportManagement/transportManagementDashboard.jsx";
 
 const router = createBrowserRouter([
     {
@@ -10,6 +11,10 @@ const router = createBrowserRouter([
     {
         path: "/admin/*",
         element: <Admin />,
+    },
+    {
+        path: "/transportManagement/",
+        element: <TransportManagementDashboard />,
     },
     {
         path: "*",

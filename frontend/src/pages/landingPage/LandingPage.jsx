@@ -1,5 +1,5 @@
 import React from "react";
-import Hero from "@assets/landingPage/Hero.png";
+import Hero from "@assets/landingPage/hero1.png";
 import Header from "@components/navbar/Header.jsx";
 import AboutCard from "@components/landingPage/AboutCard.jsx";
 import Footer from "@components/footer/Footer.jsx"

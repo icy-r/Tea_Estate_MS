@@ -35,7 +35,7 @@ const Footer = () => {
         <div
           className="text-center pt-2 text-gray-400 text-sm pb-8"
         >
-          <span>© 2024 @ SLIIT  MADE WITH <span className="text-action" >LOVE</span></span>
+          <span>© 2024 @ SLLIT  MADE WITH <span className="text-action" >LOVE</span></span>
           
         
         </div>
@@ -44,3 +44,4 @@ const Footer = () => {
   };
   
   export default Footer;
+  

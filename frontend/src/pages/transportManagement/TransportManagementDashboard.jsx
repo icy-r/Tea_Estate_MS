@@ -3,7 +3,6 @@ import Sidebar from '@components/dashboard/Sidebar.jsx';
 import Header from '@components/dashboard/HeaderDashboard.jsx';
 import Content from '@components/dashboard/Content.jsx';
 
-
 const TransportManagementDashboard = () => {
 
     const menuItems = [
@@ -11,7 +10,7 @@ const TransportManagementDashboard = () => {
         { 
             name: 'Vehicle management', 
             subItems: [
-                { name: 'Add employee', link: '/add-vehicle' },
+                { name: 'Add vehicle', link: '/add-vehicle' },
                 { name: 'Manage vehicle', link: '/manage-vehicle' },
             ] 
         },
@@ -40,20 +39,32 @@ const TransportManagementDashboard = () => {
     ];
 
     return (
-        <div className="flex h-full">
-        <Sidebar menuItems={menuItems} />
-        <div className="flex flex-col w-full">
-            <Header mainTitle="Route Management" subTitle="Adding New Route" />
-            <Content>
+        <div className="flex h-screen">
+            <div className="w-72 h-full sticky top-0 overflow-y-auto  overflow-x-hidden">
+                <Sidebar menuItems={menuItems} />
+            </div>
+            
+            <div className="flex flex-col w-full h-full overflow-y-auto">
+                <div className="bg-white sticky top-0 z-10">
+                    <Header mainTitle="Route Management" subTitle="Adding New Route" />
+                </div>
                 
-
-            </Content>
+                <Content>
+                    {/* Example repeated Headers */}
+                    <Header mainTitle="Route Management" subTitle="Adding New Route" />
+                    <Header mainTitle="Route Management" subTitle="Adding New Route" />
+                    <Header mainTitle="Route Management" subTitle="Adding New Route" />
+                    <Header mainTitle="Route Management" subTitle="Adding New Route" />
+                    <Header mainTitle="Route Management" subTitle="Adding New Route" />
+                    <Header mainTitle="Route Management" subTitle="Adding New Route" />
+                    <Header mainTitle="Route Management" subTitle="Adding New Route" />
+                    <Header mainTitle="Route Management" subTitle="Adding New Route" />
+                    <Header mainTitle="Route Management" subTitle="Adding New Route" />
+                    <Header mainTitle="Route Management" subTitle="Adding New Route" />
+                </Content>
+            </div>
         </div>
-    </div>
     );
 };
 
 export default TransportManagementDashboard;
-
-
-

@@ -1,10 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Admin from "./Admin.jsx";
+import Admin from "./pages/Admin.jsx";
+import LandingPage from "./pages/landingPage/LandingPage.jsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <div>user </div>
+        element: <LandingPage />
     },
     {
         path: "/admin/*",

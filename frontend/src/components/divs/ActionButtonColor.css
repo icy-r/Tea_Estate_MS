@@ -26,5 +26,6 @@
 
 .action-button-transparent:hover {
     background-color: #F9AFAF;
+    color: black;
     transform: scale(1.05);
 }

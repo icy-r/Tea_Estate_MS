@@ -1,27 +1,22 @@
 import { useState } from 'react';
-import Menubar from '@components/MenuBar/Menubar'
+import Menubar from "../components/menubar/Menubar.jsx";
+// eslint-disable-next-line no-unused-vars
 import {Route, RouterProvider, Routes} from "react-router-dom";
-import Header from "@components/navbar/Header.jsx";
-import Form from '@components/testD/Form.jsx'
-import './App.css'
-import Design from './components/testD/Design';
+import Home from "../components/repair-management/pages/home.jsx";
+import Header from "../components/navbar/Header.jsx";
+import '../App.css'
 
 function App() {
     const [open, setOpen] = useState(false);
     return (
         <>
-        <div className='w-full'>
             <Header props={setOpen} />
             <Menubar props={[open, setOpen]} />
-            
-            
-            <br></br>
-            <Design/>
             <Routes>
                 <Route path="/" element={<div>Home</div>} />
                 <Route path="/about" element={<div>About</div>} />
+                <Route path="/repair/*" element={<Home />} />
             </Routes>
-            </div>
         </>
     )
 }

@@ -1,14 +1,7 @@
 import { FormControl, FormLabel, Input } from "@mui/joy";
 import { useEffect, useState } from "react";
-import axios from "../../../services/axios.js";
-
-const formdataentry = [
-    { name: 'Machine ID', required: true, placeholder: 'item_id', type: 'number' },
-    { name: 'Machine Name', required: true, placeholder: 'name', type: 'text' },
-    { name: 'Machine Type', required: true, placeholder: 'type', type: 'text' },
-    { name: 'Driver ID', required: true, placeholder: 'driver_id' , type: 'text'},
-    { name: 'Registration Number', required: true, placeholder: 'registration_number', type: 'text'}
-];
+import formEntryData from "../data-files/form-entry-data.js";
+import createMachine from "../services/axios-create.js";
 
 export default function Form() {
     const [formValues, setFormValues] = useState({
@@ -32,22 +25,7 @@ export default function Form() {
         event.preventDefault();
         console.log(formValues);
 
-        axios.post('/machines/', formValues).then((response) => {
-            //if response is successful
-            response.status === 200 && alert('Machine added successfully');
-            //reset the form
-            setFormValues({
-                item_id: '',
-                name: '',
-                type: '',
-                driver_id: '',
-                registration_number: ''
-            });
-        }).catch((error) => {
-            alert(error);
-        }
-        );
-
+        createMachine(formValues, setFormValues);
     }
 
     useEffect(() => {
@@ -61,12 +39,12 @@ export default function Form() {
     }, []);
 
     return (
-        <div style={{ width: '50%' }}>
+        <div className='w-1/2 shadow bg-color_extra bg-opacity-55'>
             <h2 className='text-center font-bold text-2xl'>
                 Add new machine
             </h2>
             <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-                {formdataentry.map((data, index) => (
+                {formEntryData.map((data, index) => (
                     <FormControl key={index} className='flex flex-col gap-2'>
                         <FormLabel
                             required={data.required}

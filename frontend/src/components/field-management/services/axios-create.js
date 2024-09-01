@@ -12,7 +12,7 @@ axios.post('/fields', data).then((response) => {
         location: '',
         fertilizerSchedule: '',
         area: '',
-        labour: '',
+        labour: [],
         cropStage: ''
     });
 }).catch((error) => {

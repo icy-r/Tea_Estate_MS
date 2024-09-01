@@ -33,7 +33,7 @@ async function create(req, res) {
 async function update(req, res) {
   try {
 
-    const machine = await MachineModel.findOne({id: req.params.id});
+    const machine = await MachineModel.find({id: req.params.id});
 
     Object.assign(machine, req.body);
     await machine.save();
@@ -45,11 +45,11 @@ async function update(req, res) {
 
 async function destroy(req, res) {
   try {
-    const machine = await MachineModel.findOne({ id: req.params.id });
-    if (!machine) {
-      return res.status(404).json({ error: 'Machine not found' });
-    }
-    await machine.deleteOne();
+    const deleteMachine = await MachineModel.find({ item_id: req.params.id })
+    if (!deleteMachine) {
+        return res.status(404).json({ error: 'Machine not found' });
+    };
+    await MachineModel.deleteOne({ item_id: deleteMachine[0].item_id });
     res.json({ message: 'Machine deleted' });
   } catch (error) {
     console.log(error);

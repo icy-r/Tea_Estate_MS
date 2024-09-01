@@ -26,9 +26,7 @@ import { router as repairsRouter } from './routes/repair-management/repair-req-r
 //product-management
 import { router as catalogRouter } from './routes/product-management/catalog-route.js'
 import { router as buyersRouter } from './routes/product-management/buyer-route.js'
-//employee management
-import { router as EmployeeManagement } from './routes/employee-management/employee-route.js'
-import { router as ApplicantManagement } from './routes/employee-management/applicant-route.js'
+
 //field-management
 import { router as fieldRouter } from './routes/field-management/field-route.js';
 import { router as fertilizerRouter } from './routes/field-management/fertilizer-route.js';

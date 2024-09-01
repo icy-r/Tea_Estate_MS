@@ -61,6 +61,7 @@ async function destroy(req, res) {
     if (!field) {
       return res.status(404).json({ error: 'Field not found' });
     }
+    console.log(field);
     await field.deleteOne();
     res.json({ message: 'Field deleted' });
     } catch (error) {

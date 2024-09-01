@@ -1,6 +1,6 @@
-import axios from "../../services/axios.js";
+import axios from "../../../services/axios.js";
 import { useEffect, useState } from "react";
-import StatusCard from "../divs/StatusCard.jsx";
+import StatusCard from "../../divs/StatusCard.jsx";
 
 const StatusMain = () => {
     const [machines, setMachines] = useState([]);

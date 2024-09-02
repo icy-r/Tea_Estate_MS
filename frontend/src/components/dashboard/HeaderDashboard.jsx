@@ -7,7 +7,7 @@ const Header = ({ mainTitle, subTitle, toggleSidebar }) => {
             < div className="flex space-x-4 justify-center align-middle">
             <button 
                     onClick={toggleSidebar} 
-                    className="text-red-500 border border-red-500 px-4 py-1 rounded hover:bg-red-500 hover:text-white">
+                    className="text-action border border-action px-4 py-1 rounded hover:bg-action hover:text-white">
                     <svg
                         className="w-6 h-6"
                         fill="none"

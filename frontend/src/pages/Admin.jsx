@@ -12,7 +12,7 @@ import menuItems from './menuItems.js';
 import '../App.css';
 
 function App() {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -21,9 +21,10 @@ function App() {
     return (
         <>
             <div className="flex h-screen">
-                <div className={`w-72 h-full sticky top-0 overflow-y-auto overflow-x-hidden ${isSidebarOpen ? 'block' : 'md:hidden'} md:block`}>
-                    <Sidebar menuItems={menuItems} />
-                </div>
+                {isSidebarOpen && 
+                <div className={`w-72 h-full sticky top-0 overflow-y-auto overflow-x-hidden ease-in transition duration-700 md:block`}>
+                <Sidebar menuItems={menuItems} />
+            </div>}
                 
                 <div className="flex flex-col w-full h-full overflow-y-auto">
                     <div className="bg-white sticky top-0 z-10">

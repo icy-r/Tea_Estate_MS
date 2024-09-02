@@ -12,6 +12,8 @@ import HeroHolder from "@components/landingPage/HeroHolder.jsx";
 import "./landingPageStyles.css";
 
 const heroStyle = {
+    
+    
     backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(${Hero})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
@@ -28,12 +30,12 @@ function LandingPage() {
     return (
         <>
             <div className="sticky top-0 z-20 ">   <Header /></div>
-            <div style={heroStyle}>
+                 <div style={heroStyle}>
                 
              
-                <div className="flex w-full justify-between h-dvh">
-                    <HeroHolder />
-                </div>
+                     <div className="flex w-full justify-between h-dvh mt-[-5%] ">
+                        <HeroHolder />
+                     </div>
             </div>
 
             <motion.div

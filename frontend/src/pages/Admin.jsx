@@ -4,7 +4,6 @@ import Menubar from "../components/menubar/Menubar.jsx";
 import {Route, RouterProvider, Routes} from "react-router-dom";
 import Home from "../components/repair-management/pages/home.jsx";
 import FieldHome from "../components/field-management/pages/FieldHome.jsx";
-import {Route, Routes} from "react-router-dom";
 import RepairRoutes from "../components/repair-management/repair-routes.jsx";
 import Header from "../components/navbar/Header.jsx";
 import '../App.css'

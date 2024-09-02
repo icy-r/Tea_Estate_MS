@@ -4,6 +4,7 @@ import ActionButtonTransparent from "@divs/ActionButtonTransparent.jsx";
 import ActionButtonColor from "@divs/ActionButtonColor.jsx";
 import {motion} from "framer-motion";
 
+
 const menuItems = [
     {name: "Home", link: "/"},
     {name: "About", link: "/about"},

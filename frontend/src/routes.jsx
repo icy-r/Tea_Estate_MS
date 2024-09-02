@@ -1,10 +1,25 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from "./App.jsx";
+import Admin from "./pages/Admin.jsx";
+import LandingPage from "./pages/landingPage/LandingPage.jsx";
+import Login from "./pages/productManagement/Login.jsx";
+import Marketplace from "./pages/productManagement/marketPlace.jsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <App />,
+        element: <LandingPage />
+    },
+    {
+        path: "/admin/*",
+        element: <Admin />,
+    },
+    {
+        path: "/marketplace/*",
+        element: <Marketplace />,
+    },
+    {
+        path: "/login",
+        element: <Login />,
     },
     {
         path: "*",

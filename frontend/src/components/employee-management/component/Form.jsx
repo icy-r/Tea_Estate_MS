@@ -1,87 +1,76 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import React from 'react';
-import axios from 'axios'; // Update the import statement for axios
-import { useParams, useNavigate } from 'react-router-dom';
 
-function EmployeeUpdate() {
+
+const EmployeeAdd = () => {
     const [inputs, setInputs] = useState({
-        firstName: '',
-        lastName: '',
-        Id: '',
-        email: '',
-        age: '',
-        gender: '',
-        dateOfBirth: '',
-        contactNo: '',
-        designation: '',
-        department: '',
-        dateOfJoining: '',
-        salary: '',
-        leavesLeft: 30,
-        address: ''
+        firstName: "",
+        lastName: "",
+        Id: "",
+        email: "",
+        age: "",
+        gender: "",
+        dateOfBirth: "",
+        contactNo: "",
+        designation: "",
+        department: "",
+        dateOfJoining: "",
+        salary: "",
+        leavesLeft:"",
+        address: "",
+
     });
-    const { id } = useParams();  // Destructuring id from useParams
-    const navigate = useNavigate();  // Initialize navigate hook
 
-    useEffect(() => {
-        const fetchHandler = async () => {
-            try {
-                const response = await axios.get(`/empManagement/${id}`);
-                if (response.data && response.data.employee) {
-                    setInputs(response.data.employee);
-                } else {
-                    console.error("Employee data not found.");
-                }
-            } catch (error) {
-                console.error("Error fetching employee data:", error);
-            }
-        };
-        fetchHandler();
-    }, [id]);
+    const handleChange = (e) => {
+        setInputs((prevState) => ({
+            ...prevState,
+            [e.target.name]: e.target.value,
+        }));
+    };
 
-    const sendRequest = async () => {
-        try {
-            await axios.put(`/empManagement/${id}`, {
-                firstName: String(inputs.firstName),
-                lastName: String(inputs.lastName),
-                Id: String(inputs.Id),
-                email: String(inputs.email),
-                age: Number(inputs.age),
-                gender: String(inputs.gender),
-                dateOfBirth: String(inputs.dateOfBirth),
-                contactNo: String(inputs.contactNo),
-                designation: String(inputs.designation),
-                department: String(inputs.department),
-                dateOfJoining: String(inputs.dateOfJoining),
-                salary: Number(inputs.salary),
-                leavesLeft: Number(inputs.leavesLeft),
-                address: String(inputs.address),
-            });
-        } catch (error) {
-            console.error("Error updating employee data:", error);
-        }
+    // Automatically set the minimum date to today's date
+    const getTodayDate = () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        sendRequest().then(() => navigate('/employeedetails'));  // Navigate after successful update
+        console.log(inputs);
+        sendRequest().then(() => history('EmployeeDetails'));
     };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setInputs((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }));
+    const sendRequest = async () => {
+        return await axios.post("http://localhost:3001/api/empManagement/", {
+            firstName: String(inputs.firstName),
+            lastName: String(inputs.lastName),
+            Id: String(inputs.Id),
+            email: String(inputs.email),
+            age: Number(inputs.age),
+            gender: String(inputs.gender),  
+            dateOfBirth: String(inputs.dateOfBirth),
+            contactNo: String(inputs.contactNo),
+            designation: String(inputs.designation),
+            department: String(inputs.department),
+            dateOfJoining: String(inputs.dateOfJoining),
+            salary: Number(inputs.salary),
+            leavesLeft: Number(inputs.leavesLeft),
+            address: String(inputs.address),
+
+        }).then(res => res.data);
     };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="w-full max-w-lg bg-white p-8 rounded-lg shadow-md">
-                <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Update Employee</h1>
+                <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Add Employee</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                        {/* Form Fields */}
+
+                        {/* Add employee form */}
                         <div>
                             <label className="block text-gray-700">First Name</label>
                             <input
@@ -164,7 +153,7 @@ function EmployeeUpdate() {
                                 name="dateOfBirth"
                                 onChange={handleChange}
                                 value={inputs.dateOfBirth}
-                                max={new Date().toISOString().split('T')[0]} // Set the max date to today's date
+                                max={getTodayDate()} // Set the max date to today's date
                                 required
                                 className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                             />
@@ -177,9 +166,7 @@ function EmployeeUpdate() {
                                 name="contactNo"
                                 onChange={handleChange}
                                 value={inputs.contactNo}
-                                pattern=".{10,10}"
                                 required
-                                title="Contact Number must be exactly 10 digits long"
                                 className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                             />
                         </div>
@@ -215,7 +202,7 @@ function EmployeeUpdate() {
                                 name="dateOfJoining"
                                 onChange={handleChange}
                                 value={inputs.dateOfJoining}
-                                max={new Date().toISOString().split('T')[0]} // Set the max date to today's date
+                                min={getTodayDate()} // Automatically set min date to today's date
                                 required
                                 className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                             />
@@ -228,7 +215,6 @@ function EmployeeUpdate() {
                                 name="salary"
                                 onChange={handleChange}
                                 value={inputs.salary}
-                                min="0"
                                 required
                                 className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                             />
@@ -239,40 +225,38 @@ function EmployeeUpdate() {
                             <input
                                 type="number"
                                 name="leavesLeft"
-                                onChange={handleChange}
-                                value={inputs.leavesLeft}
-                                min="0"
-                                max="30"
-                                required
-                                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                                value={30}  // Default value
+                                readOnly  // Make the input read-only
+                                className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                             />
                         </div>
 
-                        <div className="col-span-1 sm:col-span-2">
+
+                        <div>
                             <label className="block text-gray-700">Address</label>
                             <textarea
                                 name="address"
                                 onChange={handleChange}
                                 value={inputs.address}
-                                rows="3"
                                 required
+                                rows="2"  // You can adjust the number of rows as needed
                                 className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                             ></textarea>
                         </div>
-                    </div>
 
+                    </div>
                     <div className="mt-6">
                         <button
                             type="submit"
-                            className="w-full bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-white"
+                            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                         >
-                            Update Employee
+                            Add Employee
                         </button>
                     </div>
                 </form>
             </div>
         </div>
     );
-}
+};
 
-export default EmployeeUpdate;
+export default EmployeeAdd;

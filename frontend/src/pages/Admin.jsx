@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Menubar from "../components/menubar/Menubar.jsx";
 import Home from "../components/repair-management/pages/home.jsx";
 import FieldHome from "../components/field-management/pages/FieldHome.jsx";
+import EmployeeHome from "../components/employee-management/pages/employeehome.jsx";    
 import {Route, Routes} from "react-router-dom";
 import RepairRoutes from "../components/repair-management/repair-routes.jsx";
 import Header from "../components/navbar/Header.jsx";
@@ -22,6 +23,7 @@ function App() {
                 <Route path="/repair/*" element={<Home />} />
                 <Route path="/field/*" element={<FieldHome />} />
                 <Route path="/repair/*" element={<RepairRoutes />} />
+                <Route path="/empmanagement/*" element={<EmployeeHome />} />
             </Routes>
         </>
     )

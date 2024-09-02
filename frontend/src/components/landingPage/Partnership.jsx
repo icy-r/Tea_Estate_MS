@@ -1,8 +1,8 @@
 import React from 'react';
-import Tea1 from '@assets/partnership/Lipton.png';
-import Tea2 from '@assets/partnership/TeaHouse.png';
-import Tea3 from '@assets/partnership/TeaLeaf.png';
-import Tea4 from '@assets/partnership/TeaLeafN.png';
+import Tea1 from '../../assets/partnership/Lipton.png';
+import Tea2 from '../../assets/partnership/TeaHouse.png';
+import Tea3 from '../../assets/partnership/TeaLeaf.png';
+import Tea4 from '../../assets/partnership/TeaLeafN.png';
 
 const images = [
     { src: Tea1, alt: 'Tea1' },

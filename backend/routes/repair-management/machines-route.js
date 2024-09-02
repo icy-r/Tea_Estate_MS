@@ -22,8 +22,7 @@ router.post("/", checkAuth, machineController.create);
 router.put("/:id", checkAuth, machineController.update);
 
 // destroy for deleting a machine defined in machineController
-router.delete("/:id", checkAuth, machineController.destroy);
+router.delete("/:id", machineController.destroy);
 
 
 export { router };
-

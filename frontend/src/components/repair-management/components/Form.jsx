@@ -1,5 +1,4 @@
-import { FormControl, FormLabel, Input } from "@mui/joy";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import formEntryData from "../data-files/form-entry-data.js";
 import createMachine from "../services/axios-create.js";
 
@@ -14,7 +13,7 @@ export default function Form() {
     const [darkMode, setDarkMode] = useState(false);
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
+        const {name, value} = event.target;
         setFormValues({
             ...formValues,
             [name]: value
@@ -39,46 +38,66 @@ export default function Form() {
     }, []);
 
     return (
-        <div className='w-1/2 shadow bg-color_extra bg-opacity-55'>
-            <h2 className='text-center font-bold text-2xl'>
+        <div className='w-2/3 shadow rounded-md bg-white_modified flex flex-col  bg-opacity-55'>
+            <div className='text-center font-bold text-2xl bg-color_extra py-5 rounded-sm'>
                 Add new machine
-            </h2>
-            <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-                {formEntryData.map((data, index) => (
-                    <FormControl key={index} className='flex flex-col gap-2'>
-                        <FormLabel
-                            required={data.required}
-                            className="text-sm p-4"
+            </div>
+            <div className='p-5'>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        {formEntryData.map((data, index) => (
+                            <div key={index}>
+                                <label
+                                    htmlFor={data.placeholder}
+                                    className="block font-medium"
+                                    style={{
+                                        color: darkMode ? 'white' : 'black',
+                                        fontSize: '1.3rem',
+                                    }}
+                                >
+                                    {data.name}
+                                </label>
+                                <input
+                                    id={data.placeholder}
+                                    name={data.placeholder}
+                                    value={formValues[data.placeholder]}
+                                    onChange={handleChange}
+                                    placeholder={data.placeholder}
+                                    required={data.required}
+                                    type={data.type}
+                                    className="mt-2 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                />
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="p-3 flex gap-2 justify-end">
+                        <button
+                            className="bg-color_button text-white border shadow-md px-4 py-1 rounded-md"
                             style={{
                                 fontSize: '1.5rem',
                                 color: darkMode ? 'white' : 'black'
                             }}
+                            type="submit"
                         >
-                            {data.name}
-                        </FormLabel>
-                        <Input
-                            name={data.placeholder}
-                            value={formValues[data.placeholder]}
-                            onChange={handleChange}
-                            placeholder={data.placeholder}
-                            required={data.required}
-                            type={data.type}
-                        />
-                    </FormControl>
-                ))}
-                <div>
-                    <button
-                        className='bg-color_button text-white p-2 rounded-md mt-4'
-                        style={{
-                            fontSize: '1.5rem',
-                            color: darkMode ? 'white' : 'black'
-                        }}
-                        type={'submit'}
-                    >
-                        Submit
-                    </button>
-                </div>
-            </form>
+                            SUBMIT
+                        </button>
+                        <button
+                            type="button"
+                            className="bg-action text-white border shadow-md px-4 py-1 rounded-md"
+                            onClick={() => setFormValues({
+                                item_id: '',
+                                name: '',
+                                type: '',
+                                driver_id: '',
+                                registration_number: ''
+                            })}
+                        >
+                            CLEAR FORM
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }

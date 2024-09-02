@@ -2,19 +2,19 @@ import { useEffect, useState } from 'react';
 import React from 'react';
 import axios from '../../services/axios.js';
 import EmployeeComponent from './EmployeeComponent.jsx';
+import { useNavigate } from 'react-router-dom';
 
-const URL = "/empManagement/";
+const URL = "/empManagement";
 
 function EmployeeManagement() {
-
     const [employees, setEmployees] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchHandler = async () => {
             try {
                 const response = await axios.get(URL);
                 setEmployees(response.data);
-                console.log(response.data);
             } catch (error) {
                 console.error("There was an error fetching employee data!", error);
             }
@@ -24,8 +24,7 @@ function EmployeeManagement() {
     }, []);
 
     const handleUpdate = (id) => {
-        // Handle update logic here
-        console.log("Update employee with ID:", id);
+        navigate(`/employee/update/${id}`); // Navigate to update page with employee ID
     };
 
     const handleDelete = async (id) => {
@@ -33,7 +32,6 @@ function EmployeeManagement() {
             await axios.delete(`${URL}/${id}`);
             // Update the employee list after deletion
             setEmployees((prevEmployees) => prevEmployees.filter(emp => emp._id !== id));
-            console.log("Deleted employee with ID:", id);
         } catch (error) {
             console.error("There was an error deleting the employee!", error);
         }
@@ -73,4 +71,3 @@ function EmployeeManagement() {
 }
 
 export default EmployeeManagement;
-

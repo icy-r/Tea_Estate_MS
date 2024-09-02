@@ -10,7 +10,8 @@
 }
 
 .action-button-color:hover {
-    background-color: #F9AFAF;
+    background-color: #EBE7E7;
+    color:black;
     transform: scale(1.05);
 }
 
@@ -25,7 +26,7 @@
 }
 
 .action-button-transparent:hover {
-    background-color: #F9AFAF;
+    background-color: #EBE7E7;
     color: black;
     transform: scale(1.05);
 }

@@ -16,7 +16,7 @@ const heroStyle = {
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
-    height: "80vh",
+    height: "90vh",
 };
 
 const animationVariants = {
@@ -27,8 +27,10 @@ const animationVariants = {
 function LandingPage() {
     return (
         <>
+            <div className="sticky top-0 z-20 ">   <Header /></div>
             <div style={heroStyle}>
-                <Header />
+                
+             
                 <div className="flex w-full justify-between h-dvh">
                     <HeroHolder />
                 </div>

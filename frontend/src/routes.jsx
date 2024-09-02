@@ -3,6 +3,7 @@ import Admin from "./pages/Admin.jsx";
 import LandingPage from "./pages/landingPage/LandingPage.jsx";
 import Login from "./pages/productManagement/Login.jsx";
 import Marketplace from "./pages/productManagement/marketPlace.jsx";
+import TransportManagementDashboard from "./pages/transportManagement/TransportManagementDashboard.jsx";
 
 const router = createBrowserRouter([
     {
@@ -20,11 +21,13 @@ const router = createBrowserRouter([
     {
         path: "/login",
         element: <Login />,
+        path: "/transportManagement/",
+        element: <TransportManagementDashboard />,
     },
     {
         path: "*",
         element: <div>Not Found</div>,
-    },
+    }
 ]);
 
 export default function Routes() {

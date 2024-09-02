@@ -6,7 +6,7 @@ import EmployeeHome from "../components/employee-management/pages/employeehome.j
 import {Route, Routes} from "react-router-dom";
 import RepairRoutes from "../components/repair-management/repair-routes.jsx";
 import Header from "../components/navbar/Header.jsx";
-import Login from './productManagement/Login.jsx';
+import Login from '../components/product-management/Login.jsx';
 import '../App.css'
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
         <>
             <Header props={setOpen} />
             <Menubar props={[open, setOpen]} />
-
+          
             <Login />
             <Routes>
                 <Route path="/" element={<div>Home</div>} />

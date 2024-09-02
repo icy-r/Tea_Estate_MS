@@ -19,8 +19,13 @@ const fieldSchema = new Schema({
         required: true
     },
 
+    // fertilizerSchedule: {
+    //     type: Schema.Types.ObjectId, ref: 'Fertilizer',
+    //     required: true
+    // },
+
     fertilizerSchedule: {
-        type: Schema.Types.ObjectId, ref: 'Fertilizer',
+        type: String,
         required: true
     },
 
@@ -30,27 +35,12 @@ const fieldSchema = new Schema({
     },
 
     labour: {
-        type: Schema.Types.ObjectId, ref: 'Labour',
+        type: String,
         required: true
     },
 
     cropStage: {
         type: String,
-        required: true
-    },
-
-    emp_required:{
-        type: Number,
-        required: true
-    },
-
-    emp_assigned:{
-        type: String,
-        required: true
-    },
-
-    no_emp_assigned:{
-        type: Number,
         required: true
     }
 

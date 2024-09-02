@@ -24,21 +24,11 @@ async function show(req, res) {
 
 async function create(req, res) {
   try {
-    const { fertilizerSchedule, labour, ...fieldData } = req.body;
-
-    // Validate fertilizerSchedule
-    const fertilizer = await Fertilizer.findById(fertilizerSchedule);
-    if (!fertilizer) return res.status(400).json({ error: 'Invalid fertilizer schedule' });
-
-    // Validate labour
-    const labor = await Labour.findById(labour);
-    if (!labor) return res.status(400).json({ error: 'Invalid labour' });
-
-    const field = new Field({ ...fieldData, fertilizerSchedule, labour });
+    const field = new Field(req.body);
     await field.save();
     res.json(field);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: error });
   }
 }
 
@@ -61,6 +51,7 @@ async function destroy(req, res) {
     if (!field) {
       return res.status(404).json({ error: 'Field not found' });
     }
+    console.log(field);
     await field.deleteOne();
     res.json({ message: 'Field deleted' });
     } catch (error) {

@@ -21,6 +21,8 @@ const router = createBrowserRouter([
     {
         path: "/login",
         element: <Login />,
+    },
+    {
         path: "/transportManagement/",
         element: <TransportManagementDashboard />,
     },

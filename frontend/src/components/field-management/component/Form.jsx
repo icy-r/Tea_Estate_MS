@@ -21,7 +21,9 @@ export default function Form() {
             try {
                 const response = await axios.get("/labours");
                 console.log("API Response:", response.data); 
-                const supervisorList = response.data.filter(labour => labour.role === "Supervisor");
+                const supervisorList = response.data.filter(labour => 
+                    labour.role === "Supervisor" && labour.assignedField === "none"
+                );
                 setSupervisors(supervisorList);
             } catch (error) {
                 console.error("Error fetching supervisors:", error);
@@ -47,9 +49,26 @@ export default function Form() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+    
         try {
-            createField(formValues);
+            await createField(formValues);
+    
+            const selectedSupervisor = supervisors.find(supervisor => supervisor.firstName === formValues.labour);
+            if (!selectedSupervisor) {
+                throw new Error("Supervisor not found");
+            }
+    
+            console.log("Supervisor ID:", selectedSupervisor._id);
+            console.log("Updating assignedField to:", formValues.name);
+    
+            // Attempt to update the supervisor's assignedField
+            const response = await axios.put(`/labours/${selectedSupervisor.id}`, {
+                assignedField: formValues.name
+            });
+    
+            console.log("Update Response:", response.data);
+    
+            // Reset form after successful submission
             setFormValues({
                 id: '',
                 name: '',
@@ -59,6 +78,7 @@ export default function Form() {
                 labour: '',
                 cropStage: ''
             });
+    
         } catch (error) {
             console.error("Error creating field or updating labour:", error);
         }

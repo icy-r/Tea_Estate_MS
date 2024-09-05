@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 
-import { User } from '../../models/user-management/user-model.js'
+import { Employee } from '../../models/employee-management/employee-model.js'
 import { Profile } from '../../models/user-management/profile-model.js'
 
 async function signup(req, res) {
@@ -10,14 +10,14 @@ async function signup(req, res) {
       throw new Error('no CLOUDINARY_URL in back-end .env file')
     }
 
-    const user = await User.findOne({ email: req.body.email })
+    const user = await Employee.findOne({ email: req.body.email })
     if (user) throw new Error('Account already exists')
 
     const newProfile = await Profile.create(req.body)
     req.body.profile = newProfile._id
-    const newUser = await User.create(req.body)
+    const newEmployee = await Employee.create(req.body)
 
-    const token = createJWT(newUser)
+    const token = createJWT(newEmployee)
     res.status(200).json({ token })
   } catch (err) {
     console.log(err)
@@ -36,12 +36,9 @@ async function signup(req, res) {
 async function login(req, res) {
   try {
     if (!process.env.SECRET) throw new Error('no SECRET in back-end .env')
-    if (!process.env.CLOUDINARY_URL) {
-      throw new Error('no CLOUDINARY_URL in back-end .env')
-    }
 
-    const user = await User.findOne({ email: req.body.email })
-    if (!user) throw new Error('User not found')
+    const user = await Employee.findOne({ email: req.body.email })
+    if (!user) throw new Error('Employee not found')
 
     const isMatch = await user.comparePassword(req.body.password)
     if (!isMatch) throw new Error('Incorrect password')
@@ -55,8 +52,8 @@ async function login(req, res) {
 
 async function changePassword(req, res) {
   try {
-    const user = await User.findById(req.user._id)
-    if (!user) throw new Error('User not found')
+    const user = await Employee.findById(req.user._id)
+    if (!user) throw new Error('Employee not found')
 
     const isMatch = user.comparePassword(req.body.password)
     if (!isMatch) throw new Error('Incorrect password')
@@ -77,7 +74,7 @@ async function changePassword(req, res) {
 function handleAuthError(err, res) {
   console.log(err)
   const { message } = err
-  if (message === 'User not found' || message === 'Incorrect password') {
+  if (message === 'Employee not found' || message === 'Incorrect password') {
     res.status(401).json({ err: message })
   } else {
     res.status(500).json({ err: message })

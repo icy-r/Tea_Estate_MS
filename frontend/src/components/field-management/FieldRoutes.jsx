@@ -1,14 +1,15 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import AddField from "./AddField";
-import ManageField from "./ManageField";
-import UpdateField from "./UpdateField";
+import Home from "./pages/fieldhome.jsx";
+import AddField from "./pages/AddField";
+import ManageField from "./pages/ManageField";
+import UpdateField from "./pages/UpdateField";
 
-const FieldHome = () => {
+const FieldRoutes = () => {
     return (
         <>
         <Routes>
-        <Route path="/" element={<div>Home</div>} />
+        <Route path="/" element={<Home />} />
         <Route path="/add" element={<AddField />} />
         <Route path="/manage" element={<ManageField />} />
         <Route path="/manage/:id" element={<UpdateField />} /> 
@@ -16,4 +17,4 @@ const FieldHome = () => {
     );
 };
 
-export default FieldHome;
+export default FieldRoutes;

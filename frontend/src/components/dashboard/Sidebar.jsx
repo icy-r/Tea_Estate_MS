@@ -1,15 +1,12 @@
 import React from 'react';
-import logo from '@assets/logo.png';
+
 
 const Sidebar = ({ menuItems }) => {
     return (
         
         <div className="bg-color_focus text-white w-64 h-full flex flex-col pl-8 py-8">
  
-            <div className="mb-8">
-            <img src={logo} alt="Logo" className="h-8 w-8" />  
-                <h2 className="text-xs font-bold">TEA MANAGEMENT</h2>
-            </div>
+       
             <nav>
                 <ul>
                     {menuItems.map((item, index) => (

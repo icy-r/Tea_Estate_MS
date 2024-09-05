@@ -3,6 +3,7 @@ import Admin from "./pages/Admin.jsx";
 import LandingPage from "./pages/landingPage/LandingPage.jsx";
 import Error404 from "./pages/error404.jsx";
 import Login from "./components/divs/Login.jsx";
+import Register from "./components/divs/Register.jsx";
 
 
 const router = createBrowserRouter([
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
     {
         path: "/login",
         element: <Login/>,
+    },
+    {
+        path: "/register",
+        element: <Register/>,
     },
     {
         path: "*",

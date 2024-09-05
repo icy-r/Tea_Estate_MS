@@ -42,7 +42,7 @@ const Login = () => {
                         </div>
 
                         <div className="mt-6 text-center text-sm text-color_focus">
-                            Don&apos;t have an account? <a href="#" className="text-color_button underline">Register</a>
+                            Don&apos;t have an account? <a href="register" className="text-color_button underline">Register</a>
                         </div>
                     </form>
                 </div>

@@ -1,5 +1,4 @@
 import {useState} from 'react';
-import Home from "../components/repair-management/pages/home.jsx";
 import FieldRoutes from "../components/field-management/FieldRoutes.jsx";
 import TransportHome from '../components/transport-management/pages/TransportHome.jsx';
 import RepairRoutes from "../components/repair-management/repair-routes.jsx";
@@ -7,6 +6,7 @@ import Sidebar from "../components/dashboard/Sidebar.jsx";
 import Header from '../components/dashboard/HeaderDashboard.jsx';
 import Content from '../components/dashboard/Content.jsx';
 import menuItems from './menuItems.js';
+import Home from '../components/dashboard/pages/Home.jsx';
 
 import '../App.css';
 import Error404 from "./error404.jsx";
@@ -35,9 +35,8 @@ function App() {
 
                     <Content>
                         <Routes>
-                            <Route path="/" element={<div>Home</div>}/>
+                            <Route path="/" element={<Home/>}/>
                             <Route path="/about" element={<div>About</div>}/>
-                            <Route path="/repair/*" element={<Home/>}/>
                             <Route path="/field/*" element={<FieldRoutes/>}/>
                             <Route path="/repair/*" element={<RepairRoutes/>}/>
                             <Route path="/transport/*" element={<TransportHome/>}/>

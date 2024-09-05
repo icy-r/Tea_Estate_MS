@@ -1,5 +1,4 @@
 const menuItems = [
-    { name: 'Home', link: '/home' },
     { 
         name: 'Vehicle management', 
         subItems: [

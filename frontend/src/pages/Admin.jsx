@@ -6,9 +6,9 @@ import Error404 from "./error404.jsx";
 import {Route, Routes, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import * as authService from "../services/auth-service.js";
-import HeaderDashboard from "../components/dashboard/HeaderDashboard.jsx";
 import ProtectedRoutes from "../Routes/ProtectedRoutes.jsx";
 import AdminLogin from "./login/AdminLogin.jsx";
+
 
 function App() {
     const [user, setUser] = useState(authService.getUser());
@@ -26,11 +26,10 @@ function App() {
 
     return (
         <>
-            <HeaderDashboard user={user} onAuthEvt={handleAuthEvt} onLogout={handleLogout}/>
+            {/*<HeaderDashboard user={user} onAuthEvt={handleAuthEvt} onLogout={handleLogout}/>*/}
             <Routes>
                 {/* Public Routes */}
                 <Route path="auth/login" element={<AdminLogin handleAuthEvt={handleAuthEvt}/>}/>
-                <Route path="/" element={<div>Home</div>}/>
                 <Route path="/about" element={<div>About</div>}/>
 
                 {/* Protected Routes */}

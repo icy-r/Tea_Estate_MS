@@ -1,16 +1,22 @@
 import React from 'react';
-import logo from '@assets/logo.png';
 
-const Sidebar = ({ menuItems }) => {
+
+const Sidebar = ({ topMenuItems, menuItems }) => {
     return (
-        
-        <div className="bg-color_focus text-white w-64 h-full flex flex-col pl-8 py-8">
- 
-            <div className="mb-8">
-            <img src={logo} alt="Logo" className="h-8 w-8" />  
-                <h2 className="text-xs font-bold">TEA MANAGEMENT</h2>
-            </div>
+        <div className="bg-color_focus text-white w-64 h-100 flex flex-col pl-8 py-8 pb-24">
             <nav>
+                {/* Top Menu Items (e.g., Home, Dashboard, Settings, Profile) */}
+                <ul className="mb-4">
+                    {topMenuItems.map((item, index) => (
+                        <li key={index} className="mb-2 w-100">
+                            <a href={item.link || '#'} className={`text-white flex text-sm font-medium   hover:bg-teal-600 hover:text-white transition-all duration-300 ${item.active ? 'bg-teal-500 text-white px-4 py-3' : 'px-4 py-2'}`}>
+                                {item.name}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+
+                {/* Other Menu Items (with sub-items) */}
                 <ul>
                     {menuItems.map((item, index) => (
                         <li key={index} className="mb-1">
@@ -20,10 +26,10 @@ const Sidebar = ({ menuItems }) => {
                             {item.subItems && (
                                 <ul className="ml-8 mt-4">
                                     {item.subItems.map((subItem, subIndex) => (
-                                        <li key={subIndex} className=''>
+                                        <li key={subIndex}>
                                             <a 
                                                 href={subItem.link || '#'} 
-                                                className={`text-white flex font-extralight text-xs items-center  text-left hover:bg-teal-600 hover:text-white transition-all duration-300  ${subItem.active ? 'bg-teal-500 text-white px-4 py-3' : 'px-4 py-2'}`}
+                                                className={`text-white flex font-extralight text-xs items-center text-left hover:bg-teal-600 hover:text-white transition-all duration-300 ${subItem.active ? 'bg-teal-500 text-white px-4 py-3' : 'px-4 py-2'}`}
                                             >
                                                 {subItem.name}
                                             </a>

@@ -1,11 +1,20 @@
 import React from 'react';
 import profileImage from '@assets/dashboard/profile.png';
+import logo from '@assets/logo.png';
 
 const Header = ({ mainTitle, subTitle, toggleSidebar }) => {
     return (
-        <div className="flex justify-between items-center p-2 bg-white shadow-md">
-            < div className="flex space-x-4 justify-center align-middle">
-            <button 
+        <div className="flex justify-between items-center bg-white shadow-md h-12 pr-4">
+            {/* Left Section (Fixed width w-62) */}
+            <div className="w-64 h-full bg-color_focus m-0 text-white pl-5 flex items-center">
+                
+                <img src={logo} alt="Logo" className="h-8 w-8" />  
+                    <h2 className="text-xs font-bold pl-2">TEA MANAGEMENT</h2>
+            </div>
+
+            {/* Middle Section (Remaining space, content aligned to the left) */}
+            <div className="flex-grow flex items-center space-x-4 pl-4">
+                <button 
                     onClick={toggleSidebar} 
                     className="text-action border border-action px-4 py-1 rounded hover:bg-action hover:text-white">
                     <svg
@@ -24,12 +33,12 @@ const Header = ({ mainTitle, subTitle, toggleSidebar }) => {
                     </svg>
                 </button>
                 <h1 className="text-xs">
-                    {mainTitle}klmcds &gt; <span className="text-action">{subTitle}</span>
+                    {mainTitle} &gt; <span className="text-action">{subTitle}</span>
                 </h1>
             </div>
 
+            {/* Right Section (Logout and Profile Image) */}
             <div className="flex items-center space-x-4">
-      
                 <button className="text-red-500 border border-red-500 px-4 py-1 rounded hover:bg-red-500 hover:text-white">
                     LOGOUT
                 </button>

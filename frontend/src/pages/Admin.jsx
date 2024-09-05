@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import Home from "../components/repair-management/pages/home.jsx";
-import FieldHome from "../components/field-management/pages/FieldHome.jsx";
+import FieldRoutes from "../components/field-management/FieldRoutes.jsx";
 import TransportHome from '../components/transport-management/pages/TransportHome.jsx';
 import RepairRoutes from "../components/repair-management/repair-routes.jsx";
 import Sidebar from "../components/dashboard/Sidebar.jsx";
@@ -38,7 +38,7 @@ function App() {
                             <Route path="/" element={<div>Home</div>}/>
                             <Route path="/about" element={<div>About</div>}/>
                             <Route path="/repair/*" element={<Home/>}/>
-                            <Route path="/field/*" element={<FieldHome/>}/>
+                            <Route path="/field/*" element={<FieldRoutes/>}/>
                             <Route path="/repair/*" element={<RepairRoutes/>}/>
                             <Route path="/transport/*" element={<TransportHome/>}/>
                             <Route path="/*" element={<Error404/>}/>

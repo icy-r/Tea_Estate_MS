@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
-const Schema = mongoose.Schema;
+import bcrypt from "bcrypt";
+const Schema = mongoose.Schema
+const saltRounds = 6
 
 const employeeSchema = new Schema({
   firstName: {
@@ -78,6 +80,24 @@ employeeSchema.post('save', async function(doc) {
     }
   }
 });
+
+employeeSchema.pre('save', async function(next) {
+    const employee = this;
+
+    if (!employee.isModified('password')) return next();
+
+    try {
+        const hash = await bcrypt.hash(employee.password, saltRounds);
+        employee.password = hash;
+        next();
+    } catch (err) {
+        next(err);
+    }
+} );
+
+employeeSchema.methods.comparePassword = async function(tryPassword) {
+    return await bcrypt.compare(tryPassword, this.password);
+}
 
 const Employee = mongoose.model("Employee", employeeSchema);
 

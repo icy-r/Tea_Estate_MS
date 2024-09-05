@@ -1,8 +1,12 @@
 import React from 'react';
 import ActionButtonColor from "@divs/ActionButtonColor.jsx";
 import TextField from '@mui/material/TextField';
+import { useNavigate } from 'react-router-dom';
 //path "../src/pages/productManagement/Login.jsx"
+
+
 const Login = () => {
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col md:flex-row h-screen ">
       
@@ -38,7 +42,7 @@ const Login = () => {
             </div>
             
             <div className="flex items-center justify-center mt-6">
-              <ActionButtonColor text="Login" href="login" />
+              <ActionButtonColor text="Login" href="login" /> <button  onClick={() => navigate(-1)}  className="text-white bg-color_focus hover:bg-color_extra px-[1.5rem] py-1 ml-1">Back</button>
             </div>
             
             <div className="mt-6 text-center text-sm text-color_focus">

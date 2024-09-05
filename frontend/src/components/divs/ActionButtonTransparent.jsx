@@ -7,7 +7,7 @@ const ActionButtonTransparent = ({ index, href, text, onclickfun }) => {
         <a
             key={index}
             href={href}
-            className="action-button-transparent dark:text-white text-black"
+            className="action-button-transparent text-white text-light"
             onClick={onclickfun ? onclickfun : undefined}
         >
             {text}

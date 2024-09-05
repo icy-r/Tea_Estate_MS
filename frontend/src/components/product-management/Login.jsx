@@ -7,11 +7,13 @@ const Login = () => {
     <div className="flex flex-col md:flex-row h-screen ">
       
       {/* Left section with logo and system description */}
-      <div className="md:w-1/3 w-full bg-color_focus text-white flex flex-col justify-center items-center p-8">
-        <img src="../src/assets/logo.png" alt="logo" className="w-24 h-24 md:w-32 md:h-32 mb-6 md:mb-8" />
-        <div className="text-4xl md:text-6xl font-bold mb-2 md:mb-4">Tea Estate</div>
-        <div className="text-2xl md:text-4xl font-bold mb-2">Manage and Handle</div>
-        <div className="text-sm md:text-lg text-center">Fully functional tea estate management system</div>
+      <div className="md:w-1/3 w-full bg-color_focus text-white flex flex-col justify-center p-8 pl-14">
+      <div className='flex mb-2'>
+        <img src="../src/assets/logo.png" alt="logo" className="w-13 h-13 md:w-12 md:h-13 " />
+        <div className="text-4xl md:text-lg font-extralight  ml-4">Tea <br/>Estate Management</div>
+      </div>
+        <div className="text-2xl md:text-5xl font-light mb-3 font-sans">Manage and Handle</div>
+        <div className="text-xs md:text-xm font-extralight ">Fully functional tea estate management system</div>
       </div>
       
       {/* Right section with login form */}

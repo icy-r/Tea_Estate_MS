@@ -2,7 +2,7 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Admin from "./pages/Admin.jsx";
 import LandingPage from "./pages/landingPage/LandingPage.jsx";
 import Error404 from "./pages/error404.jsx";
-import Login from "./components/product-management/Login.jsx";
+import Login from "./components/divs/Login.jsx";
 
 
 const router = createBrowserRouter([

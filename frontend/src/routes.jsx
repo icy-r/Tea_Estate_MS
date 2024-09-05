@@ -1,25 +1,27 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Admin from "./pages/Admin.jsx";
 import LandingPage from "./pages/landingPage/LandingPage.jsx";
-import TransportManagementDashboard from "./pages/transportManagement/TransportManagementDashboard.jsx";
+import Error404 from "./pages/error404.jsx";
+import Login from "./components/product-management/Login.jsx";
+
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <LandingPage />
+        element: <LandingPage/>
     },
     {
         path: "/admin/*",
-        element: <Admin />,
+        element: <Admin/>,
     },
     {
-        path: "/transportManagement/",
-        element: <TransportManagementDashboard />,
+        path: "/login",
+        element: <Login/>,
     },
     {
         path: "*",
-        element: <div>Not Found</div>,
-    }
+        element: <Error404/>,
+    },
 ]);
 
 export default function Routes() {

@@ -53,12 +53,13 @@ const employeeSchema = new Schema({
 });
 
 employeeSchema.post('save', async function(doc) {
-  if (doc.designation === 'Labour') {
+  if (doc.designation === 'Labour' || 'Supervisor') {
     // Add additional attributes if needed
     const updatedEmployee = {
       firstName: doc.firstName,
       lastName: doc.lastName,
       id: doc.Id,
+      role: doc.designation,
       assignedField: "none", // or any other field that makes sense for 'Labour'
       harvest_qnty: 0, // Example value or logic for 'harvest_qnty'
       // Add other necessary fields

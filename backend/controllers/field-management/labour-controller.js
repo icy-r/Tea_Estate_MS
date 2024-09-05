@@ -30,4 +30,16 @@ async function create(req, res) {
   }
 }
 
-export { index, show, create };
+async function update(req, res) {
+  try {
+    const labour = await Labour.findOneAndUpdate({ id: req.params.id }, req.body, {
+      new: true,
+    });
+    res.json(labour);
+  }
+  catch (error) {
+    res.status(404).json({ error: error });
+  }
+}
+
+export { index, show, create, update };

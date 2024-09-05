@@ -2,7 +2,7 @@
 import * as tokenService from './auth-token.js'
 // import {addPhoto as addProfilePhoto} from './profileService'
 
-const BASE_URL = `http://localhost:3001/api/api/auth`
+const BASE_URL = `http://localhost:3001/api/auth`
 
 async function signup(signupFormData, photoData) {
     try {

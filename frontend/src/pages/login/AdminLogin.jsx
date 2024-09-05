@@ -1,22 +1,45 @@
 import {useState} from 'react';
-import ActionButtonColor from "@divs/ActionButtonColor.jsx";
+import {useNavigate} from 'react-router-dom'
 import TextField from '@mui/material/TextField';
 import logo from '@assets/logo.png';
+import * as authService from "../../services/auth-service.js";
+import {Link} from "@mui/joy";
 
-const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+const Login = ({handleAuthEvt}) => {
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
+    const [message, setMessage] = useState('');
     const [error, setError] = useState('');
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (!email || !password) {
-            setError("Please fill in both email and password.");
-            return;
+    const navigate = useNavigate();
+
+    const handleChange = evt => {
+        const {id, value} = evt.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [id]: value
+        }));
+    }
+
+    const {email, password} = formData
+
+    const isFormInvalid = () => {
+        return !(email && password)
+    }
+
+    const handleSubmit = async evt => {
+        evt.preventDefault()
+        try {
+            await authService.login(formData)
+            handleAuthEvt()
+            navigate('/admin/')
+        } catch (err) {
+            console.log(err)
+            setMessage(err.message)
         }
-        setError('');
-        console.log("Logging in with", {email, password});
-    };
+    }
 
     return (
         <div className="fixed inset-0 flex flex-col md:flex-row h-screen w-screen z-50">
@@ -43,7 +66,7 @@ const Login = () => {
                                 id="email"
                                 type="email"
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className="mb-6">
@@ -54,11 +77,18 @@ const Login = () => {
                                 id="password"
                                 type="password"
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className="flex items-center justify-center mt-6">
-                            <ActionButtonColor text="Login" type="submit"/>
+                            {/*<ActionButtonColor text="Login" type="submit"/>*/}
+                            <Link to="/">Cancel</Link>
+                            <button
+                                type="submit"
+                                className="bg-color_button hover:bg-color_button_hover text-white font-bold py-2 px-4 rounded"
+                                disabled={isFormInvalid()}
+                            > Login
+                            </button>
                         </div>
                         <div className="mt-6 text-center text-sm text-color_focus">
                             Don&apos;t have an account? <a href="#" className="text-color_button underline">Register</a>

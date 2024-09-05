@@ -29,7 +29,7 @@ function App() {
             <HeaderDashboard user={user} onAuthEvt={handleAuthEvt} onLogout={handleLogout}/>
             <Routes>
                 {/* Public Routes */}
-                <Route path="auth/login" element={<AdminLogin onAuthEvt={handleAuthEvt}/>}/>
+                <Route path="auth/login" element={<AdminLogin handleAuthEvt={handleAuthEvt}/>}/>
                 <Route path="/" element={<div>Home</div>}/>
                 <Route path="/about" element={<div>About</div>}/>
 

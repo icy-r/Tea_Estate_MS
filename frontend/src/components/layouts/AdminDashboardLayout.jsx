@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Header from '../dashboard/HeaderDashboard.jsx';
 import Sidebar from '../dashboard/Sidebar.jsx';
 import menuItems from '../../pages/menuItems.js';
@@ -18,7 +18,7 @@ const AdminDashboardLayout = () => {
         <div className="h-screen flex flex-col">
             {/* Header (Full Width) */}
             <div className="w-full sticky top-0 z-20 bg-white ">
-                <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
+                <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
             </div>
 
             {/* Main Section with Sidebar and Content */}
@@ -26,7 +26,7 @@ const AdminDashboardLayout = () => {
                 {/* Sidebar */}
                 {isSidebarOpen && (
                     <div className="w-64 h-full overflow-y-auto bg-gray-800 overflow-x-hidden no-scrollbar ">
-                        <Sidebar topMenuItems={topMenuItemsNav} menuItems={menuItems} />
+                        <Sidebar topMenuItems={topMenuItemsNav} menuItems={menuItems}/>
                     </div>
                 )}
 
@@ -34,34 +34,34 @@ const AdminDashboardLayout = () => {
                 <div className="flex-1 overflow-y-auto p-4">
                     <Content>
                         {/* Repeated content for demonstration */}
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar} />
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
                     </Content>
                 </div>
             </div>

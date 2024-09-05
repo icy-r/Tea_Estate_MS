@@ -60,7 +60,7 @@ app.use('/api/auth', authRouter)
 app.use('/api/machines', machinesRouter)
 
 app.use('/api/empManagement' , EmployeeManagement)
-app.use('/api/applicanttManagement' , ApplicantManagement)
+app.use('/api/applicantManagement' , ApplicantManagement)
 
 app.use('/api/invoices', invoicesRouter)
 app.use('/api/supplier', supplierRouter)

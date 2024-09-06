@@ -1,4 +1,3 @@
-import React, {useState} from 'react';
 import Header from '../dashboard/HeaderDashboard.jsx';
 import Sidebar from '../dashboard/Sidebar.jsx';
 import menuItems from '../../pages/menuItems.js';
@@ -6,8 +5,9 @@ import topMenuItemsNav from '../../pages/topMenuItems.js';
 import Content from '../dashboard/Content.jsx';
 
 import '../dashboard/dashboardStyle.css';
+import {useState} from "react";
 
-const AdminDashboardLayout = () => {
+const AdminDashboardLayout = ({children}) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
     const toggleSidebar = () => {
@@ -33,35 +33,7 @@ const AdminDashboardLayout = () => {
                 {/* Main Content */}
                 <div className="flex-1 overflow-y-auto p-4">
                     <Content>
-                        {/* Repeated content for demonstration */}
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
-                        <Header mainTitle="Admin Dashboard" subTitle="Dashboard" toggleSidebar={toggleSidebar}/>
+                        {children}
                     </Content>
                 </div>
             </div>

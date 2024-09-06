@@ -3,11 +3,12 @@ import {useNavigate} from "react-router-dom";
 import profileImage from '@assets/dashboard/profile.png';
 import logo from '@assets/logo.png';
 import * as authService from "../../services/auth-service.js";
+import {UserContext} from "../../pages/Admin.jsx";
 
 const Header = ({mainTitle, subTitle, toggleSidebar}) => {
     const navigate = useNavigate();
-    const UserContext = useContext(UserContext);
-    const {user, setUser} = UserContext;
+    const userC = useContext(UserContext);
+    const {user, setUser} = userC;
 
     const handleLogout = () => {
         authService.logout();

@@ -1,11 +1,11 @@
-import {Routes, Route} from "react-router-dom";
 import Home from "./pages/home.jsx";
+import AdminDashboardLayout from "../layouts/AdminDashboardLayout.jsx";
 
 const RepairRoutes = () => {
     return (
-        <Routes>
-            <Route path="/" element={<Home />} />
-        </Routes>
+        <AdminDashboardLayout>
+            <Home/>
+        </AdminDashboardLayout>
     );
 }
 

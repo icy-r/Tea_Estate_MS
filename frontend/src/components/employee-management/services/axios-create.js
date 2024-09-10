@@ -21,4 +21,4 @@ axios.post('/employees', data).then((response) => {
 );
 }
 
-export default createField;
+export default createEmployee;

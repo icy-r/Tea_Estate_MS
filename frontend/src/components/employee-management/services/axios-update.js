@@ -1,16 +1,16 @@
 import axios from "../../../services/axios";
 
-const updateField = async (data, navigateTo) => {
+const updateEmployee = async (data, navigateTo) => {
   try {
-    const response = await axios.put(`/fields/${data.id}`, data);
+    const response = await axios.put(`/employees/${data.id}`, data);
     if (response.status === 200) {
-      alert('Field updated successfully');
+      alert('Employee Data updated successfully');
       navigateTo('/admin/field/manage');
     }
   } catch (error) {
-    console.error("Error updating field:", error);
-    alert("Failed to update the field");
+    console.error("Error updating Employee:", error);
+    alert("Failed to update Employee Data");
   }
 };
 
-export default updateField;
+export default updateEmployee;

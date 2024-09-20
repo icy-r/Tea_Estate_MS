@@ -1,17 +1,31 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from "./App.jsx";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import Admin from "./pages/Admin.jsx";
+import LandingPage from "./pages/landingPage/LandingPage.jsx";
+import Error404 from "./pages/error404.jsx";
+import Login from "./components/divs/Login.jsx";
+import Layouts from "./components/layouts/AdminDashboardLayout.jsx";
+
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <App />,
-        children: [
-
-        ],
+        element: <LandingPage/>
+    },
+    {
+        path: "/admin/*",
+        element: <Admin/>,
+    },
+    {
+        path: "/login",
+        element: <Login/>,
     },
     {
         path: "*",
-        element: <div>Not Found</div>,
+        element: <Error404/>,
+    },
+    {
+        path: "/layouts/*",
+        element: <Layouts/>,
     },
 ]);
 

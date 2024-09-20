@@ -4,10 +4,12 @@ const Schema = mongoose.Schema;
 
 const machineModelSchema = new Schema(
     {
-        item_id: { type: Number, required: true, unique: true },
+        item_id: { type: Number, required: true,},
+        m_status: { type: String, enum: ["Active", "Inactive", "Repair"], required: true },
         name: { type: String, required: true },
-        type: { type: String, enum: ['Machine', 'Vehicle'], required: true },
-        assigned_driver_id: { type: Schema.Types.ObjectId, ref: 'User' },
+        type: { type: String, required: true },
+        // assigned_driver_id: { type: Schema.Types.ObjectId, ref: 'User' },
+        driver_id: { type: String, required: true },
         registration_number: { type: String, required: true },
     },
     {

@@ -8,12 +8,10 @@ import formData from 'express-form-data'
 // connect to MongoDB with mongoose
 import './config/database.js'
 
-// sales-management
+// import routes
+<<<<<<<<< Temporary merge branch 1
 import { router as invoicesRouter } from './routes/sales-management/invoices-route.js'
-import { router as salesRouter } from './routes/sales-management/sales-route.js'
-import { router as orderRouter } from './routes/sales-management/orders-route.js'
-import { router as auctionRouter } from './routes/sales-management/auction-route.js'
-
+=========
 //transport-management
 import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js'
 import { router as routeRouter } from './routes/transport-management/route-route.js'
@@ -29,8 +27,15 @@ import { router as repairsRouter } from './routes/repair-management/repair-req-r
 //product-management
 import { router as catalogRouter } from './routes/product-management/catalog-route.js'
 import { router as buyersRouter } from './routes/product-management/buyer-route.js'
+//employee management
+import { router as EmployeeManagement } from './routes/employee-management/employee-route.js'
+import { router as ApplicantManagement } from './routes/employee-management/applicant-route.js'
+//field-management
+import { router as fieldRouter } from './routes/field-management/field-route.js';
+import { router as fertilizerRouter } from './routes/field-management/fertilizer-route.js';
+import { router as harvestRouter } from './routes/field-management/harvest-route.js';
+import { router as labourRouter } from './routes/field-management/labour-route.js';
 import { router as orderTrackingRouter } from './routes/product-management/order-tracking-route.js'
-
 
 
 
@@ -45,28 +50,37 @@ app.use(formData.parse())
 
 // mount imported routes
 //user-management
+//user-management
 app.use('/api/profiles', profilesRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/machines', machinesRouter)
+
+app.use('/api/empManagement' , EmployeeManagement)
+app.use('/api/applicantManagement' , ApplicantManagement)
+
+app.use('/api/invoices', invoicesRouter)
+app.use('/api/supplier', supplierRouter)
+app.use('/api/supplierManager', supplierManagerRouter)
+app.use('/api/supply', supplyRouter)
+
+
+
 
 //transport-management
 app.use('/api/transports', transportRouter)
 app.use('/api/routes', routeRouter)
 app.use('/api/vehicles', vehiclesRouter)
-
-//product-management
 app.use('/api/catalog', catalogRouter)
 app.use('/api/buyers', buyersRouter)
-app.use('/api/ordersTracking', orderTrackingRouter)
 
 //repair-management
 app.use('/api/machines', machinesRouter)
-app.use('/api/invoices', invoicesRouter)
 app.use('/api/logs', logsRouter)
 app.use('/api/maintenances', maintenancesRouter)
 app.use('/api/repairs', repairsRouter)
-app.use('/api/orders', orderRouter)
-app.use('/api/sales', salesRouter)
-app.use('/api/auction', auctionRouter)
+app.use('/api/logs', logsRouter)
+app.use('/api/maintenances', maintenancesRouter)
+app.use('/api/repairs', repairsRouter)
 
 // handle 404 errors
 app.use(function (req, res, next) {

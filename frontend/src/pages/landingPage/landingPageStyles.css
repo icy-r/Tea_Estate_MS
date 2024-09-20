@@ -1,0 +1,39 @@
+.no-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.about-section{
+  margin-top: -8%;
+  position: absolute;
+}
+
+        /* Custom scrollbar styles */
+        ::-webkit-scrollbar {
+          width: 12px; /* Width of the scrollbar */
+      }
+
+      ::-webkit-scrollbar-track {
+          background: #f1f1f1; /* Background of the scrollbar track */
+      }
+
+      ::-webkit-scrollbar-thumb {
+          background: #0D294D; /* Color of the scrollbar thumb */
+          border-radius: 6px; /* Rounded corners for the thumb */
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+          background: #1AACAC; /* Color of the thumb when hovered */
+      }
+
+
+@media (max-width: 768px) {
+  .about-section {
+    margin-top: 0;
+    position: relative;
+  }
+}

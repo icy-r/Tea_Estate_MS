@@ -11,9 +11,8 @@ const AssignLabours = () => {
   const fetchDetails = async () => {
     try {
       const response = await axios.get("/labours/");
-      const labourList = response.data.filter(
-        (labour) => labour.role === "Labour"
-      ); // Fetch only labours
+      const labourList = response.data;
+      
       setLabours(labourList);
     } catch (error) {
       console.error("Error fetching labours data:", error);

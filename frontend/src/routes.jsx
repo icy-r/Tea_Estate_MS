@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Admin from "./pages/Admin.jsx";
 import LandingPage from "./pages/landingPage/LandingPage.jsx";
 import Login from "./components/product-management/Login.jsx";
-import Marketplace from "./pages/productManagement/marketPlace.jsx";
+import Marketplace from "./pages/productManagement/Products/Buyer/marketPlace.jsx";
 import TransportManagementDashboard from "./pages/transportManagement/TransportManagementDashboard.jsx";
 
 const router = createBrowserRouter([

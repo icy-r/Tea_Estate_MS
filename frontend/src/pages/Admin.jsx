@@ -5,23 +5,22 @@ import FieldHome from "../components/field-management/pages/FieldHome.jsx";
 import {Route, Routes} from "react-router-dom";
 import RepairRoutes from "../components/repair-management/repair-routes.jsx";
 import Header from "../components/navbar/Header.jsx";
-import Login from '../components/product-management/Login.jsx';
 import '../App.css'
 
 function App() {
     const [open, setOpen] = useState(false);
+    const isAdmin = true;
     return (
         <>
             <Header props={setOpen} />
             <Menubar props={[open, setOpen]} />
-          
-            <Login />
             <Routes>
                 <Route path="/" element={<div>Home</div>} />
                 <Route path="/about" element={<div>About</div>} />
                 <Route path="/repair/*" element={<Home />} />
                 <Route path="/field/*" element={<FieldHome />} />
                 <Route path="/repair/*" element={<RepairRoutes />} />
+
             </Routes>
         </>
     )

@@ -5,7 +5,8 @@ import AddField from "./pages/AddField";
 import ManageField from "./pages/ManageField";
 import UpdateField from "./pages/UpdateField";
 import AssignLabours from "./pages/AssignLabours.jsx";
-import AdminDashboardLayout from "../layouts/AdminDashboardLayout.jsx";
+import AdminDashboardLayout from "./component/AdminDashboardLayout.jsx";
+import ViewHarvest from "./pages/ViewHarvest.jsx";
 
 const FieldRoutes = () => {
   return (
@@ -17,6 +18,7 @@ const FieldRoutes = () => {
           <Route path="/manage" element={<ManageField />} />
           <Route path="/manage/:id" element={<UpdateField />} />
           <Route path="/labours" element={<AssignLabours />} />
+          <Route path="/view-harvest" element={<ViewHarvest />} />
         </Routes>
       </AdminDashboardLayout>
     </>

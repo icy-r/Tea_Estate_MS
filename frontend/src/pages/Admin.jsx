@@ -52,9 +52,9 @@ function App() {
           <Route
             path="/field/*"
             element={
-              <ProtectedRoutes user={user}>
-                <FieldRoutes />
-              </ProtectedRoutes>
+              //<ProtectedRoutes user={user}>
+              <FieldRoutes />
+              // </ProtectedRoutes>
             }
           />
           <Route

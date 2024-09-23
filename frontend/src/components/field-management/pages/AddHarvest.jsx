@@ -1,23 +1,38 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../../services/axios.js";
-//import { format } from "date-fns";
 
 const AddHarvest = () => {
   const [labours, setLabours] = useState([]);
   const [harvestData, setHarvestData] = useState([]);
-
-  //const currentDate = format(new Date(), "yyyy-MM-dd");
   const [currentDate, setCurrentDate] = useState(
     new Date().toISOString().split("T")[0]
   );
 
-  // Fetch labours with role 'labour'
+  // Set the date once when the component mounts
+  useEffect(() => {
+    const today = new Date().toISOString().split("T")[0];
+    setCurrentDate(today); // Set current date
+  }, []);
+
+  const updateDate = () => {
+    const today = new Date().toISOString().split("T")[0];
+    setCurrentDate(today);
+  };
+
+  useEffect(() => {
+    updateDate(); // Call once initially to set the date
+
+    const interval = setInterval(updateDate, 60 * 1000); // Check every minute
+
+    return () => clearInterval(interval); // Clear the interval when the component unmounts
+  }, []);
+
   const fetchLabours = async () => {
     try {
-      const response = await axios.get("/labours"); // Fetch all labours
+      const response = await axios.get("/labours");
       const filteredLabours = response.data.filter(
         (labour) => labour.role === "Labour"
-      ); // Filter for role 'Labour'
+      );
 
       const initialData = filteredLabours.map((labour) => ({
         labour_id: labour.id,
@@ -35,15 +50,29 @@ const AddHarvest = () => {
     }
   };
 
+  // Fetch labours when currentDate changes
   useEffect(() => {
     fetchLabours();
-  }, []);
+  }, [currentDate]); // Refetch data whenever the current date changes
 
   // Handle change in quantity inputs
   const handleQuantityChange = (index, field, value) => {
     const updatedHarvestData = [...harvestData];
     updatedHarvestData[index][field] = parseInt(value, 10) || 0;
     setHarvestData(updatedHarvestData);
+  };
+
+  const getFieldIdByName = async (fieldName) => {
+    try {
+      const response = await axios.get("/fields", {
+        params: { name: fieldName },
+      });
+      const field = response.data.find((f) => f.name === fieldName);
+      return field ? field.id : null; // Return field ID if found
+    } catch (error) {
+      console.error("Error fetching field ID:", error);
+      return null;
+    }
   };
 
   // Handle submit action
@@ -56,7 +85,7 @@ const AddHarvest = () => {
 
         // Add to harvests collection
         await axios.post("/harvests", {
-          id: harvest.labour_id,
+          //id: harvest.labour_id,
           labour_name: harvest.labour_name,
           field_name: harvest.field_name,
           date: harvest.date,
@@ -66,15 +95,20 @@ const AddHarvest = () => {
           total: total,
         });
 
-        // // Update labour's harvest_qnty in labours collection
-        // await axios.patch(`/labours/${harvest.labour_id}`, {
-        //   $inc: { harvest_qnty: total },
-        // });
+        // Update labour's harvest_qnty in labours collection
+        await axios.put(`/labours/${harvest.labour_id}`, {
+          $inc: { harvest_qnty: total },
+        });
 
-        // // Update field's harvest_qnty in fields collection
-        // await axios.patch(`/fields/${harvest.field_name}`, {
-        //   $inc: { harvest_qnty: total },
-        // });
+        // Get field ID by field name and update field's harvest_qnty
+        const fieldId = await getFieldIdByName(harvest.field_name);
+        console.log("Fetched field ID:", fieldId); // Debugging
+        if (fieldId) {
+          await axios.put(`/fields/${fieldId}`, {
+            $inc: { harvest_qnty: total },
+          });
+          console.log("Field updated successfully!"); // Debugging
+        }
       });
 
       // Wait for all promises to resolve before proceeding

@@ -60,18 +60,16 @@ app.use('/api/profiles', profilesRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/machines', machinesRouter)
 
-app.use('/api/empManagement' , EmployeeManagement)
-app.use('/api/applicantManagement' , ApplicantManagement)
 
 app.use('/api/invoices', invoicesRouter)
 app.use('/api/supplier', supplierRouter)
 app.use('/api/supplierManager', supplierManagerRouter)
 app.use('/api/supply', supplyRouter)
 
+
+//employee-management
 app.use('/api/empManagement' , EmployeeManagement)
 app.use('/api/applicanttManagement' , ApplicantManagement)
-
-
 
 //transport-management
 app.use('/api/transports', transportRouter)

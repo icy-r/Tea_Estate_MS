@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import React from 'react';
-
+import { useNavigate } from 'react-router-dom';
+import axios from '../../services/axios.js';
 
 const EmployeeAdd = () => {
+    const navigate = useNavigate(); // Use navigate for redirection
+
     const [inputs, setInputs] = useState({
         firstName: "",
         lastName: "",
@@ -16,9 +19,8 @@ const EmployeeAdd = () => {
         department: "",
         dateOfJoining: "",
         salary: "",
-        leavesLeft:"",
+        leavesLeft: 30, // Static value
         address: "",
-
     });
 
     const handleChange = (e) => {
@@ -28,11 +30,10 @@ const EmployeeAdd = () => {
         }));
     };
 
-    // Automatically set the minimum date to today's date
     const getTodayDate = () => {
         const today = new Date();
         const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+        const month = String(today.getMonth() + 1).padStart(2, '0');
         const day = String(today.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     };
@@ -40,27 +41,34 @@ const EmployeeAdd = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(inputs);
-        sendRequest().then(() => history('EmployeeDetails'));
+        sendRequest().then(() => navigate('/admin/employee/employeedetails'));
     };
 
     const sendRequest = async () => {
-        return await axios.post("http://localhost:3001/api/empManagement/", {
-            firstName: String(inputs.firstName),
-            lastName: String(inputs.lastName),
-            Id: String(inputs.Id),
-            email: String(inputs.email),
-            age: Number(inputs.age),
-            gender: String(inputs.gender),  
-            dateOfBirth: String(inputs.dateOfBirth),
-            contactNo: String(inputs.contactNo),
-            designation: String(inputs.designation),
-            department: String(inputs.department),
-            dateOfJoining: String(inputs.dateOfJoining),
-            salary: Number(inputs.salary),
-            leavesLeft: Number(inputs.leavesLeft),
-            address: String(inputs.address),
+        try {
+            const response = await axios.post("http://localhost:3001/api/empManagement/", {
+                firstName: String(inputs.firstName),
+                lastName: String(inputs.lastName),
+                Id: String(inputs.Id),
+                email: String(inputs.email),
+                age: Number(inputs.age),
+                gender: String(inputs.gender),
+                dateOfBirth: String(inputs.dateOfBirth),
+                contactNo: String(inputs.contactNo),
+                designation: String(inputs.designation),
+                department: String(inputs.department),
+                dateOfJoining: String(inputs.dateOfJoining),
+                salary: Number(inputs.salary),
+                leavesLeft: Number(inputs.leavesLeft),
+                address: String(inputs.address),
+            });
 
-        }).then(res => res.data);
+            console.log('Response:', response.data); // Log success response
+            return response.data;
+        } catch (error) {
+            console.error('Error adding employee:', error.response || error); // Log the error
+            alert('Failed to add employee. Please try again.');
+        }
     };
 
     return (

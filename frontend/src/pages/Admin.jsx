@@ -1,9 +1,7 @@
-import { useState } from 'react';
+
 import Menubar from "../components/menubar/Menubar.jsx";
 import Home from "../components/repair-management/pages/home.jsx";
 import FieldHome from "../components/field-management/pages/FieldHome.jsx";
-import EmployeeHome from "../components/employee-management/pages/employeehome.jsx";    
-import {Route, Routes} from "react-router-dom";
 import FieldRoutes from "../components/field-management/FieldRoutes.jsx";
 import TransportHome from '../components/transport-management/pages/TransportHome.jsx';
 import RepairRoutes from "../components/repair-management/repair-routes.jsx";
@@ -15,6 +13,11 @@ import * as authService from "../services/auth-service.js";
 import ProtectedRoutes from "../Routes/ProtectedRoutes.jsx";
 import AdminLogin from "./login/AdminLogin.jsx";
 import LandingPage from "./landingPage/LandingPage.jsx";
+// import EmployeeDetails from "../components/EmployeeManagement/EmployeeDetails.jsx"; 
+// import EmployeeAdd from "../components/EmployeeManagement/EmployeeAdd.jsx";
+// import EmployeeUpdate from "../components/EmployeeManagement/EmployeeUpdate.jsx";
+// import EmployeeHome from "../components/employee-management/pages/employeehome.jsx";    
+import EmployeeRoutes from "../components/employee-management/EmployeeRoutes.jsx";  
 
 let UserContext;
 
@@ -65,6 +68,16 @@ function App() {
                             </ProtectedRoutes>
                         }
                     />
+
+                    <Route
+                        path="/employee/*"
+                        element={
+                            <ProtectedRoutes user={user}>
+                                <EmployeeRoutes/>
+                            </ProtectedRoutes>
+                        }
+                    />
+
 
                     {/* Catch-all route */}
                     <Route path="/*" element={<Error404/>}/>

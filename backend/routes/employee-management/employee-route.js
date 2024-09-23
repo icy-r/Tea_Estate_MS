@@ -10,7 +10,7 @@ const router = Router();
 
 
 /*---------- Protected Routes ----------*/
-// router.use(decodeUserFromToken)
+//router.use(decodeUserFromToken)
 // index for getting all machines defined in EmployeeController
 router.get("/", EmployeeController.index);
 
@@ -18,13 +18,13 @@ router.get("/", EmployeeController.index);
 router.get("/:id", EmployeeController.show);
 
 // create for creating a new machine defined in EmployeeController
-router.post("/", checkAuth, EmployeeController.create);
+router.post("/", EmployeeController.create);
 
 // update for updating a machine defined in EmployeeController
-router.put("/:id", checkAuth, EmployeeController.update);
+router.put("/:id", EmployeeController.update);
 
 // destroy for deleting a machine defined in EmployeeController
-router.delete("/:id", checkAuth, EmployeeController.destroy);
+router.delete("/:id", EmployeeController.destroy);
 
 
 export { router };

@@ -6,6 +6,8 @@ import Status from "../../divs/Status.jsx";
 import OnCreateForm from "./OnCreateForm.jsx";
 import { AnimatePresence, motion } from "framer-motion";
 import "../../../constants/loadding.css";
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
 
 const basicHeaderItems = [
   "Machine ID",
@@ -25,12 +27,52 @@ const DataManagementComponent = () => {
   const [isCreate, setIsCreate] = useState(false);
   const [formRow, setFormRow] = useState({});
   const [loading, setLoading] = useState(true);
+  const [statusOptions, setStatusOptions] = useState([]);
+
+  const handlePrint = () => {
+    const doc = new jsPDF();
+    doc.text("Machine Management", 10, 10);
+    let bodyData;
+    if (statusFilter === "all") {
+      bodyData = data.map((item) => [
+        item.item_id,
+        item.m_status,
+        item.name,
+        item.type,
+        item.driver_id,
+        item.registration_number,
+      ]);
+    } else {
+      bodyData = data
+        .filter((item) => item.m_status === statusFilter)
+        .map((item) => [
+          item.item_id,
+          item.m_status,
+          item.name,
+          item.type,
+          item.driver_id,
+          item.registration_number,
+        ]);
+    }
+
+    doc.autoTable({
+      head: [basicHeaderItems],
+      body: bodyData,
+    });
+    doc.save("MachineManagement.pdf");
+  };
 
   useEffect(() => {
     setLoading(true);
     axios
       .get("/machines/")
-      .then((response) => setData(response.data))
+      .then((response) => {
+        setData(response.data);
+        const availableStatuses = [
+          ...new Set(response.data.map((item) => item.m_status)),
+        ];
+        setStatusOptions(["all", ...availableStatuses]);
+      })
       .catch((error) => alert(error));
 
     setTimeout(() => {
@@ -44,7 +86,7 @@ const DataManagementComponent = () => {
       Object.values(item).some((value) =>
         value.toString().toLowerCase().includes(searchTerm.toLowerCase())
       ) &&
-      (statusFilter === "all" || item.status === statusFilter)
+      (statusFilter === "all" || item.m_status === statusFilter)
   );
 
   const pageCount = Math.ceil(filteredData.length / itemsPerPage);
@@ -101,6 +143,13 @@ const DataManagementComponent = () => {
           >
             Add Machine
           </button>
+          {/* print only data with specific defined format */}
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+            onClick={handlePrint}
+          >
+            Print Data
+          </button>
         </div>
       </div>
 
@@ -122,10 +171,11 @@ const DataManagementComponent = () => {
               onChange={(e) => setStatusFilter(e.target.value)}
               className="px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              <option value="all">All Status</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-              <option value="pending">Pending</option>
+              {statusOptions.map((status, index) => (
+                <option key={index} value={status}>
+                  {status}
+                </option>
+              ))}
             </select>
             <button
               onClick={() => {

@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import Hero from "@assets/landingPage/hero1.png";
 import Header from "@components/navbar/Header.jsx";
@@ -28,75 +27,75 @@ const animationVariants = {
 
 function LandingPage() {
     return (
-        <>
-            <div className="sticky top-0 z-20 ">   <Header /></div>
-                 <div style={heroStyle}>
-                
-             
-                     <div className="flex w-full justify-between h-dvh mt-[-5%] ">
-                        <HeroHolder />
-                     </div>
-            </div>
+      <>
+        <div className="sticky top-0 z-20 ">
+          <Header />
+        </div>
+        <div style={heroStyle}>
+          <div className="flex w-full justify-between h-dvh mt-[-5%] ">
+            <HeroHolder />
+          </div>
+        </div>
 
-            <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={animationVariants}
-                className="lg:px-28 px-10 about-section"
-            >
-                <AboutCard />
-            </motion.div>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={animationVariants}
+          className="lg:px-28 px-10 about-section"
+        >
+          <AboutCard />
+        </motion.div>
 
-            <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={animationVariants}
-                className="md:mt-80"
-            >
-                <DualSideCardRightImage />
-            </motion.div>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={animationVariants}
+          className="md:mt-80"
+        >
+          <DualSideCardRightImage />
+        </motion.div>
 
-            <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={animationVariants}
-                className="mb-14"
-            >
-                <BlogSection />
-            </motion.div>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={animationVariants}
+          className="mb-14"
+        >
+          <BlogSection />
+        </motion.div>
 
-            <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={animationVariants}
-                className="mb-16"
-            >
-                <FullHeightImageText />
-            </motion.div>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={animationVariants}
+          className="mb-16"
+        >
+          <FullHeightImageText />
+        </motion.div>
 
-            <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={animationVariants}
-                className="px-48 hidden lg:block"
-            >
-                <Partnership />
-            </motion.div>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={animationVariants}
+          className="px-48 hidden lg:block"
+        >
+          <Partnership />
+        </motion.div>
 
-            <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={animationVariants}
-            >
-                <Footer />
-            </motion.div>
-        </>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={animationVariants}
+        >
+          <Footer />
+        </motion.div>
+      </>
     );
 }
 

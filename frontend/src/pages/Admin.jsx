@@ -3,12 +3,13 @@ import TransportHome from "../components/transport-management/pages/TransportHom
 import RepairRoutes from "../components/repair-management/repair-routes.jsx";
 import "../App.css";
 import Error404 from "./error404.jsx";
-import { Route, Routes } from "react-router-dom";
-import { createContext, useState } from "react";
+import {Route, Routes} from "react-router-dom";
+import {createContext, useState} from "react";
 import * as authService from "../services/auth-service.js";
 import ProtectedRoutes from "../Routes/ProtectedRoutes.jsx";
 import AdminLogin from "./login/AdminLogin.jsx";
-import LandingPage from "./landingPage/LandingPage.jsx";
+import FunctionCard from "../components/dashboard/FunctionCard.jsx";
+// import LandingPage from "./landingPage/LandingPage.jsx";
 
 let UserContext;
 
@@ -31,17 +32,19 @@ function App() {
             element={<AdminLogin handleAuthEvt={handleAuthEvt} />}
           />
           <Route path="/about" element={<div>About</div>} />
-          <Route
-            path="/"
-            element={
-              <ProtectedRoutes user={user}>
-                <LandingPage user={user} />
-              </ProtectedRoutes>
-            }
-          />
 
           {/* Protected Routes */}
           <Route
+            path="/"
+            navigationType="replace"
+            element={
+              <ProtectedRoutes user={user}>
+                <FunctionCard />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+
             path="/repair/*"
             element={
               <ProtectedRoutes user={user}>
@@ -52,9 +55,10 @@ function App() {
           <Route
             path="/field/*"
             element={
-              //<ProtectedRoutes user={user}>
-              <FieldRoutes />
-              // </ProtectedRoutes>
+              <ProtectedRoutes user={user}>
+                <FieldRoutes />
+              </ProtectedRoutes>
+
             }
           />
           <Route
@@ -74,5 +78,5 @@ function App() {
   );
 }
 
-export { UserContext };
+export {UserContext};
 export default App;

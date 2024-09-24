@@ -1,0 +1,29 @@
+.left-scrollbar {
+    direction: rtl; /* Moves scrollbar to the left */
+    overflow-y: scroll; /* Ensure the element scrolls vertically */
+    scroll-margin: 0;
+}
+
+.left-scrollbar * {
+    direction: ltr; /* Keeps the text direction correct (left to right) */
+}
+
+.right-scrollbar {
+    direction: ltr; /* Moves scrollbar to the right */
+    overflow-y: scroll; /* Ensure the element scrolls vertically */
+    scroll-margin: 0;
+}
+
+.right-scrollbar * {
+    direction: rtl; /* Keeps the text direction correct (right to left) */
+scrollbar-width: thin; /* Make the scrollbar thin */
+scrollbar-color: transparent transparent; /* Make the scrollbar transparent */
+}
+
+
+.sidebar {
+    left: 0; /* Ensure it is aligned to the left edge */
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 10; /* Ensure it is above other elements */
+}

@@ -9,7 +9,12 @@ import formData from 'express-form-data'
 import './config/database.js'
 
 // import routes
+
 import { router as inventoryRoute } from './routes/inventory-management/inventory-route.js';
+
+import { router as invoicesRouter } from './routes/sales-management/invoices-route.js'
+//user-management
+
 //transport-management
 import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js'
 import { router as routeRouter } from './routes/transport-management/route-route.js'
@@ -25,6 +30,21 @@ import { router as repairsRouter } from './routes/repair-management/repair-req-r
 //product-management
 import { router as catalogRouter } from './routes/product-management/catalog-route.js'
 import { router as buyersRouter } from './routes/product-management/buyer-route.js'
+//employee management
+import { router as EmployeeManagement } from './routes/employee-management/employee-route.js'
+import { router as ApplicantManagement } from './routes/employee-management/applicant-route.js'
+//field-management
+import { router as fieldRouter } from './routes/field-management/field-route.js';
+import { router as fertilizerRouter } from './routes/field-management/fertilizer-route.js';
+import { router as harvestRouter } from './routes/field-management/harvest-route.js';
+import { router as labourRouter } from './routes/field-management/labour-route.js';
+import { router as orderTrackingRouter } from './routes/product-management/order-tracking-route.js'
+
+//supply management
+import { router as supplierRouter } from './routes/supply-management/supplier-route.js'
+import { router as supplierManagerRouter } from './routes/supply-management/supplier-manager-route.js'
+import { router as supplyRouter } from './routes/supply-management/supply-route.js'
+
 
 
 
@@ -39,8 +59,21 @@ app.use(formData.parse())
 
 // mount imported routes
 //user-management
+//user-management
 app.use('/api/profiles', profilesRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/machines', machinesRouter)
+
+app.use('/api/empManagement' , EmployeeManagement)
+app.use('/api/applicantManagement' , ApplicantManagement)
+
+app.use('/api/invoices', invoicesRouter)
+app.use('/api/supplier', supplierRouter)
+app.use('/api/supplierManager', supplierManagerRouter)
+app.use('/api/supply', supplyRouter)
+
+
+
 
 //transport-management
 app.use('/api/transports', transportRouter)
@@ -55,6 +88,15 @@ app.use('/api/inventory', inventoryRoute);
 app.use('/api/logs', logsRouter)
 app.use('/api/maintenances', maintenancesRouter)
 app.use('/api/repairs', repairsRouter)
+app.use('/api/logs', logsRouter)
+app.use('/api/maintenances', maintenancesRouter)
+app.use('/api/repairs', repairsRouter)
+
+//field-management
+app.use('/api/fields', fieldRouter);
+app.use('/api/fertilizers', fertilizerRouter);
+app.use('/api/harvests', harvestRouter);
+app.use('/api/labours', labourRouter);
 
 // handle 404 errors
 app.use(function (req, res, next) {

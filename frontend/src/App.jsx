@@ -1,33 +1,27 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState } from 'react';
+import Menubar from '@components/MenuBar/Menubar'   
+import {Route, RouterProvider, Routes} from "react-router-dom";
+import Header from "@components/navbar/Header.jsx";
+import Header from "./components/navbar/Header.jsx";
+import Login from "./pages/productManagement/Login.jsx";
+import MarketPlace from './pages/productManagement/marketPlace.jsx';
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
 
+function App() {
+  const [open, setOpen] = useState(false);
   return (
     <>
-      <div className="flex items-center place-items-center">
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+        <Header props={setOpen} />
+        <Menubar props={[open, setOpen]} />
+        <Header />
+        
+        <Routes>
+            <Route path="/" element={<div>Home</div>} />
+            <Route path="/about" element={<div>About</div>} />
+            <Route path="/login" component={Login} />
+            <Route path="/marketplace" component={MarketPlace} />
+        </Routes>
     </>
   )
 }

@@ -4,7 +4,8 @@ import LandingPage from "./pages/landingPage/LandingPage.jsx";
 import Error404 from "./pages/error404.jsx";
 import Login from "./components/divs/Login.jsx";
 import Layouts from "./components/layouts/AdminDashboardLayout.jsx";
-
+import VehicleAddForm from "./components/transport-management/component/VehicleAddForm.jsx";
+import SampleForm from "./components/transport-management/component/sampleForm.jsx";
 
 const router = createBrowserRouter([
     {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
     {
         path: "/login",
         element: <Login/>,
+    },
+    {
+        path: "/transportForm",
+        element: <SampleForm/>,
     },
     {
         path: "*",

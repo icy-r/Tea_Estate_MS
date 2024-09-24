@@ -85,7 +85,6 @@ const AddHarvest = () => {
 
         // Add to harvests collection
         await axios.post("/harvests", {
-          //id: harvest.labour_id,
           labour_name: harvest.labour_name,
           field_name: harvest.field_name,
           date: harvest.date,
@@ -95,9 +94,14 @@ const AddHarvest = () => {
           total: total,
         });
 
-        // Update labour's harvest_qnty in labours collection
+        // Update labour's harvest_qnty and other quantities in labours collection
         await axios.put(`/labours/${harvest.labour_id}`, {
-          $inc: { harvest_qnty: total },
+          $inc: {
+            harvest_qnty: total,
+            best_qnty: harvest.best_qnty,
+            good_qnty: harvest.good_qnty,
+            damaged_qnty: harvest.damaged_qnty,
+          },
         });
 
         // Get field ID by field name and update field's harvest_qnty
@@ -123,6 +127,7 @@ const AddHarvest = () => {
       );
     }
   };
+  
 
   return (
     <div className="p-8">

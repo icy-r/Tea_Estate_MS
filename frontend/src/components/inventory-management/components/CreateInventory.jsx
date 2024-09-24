@@ -97,9 +97,10 @@ export default function InventoryForm() {
                                 className="border border-gray-300 p-2 rounded-md"
                                 required
                             >
-                                <MenuItem value="Type1">Type 1</MenuItem>
-                                <MenuItem value="Type2">Type 2</MenuItem>
-                                <MenuItem value="Type3">Type 3</MenuItem>
+                                <MenuItem value="Type1">Tea</MenuItem>
+                                <MenuItem value="Type2">Fertilizer</MenuItem>
+                                <MenuItem value="Type3">Fuel</MenuItem>
+                                <MenuItem value="Type4">Utilities</MenuItem>
                             </Select>
                         </FormControl>
 

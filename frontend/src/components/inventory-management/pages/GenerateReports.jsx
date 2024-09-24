@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../../services/axios.js';
 import { Button, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 const GenerateReports = () => {
   const [inventory, setInventory] = useState([]);
@@ -39,6 +41,22 @@ const GenerateReports = () => {
     setFilteredInventory(inventory); // Reset to all items
   };
 
+  const handleGenerateReport = () => {
+    const doc = new jsPDF();
+    doc.autoTable({
+      head: [['Inventory ID', 'Name', 'Type', 'Quantity', 'Purchase Date', 'Minimum Level']],
+      body: filteredInventory.map(item => [
+        item.inventoryId,
+        item.name,
+        item.type,
+        item.quantity,
+        new Date(item.purchaseDate).toLocaleDateString(),
+        item.minLevel
+      ]),
+    });
+    doc.save('inventory_report.pdf');
+  };
+
   return (
     <div className="p-8">
       <h1 className="text-2xl font-semibold mb-4">Generate Reports</h1>
@@ -65,12 +83,7 @@ const GenerateReports = () => {
           variant="contained"
           color="primary"
           onClick={handleSearch}
-          style={{
-            marginRight: '10px',
-            background: 'rgba(0, 0, 0, 0.38)',
-            boxShadow: '0px 1px 5px rgba(0, 0, 0, 0.12), 0px 2px 2px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.2)',
-            borderRadius: '4px',
-          }}
+          style={{ marginRight: '10px' }}
         >
           Search
         </Button>
@@ -80,6 +93,14 @@ const GenerateReports = () => {
           onClick={handleClear}
         >
           Clear
+        </Button>
+        <Button
+          variant="contained"
+          color="success"
+          onClick={handleGenerateReport}
+          style={{ marginLeft: '10px' }}
+        >
+          Generate Report
         </Button>
       </div>
 

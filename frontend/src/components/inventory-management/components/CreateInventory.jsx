@@ -1,6 +1,8 @@
-import { FormControl, FormLabel, Input, MenuItem, Select, Button } from "@mui/material";
+import { FormControl, FormLabel, Input, MenuItem, Select, Button, FormHelperText } from "@mui/material";
 import { useEffect, useState } from "react";
 import axios from "../../../services/axios.js";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { validateInventoryForm } from '../../inventory-management/services/CreateValidations.js'; // Import the validation function
 
 export default function InventoryForm({ selectedItem, onClose, fetchDetails }) {
     const [formValues, setFormValues] = useState({
@@ -12,9 +14,10 @@ export default function InventoryForm({ selectedItem, onClose, fetchDetails }) {
         minLevel: ''
     });
     const [darkMode, setDarkMode] = useState(false);
+    const [errors, setErrors] = useState({});
+    const navigate = useNavigate(); // Initialize useNavigate
 
     useEffect(() => {
-        // Dark mode setting based on system preferences
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
         const handleChange = () => setDarkMode(mediaQuery.matches);
         handleChange();
@@ -34,23 +37,31 @@ export default function InventoryForm({ selectedItem, onClose, fetchDetails }) {
             ...prevValues,
             [name]: value
         }));
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: ''
+        }));
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        // Validate form values using the imported function
+        const validationErrors = validateInventoryForm(formValues);
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return; // Prevent submission if there are errors
+        }
+
         try {
             if (selectedItem) {
-                // Update existing inventory item
                 await axios.put(`/inventory/${formValues.inventoryId}`, formValues);
                 console.log("Inventory updated:", formValues);
             } else {
-                // Create new inventory item
                 const response = await axios.post("/inventory", formValues);
                 console.log("Inventory created:", response.data);
             }
-            fetchDetails(); // Refresh the inventory list
-            onClose(); // Close the form
+            
             setFormValues({
                 inventoryId: '',
                 name: '',
@@ -59,8 +70,13 @@ export default function InventoryForm({ selectedItem, onClose, fetchDetails }) {
                 purchaseDate: '',
                 minLevel: ''
             });
+
+            alert('Data saved successfully!'); // Success alert
+
+            navigate('/admin/inventory/read-inventory'); // Redirect to ReadInventory page
         } catch (error) {
             console.error("Error saving inventory:", error);
+            alert('Error saving data. Please try again.'); // Error alert
         }
     };
 
@@ -73,6 +89,7 @@ export default function InventoryForm({ selectedItem, onClose, fetchDetails }) {
             purchaseDate: '',
             minLevel: ''
         });
+        setErrors({});
     };
 
     return (
@@ -83,7 +100,7 @@ export default function InventoryForm({ selectedItem, onClose, fetchDetails }) {
                         Inventory Details
                     </h2>
                     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-                        <FormControl className="flex flex-col">
+                        <FormControl className="flex flex-col" error={!!errors.inventoryId}>
                             <FormLabel required className="text-sm" style={{ fontSize: '1rem', color: darkMode ? 'white' : 'black' }}>
                                 Inventory ID
                             </FormLabel>
@@ -95,9 +112,10 @@ export default function InventoryForm({ selectedItem, onClose, fetchDetails }) {
                                 required
                                 className="border border-gray-300 p-2 rounded-md"
                             />
+                            <FormHelperText>{errors.inventoryId}</FormHelperText>
                         </FormControl>
 
-                        <FormControl className="flex flex-col">
+                        <FormControl className="flex flex-col" error={!!errors.name}>
                             <FormLabel required className="text-sm" style={{ fontSize: '1rem', color: darkMode ? 'white' : 'black' }}>
                                 Name
                             </FormLabel>
@@ -109,6 +127,7 @@ export default function InventoryForm({ selectedItem, onClose, fetchDetails }) {
                                 required
                                 className="border border-gray-300 p-2 rounded-md"
                             />
+                            <FormHelperText>{errors.name}</FormHelperText>
                         </FormControl>
 
                         <FormControl className="flex flex-col">
@@ -129,7 +148,7 @@ export default function InventoryForm({ selectedItem, onClose, fetchDetails }) {
                             </Select>
                         </FormControl>
 
-                        <FormControl className="flex flex-col">
+                        <FormControl className="flex flex-col" error={!!errors.quantity}>
                             <FormLabel required className="text-sm" style={{ fontSize: '1rem', color: darkMode ? 'white' : 'black' }}>
                                 Quantity
                             </FormLabel>
@@ -142,9 +161,10 @@ export default function InventoryForm({ selectedItem, onClose, fetchDetails }) {
                                 required
                                 className="border border-gray-300 p-2 rounded-md"
                             />
+                            <FormHelperText>{errors.quantity}</FormHelperText>
                         </FormControl>
 
-                        <FormControl className="flex flex-col">
+                        <FormControl className="flex flex-col" error={!!errors.purchaseDate}>
                             <FormLabel required className="text-sm" style={{ fontSize: '1rem', color: darkMode ? 'white' : 'black' }}>
                                 Purchase Date
                             </FormLabel>
@@ -156,9 +176,10 @@ export default function InventoryForm({ selectedItem, onClose, fetchDetails }) {
                                 required
                                 className="border border-gray-300 p-2 rounded-md"
                             />
+                            <FormHelperText>{errors.purchaseDate}</FormHelperText>
                         </FormControl>
 
-                        <FormControl className="flex flex-col">
+                        <FormControl className="flex flex-col" error={!!errors.minLevel}>
                             <FormLabel required className="text-sm" style={{ fontSize: '1rem', color: darkMode ? 'white' : 'black' }}>
                                 Minimum Level (Reorder Level)
                             </FormLabel>
@@ -171,6 +192,7 @@ export default function InventoryForm({ selectedItem, onClose, fetchDetails }) {
                                 required
                                 className="border border-gray-300 p-2 rounded-md"
                             />
+                            <FormHelperText>{errors.minLevel}</FormHelperText>
                         </FormControl>
 
                         <div className="flex justify-between">

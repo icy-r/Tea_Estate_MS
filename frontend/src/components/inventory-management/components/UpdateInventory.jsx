@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../../services/axios.js';
-import { FormControl, FormLabel, Input, Button, Snackbar, Alert, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { FormControl, FormLabel, Input, Button, Snackbar, Alert, Dialog, DialogTitle, DialogContent, DialogActions, FormHelperText } from '@mui/material';
+import { validateInventoryForm } from '../../inventory-management/services/CreateValidations.js'; // Import validation function
 
 const UpdateInventory = ({ open, handleClose, item, fetchDetails }) => {
     const [formValues, setFormValues] = useState({
@@ -11,6 +12,7 @@ const UpdateInventory = ({ open, handleClose, item, fetchDetails }) => {
         purchaseDate: '',
         minLevel: ''
     });
+    const [errors, setErrors] = useState({});
     const [alert, setAlert] = useState({ open: false, message: '', severity: 'success' });
     const [darkMode, setDarkMode] = useState(false);
 
@@ -42,10 +44,22 @@ const UpdateInventory = ({ open, handleClose, item, fetchDetails }) => {
             ...prevValues,
             [name]: value
         }));
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: ''
+        }));
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        
+        // Validate form values
+        const validationErrors = validateInventoryForm(formValues);
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return; // Prevent submission if there are errors
+        }
+
         try {
             await axios.put(`/inventory/${formValues.inventoryId}`, formValues);
             setAlert({
@@ -87,7 +101,7 @@ const UpdateInventory = ({ open, handleClose, item, fetchDetails }) => {
                                 />
                             </FormControl>
 
-                            <FormControl className="flex flex-col">
+                            <FormControl className="flex flex-col" error={!!errors.name}>
                                 <FormLabel required className={darkMode ? 'text-white' : 'text-black'}>Name</FormLabel>
                                 <Input
                                     name="name"
@@ -96,9 +110,10 @@ const UpdateInventory = ({ open, handleClose, item, fetchDetails }) => {
                                     required
                                     className="border border-gray-300 p-2 rounded-md"
                                 />
+                                <FormHelperText>{errors.name}</FormHelperText>
                             </FormControl>
 
-                            <FormControl className="flex flex-col">
+                            <FormControl className="flex flex-col" error={!!errors.type}>
                                 <FormLabel required className={darkMode ? 'text-white' : 'text-black'}>Type</FormLabel>
                                 <Input
                                     name="type"
@@ -107,9 +122,10 @@ const UpdateInventory = ({ open, handleClose, item, fetchDetails }) => {
                                     required
                                     className="border border-gray-300 p-2 rounded-md"
                                 />
+                                <FormHelperText>{errors.type}</FormHelperText>
                             </FormControl>
 
-                            <FormControl className="flex flex-col">
+                            <FormControl className="flex flex-col" error={!!errors.quantity}>
                                 <FormLabel required className={darkMode ? 'text-white' : 'text-black'}>Quantity</FormLabel>
                                 <Input
                                     name="quantity"
@@ -119,9 +135,10 @@ const UpdateInventory = ({ open, handleClose, item, fetchDetails }) => {
                                     required
                                     className="border border-gray-300 p-2 rounded-md"
                                 />
+                                <FormHelperText>{errors.quantity}</FormHelperText>
                             </FormControl>
 
-                            <FormControl className="flex flex-col">
+                            <FormControl className="flex flex-col" error={!!errors.purchaseDate}>
                                 <FormLabel required className={darkMode ? 'text-white' : 'text-black'}>Purchase Date</FormLabel>
                                 <Input
                                     name="purchaseDate"
@@ -131,9 +148,10 @@ const UpdateInventory = ({ open, handleClose, item, fetchDetails }) => {
                                     required
                                     className="border border-gray-300 p-2 rounded-md"
                                 />
+                                <FormHelperText>{errors.purchaseDate}</FormHelperText>
                             </FormControl>
 
-                            <FormControl className="flex flex-col">
+                            <FormControl className="flex flex-col" error={!!errors.minLevel}>
                                 <FormLabel required className={darkMode ? 'text-white' : 'text-black'}>Minimum Level</FormLabel>
                                 <Input
                                     name="minLevel"
@@ -143,6 +161,7 @@ const UpdateInventory = ({ open, handleClose, item, fetchDetails }) => {
                                     required
                                     className="border border-gray-300 p-2 rounded-md"
                                 />
+                                <FormHelperText>{errors.minLevel}</FormHelperText>
                             </FormControl>
                         </form>
                     </div>

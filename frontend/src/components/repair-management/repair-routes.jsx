@@ -6,9 +6,8 @@ import { Routes, Route } from "react-router-dom";
 const RepairRoutes = () => {
   return (
     <AdminDashboardLayout menu={menu}>
-      {/* <Home /> */}
       <Routes>
-        <Route path="/machine" element={<Home />} />
+        <Route path="/" element={<Home />} />
       </Routes>
     </AdminDashboardLayout>
   );

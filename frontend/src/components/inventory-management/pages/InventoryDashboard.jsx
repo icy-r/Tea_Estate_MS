@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import ReadInventory from "../components/ReadInventory.jsx";
 import UpdateInventory from "../components/UpdateInventory.jsx"
 import DeleteInventory from "../components/DeleteInventory.jsx";
+import GenerateReports from "./GenerateReports.jsx";
 
 const InventoryDashboard = () => {
   return (
@@ -16,6 +17,7 @@ const InventoryDashboard = () => {
         <Route path="/read-inventory" element={<ReadInventory />} />
         <Route path="/update-inventory" element={<UpdateInventory />} />
         <Route path="/delete-inventory" element={<DeleteInventory />} />
+        <Route path="/generate-reports" element={<GenerateReports />} />
       </Routes>
     </AdminDashboardLayout>
   );

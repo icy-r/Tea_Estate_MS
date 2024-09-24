@@ -2,7 +2,7 @@ import { FormControl, FormLabel, Input, MenuItem, Select, Button } from "@mui/ma
 import { useEffect, useState } from "react";
 import axios from "../../../services/axios.js";
 
-export default function InventoryForm() {
+export default function InventoryForm({ selectedItem, onClose, fetchDetails }) {
     const [formValues, setFormValues] = useState({
         inventoryId: '',
         name: '',
@@ -22,6 +22,12 @@ export default function InventoryForm() {
         return () => mediaQuery.removeEventListener('change', handleChange);
     }, []);
 
+    useEffect(() => {
+        if (selectedItem) {
+            setFormValues(selectedItem);
+        }
+    }, [selectedItem]);
+
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormValues((prevValues) => ({
@@ -34,9 +40,17 @@ export default function InventoryForm() {
         event.preventDefault();
 
         try {
-            const response = await axios.post("/inventory", formValues);
-            console.log("Inventory created:", response.data);
-            // Reset form after successful submission
+            if (selectedItem) {
+                // Update existing inventory item
+                await axios.put(`/inventory/${formValues.inventoryId}`, formValues);
+                console.log("Inventory updated:", formValues);
+            } else {
+                // Create new inventory item
+                const response = await axios.post("/inventory", formValues);
+                console.log("Inventory created:", response.data);
+            }
+            fetchDetails(); // Refresh the inventory list
+            onClose(); // Close the form
             setFormValues({
                 inventoryId: '',
                 name: '',
@@ -46,8 +60,19 @@ export default function InventoryForm() {
                 minLevel: ''
             });
         } catch (error) {
-            console.error("Error creating inventory:", error);
+            console.error("Error saving inventory:", error);
         }
+    };
+
+    const handleClear = () => {
+        setFormValues({
+            inventoryId: '',
+            name: '',
+            type: '',
+            quantity: '',
+            purchaseDate: '',
+            minLevel: ''
+        });
     };
 
     return (
@@ -97,10 +122,10 @@ export default function InventoryForm() {
                                 className="border border-gray-300 p-2 rounded-md"
                                 required
                             >
-                                <MenuItem value="Type1">Tea</MenuItem>
-                                <MenuItem value="Type2">Fertilizer</MenuItem>
-                                <MenuItem value="Type3">Fuel</MenuItem>
-                                <MenuItem value="Type4">Utilities</MenuItem>
+                                <MenuItem value="Tea">Tea</MenuItem>
+                                <MenuItem value="Fertilizer">Fertilizer</MenuItem>
+                                <MenuItem value="Fuel">Fuel</MenuItem>
+                                <MenuItem value="Utilities">Utilities</MenuItem>
                             </Select>
                         </FormControl>
 
@@ -148,9 +173,14 @@ export default function InventoryForm() {
                             />
                         </FormControl>
 
-                        <Button type="submit" variant="contained" color="primary">
-                            Submit
-                        </Button>
+                        <div className="flex justify-between">
+                            <Button type="submit" variant="contained" color="primary">
+                                Save Inventory
+                            </Button>
+                            <Button type="button" variant="outlined" color="secondary" onClick={handleClear}>
+                                Clear
+                            </Button>
+                        </div>
                     </form>
                 </div>
             </div>

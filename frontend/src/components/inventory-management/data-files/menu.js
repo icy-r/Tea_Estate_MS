@@ -7,7 +7,7 @@ const menuItems = [
       { name: "Dashboard", link: "" },
       { name: "Create Inventory", link: "inventory/create-inventory" },
       { name: "Manage Inventory", link: "inventory/read-inventory" },
-      { name: "Generate Reports", link: "inventory/read-inventory" },
+      { name: "Generate Reports", link: "inventory/generate-reports" },
     ],
   },
 ];

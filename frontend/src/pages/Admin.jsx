@@ -1,42 +1,72 @@
-import { useState } from 'react';
-import Menubar from "../components/menubar/Menubar.jsx";
-import Home from "../components/repair-management/pages/home.jsx";
-import FieldHome from "../components/field-management/pages/FieldHome.jsx";
-import { Route, Routes } from "react-router-dom";
+import FieldRoutes from "../components/field-management/FieldRoutes.jsx";
+import TransportHome from '../components/transport-management/pages/TransportHome.jsx';
 import RepairRoutes from "../components/repair-management/repair-routes.jsx";
-import Header from "../components/navbar/Header.jsx";
-import MarketPlace from './productManagement/Products/Buyer/marketPlace.jsx';
-import CatalogUpdate from './productManagement/Products/Admin/CatalogUpdate.jsx';
-import AddProduct from './productManagement/Products/Admin/AddProduct.jsx';
-import AdminDashboard from './productManagement/Products/Admin/adminDashboard.jsx';
-
 import '../App.css';
+import Error404 from "./error404.jsx";
+import {Route, Routes} from "react-router-dom";
+import {createContext, useState} from "react";
+import * as authService from "../services/auth-service.js";
+import ProtectedRoutes from "../Routes/ProtectedRoutes.jsx";
+import AdminLogin from "./login/AdminLogin.jsx";
+import LandingPage from "./landingPage/LandingPage.jsx";
+
+let UserContext;
 
 function App() {
-    const [open, setOpen] = useState(false);
-    const isAdmin = true;
+    const [user, setUser] = useState(authService.getUser());
+    //context for user to pass the setUser function to other components
+    UserContext = createContext({user, setUser});
 
-    
+    const handleAuthEvt = () => {
+        setUser(authService.getUser())
+    }
 
     return (
         <>
-            <Header props={setOpen} />
-            <Menubar props={[open, setOpen]} />
+            <UserContext.Provider value={{user, setUser}}>
+                <Routes>
+                    {/* Public Routes */}
+                    <Route path="auth/login" element={<AdminLogin handleAuthEvt={handleAuthEvt}/>}/>
+                    <Route path="/about" element={<div>About</div>}/>
+                    <Route path="/" element={
+                        <ProtectedRoutes user={user}>
+                            <LandingPage user={user}/>
+                        </ProtectedRoutes>
+                    }/>
 
-            
-            <AdminDashboard />
-            <MarketPlace isAdmin={isAdmin} />
-        
-            {/* Routes to handle navigation */}
-            <Routes>
-                
-                <Route path="/marketplace" element={<MarketPlace/>} />
-                <Route path="/catalog-update" element={<CatalogUpdate />} />
-                <Route path="/add-product" element={<AddProduct />} />
-                <Route path="/adminDashboard" element={<AdminDashboard />} />
-            </Routes>
+                    {/* Protected Routes */}
+                    <Route
+                        path="/repair/*"
+                        element={
+                            <ProtectedRoutes user={user}>
+                                <RepairRoutes/>
+                            </ProtectedRoutes>
+                        }
+                    />
+                    <Route
+                        path="/field/*"
+                        element={
+                            <ProtectedRoutes user={user}>
+                                <FieldRoutes/>
+                            </ProtectedRoutes>
+                        }
+                    />
+                    <Route
+                        path="/transport/*"
+                        element={
+                            <ProtectedRoutes user={user}>
+                                <TransportHome/>
+                            </ProtectedRoutes>
+                        }
+                    />
+
+                    {/* Catch-all route */}
+                    <Route path="/*" element={<Error404/>}/>
+                </Routes>
+            </UserContext.Provider>
         </>
     );
 }
 
+export {UserContext};
 export default App;

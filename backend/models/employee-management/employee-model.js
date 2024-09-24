@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
-const Schema = mongoose.Schema;
+import bcrypt from "bcrypt";
+const Schema = mongoose.Schema
+const saltRounds = 6
 
 const employeeSchema = new Schema({
   firstName: {
@@ -15,6 +17,10 @@ const employeeSchema = new Schema({
     required: true,
   },
   email: {
+    type: String,
+    required: true,
+  },
+  password: {
     type: String,
     required: true,
   },
@@ -53,12 +59,13 @@ const employeeSchema = new Schema({
 });
 
 employeeSchema.post('save', async function(doc) {
-  if (doc.designation === 'Labour') {
+  if (doc.designation === 'Labour' || 'Supervisor') {
     // Add additional attributes if needed
     const updatedEmployee = {
       firstName: doc.firstName,
       lastName: doc.lastName,
       id: doc.Id,
+      role: doc.designation,
       assignedField: "none", // or any other field that makes sense for 'Labour'
       harvest_qnty: 0, // Example value or logic for 'harvest_qnty'
       // Add other necessary fields
@@ -73,6 +80,24 @@ employeeSchema.post('save', async function(doc) {
     }
   }
 });
+
+employeeSchema.pre('save', async function(next) {
+    const employee = this;
+
+    if (!employee.isModified('password')) return next();
+
+    try {
+        const hash = await bcrypt.hash(employee.password, saltRounds);
+        employee.password = hash;
+        next();
+    } catch (err) {
+        next(err);
+    }
+} );
+
+employeeSchema.methods.comparePassword = async function(tryPassword) {
+    return await bcrypt.compare(tryPassword, this.password);
+}
 
 const Employee = mongoose.model("Employee", employeeSchema);
 

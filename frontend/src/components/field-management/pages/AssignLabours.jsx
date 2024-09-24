@@ -92,6 +92,7 @@ const AssignLabours = () => {
               <th className="py-2 px-4 text-left">Employee ID</th>
               <th className="py-2 px-4 text-left">First Name</th>
               <th className="py-2 px-4 text-left">Last Name</th>
+              <th className="py-2 px-4 text-left">Role</th>
               <th className="py-2 px-4 text-left">Status</th>
               <th className="py-2 px-4 text-left">Assigned Field</th>
               <th className="py-2 px-4 text-center">Actions</th>
@@ -104,6 +105,7 @@ const AssignLabours = () => {
                   <td className="py-2 px-4 border">{labour.id}</td>
                   <td className="py-2 px-4 border">{labour.firstName}</td>
                   <td className="py-2 px-4 border">{labour.lastName}</td>
+                  <td className="py-2 px-4 border">{labour.role}</td>
                   <td className="py-3 px-4">
                     {labour.assignedField !== "none" ? (
                       <span className="bg-green-500 text-white px-3 py-1 rounded-full text-xs">

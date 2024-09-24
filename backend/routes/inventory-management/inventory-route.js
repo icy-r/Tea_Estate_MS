@@ -18,7 +18,7 @@ const validateInventory = [
 // Public routes
 
 // Protected routes
-router.use(checkAuth);
+
 
 router.get('/', inventoryController.index);
 router.get('/:id', inventoryController.show);

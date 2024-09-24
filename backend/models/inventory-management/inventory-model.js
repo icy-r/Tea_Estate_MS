@@ -8,7 +8,7 @@ const inventorySchema = new Schema(
         name: { type: String, required: true },
         type: { type: String, required: true }, 
         quantity: { type: Number, required: true },
-        purchaseDate: { type: Date, requred: true },
+        purchaseDate: { type: Date, required: true },
         minLevel: { type: Number, required: true }, // Reorder level
     }, 
     {

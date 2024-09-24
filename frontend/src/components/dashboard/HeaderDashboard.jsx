@@ -4,7 +4,6 @@ import profileImage from '@assets/dashboard/profile.png';
 import logo from '@assets/logo.png';
 import * as authService from "../../services/auth-service.js";
 import {UserContext} from "../../pages/Admin.jsx";
-//socket.io frontend
 import { io } from "socket.io-client";
 
 const Header = ({mainTitle, subTitle, toggleSidebar}) => {

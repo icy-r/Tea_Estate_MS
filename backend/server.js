@@ -64,6 +64,8 @@ app.use('/api/empManagement' , EmployeeManagement)
 app.use('/api/applicantManagement' , ApplicantManagement)
 
 app.use('/api/invoices', invoicesRouter)
+
+//supply-management
 app.use('/api/supplier', supplierRouter)
 app.use('/api/supplierManager', supplierManagerRouter)
 app.use('/api/supplies', supplyRouter)

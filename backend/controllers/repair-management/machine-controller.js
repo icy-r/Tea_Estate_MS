@@ -32,14 +32,19 @@ async function create(req, res) {
 
 async function update(req, res) {
   try {
-
-    const machine = await MachineModel.find({id: req.params.id});
-
+    const machine = await MachineModel.findOne({ item_id: req.params.id });
+    if (!machine) {
+      return res.status(404).json({ error: 'Machine not found' });
+    }
     Object.assign(machine, req.body);
     await machine.save();
     res.json(machine);
   } catch (error) {
-    res.status(400).json({ error: error });
+    if (error.code === 11000) {
+      res.status(400).json({ error: 'Duplicate key error: A machine with this ID already exists' });
+    } else {
+      res.status(400).json({ error: error });
+    }
   }
 }
 

@@ -9,7 +9,7 @@ import Header from "@components/navbar/Header.jsx";
 import Login from "./pages/productManagement/Login.jsx";
 import MarketPlace from './pages/productManagement/marketPlace.jsx';
 import './App.css'
-import SupplierDetails from './pages/supplyManagement/SupplierDetails.jsx';
+
 
 
 function App() {
@@ -17,8 +17,7 @@ function App() {
   return (
     <>
         
-        <Test/>
-        <AddSupplierForm/>
+        
 
         <Header props={setOpen} />
         <Menubar props={[open, setOpen]} />

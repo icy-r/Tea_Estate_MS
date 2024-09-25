@@ -11,6 +11,7 @@ const supplierSchema = new Schema (
     lname: String,
     nic: String,
     companyAddress: String,
+    supplyType: String,
     password: String,
     companyName: String,
     contactNum: String,

@@ -7,8 +7,13 @@ const Schema = mongoose.Schema;
 const supplySchema = new Schema (
 {
     supplyId: String,
+    supplierId: String,
+    supplierName: String,
+    purchaseDate: Date,
+    expirationDate: Date,
     quantity: Number,
     supplyType: String,
+
 },
 {
     timestamps: true, 

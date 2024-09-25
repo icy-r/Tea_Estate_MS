@@ -40,6 +40,7 @@ import { router as orderTrackingRouter } from './routes/product-management/order
 import { router as supplierRouter } from './routes/supply-management/supplier-route.js'
 import { router as supplierManagerRouter } from './routes/supply-management/supplier-manager-route.js'
 import { router as supplyRouter } from './routes/supply-management/supply-route.js'
+import { router as orderRouter } from './routes/supply-management/order-route.js'
 
 
 
@@ -65,7 +66,8 @@ app.use('/api/applicantManagement' , ApplicantManagement)
 app.use('/api/invoices', invoicesRouter)
 app.use('/api/supplier', supplierRouter)
 app.use('/api/supplierManager', supplierManagerRouter)
-app.use('/api/supply', supplyRouter)
+app.use('/api/supplies', supplyRouter)
+app.use('/api/orders', orderRouter)
 
 
 

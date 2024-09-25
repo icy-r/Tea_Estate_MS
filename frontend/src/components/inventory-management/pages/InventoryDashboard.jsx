@@ -7,6 +7,8 @@ import ReadInventory from "../components/ReadInventory.jsx";
 import UpdateInventory from "../components/UpdateInventory.jsx"
 import DeleteInventory from "../components/DeleteInventory.jsx";
 import GenerateReports from "./GenerateReports.jsx";
+import InventoryHome from "./InventoryHome.jsx";
+import GenerateGraphs from "./GenerateGraphs.jsx";
 
 const InventoryDashboard = () => {
   return (
@@ -18,6 +20,8 @@ const InventoryDashboard = () => {
         <Route path="/update-inventory" element={<UpdateInventory />} />
         <Route path="/delete-inventory" element={<DeleteInventory />} />
         <Route path="/generate-reports" element={<GenerateReports />} />
+        <Route path="/" element={<InventoryHome />} />
+        <Route path="/generate-graphs" element={<GenerateGraphs />} />
       </Routes>
     </AdminDashboardLayout>
   );

@@ -1,71 +1,90 @@
-import {useEffect, useState} from "react";
-import formEntryData from "../data-files/form-entry-data.js";
+import { useEffect, useState } from "react";
 import createMachine from "../services/axios-create.js";
-import TeaHouse from '../../../assets/landingPage/field.png'
+import Alert from "@mui/material/Alert";
 
-export default function Form({setIsCreate, data, setFormRow}) {
-    const [formValues, setFormValues] = useState({
-        item_id: '',
-        name: '',
-        m_status: '',
-        type: '',
-        driver_id: '',
-        registration_number: ''
-    });
-    const [darkMode, setDarkMode] = useState(false);
+export default function Form({
+  setIsCreate,
+  dataOld,
+  setFormRow,
+  model,
+  formEntryData,
+}) {
+  const [formValues, setFormValues] = useState({});
+  const [darkMode, setDarkMode] = useState(false);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
-    useEffect(() => {
-        if (data) {
-            setFormValues(data);
-        }
-    }, [data])
+  useEffect(() => {
+    if (dataOld) {
+      setFormValues(dataOld);
+    }
+  }, [dataOld]);
 
-    const handleChange = (event) => {
-        const {name, value} = event.target;
-        setFormValues({
-            ...formValues,
-            [name]: value
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+    console.log(formValues);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(formValues);
+    let method;
+    if (Object.keys(dataOld).length > 0) {
+      method = "edit";
+      createMachine(formValues, setFormValues, method, model)
+        .then(() => {
+          setShowSuccessAlert(true);
+          setFormRow(null);
+          //close the form in 1 seconds
+          setTimeout(() => {
+            setIsCreate(false);
+          }, 1000);
+        })
+        .catch((error) => {
+          alert("An error occurred. Please try again");
         });
+    } else {
+      method = "create";
+      createMachine(formValues, setFormValues, method, model)
+        .then(() => {
+          setShowSuccessAlert(true);
+          //close the form in 1 seconds
+          setTimeout(() => {
+            setIsCreate(false);
+          }, 1000);
+        })
+        .catch((error) => {
+          alert("An error occurred. Please try again");
+        });
+    }
+  };
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleChange = () => setDarkMode(mediaQuery.matches);
+
+    handleChange();
+    mediaQuery.addEventListener("change", handleChange);
+
+    const handleEsc = (event) => {
+      if (event.keyCode === 27) {
+        setIsCreate(false);
+      }
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log(formValues);
-        if (data) {
-            const method = 'edit';
-            createMachine(formValues, setFormValues, method);
-            setFormRow(null);
+    window.addEventListener("keydown", handleEsc);
 
-        } else {
-            const method = 'create';
-            createMachine(formValues, setFormValues, method);
-        }
-    }
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
 
-    useEffect(() => {
-        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        const handleChange = () => setDarkMode(mediaQuery.matches);
-
-        handleChange();
-        mediaQuery.addEventListener('change', handleChange);
-
-        //set event listener for esc key to close the form
-        const handleEsc = (event) => {
-            if (event.keyCode === 27) {
-                setIsCreate(false);
-            }
-        };
-
-        window.addEventListener('keydown', handleEsc);
-
-        return () => mediaQuery.removeEventListener('change', handleChange);
-    }, []);
-
-    return (
-      <div
-        className={`md:w-[60dvw] shadow rounded-md flex bg-white_modified flex-col p-5`}
-      >
+  return (
+    <div
+      className={`w-full z-40 h-screen items-center justify-center p-10 backdrop-blur-lg shadow rounded-md bg-inherit flex flex-col  fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2`}
+    >
+      <div className="md:w-[60dvw] shadow rounded-md flex bg-white_modified flex-col p-5">
         <div className="text-center font-bold text-2xl bg-color_extra py-5 rounded-sm">
           Add new machine
         </div>
@@ -84,16 +103,36 @@ export default function Form({setIsCreate, data, setFormRow}) {
                   >
                     {data.name}
                   </label>
-                  <input
-                    id={data.placeholder}
-                    name={data.placeholder}
-                    value={formValues[data.placeholder]}
-                    onChange={handleChange}
-                    placeholder={data.placeholder}
-                    required={data.required}
-                    type={data.type}
-                    className="mt-2 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white text-black"
-                  />
+                  {data.options ? (
+                    <select
+                      id={data.placeholder}
+                      name={data.placeholder}
+                      value={data ? formValues[data.placeholder] : ""}
+                      onChange={handleChange}
+                      required={data.required}
+                      className="mt-2 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white text-black"
+                    >
+                      {data.options.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input
+                      id={data.placeholder}
+                      name={data.placeholder}
+                      //if data.value is not null, set the value to data.value else set it to an empty string
+                      value={
+                        data.value ? data.value : formValues[data.placeholder]
+                      }
+                      onChange={handleChange}
+                      placeholder={data.placeholder}
+                      required={data.required}
+                      type={data.type}
+                      className="mt-2 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white text-black"
+                    />
+                  )}
                 </div>
               ))}
             </div>
@@ -134,6 +173,17 @@ export default function Form({setIsCreate, data, setFormRow}) {
             </div>
           </form>
         </div>
+
+        {showSuccessAlert && (
+          <Alert
+            onClose={() => setShowSuccessAlert(false)}
+            severity="success"
+            className="m-5"
+          >
+            Data saved successfully
+          </Alert>
+        )}
       </div>
-    );
+    </div>
+  );
 }

@@ -8,7 +8,7 @@ const router = Router();
 
 
 /*---------- Protected Routes ----------*/
-// router.use(decodeUserFromToken)
+//router.use(decodeUserFromToken);
 // index for getting all machines defined in machineController
 router.get("/", harvestController.index);
 
@@ -16,12 +16,12 @@ router.get("/", harvestController.index);
 router.get("/:id", harvestController.show);
 
 // create for creating a new machine defined in machineController
-router.post("/", checkAuth, harvestController.create);
+router.post("/", harvestController.create);
 
 // update for updating a machine defined in machineController
-router.put("/:id", checkAuth, harvestController.update);
+router.put("/:id", harvestController.update);
 
 // destroy for deleting a machine defined in machineController
-router.delete("/:id", checkAuth, harvestController.destroy);
+router.delete("/:id", harvestController.destroy);
 
 export { router };

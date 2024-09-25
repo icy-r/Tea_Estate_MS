@@ -12,8 +12,8 @@ const formdataentry = [
     placeholder: "m_status",
     type: "select",
     options: [
-      { value: "active", label: "Active" },
-      { value: "inactive", label: "Inactive" },
+      { value: "Active", label: "Active" },
+      { value: "Inactive", label: "Inactive" },
     ],
   },
   { name: "Machine Type", required: true, placeholder: "type", type: "text" },

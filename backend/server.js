@@ -98,10 +98,7 @@ app.use('/api/buyers', buyersRouter)
 app.use('/api/machines', machinesRouter)
 app.use('/api/logs', logsRouter)
 app.use('/api/maintenances', maintenancesRouter)
-app.use('/api/repairs', repairsRouter)
-app.use('/api/logs', logsRouter)
-app.use('/api/maintenances', maintenancesRouter)
-app.use('/api/repairs', repairsRouter)
+app.use("/api/repairs", repairsRouter);
 
 //field-management
 app.use('/api/fields', fieldRouter);

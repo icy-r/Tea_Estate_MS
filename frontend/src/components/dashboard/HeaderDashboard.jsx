@@ -17,16 +17,16 @@ const Header = ({mainTitle, subTitle, toggleSidebar}) => {
     navigate("/");
   };
 
-  //socket.io frontend
-  const socket = io("ws://localhost:3001", {
-    transports: ["websocket"],
-    auth: {
-      token: "123",
-    },
-  });
-  socket.on("connect", () => {
-    console.log("connected to socket.io server");
-  });
+  // //socket.io frontend
+  // const socket = io("ws://localhost:3001", {
+  //   transports: ["websocket"],
+  //   auth: {
+  //     token: "123",
+  //   },
+  // });
+  // socket.on("connect", () => {
+  //   console.log("connected to socket.io server");
+  // });
   return (
     <div className="flex justify-between items-center bg-white shadow-md h-12 pr-4">
       {/* Left Section (Fixed width w-62) */}

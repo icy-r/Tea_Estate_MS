@@ -30,7 +30,9 @@ async function create(req, res) {
 
 async function update(req, res) {
     try {
-        const repairRequest = await RepairRequest.findOne({ id: req.params.id });
+        const repairRequest = await RepairRequest.findOne({
+          request_id: req.params.id,
+        });
         Object.assign(repairRequest, req.body);
         await repairRequest.save();
         res.json(repairRequest);

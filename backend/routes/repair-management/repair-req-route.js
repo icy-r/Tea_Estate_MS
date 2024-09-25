@@ -8,12 +8,12 @@ const router = Router();
 
 
 /*---------- Protected Routes ----------*/
-// router.use(decodeUserFromToken)
+router.use(decodeUserFromToken);
 // index for getting all repair requests defined in repairReqController
-router.get("/", repairReqController.index);
+router.get("/", checkAuth, repairReqController.index);
 
 // show for getting a single repair request defined in repairReqController
-router.get("/:id", repairReqController.show);
+router.get("/:id", checkAuth, repairReqController.show);
 
 // create for creating a new repair request defined in repairReqController
 router.post("/", checkAuth, repairReqController.create);

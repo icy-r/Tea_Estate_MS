@@ -1,25 +1,29 @@
-import {useEffect, useState} from 'react';
+import React, { useEffect, useState } from "react";
 import axios from "../../../services/axios.js";
-import {FaChevronLeft, FaChevronRight, FaFilter, FaSearch} from 'react-icons/fa';
-import {MdClear} from 'react-icons/md';
-import Status from "../../divs/Status.jsx";
-import Form from "./Form.jsx";
-import { AnimatePresence, motion } from "framer-motion";
-import "../../../constants/loadding.css";
-import { jsPDF } from "jspdf";
+import {
+  FaFilter,
+  FaSearch,
+  FaChevronLeft,
+  FaChevronRight,
+} from "react-icons/fa";
+import { MdClear } from "react-icons/md";
+import { motion, AnimatePresence } from "framer-motion";
+import formEntryData from "../data-files/form-entry-data-maintenance.js";
+import Form from "../components/Form.jsx";
+import jsPDF from "jspdf";
 import "jspdf-autotable";
-import formEntryData from "../data-files/form-entry-data.js";
 
 const basicHeaderItems = [
-  "Machine ID",
+  "Maintenance ID",
+  "Equipment ID",
+  "Scheduled Date",
+  "Maintenance Type",
+  "Technician Assigned",
   "Status",
-  "Machine Name",
-  "Machine Type",
-  "Driver ID",
-  "Registration Number",
+  "Last Maintenance Date",
 ];
 
-const DataManagementComponent = () => {
+const ViewMaintenanceSchedule = () => {
   const [data, setData] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,53 +36,49 @@ const DataManagementComponent = () => {
 
   const handlePrint = () => {
     const doc = new jsPDF();
-    doc.text("Machine Management", 10, 10);
-    let bodyData;
-    if (statusFilter === "all") {
-      bodyData = data.map((item) => [
-        item.item_id,
-        item.m_status,
-        item.name,
-        item.type,
-        item.driver_id,
-        item.registration_number,
+    doc.text("Maintenance Schedule Report", 10, 10);
+    let bodyData = data
+      .filter((item) => statusFilter === "all" || item.status === statusFilter)
+      .map((item) => [
+        item.maintenance_id,
+        item.equipment_id,
+        item.scheduled_date,
+        item.maintenance_type,
+        item.technician_assigned,
+        item.status,
+        item.last_maintenance_date,
       ]);
-    } else {
-      bodyData = data
-        .filter((item) => item.m_status === statusFilter)
-        .map((item) => [
-          item.item_id,
-          item.m_status,
-          item.name,
-          item.type,
-          item.driver_id,
-          item.registration_number,
-        ]);
-    }
 
     doc.autoTable({
       head: [basicHeaderItems],
       body: bodyData,
     });
-    doc.save("MachineManagement.pdf");
+    doc.save("maintenance_schedule.pdf");
   };
 
   useEffect(() => {
     setLoading(true);
     axios
-      .get("/machines/")
+      .get("/maintenances/")
       .then((response) => {
-        setData(response.data);
+        const formattedData = response.data.map((item) => ({
+          ...item,
+          scheduled_date: new Date(item.scheduled_date).toLocaleDateString(),
+          last_maintenance_date: item.last_maintenance_date
+            ? new Date(item.last_maintenance_date).toLocaleDateString()
+            : "N/A",
+        }));
+        setData(formattedData);
         const availableStatuses = [
-          ...new Set(response.data.map((item) => item.m_status)),
+          ...new Set(formattedData.map((item) => item.status)),
         ];
         setStatusOptions(["all", ...availableStatuses]);
+        setLoading(false);
       })
-      .catch((error) => alert(error));
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+      .catch((error) => {
+        alert("Error fetching maintenance data: " + error.message);
+        setLoading(false);
+      });
   }, [isCreate]);
 
   const itemsPerPage = 10;
@@ -87,7 +87,7 @@ const DataManagementComponent = () => {
       Object.values(item).some((value) =>
         value.toString().toLowerCase().includes(searchTerm.toLowerCase())
       ) &&
-      (statusFilter === "all" || item.m_status === statusFilter)
+      (statusFilter === "all" || item.status === statusFilter)
   );
 
   const pageCount = Math.ceil(filteredData.length / itemsPerPage);
@@ -96,18 +96,13 @@ const DataManagementComponent = () => {
     currentPage * itemsPerPage
   );
 
-  useEffect(() => {
-    //reset the form and rerender the component
-    if (!isCreate) {
-      setFormRow({});
-    }
-  }, [isCreate]);
-
-  const handleDelete = (item_id) => {
+  const handleDelete = (maintenance_id) => {
     axios
-      .delete(`/machines/${item_id}`)
-      .then(() => setData(data.filter((item) => item.item_id !== item_id)))
-      .catch((error) => alert(error));
+      .delete(`/maintenance/${maintenance_id}`)
+      .then(() =>
+        setData(data.filter((item) => item.maintenance_id !== maintenance_id))
+      )
+      .catch((error) => alert("Error deleting maintenance: " + error.message));
   };
 
   return (
@@ -125,14 +120,16 @@ const DataManagementComponent = () => {
               setIsCreate={setIsCreate}
               dataOld={formRow}
               setFormRow={setFormRow}
-              model={"machines"}
+              model="maintenance"
               formEntryData={formEntryData}
             />
           </motion.div>
         </AnimatePresence>
       )}
       <div className="mb-4 flex flex-wrap items-center justify-between">
-        <h1 className="text-2xl font-bold mb-2 sm:mb-0">Machine Management</h1>
+        <h1 className="text-2xl font-bold mb-2 sm:mb-0">
+          Maintenance Schedule Management
+        </h1>
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setFilterOpen(!filterOpen)}
@@ -144,14 +141,13 @@ const DataManagementComponent = () => {
             onClick={() => setIsCreate(!isCreate)}
             className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
           >
-            Add Machine
+            Add Maintenance
           </button>
-          {/* print only data with specific defined format */}
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
             onClick={handlePrint}
           >
-            Print Data
+            Print Schedule
           </button>
         </div>
       </div>
@@ -198,7 +194,9 @@ const DataManagementComponent = () => {
           <div className="loader JS_on">
             <span className="binary"></span>
             <span className="binary"></span>
-            <span className="getting-there">LOADING STUFF...</span>
+            <span className="getting-there">
+              LOADING MAINTENANCE SCHEDULE...
+            </span>
           </div>
         </div>
       )}
@@ -221,29 +219,28 @@ const DataManagementComponent = () => {
             <tbody className="divide-y divide-gray-200">
               {paginatedData.map((item) => (
                 <tr
-                  key={item.item_id}
+                  key={item.maintenance_id}
                   className="hover:bg-white_modified transition duration-300 text-black dark:bg-gray-800 dark:text-white hover:text-black"
                 >
-                  <td className="py-3 px-4">{item.item_id}</td>
-                  <td className="py-3 px-4">
-                    <Status value={item.m_status} />
-                  </td>
-                  <td className="py-3 px-4">{item.name}</td>
-                  <td className="py-3 px-4">{item.type}</td>
-                  <td className="py-3 px-4">{item.driver_id}</td>
-                  <td className="py-3 px-4">{item.registration_number}</td>
-                  <td className="py-3 px-4 sticky flex right-0 backdrop-blur space-x-2  bg-color_extra">
+                  <td className="py-3 px-4">{item.maintenance_id}</td>
+                  <td className="py-3 px-4">{item.equipment_id}</td>
+                  <td className="py-3 px-4">{item.scheduled_date}</td>
+                  <td className="py-3 px-4">{item.maintenance_type}</td>
+                  <td className="py-3 px-4">{item.technician_assigned}</td>
+                  <td className="py-3 px-4">{item.status}</td>
+                  <td className="py-3 px-4">{item.last_maintenance_date}</td>
+                  <td className="py-3 px-4 sticky flex right-0 backdrop-blur space-x-2 bg-color_extra">
                     <button
                       onClick={() => {
                         setIsCreate(true);
                         setFormRow(item);
                       }}
-                      className=" bg-blue-500 text-white px-4 py-1 rounded-md hover:bg-blue-600"
+                      className="bg-blue-500 text-white px-4 py-1 rounded-md hover:bg-blue-600"
                     >
                       Edit
                     </button>
                     <button
-                      onClick={() => handleDelete(item.item_id)}
+                      onClick={() => handleDelete(item.maintenance_id)}
                       className="bg-red-500 text-white px-4 py-1 rounded-md hover:bg-red-600"
                     >
                       Delete
@@ -290,4 +287,4 @@ const DataManagementComponent = () => {
   );
 };
 
-export default DataManagementComponent;
+export default ViewMaintenanceSchedule;

@@ -1,25 +1,31 @@
-import {useEffect, useState} from 'react';
+import jsPDF from "jspdf";
 import axios from "../../../services/axios.js";
-import {FaChevronLeft, FaChevronRight, FaFilter, FaSearch} from 'react-icons/fa';
-import {MdClear} from 'react-icons/md';
+import { useEffect, useState } from "react";
+import {
+  FaFilter,
+  FaSearch,
+  FaChevronLeft,
+  FaChevronRight,
+} from "react-icons/fa";
+import { MdClear } from "react-icons/md";
+import { motion, AnimatePresence } from "framer-motion";
+import Form from "../components/Form.jsx";
 import Status from "../../divs/Status.jsx";
-import Form from "./Form.jsx";
-import { AnimatePresence, motion } from "framer-motion";
-import "../../../constants/loadding.css";
-import { jsPDF } from "jspdf";
-import "jspdf-autotable";
-import formEntryData from "../data-files/form-entry-data.js";
+import { MenuItem, Select } from "@mui/material";
+import formdataentry from "../data-files/form-entry-data-report.js";
 
 const basicHeaderItems = [
-  "Machine ID",
+  "Request ID",
   "Status",
-  "Machine Name",
-  "Machine Type",
-  "Driver ID",
-  "Registration Number",
+  "Item ID",
+  "Request Date",
+  "Issue Description",
+  "Priority Level",
+  "Assigned Technician ID",
 ];
 
-const DataManagementComponent = () => {
+//view available reported reports
+const ViewReports = () => {
   const [data, setData] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,45 +38,61 @@ const DataManagementComponent = () => {
 
   const handlePrint = () => {
     const doc = new jsPDF();
-    doc.text("Machine Management", 10, 10);
+    doc.text("Report's report", 10, 10);
     let bodyData;
     if (statusFilter === "all") {
       bodyData = data.map((item) => [
+        item.request_id,
         item.item_id,
-        item.m_status,
-        item.name,
-        item.type,
-        item.driver_id,
-        item.registration_number,
+        item.request_date,
+        item.issue_description,
+        item.priority_level,
+        item.assigned_technician_id,
+        item.status,
       ]);
     } else {
       bodyData = data
-        .filter((item) => item.m_status === statusFilter)
+        .filter((item) => item.status === statusFilter)
         .map((item) => [
+          item.request_id,
           item.item_id,
-          item.m_status,
-          item.name,
-          item.type,
-          item.driver_id,
-          item.registration_number,
+          item.request_date,
+          item.issue_description,
+          item.priority_level,
+          item.assigned_technician_id,
+          item.status,
         ]);
     }
 
     doc.autoTable({
-      head: [basicHeaderItems],
+      head: [
+        [
+          "Request ID",
+          "Item ID",
+          "Request Date",
+          "Issue Description",
+          "Priority Level",
+          "Assigned Technician ID",
+          "Status",
+        ],
+      ],
       body: bodyData,
     });
-    doc.save("MachineManagement.pdf");
+    doc.save("report.pdf");
   };
 
   useEffect(() => {
     setLoading(true);
     axios
-      .get("/machines/")
+      .get("/repairs/")
       .then((response) => {
+        //convert the date to a more readable format in response.request_date
+        response.data.forEach((item) => {
+          item.request_date = new Date(item.request_date).toLocaleDateString();
+        });
         setData(response.data);
         const availableStatuses = [
-          ...new Set(response.data.map((item) => item.m_status)),
+          ...new Set(response.data.map((item) => item.status)),
         ];
         setStatusOptions(["all", ...availableStatuses]);
       })
@@ -87,7 +109,7 @@ const DataManagementComponent = () => {
       Object.values(item).some((value) =>
         value.toString().toLowerCase().includes(searchTerm.toLowerCase())
       ) &&
-      (statusFilter === "all" || item.m_status === statusFilter)
+      (statusFilter === "all" || item.status === statusFilter)
   );
 
   const pageCount = Math.ceil(filteredData.length / itemsPerPage);
@@ -96,17 +118,12 @@ const DataManagementComponent = () => {
     currentPage * itemsPerPage
   );
 
-  useEffect(() => {
-    //reset the form and rerender the component
-    if (!isCreate) {
-      setFormRow({});
-    }
-  }, [isCreate]);
-
-  const handleDelete = (item_id) => {
+  const handleDelete = (request_id) => {
     axios
-      .delete(`/machines/${item_id}`)
-      .then(() => setData(data.filter((item) => item.item_id !== item_id)))
+      .delete(`/repairs/${request_id}`)
+      .then(() =>
+        setData(data.filter((item) => item.request_id !== request_id))
+      )
       .catch((error) => alert(error));
   };
 
@@ -125,14 +142,14 @@ const DataManagementComponent = () => {
               setIsCreate={setIsCreate}
               dataOld={formRow}
               setFormRow={setFormRow}
-              model={"machines"}
-              formEntryData={formEntryData}
+              model={"repairs"}
+              formEntryData={formdataentry}
             />
           </motion.div>
         </AnimatePresence>
       )}
       <div className="mb-4 flex flex-wrap items-center justify-between">
-        <h1 className="text-2xl font-bold mb-2 sm:mb-0">Machine Management</h1>
+        <h1 className="text-2xl font-bold mb-2 sm:mb-0">Report Management</h1>
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setFilterOpen(!filterOpen)}
@@ -144,9 +161,8 @@ const DataManagementComponent = () => {
             onClick={() => setIsCreate(!isCreate)}
             className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
           >
-            Add Machine
+            Add Report
           </button>
-          {/* print only data with specific defined format */}
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
             onClick={handlePrint}
@@ -167,6 +183,7 @@ const DataManagementComponent = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
+
               <FaSearch className="absolute right-3 top-3 text-gray-400" />
             </div>
             <select
@@ -221,17 +238,16 @@ const DataManagementComponent = () => {
             <tbody className="divide-y divide-gray-200">
               {paginatedData.map((item) => (
                 <tr
-                  key={item.item_id}
+                  key={item.request_id}
                   className="hover:bg-white_modified transition duration-300 text-black dark:bg-gray-800 dark:text-white hover:text-black"
                 >
+                  <td className="py-3 px-4">{item.request_id}</td>
+                  <td className="py-3 px-4">{item.status}</td>
                   <td className="py-3 px-4">{item.item_id}</td>
-                  <td className="py-3 px-4">
-                    <Status value={item.m_status} />
-                  </td>
-                  <td className="py-3 px-4">{item.name}</td>
-                  <td className="py-3 px-4">{item.type}</td>
-                  <td className="py-3 px-4">{item.driver_id}</td>
-                  <td className="py-3 px-4">{item.registration_number}</td>
+                  <td className="py-3 px-4">{item.request_date}</td>
+                  <td className="py-3 px-4">{item.issue_description}</td>
+                  <td className="py-3 px-4">{item.priority_level}</td>
+                  <td className="py-3 px-4">{item.assigned_technician_id}</td>
                   <td className="py-3 px-4 sticky flex right-0 backdrop-blur space-x-2  bg-color_extra">
                     <button
                       onClick={() => {
@@ -243,7 +259,7 @@ const DataManagementComponent = () => {
                       Edit
                     </button>
                     <button
-                      onClick={() => handleDelete(item.item_id)}
+                      onClick={() => handleDelete(item.request_id)}
                       className="bg-red-500 text-white px-4 py-1 rounded-md hover:bg-red-600"
                     >
                       Delete
@@ -290,4 +306,4 @@ const DataManagementComponent = () => {
   );
 };
 
-export default DataManagementComponent;
+export default ViewReports;

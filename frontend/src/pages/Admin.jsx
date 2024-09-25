@@ -3,12 +3,13 @@ import TransportHome from "../components/transport-management/pages/TransportHom
 import RepairRoutes from "../components/repair-management/repair-routes.jsx";
 import "../App.css";
 import Error404 from "./error404.jsx";
-import {Route, Routes} from "react-router-dom";
-import {createContext, useState} from "react";
+import { Route, Routes } from "react-router-dom";
+import { createContext, useState } from "react";
 import * as authService from "../services/auth-service.js";
 import ProtectedRoutes from "../Routes/ProtectedRoutes.jsx";
 import AdminLogin from "./login/AdminLogin.jsx";
 import FunctionCard from "../components/dashboard/component/FunctionCard.jsx";
+import AdminDashboardLayout from "../components/layouts/AdminDashboardLayout.jsx";
 // import LandingPage from "./landingPage/LandingPage.jsx";
 
 let UserContext;
@@ -36,15 +37,15 @@ function App() {
           {/* Protected Routes */}
           <Route
             path="/"
-            navigationType="replace"
             element={
-              <ProtectedRoutes user={user}>
-                <FunctionCard />
-              </ProtectedRoutes>
+              <AdminDashboardLayout user={user}>
+                <ProtectedRoutes user={user}>
+                  <FunctionCard />
+                </ProtectedRoutes>
+              </AdminDashboardLayout>
             }
           />
           <Route
-
             path="/repair/*"
             element={
               <ProtectedRoutes user={user}>
@@ -77,5 +78,5 @@ function App() {
   );
 }
 
-export {UserContext};
+export { UserContext };
 export default App;

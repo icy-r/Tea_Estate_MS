@@ -38,7 +38,7 @@ const cardData = [
 
 const Dashboard = () => {
   return (
-    <div className="bg-gray-100 md:h-150 sm:h-100 flex items-center justify-center mt-4">
+    <div className="bg-gray-100 flex items-center justify-center rounded-md h-full">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 p-10">
         {cardData.map((card) => (
           <div

@@ -4,6 +4,7 @@ import LandingPage from "./pages/landingPage/LandingPage.jsx";
 import Error404 from "./pages/error404.jsx";
 import Login from "./components/divs/Login.jsx";
 import Layouts from "./components/layouts/AdminDashboardLayout.jsx";
+import Signup from "./components/product-management/components/Signup.jsx"
 
 
 const router = createBrowserRouter([
@@ -11,6 +12,9 @@ const router = createBrowserRouter([
         path: "/",
         element: <LandingPage/>
     },
+    
+    { path:"/signup" ,
+        element:<Signup />},
     {
         path: "/admin/*",
         element: <Admin/>,

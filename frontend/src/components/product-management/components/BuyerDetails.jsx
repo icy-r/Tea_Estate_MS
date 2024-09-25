@@ -35,6 +35,10 @@ function BuyerDetails() {
         }
     }
 
+    const handleUpdate = (id) => {
+        navigate(`/admin/product/buyerDetails/${id}`);
+    }
+
     const handlePrint = useReactToPrint({
         content: () => ComponentsRef.current,
         documentTitle: "Buyer Details Report",
@@ -61,9 +65,10 @@ function BuyerDetails() {
     }
 
     return (
-        <div ref={ComponentsRef}>
+        
             <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
                 <div className="w-full max-w-7xl bg-white p-8 rounded-lg shadow-lg transition-transform transform hover:scale-105">
+                <div ref={ComponentsRef}>
                     <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Buyer Details</h1>
                     <form onSubmit={handleSearch} className="mb-6 flex justify-center">
                         <input
@@ -86,7 +91,7 @@ function BuyerDetails() {
                             <table className="min-w-full table-auto border-collapse">
                                 <thead>
                                     <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                        <th className="py-3 px-6 text-left">Buyer ID</th>
+                                        
                                         <th className="py-3 px-6 text-left">First Name</th>
                                         <th className="py-3 px-6 text-left">Last Name</th>
                                         <th className="py-3 px-6 text-left">Position</th>
@@ -100,7 +105,7 @@ function BuyerDetails() {
                                 <tbody className="text-gray-600 text-sm font-light">
                                     {buyerDetails.map((buyer) => (
                                         <tr key={buyer._id} className="border-b border-gray-200 hover:bg-gray-100 transition-colors duration-200">
-                                            <td className="py-3 px-6 text-left whitespace-nowrap">{buyer._id}</td>
+                                            
                                             <td className="py-3 px-6 text-left">{buyer.fName}</td>
                                             <td className="py-3 px-6 text-left">{buyer.lName}</td>
                                             <td className="py-3 px-6 text-left">{buyer.position}</td>
@@ -109,6 +114,7 @@ function BuyerDetails() {
                                             <td className="py-3 px-6 text-left">{buyer.telephone}</td>
                                             <td className="py-3 px-6 text-left">{buyer.email}</td>
                                             <td className="py-3 px-6 text-left">
+                                            
                                                 <button
                                                     className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-700 transition-colors duration-200"
                                                     onClick={() => handleDelete(buyer._id)}

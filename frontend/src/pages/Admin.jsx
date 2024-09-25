@@ -7,8 +7,11 @@ import {Route, Routes} from "react-router-dom";
 import {createContext, useState} from "react";
 import * as authService from "../services/auth-service.js";
 import ProtectedRoutes from "../Routes/ProtectedRoutes.jsx";
+import ProductRoutes from "../components/product-management/pages/produt-routes.jsx";   
+import BuyerRoutes from "../components/product-management/pages/buyer-routes.jsx";
 import AdminLogin from "./login/AdminLogin.jsx";
 import LandingPage from "./landingPage/LandingPage.jsx";
+import AdminDashboard from "../components/product-management/pages/adminDashboard.jsx";
 
 let UserContext;
 
@@ -58,6 +61,24 @@ function App() {
                                 <TransportHome/>
                             </ProtectedRoutes>
                         }
+                    />
+                    <Route
+                        path="/product/*"
+                        element={
+                            <ProtectedRoutes user={user}>
+                                <ProductRoutes/>
+                            </ProtectedRoutes>
+                        }
+
+                    />
+                    <Route
+                        path="/buyer/*"
+                        element={
+                            <ProtectedRoutes user={user}>
+                                <BuyerRoutes/>
+                            </ProtectedRoutes>
+                        }
+
                     />
 
                     {/* Catch-all route */}

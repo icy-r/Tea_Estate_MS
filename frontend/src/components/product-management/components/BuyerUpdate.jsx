@@ -4,6 +4,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 function BuyerUpdate() {
     const URL = "http://localhost:3001/api/buyers/";
+    const navigate = useNavigate();
+    const { id } = useParams();
+    
     const [buyerDetails, setBuyerDetails] = useState({
         fName: '',
         lName: '',
@@ -15,21 +18,31 @@ function BuyerUpdate() {
         password: '',
         confirmPassword: ''
     });
-    const [loading, setLoading] = useState(true); // For handling loading state
-    const [error, setError] = useState(null);     // For handling errors
 
-    const { id } = useParams(); // Getting the buyer's ID from the URL
-    const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [submitting, setSubmitting] = useState(false);
 
-    // Fetch the buyer details by ID
     const fetchHandler = async () => {
         try {
-            const response = await axios.get(URL + id); // Fetch a specific buyer
-            setBuyerDetails(response.data); // Set the buyer's data
-            setLoading(false); // Stop loading
+            const response = await axios.get(URL + id);
+            const buyerData = response.data;
+
+            setBuyerDetails({
+                fName: buyerData.firstName || '',
+                lName: buyerData.lastName || '',
+                position: buyerData.position || '',
+                company: buyerData.company || '',
+                companyAddress: buyerData.companyAddress || '',
+                telephone: buyerData.telephone || '',
+                email: buyerData.email || '',
+                password: '',
+                confirmPassword: ''
+            });
         } catch (error) {
             console.error("Error fetching buyer details", error);
             setError("Failed to load buyer details");
+        } finally {
             setLoading(false);
         }
     };
@@ -43,18 +56,15 @@ function BuyerUpdate() {
     const sendRequest = async () => {
         try {
             const response = await axios.put(URL + id, {
-                fName: String(buyerDetails.fName),
-                lName: String(buyerDetails.lName),
-                position: String(buyerDetails.position),
-                company: String(buyerDetails.company),
-                companyAddress: String(buyerDetails.companyAddress),
-                telephone: String(buyerDetails.telephone),
-                email: String(buyerDetails.email),
-                // Send password only if it's updated
-                ...(buyerDetails.password && { password: String(buyerDetails.password) }),
-                ...(buyerDetails.confirmPassword && { confirmPassword: String(buyerDetails.confirmPassword) }),
+                fName: buyerDetails.fName,
+                lName: buyerDetails.lName,
+                position: buyerDetails.position,
+                company: buyerDetails.company,
+                companyAddress: buyerDetails.companyAddress,
+                telephone: buyerDetails.telephone,
+                email: buyerDetails.email,
+                ...(buyerDetails.password && { password: buyerDetails.password })
             });
-            console.log("API Response:", response.data);
             return response.data;
         } catch (error) {
             console.error("API Error:", error);
@@ -64,17 +74,21 @@ function BuyerUpdate() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (buyerDetails.password !== buyerDetails.confirmPassword) {
+        if (buyerDetails.password && buyerDetails.password !== buyerDetails.confirmPassword) {
             setError("Passwords do not match");
             return;
         }
-        setError(null); // Reset errors if form is valid
-        sendRequest().then(() => {
-            navigate('/BuyerDetails');
-        }).catch((error) => {
-            setError("Error during buyer update");
-            console.error("Error during buyer update", error);
-        });
+        setError(null);
+        setSubmitting(true);
+
+        sendRequest()
+            .then(() => {
+                navigate('/BuyerDetails');
+            })
+            .catch((error) => {
+                setError("Error during buyer update");
+            })
+            .finally(() => setSubmitting(false));
     };
 
     const handleChange = (e) => {
@@ -172,9 +186,10 @@ function BuyerUpdate() {
                     />
                     <button
                         type="submit"
-                        className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+                        disabled={submitting}
+                        className={`w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 ${submitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                     >
-                        Update Buyer
+                        {submitting ? 'Updating...' : 'Update Buyer'}
                     </button>
                 </form>
             </div>

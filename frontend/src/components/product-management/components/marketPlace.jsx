@@ -1,44 +1,49 @@
-import React from "react";
-import axios from '../../../../services/axios.js';
+import React, { useState, useEffect } from "react";
+import axios from "../../../services/axios.js";
 import { useNavigate } from "react-router-dom";
+import Tea from '@assets/product/tea.png';
 
 const URL = "http://localhost:3001/api/catalog/";
 
-const fetchHandler = async (setCatalog) => {
-    try {
-        const response = await axios.get(URL);
-        setCatalog(response.data);
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-function MarketPlace({ isAdmin }) { 
-    const [catalog, setCatalog] = React.useState([]);
-    const [searchQuery, setSearchQuery] = React.useState("");
+function MarketPlace({ isAdmin }) {
+    const [catalog, setCatalog] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
     const navigate = useNavigate();
 
-    React.useEffect(() => {
-        fetchHandler(setCatalog);
+    // Fetch catalog data on component mount
+    useEffect(() => {
+        const fetchCatalog = async () => {
+            try {
+                const response = await axios.get(URL);
+                setCatalog(response.data);
+                console.log(response.data);  // Debugging purpose
+            } catch (error) {
+                console.error("Error fetching catalog", error);
+            }
+        };
+        fetchCatalog();
     }, []);
 
+    // Handle editing a product
     const handleEdit = (id) => {
-        navigate(`/catalog-update/${id}`);
+        console.log("Editing product with ID:", id); 
+        navigate(`CatalogUpdate/${id}`);
     };
 
+    // Handle deleting a product
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`${URL}/${id}`);
+            await axios.delete(`${URL}${id}`);
             setCatalog(catalog.filter((product) => product._id !== id));
             alert("Product deleted successfully.");
         } catch (error) {
-            console.error(error);
-            alert("Error deleting product.");
+            console.error("Error deleting product", error);
+            alert("Failed to delete product.");
         }
     };
 
-    // Filtered catalog based on the search query
-    const filteredCatalog = catalog.filter(product => 
+    // Filter catalog based on the search query
+    const filteredCatalog = catalog.filter(product =>
         product.quality.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.description.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -50,7 +55,7 @@ function MarketPlace({ isAdmin }) {
                     {isAdmin ? "Admin Market Place" : "Market Place"}
                 </h1>
                 
-                {/* Search Input */}
+                {/* Search Bar */}
                 <div className="mb-6">
                     <input
                         type="text"
@@ -61,40 +66,52 @@ function MarketPlace({ isAdmin }) {
                     />
                 </div>
 
+                {/* Product Listings */}
                 {filteredCatalog.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {filteredCatalog.map((product) => (
                             <div key={product._id} className="bg-white border rounded-lg shadow-md p-4">
+                                {/* Product Image */}
                                 <div className="mt-2 mb-4">
                                     <img
-                                        src={product.image || '/path-to-default-image.jpg'}
+                                        src={Tea}
                                         alt={product._id}
                                         className="w-full h-32 object-cover rounded-lg"
                                     />
                                 </div>
-                                <div className="flex items-center justify-between">
+
+                                {/* Auction Time */}
+                                <div className="flex items-center justify-between mb-2">
                                     <span className="text-red-500 font-semibold">Starts in {product.aucTime}</span>
                                 </div>
-                                <div className="mb-4">
+
+                                {/* Product Quality */}
+                                <div className="mb-2">
                                     <span className="ml-2 text-green-600">{product.quality}</span>
                                 </div>
+
+                                {/* Product Price and Quantity */}
                                 <div>
-                                    <span className="text-blue-600">Unit Price : Rs.{product.unitPrice}/=</span>
+                                    <span className="text-blue-600">Unit Price: Rs. {product.unitPrice}/=</span>
                                 </div>
-                                <div className="text-blue-500 mb-4">Available {product.quantity}KG</div>
+                                <div className="text-blue-500 mb-4">Available: {product.quantity} KG</div>
+
+                                {/* Product Description */}
                                 <div className="text-gray-600 mb-4">
                                     {product.description}
                                 </div>
+
+                                {/* Admin Actions or Auction Button */}
                                 {isAdmin ? (
-                                    <div className="flex ml-10">
+                                    <div className="flex justify-center space-x-4">
                                         <button 
-                                            className="bg-color_extra text-white m-2 py-2 px-6 rounded-md"
+                                            className="bg-color_extra text-white py-2 px-6 rounded-md"
                                             onClick={() => handleEdit(product._id)}
                                         >
                                             Edit
                                         </button>
                                         <button 
-                                            className="bg-red-500 text-white m-2 py-2 px-4 rounded-md"
+                                            className="bg-red-500 text-white py-2 px-4 rounded-md"
                                             onClick={() => handleDelete(product._id)}
                                         >
                                             Delete
@@ -102,14 +119,14 @@ function MarketPlace({ isAdmin }) {
                                     </div>
                                 ) : (
                                     <button className="bg-color_button text-white py-2 px-4 rounded-md w-full">
-                                        AUCTION
+                                        Join Auction
                                     </button>
                                 )}
                             </div>
                         ))}
                     </div>
                 ) : (
-                    <p className="text-center">No products found</p>
+                    <p className="text-center text-gray-500">No products found</p>
                 )}
             </div>
         </div>

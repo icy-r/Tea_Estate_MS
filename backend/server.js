@@ -14,9 +14,10 @@ import "./config/database.js";
 import { router as invoicesRouter } from "./routes/sales-management/invoices-route.js";
 //user-management
 //transport-management
-import { router as vehiclesRouter } from "./routes/transport-management/vehicle-route.js";
-import { router as routeRouter } from "./routes/transport-management/route-route.js";
-import { router as transportRouter } from "./routes/transport-management/transport-route.js";
+import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js'
+import { router as routeRouter } from './routes/transport-management/route-route.js'
+import { router as transportLogRouter } from './routes/transport-management/transport-log-route.js'
+import { router as transportRouter } from './routes/transport-management/transport-route.js'
 //user-management
 import { router as profilesRouter } from "./routes/user-management/profiles-route.js";
 import { router as authRouter } from "./routes/authentication/auth-route.js";
@@ -93,6 +94,7 @@ app.use('/api/routes', routeRouter)
 app.use('/api/vehicles', vehiclesRouter)
 app.use('/api/catalog', catalogRouter)
 app.use('/api/buyers', buyersRouter)
+app.use('/api/transportLog', transportLogRouter)
 
 //repair-management
 app.use('/api/machines', machinesRouter)

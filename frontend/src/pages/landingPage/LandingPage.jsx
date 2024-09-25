@@ -8,6 +8,7 @@ import BlogSection from "@components/landingPage/BlogSection.jsx";
 import DualSideCardRightImage from "@components/landingPage/DualSideCardRightImage";
 import Partnership from "@components/landingPage/Partnership";
 import HeroHolder from "@components/landingPage/HeroHolder.jsx";
+import GoToTop from "@components/landingPage/GoToTop.jsx";
 import "./landingPageStyles.css";
 
 const heroStyle = {
@@ -47,15 +48,26 @@ function LandingPage() {
           <AboutCard />
         </motion.div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={animationVariants}
-          className="md:mt-80"
-        >
-          <DualSideCardRightImage />
-        </motion.div>
+            <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={animationVariants}
+                className="z-50"
+                
+                >
+                    <GoToTop/>
+            </motion.div>
+
+            <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={animationVariants}
+                className="md:mt-80"
+            >
+                <DualSideCardRightImage />
+            </motion.div>
 
         <motion.div
           initial="hidden"
@@ -67,15 +79,15 @@ function LandingPage() {
           <BlogSection />
         </motion.div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={animationVariants}
-          className="mb-16"
-        >
-          <FullHeightImageText />
-        </motion.div>
+            <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={animationVariants}
+                className="mb-16 z-10 relative"
+            >
+                <FullHeightImageText />
+            </motion.div>
 
         <motion.div
           initial="hidden"
@@ -87,15 +99,16 @@ function LandingPage() {
           <Partnership />
         </motion.div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={animationVariants}
-        >
-          <Footer />
-        </motion.div>
-      </>
+
+            <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={animationVariants}
+            >
+                <Footer />
+            </motion.div>
+        </>
     );
 }
 

@@ -8,7 +8,7 @@ import {createContext, useState} from "react";
 import * as authService from "../services/auth-service.js";
 import ProtectedRoutes from "../Routes/ProtectedRoutes.jsx";
 import AdminLogin from "./login/AdminLogin.jsx";
-import FunctionCard from "../components/dashboard/FunctionCard.jsx";
+import FunctionCard from "../components/dashboard/component/FunctionCard.jsx";
 // import LandingPage from "./landingPage/LandingPage.jsx";
 
 let UserContext;

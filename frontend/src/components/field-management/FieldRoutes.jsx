@@ -8,6 +8,7 @@ import AssignLabours from "./pages/AssignLabours.jsx";
 import AdminDashboardLayout from "./component/AdminDashboardLayout.jsx";
 import ViewHarvest from "./pages/ViewHarvest.jsx";
 import AddHarvest from "./pages/AddHarvest.jsx";
+import CalculateOT from "./pages/CalculateOT.jsx";
 
 const FieldRoutes = () => {
   return (
@@ -21,6 +22,7 @@ const FieldRoutes = () => {
           <Route path="/labours" element={<AssignLabours />} />
           <Route path="/view-harvest" element={<ViewHarvest />} />
           <Route path="/add-harvest" element={<AddHarvest />} />
+          <Route path="/calculate-ot" element={<CalculateOT />} />
         </Routes>
       </AdminDashboardLayout>
     </>

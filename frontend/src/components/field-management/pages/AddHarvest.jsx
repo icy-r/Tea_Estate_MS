@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../../services/axios.js";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 const AddHarvest = () => {
   const [labours, setLabours] = useState([]);
@@ -7,6 +9,13 @@ const AddHarvest = () => {
   const [currentDate, setCurrentDate] = useState(
     new Date().toISOString().split("T")[0]
   );
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
   // Set the date once when the component mounts
   useEffect(() => {
@@ -47,6 +56,7 @@ const AddHarvest = () => {
       setHarvestData(initialData);
     } catch (error) {
       console.error("Error fetching labour data:", error);
+      showSnackbar("Error fetching labour data", "error");
     }
   };
 
@@ -85,6 +95,7 @@ const AddHarvest = () => {
 
         // Add to harvests collection
         await axios.post("/harvests", {
+          id: harvest.id,
           labour_name: harvest.labour_name,
           field_name: harvest.field_name,
           date: harvest.date,
@@ -118,16 +129,26 @@ const AddHarvest = () => {
       // Wait for all promises to resolve before proceeding
       await Promise.all(promises);
 
-      alert("Harvest data added successfully!");
+      showSnackbar("Harvest data added successfully!", "success");
       fetchLabours(); // Refresh the data after submission
     } catch (error) {
       console.error(
         "Error adding harvest data:",
         error.response?.data || error.message
       );
+      showSnackbar("Error adding harvest data", "error");
     }
   };
-  
+
+  const showSnackbar = (message, severity) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setSnackbarOpen(true);
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
 
   return (
     <div className="p-8">
@@ -136,6 +157,7 @@ const AddHarvest = () => {
         <table className="min-w-full bg-white">
           <thead>
             <tr className="w-full bg-teal-500 text-white">
+              <th className="py-2 px-4 text-left">Harvest Id</th>
               <th className="py-2 px-4 text-left">Labour Name</th>
               <th className="py-2 px-4 text-left">Assigned Field</th>
               <th className="py-2 px-4 text-left">Date</th>
@@ -148,6 +170,16 @@ const AddHarvest = () => {
             {labours.length > 0 ? (
               labours.map((labour, index) => (
                 <tr key={labour.id} className="hover:bg-gray-100">
+                  <td className="py-2 px-4 border">
+                    <input
+                      type="number"
+                      value={harvestData[index].id}
+                      onChange={(e) =>
+                        handleQuantityChange(index, "id", e.target.value)
+                      }
+                      className="w-full px-2 py-1 border rounded"
+                    />
+                  </td>
                   <td className="py-2 px-4 border">{labour.firstName}</td>
                   <td className="py-2 px-4 border">{labour.assignedField}</td>
                   <td className="py-2 px-4 border">{currentDate}</td>
@@ -203,6 +235,22 @@ const AddHarvest = () => {
       >
         Submit Harvest Data
       </button>
+
+      {/* Snackbar for notifications */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }} // Adjust position here
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

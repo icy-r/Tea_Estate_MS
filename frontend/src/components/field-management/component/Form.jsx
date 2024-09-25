@@ -11,7 +11,7 @@ export default function Form() {
     location: "",
     fertilizerSchedule: "",
     area: "",
-    labour: "", // Single selection support
+    labour: "",
     cropStage: "",
   });
   const [supervisors, setSupervisors] = useState([]);
@@ -26,7 +26,6 @@ export default function Form() {
     const fetchSupervisors = async () => {
       try {
         const response = await axios.get("/labours");
-        console.log("API Response:", response.data);
         const supervisorList = response.data.filter(
           (labour) =>
             labour.role === "Supervisor" && labour.assignedField === "none"
@@ -47,7 +46,6 @@ export default function Form() {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    console.log("Selected Value:", value);
     setFormValues((prevValues) => ({
       ...prevValues,
       [name]: value,
@@ -56,7 +54,6 @@ export default function Form() {
 
   const notify = (message, type) => {
     setNotification({ open: true, message, type });
-    // Optional: Auto-hide the notification after a few seconds
     setTimeout(
       () => setNotification({ open: false, message: "", type: "" }),
       3000
@@ -65,7 +62,13 @@ export default function Form() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const regex = /^[a-zA-Z\s]+$/;
 
+    const isValid = formValues.name.match(regex);
+    if (!isValid) {
+      notify("Field name must contain only letters and spaces", "error");
+      return;
+    }
     try {
       const created = await createField(formValues, notify);
 
@@ -77,15 +80,9 @@ export default function Form() {
           throw new Error("Supervisor not found");
         }
 
-        console.log("Supervisor ID:", selectedSupervisor._id);
-        console.log("Updating assignedField to:", formValues.name);
-
-        // Attempt to update the supervisor's assignedField
-        const response = await axios.put(`/labours/${selectedSupervisor.id}`, {
+        await axios.put(`/labours/${selectedSupervisor.id}`, {
           assignedField: formValues.name,
         });
-
-        console.log("Update Response:", response.data);
 
         // Reset form after successful submission
         setFormValues({
@@ -97,6 +94,7 @@ export default function Form() {
           labour: "",
           cropStage: "",
         });
+        notify("Field created and supervisor updated", "success");
       }
     } catch (error) {
       console.error("Error creating field or updating labour:", error);
@@ -104,6 +102,8 @@ export default function Form() {
         "Error creating field or updating labour: " + error.message,
         "error"
       );
+    } finally {
+      setIsSubmitting(false); // Allow form submission again
     }
   };
 
@@ -117,8 +117,8 @@ export default function Form() {
         open={notification.open}
         handleClose={handleCloseNotification}
         message={notification.message}
-        type={notification.type}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }} // Set anchor origin
+        severity={notification.type}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
       />
       <div className="flex items-center justify-center w-3/4 max-w-4xl shadow-lg rounded-lg overflow-hidden">
         <div className="w-2/3 bg-white p-8 justify-center">
@@ -130,7 +130,6 @@ export default function Form() {
             <FormControl className="flex flex-col">
               <FormLabel
                 required
-                className="text-sm"
                 style={{
                   fontSize: "1rem",
                   color: darkMode ? "white" : "black",
@@ -145,7 +144,8 @@ export default function Form() {
                 onChange={handleChange}
                 placeholder="Field No"
                 required
-                className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                min="1"
+                className="border border-gray-300 p-2 rounded-md"
               />
             </FormControl>
 
@@ -153,7 +153,6 @@ export default function Form() {
             <FormControl className="flex flex-col">
               <FormLabel
                 required
-                className="text-sm"
                 style={{
                   fontSize: "1rem",
                   color: darkMode ? "white" : "black",
@@ -167,8 +166,9 @@ export default function Form() {
                 onChange={handleChange}
                 placeholder="Field Name"
                 required
-                pattern="^[a-zA-Z\s]+$" // Only letters and spaces
-                className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                pattern="^[a-zA-Z\s]+$"
+                title="Only letters and spaces are allowed."
+                className="border border-gray-300 p-2 rounded-md"
               />
             </FormControl>
 
@@ -176,7 +176,6 @@ export default function Form() {
             <FormControl className="flex flex-col">
               <FormLabel
                 required
-                className="text-sm"
                 style={{
                   fontSize: "1rem",
                   color: darkMode ? "white" : "black",
@@ -190,7 +189,9 @@ export default function Form() {
                 onChange={handleChange}
                 placeholder="Location"
                 required
-                className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                pattern="^[a-zA-Z\s]+$"
+                title="Only letters and spaces are allowed."
+                className="border border-gray-300 p-2 rounded-md"
               />
             </FormControl>
 
@@ -198,7 +199,6 @@ export default function Form() {
             <FormControl className="flex flex-col">
               <FormLabel
                 required
-                className="text-sm"
                 style={{
                   fontSize: "1rem",
                   color: darkMode ? "white" : "black",
@@ -210,8 +210,8 @@ export default function Form() {
                 name="fertilizerSchedule"
                 value={formValues.fertilizerSchedule}
                 onChange={handleChange}
-                className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 required
+                className="border border-gray-300 p-2 rounded-md"
               >
                 <MenuItem value="" disabled>
                   Select Schedule
@@ -226,7 +226,6 @@ export default function Form() {
             <FormControl className="flex flex-col">
               <FormLabel
                 required
-                className="text-sm"
                 style={{
                   fontSize: "1rem",
                   color: darkMode ? "white" : "black",
@@ -236,12 +235,13 @@ export default function Form() {
               </FormLabel>
               <Input
                 name="area"
-                type="number" // Change to text for manual entry
+                type="number"
                 value={formValues.area}
                 onChange={handleChange}
                 placeholder="Area"
                 required
-                className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                min="0"
+                className="border border-gray-300 p-2 rounded-md"
               />
             </FormControl>
 
@@ -249,7 +249,6 @@ export default function Form() {
             <FormControl className="flex flex-col">
               <FormLabel
                 required
-                className="text-sm"
                 style={{
                   fontSize: "1rem",
                   color: darkMode ? "white" : "black",
@@ -261,8 +260,8 @@ export default function Form() {
                 name="labour"
                 value={formValues.labour}
                 onChange={handleChange}
-                className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 required
+                className="border border-gray-300 p-2 rounded-md"
               >
                 <MenuItem value="" disabled>
                   Select Supervisor
@@ -279,7 +278,6 @@ export default function Form() {
             <FormControl className="flex flex-col">
               <FormLabel
                 required
-                className="text-sm"
                 style={{
                   fontSize: "1rem",
                   color: darkMode ? "white" : "black",
@@ -291,15 +289,15 @@ export default function Form() {
                 name="cropStage"
                 value={formValues.cropStage}
                 onChange={handleChange}
-                className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 required
+                className="border border-gray-300 p-2 rounded-md"
               >
                 <MenuItem value="" disabled>
                   Select Crop Stage
                 </MenuItem>
-                <MenuItem value="Preparation Stage">Stage 1</MenuItem>
-                <MenuItem value="Weeding Stage">Stage 2</MenuItem>
-                <MenuItem value="Harvesting Stage">Stage 3</MenuItem>
+                <MenuItem value="Preparation Stage">Preparation Stage</MenuItem>
+                <MenuItem value="Weeding Stage">Weeding Stage</MenuItem>
+                <MenuItem value="Harvesting Stage">Harvesting Stage</MenuItem>
               </Select>
             </FormControl>
 

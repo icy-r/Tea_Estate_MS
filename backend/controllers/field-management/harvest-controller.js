@@ -23,26 +23,14 @@ async function show(req, res) {
 }
 
 async function create(req, res) {
-    try {
-      const { field_id, labour_id, good_qnty, best_qnty, damaged_qnty, ...rest } = req.body;
-  
-      // Validate field_id
-      const field = await Field.findById(field_id);
-      if (!field) return res.status(400).json({ error: 'Invalid field' });
-  
-      // Validate labour_id
-      const labour = await Labour.findById(labour_id);
-      if (!labour) return res.status(400).json({ error: 'Invalid labour' });
-  
-      const total = good_qnty + best_qnty + damaged_qnty;
-  
-      const harvest = new Harvest({ field_id, labour_id, good_qnty, best_qnty, damaged_qnty, total, ...rest });
-      await harvest.save();
-      res.json(harvest);
-    } catch (error) {
-      res.status(400).json({ error: error.message });
-    }
+  try {
+    const harvest = new Harvest(req.body);
+    await harvest.save();
+    res.json(harvest);
+  } catch (error) {
+    res.status(400).json({ error: error });
   }
+}
 
 async function update(req, res) {
     try {

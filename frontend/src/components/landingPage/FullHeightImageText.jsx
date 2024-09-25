@@ -4,7 +4,7 @@ import logo from '@assets/logo.png';
 
 const FullHeightImageText = () => {
   return (
-    <section className="relative h-screen w-full flex flex-col lg:flex-row">
+    <section className="relative w-full flex flex-col lg:flex-row">
       {/* Image Section */}
       <div className="lg:w-2/3 w-full h-2/3 lg:h-full">
         <img
@@ -15,7 +15,7 @@ const FullHeightImageText = () => {
       </div>
 
       {/* Text Section */}
-      <div className="lg:w-1/3 w-full h-1/3 lg:h-full flex items-center justify-center bg-white p-8">
+      <div className="lg:w-1/3 w-full h-1/3 lg:h-full flex items-center justify-center p-8">
         <div className="text-center lg:text-left">
           <div className="mb-4">
             <img

@@ -22,7 +22,7 @@ const employeeSchema = new Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: false,
   },
   designation: {
     type: String,
@@ -55,28 +55,31 @@ const employeeSchema = new Schema({
   leavesLeft: {
     type: String,
     required: true,
-  }
+  },
 });
 
-employeeSchema.post('save', async function(doc) {
-  if (doc.designation === 'Labour' || 'Supervisor') {
-    // Add additional attributes if needed
+employeeSchema.post("save", async function (doc) {
+  if (doc.designation === "Labour" || doc.designation === "Supervisor") {
+    // Add additional attributes if needed for Labour/Supervisor
     const updatedEmployee = {
       firstName: doc.firstName,
       lastName: doc.lastName,
       id: doc.Id,
       role: doc.designation,
       assignedField: "none", // or any other field that makes sense for 'Labour'
+      best_qnty: 0,
+      good_qnty: 0,
+      damaged_qnty: 0,
       harvest_qnty: 0, // Example value or logic for 'harvest_qnty'
-      // Add other necessary fields
+      // Add other necessary fields if needed
     };
 
     // Insert into 'Labour' collection
     try {
-      const Labour = mongoose.model('Labour');
+      const Labour = mongoose.model("Labour");
       await Labour.create(updatedEmployee);
     } catch (err) {
-      console.error('Error inserting into Labour collection:', err);
+      console.error("Error inserting into Labour collection:", err);
     }
   }
 });

@@ -1,7 +1,7 @@
 import Header from "../../dashboard/HeaderDashboard.jsx";
 import Sidebar from "../../dashboard/Sidebar.jsx";
 import menuItems from "../data-files/menuItems.js";
-import topMenuItemsNav from "../../../pages/topMenuItems.js";
+import topMenuItemsNav from "../../../pages/menu-items.js";
 import Content from "../../dashboard/Content.jsx";
 
 import "../../dashboard/dashboardStyle.css";

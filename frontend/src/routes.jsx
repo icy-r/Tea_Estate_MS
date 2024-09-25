@@ -1,4 +1,4 @@
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Admin from "./pages/Admin.jsx";
 import LandingPage from "./pages/landingPage/LandingPage.jsx";
 import Error404 from "./pages/error404.jsx";
@@ -34,9 +34,5 @@ const router = createBrowserRouter([
 ]);
 
 export default function Routes() {
-    return (
-        <RouterProvider router={router}>
-            {router}
-        </RouterProvider>
-    )
+  return <RouterProvider router={router}>{router}</RouterProvider>;
 }

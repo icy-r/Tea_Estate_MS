@@ -2,6 +2,12 @@
 
 const menuItems = [
   {
+    name: "Main",
+    subItems: [
+      { name: "Home", link: "transport/home" },
+    ],
+  },
+  {
     name: "Vehicle management",
     subItems: [
       { name: "Add Vehicle", link: "transport/add-vehicle" },
@@ -16,10 +22,10 @@ const menuItems = [
     ],
   },
   {
-    name: "Repair",
+    name: "Transport Management",
     subItems: [
-      { name: "Add Repair", link: "/add-repair" },
-      { name: "Manage Repair", link: "/manage-repair" },
+      { name: "Configure Transportation", link: "transport/configure-transport" },
+      { name: "Manage Transportation", link: "transport/manage-transport" },
     ],
   },
   {

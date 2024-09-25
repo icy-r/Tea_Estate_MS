@@ -158,7 +158,6 @@ const ManageVehicle = () => {
                 <TableCell style={{ color: 'white' }}>Type</TableCell>
                 <TableCell style={{ color: 'white' }}>Assigned Dept</TableCell>
                 <TableCell style={{ color: 'white' }}>Available Status</TableCell>
-                <TableCell style={{ color: 'white' }}>Chassis No</TableCell>
                 <TableCell style={{ color: 'white' }}>Owner Address</TableCell>
                 <TableCell style={{ color: 'white' }} align="center">Actions</TableCell>
               </TableRow>
@@ -180,7 +179,7 @@ const ManageVehicle = () => {
                         {vehicle.status === 'Active' ? 'Active' : 'Maintenance'}
                       </span>
                     </TableCell>
-                    <TableCell>{vehicle.chassisNo}</TableCell>
+                  
                     <TableCell>{vehicle.owner_address}</TableCell>
                     <TableCell align="center">
                       <Button

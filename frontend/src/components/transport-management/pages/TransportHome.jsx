@@ -6,6 +6,9 @@ import VehicleAddForm from '../component/VehicleAddForm.jsx';
 import ManageVehicle from '../component/ManageVehicle.jsx';
 import RouteAddForm from '../component/RouteAddForm.jsx';
 import ManageRoute from '../component/ManageRoute.jsx';
+import ManageTransport from '../component/manageTransportation.jsx';
+import ConfigureTransport from '../component/configureTransportation.jsx';
+import Home from './home.jsx';
 
 const TransportHome = () => {
     return (
@@ -16,10 +19,13 @@ const TransportHome = () => {
           
 
                  <Routes>
+                    <Route path ="/home" element={<Home/>}/>
                     <Route path="/add-vehicle" element={<VehicleAddForm />} />
                     <Route path="/manage-vehicle" element={<ManageVehicle />} />
                     <Route path="/manage-route" element={<ManageRoute/>} />
                     <Route path="/add-route" element={<RouteAddForm/>} />
+                    <Route path="/configure-transport" element={<ConfigureTransport/>} />
+                    <Route path="/manage-transport" element={<ManageTransport/>} />
                 </Routes> 
 
             </AdminDashboardLayout>

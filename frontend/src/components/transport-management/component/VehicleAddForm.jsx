@@ -138,7 +138,11 @@ const VehicleAddForm = () => {
                 value={formData.type}
                 onChange={handleInputChange}
               >
+                
+                <MenuItem value="Tipper">Tipper</MenuItem>
+                <MenuItem value="Tactor">Tactor</MenuItem>
                 <MenuItem value="lorry">Lorry</MenuItem>
+
                 {/* Add more options as needed */}
               </TextField>
               <TextField
@@ -160,7 +164,9 @@ const VehicleAddForm = () => {
                 value={formData.assignedDept}
                 onChange={handleInputChange}
               >
-                <MenuItem value="lorry">Lorry</MenuItem>
+                <MenuItem value="Employee Transport">Employee Transport</MenuItem>
+                <MenuItem value="Harvets Transport">Harvest Transport</MenuItem>
+                <MenuItem value="Delivery Transport">Delivery Transport</MenuItem>
                 {/* Add more options as needed */}
               </TextField>
               <TextField

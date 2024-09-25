@@ -6,8 +6,10 @@ import {checkAuth, decodeUserFromToken} from "../../middleware/auth-mid.js";
 
 const router = Router();
 
-router.get("/", vehicleController.index);
-router.get("/:id", vehicleController.show);
+router.use(decodeUserFromToken)
+
+router.get("/", checkAuth,vehicleController.index);
+router.get("/:id",checkAuth, vehicleController.show);
 router.post("/", checkAuth, vehicleController.create);
 router.put("/:id", checkAuth, vehicleController.update);
 router.delete("/:id", checkAuth, vehicleController.destroy);

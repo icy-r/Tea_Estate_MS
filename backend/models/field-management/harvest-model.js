@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const harvestSchema = new Schema({
-  // id: {
-  //   type: String,
-  //   required: true,
-  // },
+  id: {
+    type: String,
+    required: true,
+  },
   field_name: {
     type: String,
     required: true,

@@ -31,10 +31,11 @@ const OvertimeCalculator = () => {
         const initialData = filteredHarvests.map((harvest) => ({
           name: harvest.labour_name,
           harvest_qnty: harvest.total || 0, // Ensure total is the correct quantity
-          overtimeAllowance: 0, // Overtime will be calculated later
+          overtimeAllowance: 0, // Initialize overtime to zero
         }));
 
         setHarvestData(initialData);
+        setCalculatedData(initialData); // Set the calculated data to the initial data
       } else {
         console.error("Unexpected response structure:", response.data);
       }
@@ -62,7 +63,7 @@ const OvertimeCalculator = () => {
       return { ...item, overtimeAllowance };
     });
 
-    setCalculatedData(updatedData);
+    setCalculatedData(updatedData); // Update the calculated data
   };
 
   return (

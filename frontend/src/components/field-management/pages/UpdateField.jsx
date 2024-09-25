@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import updateField from "../services/axios-update.js";
 import Notification from "../component/NotificationContent.jsx"; // Import the Notification component
+import { FormControl, FormLabel, Input, Select, MenuItem } from "@mui/material"; // Import MUI components
 
 const UpdateField = () => {
   const navigateTo = useNavigate();
@@ -29,8 +30,42 @@ const UpdateField = () => {
     setFieldData({ ...fieldData, [name]: value });
   };
 
+  const validateInputs = () => {
+    const nameRegex = /^[a-zA-Z\s]+$/;
+    const locationRegex = /^[a-zA-Z\s]+$/;
+
+    if (!nameRegex.test(fieldData.name)) {
+      setNotification({
+        open: true,
+        message: "Field name must contain only letters and spaces.",
+        severity: "error",
+      });
+      return false;
+    }
+    if (!locationRegex.test(fieldData.location)) {
+      setNotification({
+        open: true,
+        message: "Location must contain only letters and spaces.",
+        severity: "error",
+      });
+      return false;
+    }
+    if (fieldData.area < 0) {
+      setNotification({
+        open: true,
+        message: "Area must be a positive number.",
+        severity: "error",
+      });
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!validateInputs()) return; // Validate inputs before proceeding
+
     const result = await updateField(fieldData);
     if (result.success) {
       setNotification({
@@ -57,86 +92,96 @@ const UpdateField = () => {
       <div className="w-full max-w-lg bg-white p-8 shadow-lg rounded-lg">
         <h1 className="text-2xl font-bold text-center mb-6">Update Field</h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-          <div>
-            <label className="block text-gray-700 mb-2">Field No</label>
-            <input
+          <FormControl className="flex flex-col">
+            <FormLabel required>Field No</FormLabel>
+            <Input
               name="id"
               value={fieldData.id}
-              onChange={handleChange}
-              required
-              className="border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
               readOnly
+              className="border border-gray-300 p-3 rounded-md"
             />
-          </div>
+          </FormControl>
 
-          <div>
-            <label className="block text-gray-700 mb-2">Field Name</label>
-            <input
+          <FormControl className="flex flex-col">
+            <FormLabel required>Field Name</FormLabel>
+            <Input
               name="name"
               value={fieldData.name}
               onChange={handleChange}
               required
-              className="border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+              className="border border-gray-300 p-3 rounded-md"
             />
-          </div>
+          </FormControl>
 
-          <div>
-            <label className="block text-gray-700 mb-2">Location</label>
-            <input
+          <FormControl className="flex flex-col">
+            <FormLabel required>Location</FormLabel>
+            <Input
               name="location"
               value={fieldData.location}
               onChange={handleChange}
               required
-              className="border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+              className="border border-gray-300 p-3 rounded-md"
             />
-          </div>
+          </FormControl>
 
-          <div>
-            <label className="block text-gray-700 mb-2">
-              Fertilizer Schedule
-            </label>
-            <input
+          <FormControl className="flex flex-col">
+            <FormLabel required>Fertilizer Schedule</FormLabel>
+            <Select
               name="fertilizerSchedule"
               value={fieldData.fertilizerSchedule}
               onChange={handleChange}
               required
-              className="border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
-            />
-          </div>
+              className="border border-gray-300 p-3 rounded-md"
+            >
+              <MenuItem value="" disabled>
+                Select Schedule
+              </MenuItem>
+              <MenuItem value="Schedule 01">Schedule 01</MenuItem>
+              <MenuItem value="Schedule 02">Schedule 02</MenuItem>
+              <MenuItem value="Schedule 03">Schedule 03</MenuItem>
+            </Select>
+          </FormControl>
 
-          <div>
-            <label className="block text-gray-700 mb-2">Area</label>
-            <input
+          <FormControl className="flex flex-col">
+            <FormLabel required>Area</FormLabel>
+            <Input
               name="area"
+              type="number"
               value={fieldData.area}
               onChange={handleChange}
               required
-              className="border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+              min="0"
+              className="border border-gray-300 p-3 rounded-md"
             />
-          </div>
+          </FormControl>
 
-          <div>
-            <label className="block text-gray-700 mb-2">Supervisor</label>
-            <input
+          <FormControl className="flex flex-col">
+            <FormLabel required>Supervisor</FormLabel>
+            <Input
               name="labour"
               value={fieldData.labour}
-              onChange={handleChange}
-              required
-              className="border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
-              readOnly // Making supervisor field read-only
+              readOnly
+              className="border border-gray-300 p-3 rounded-md"
             />
-          </div>
+          </FormControl>
 
-          <div>
-            <label className="block text-gray-700 mb-2">Crop Stage</label>
-            <input
+          <FormControl className="flex flex-col">
+            <FormLabel required>Crop Stage</FormLabel>
+            <Select
               name="cropStage"
               value={fieldData.cropStage}
               onChange={handleChange}
               required
-              className="border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
-            />
-          </div>
+              className="border border-gray-300 p-3 rounded-md"
+            >
+              <MenuItem value="" disabled>
+                Select Crop Stage
+              </MenuItem>
+              <MenuItem value="Preparation Stage">Preparation Stage</MenuItem>
+              <MenuItem value="Weeding Stage">Weeding Stage</MenuItem>
+              <MenuItem value="Harvesting Stage">Harvesting Stage</MenuItem>
+            </Select>
+          </FormControl>
 
           <button
             type="submit"

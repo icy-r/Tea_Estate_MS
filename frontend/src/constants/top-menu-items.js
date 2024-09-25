@@ -1,6 +1,6 @@
 const topMenuItems = [
-  { name: "Home", link: "/home" },
-  { name: "Dashboard", link: "/dashboard" },
+  { name: "Home", link: "/" },
+  { name: "Dashboard", link: "/field" },
   { name: "Settings", link: "/settings" },
   { name: "Profile", link: "/profile" },
 ];

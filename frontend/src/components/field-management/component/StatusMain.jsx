@@ -34,8 +34,8 @@ const StatusMain = () => {
         // Create formatted data for StatusCard
         setCount([
           { title: "Fields", count: fieldsCount },
-          { title: "Total Area of Fields", count: totalFieldArea + ' sq.m' },
-          { title: "Total Harvest", count: totalHarvest },
+          { title: "Total Area of Fields", count: totalFieldArea + " sq.m" },
+          { title: "Total Harvest", count: totalHarvest + " kg" },
           { title: "Labours", count: laboursCount },
         ]);
       } catch (error) {

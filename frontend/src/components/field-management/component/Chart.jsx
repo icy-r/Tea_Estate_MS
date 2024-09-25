@@ -14,6 +14,7 @@ const FieldsHarvestChart = () => {
     setLoading(true);
     try {
       const response = await axios.get("/fields/");
+      console.log("Fields data:", response.data); // Log response structure
       setFields(response.data);
       calculateChartData(response.data);
     } catch (error) {
@@ -28,18 +29,31 @@ const FieldsHarvestChart = () => {
   }, []);
 
   const calculateChartData = (fields) => {
-    // Prepare chart data using harvest_qnty directly
     const data = fields.map((field) => ({
-      name: field.field_name,  // Assuming there's a 'field_name' attribute
-      value: field.harvest_qnty || 0,  // Directly using harvest_qnty for comparison
+      name: field.field_name || field.name || "Unknown Field", // Check the correct attribute
+      value: field.harvest_qnty || 0, // Directly using harvest_qnty for comparison
     }));
 
     setChartData(data);
   };
 
+  const renderCustomizedLabel = ({ x, y, name, value }) => {
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="black"
+        textAnchor="middle"
+        dominantBaseline="central"
+      >
+        {`${name}: ${value} kg`}
+      </text>
+    );
+  };
+
   return (
     <Box p={3}>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h6" gutterBottom>
         Fields Harvest Comparison
       </Typography>
 
@@ -53,7 +67,7 @@ const FieldsHarvestChart = () => {
           <Typography variant="h5" align="center" gutterBottom>
             Harvest Quantity Distribution by Field
           </Typography>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={400}>
             <PieChart>
               <Pie
                 data={chartData}
@@ -62,10 +76,14 @@ const FieldsHarvestChart = () => {
                 outerRadius={80}
                 fill="#8884d8"
                 dataKey="value"
-                label
+                label={renderCustomizedLabel} // Add custom label
+                labelLine={false} // Hide label lines for a cleaner look
               >
                 {chartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
                 ))}
               </Pie>
               <Tooltip />

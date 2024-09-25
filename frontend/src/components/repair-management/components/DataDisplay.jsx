@@ -9,6 +9,7 @@ import "../../../constants/loadding.css";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import formEntryData from "../data-files/form-entry-data.js";
+import originalAxios from "axios";
 
 const basicHeaderItems = [
   "Machine ID",
@@ -18,6 +19,10 @@ const basicHeaderItems = [
   "Driver ID",
   "Registration Number",
 ];
+
+const user = {
+  email: "asath12882@gmail.com",
+};
 
 const DataManagementComponent = () => {
   const [data, setData] = useState([]);
@@ -29,6 +34,7 @@ const DataManagementComponent = () => {
   const [formRow, setFormRow] = useState({});
   const [loading, setLoading] = useState(true);
   const [statusOptions, setStatusOptions] = useState([]);
+  const [email, setEmail] = useState("");
 
   const handlePrint = () => {
     const doc = new jsPDF();
@@ -61,6 +67,34 @@ const DataManagementComponent = () => {
       body: bodyData,
     });
     doc.save("MachineManagement.pdf");
+  };
+
+  const handleEmail = () => {
+    const emailData = data.map((item) => [
+      item.item_id,
+      item.m_status,
+      item.name,
+      item.type,
+      item.driver_id,
+      item.registration_number,
+    ]);
+
+    //axios call to send email
+    originalAxios
+      .post("http://localhost:3001/send-email", {
+        to: user.email,
+        subject: "Machine Management Report",
+        //emailData to single string format
+        text: emailData.map((item) => item.join(" ")).join("\n"),
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          alert("Email sent successfully");
+        }
+      })
+      .catch((error) => {
+        alert(error);
+      });
   };
 
   useEffect(() => {
@@ -152,6 +186,12 @@ const DataManagementComponent = () => {
             onClick={handlePrint}
           >
             Print Data
+          </button>
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+            onClick={handleEmail}
+          >
+            Email Data
           </button>
         </div>
       </div>

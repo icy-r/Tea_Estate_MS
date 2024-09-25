@@ -6,6 +6,7 @@ import cors from 'cors'
 import formData from 'express-form-data'
 import { Server } from "socket.io";
 import { createServer } from "http";
+import nodemailer from "nodemailer";
 
 // connect to MongoDB with mongoose
 import "./config/database.js";
@@ -65,10 +66,37 @@ io.on("connection", (socket) => {
 });
 
 // basic middleware
-app.use(cors())
-app.use(logger('dev'))
-app.use(express.json())
-app.use(formData.parse())
+app.use(cors());
+app.use(logger("dev"));
+app.use(express.json());
+app.use(formData.parse());
+
+// Configure Nodemailer transporter
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.USER_EMAIL,
+    pass: process.env.USER_PASSWORD,
+  },
+});
+
+app.post("/send-email", (req, res) => {
+  const { to, subject, text } = req.body;
+
+  const mailOptions = {
+    from: "hennahnime@gmail.com",
+    to,
+    subject,
+    text,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return res.status(500).send(error.toString());
+    }
+    res.status(200).send("Email sent: " + info.response);
+  });
+});
 
 // mount imported routes
 //user-management

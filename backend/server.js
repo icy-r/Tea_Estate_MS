@@ -14,6 +14,7 @@ import { router as invoicesRouter } from './routes/sales-management/invoices-rou
 //transport-management
 import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js'
 import { router as routeRouter } from './routes/transport-management/route-route.js'
+import { router as transportLogRouter } from './routes/transport-management/transport-log-route.js'
 import { router as transportRouter } from './routes/transport-management/transport-route.js'
 //user-management
 import { router as profilesRouter } from './routes/user-management/profiles-route.js'
@@ -40,6 +41,9 @@ import { router as orderTrackingRouter } from './routes/product-management/order
 import { router as supplierRouter } from './routes/supply-management/supplier-route.js'
 import { router as supplierManagerRouter } from './routes/supply-management/supplier-manager-route.js'
 import { router as supplyRouter } from './routes/supply-management/supply-route.js'
+
+//services
+import scheduler from './services/scheduler.js';
 
 
 
@@ -76,6 +80,7 @@ app.use('/api/routes', routeRouter)
 app.use('/api/vehicles', vehiclesRouter)
 app.use('/api/catalog', catalogRouter)
 app.use('/api/buyers', buyersRouter)
+app.use('/api/transportLog', transportLogRouter)
 
 //repair-management
 app.use('/api/machines', machinesRouter)

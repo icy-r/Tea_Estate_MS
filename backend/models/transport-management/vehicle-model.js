@@ -2,51 +2,50 @@ import mongoose from 'mongoose'
 
 
 const vehicleSchema = new mongoose.Schema({
-    // id string pk
-    // name string 
-    // chassisNo string
-    // manufactureYear date
-    // assignedDept string
-    // type string
-    // owner_name string
-    // driver_id string fk 
+
     
-    id: {
+    id: {//have
         type: String,
-        required: true,
+        required: false,
     },
 
 
-    name: {
+    owner_name: {//have
         type: String,
-        required: true,
+        required: false,
     },
-    chassisNo: {
+    chassisNo: {//have
         type: String,
-        required: true,
+        required: false,
     },
 
-    manufactureYear: {
+    manufactureYear: {//have
         type: Date,
-        required: true,
+        required: false,
     },
-    assignedDept: {
+    assignedDept: {//have
         type: String,
-        required: true,
+        required: false,
     },
-    type: {
+    type: {//have
         type: String,
-        required: true,
-    },
-    owner_name: {
-        type: String,
-        required: true,
+        required: false,
     },
     // driver_id is a foreign key comes from driver model
     driver_id: {
         type: String,
-        required: true,
+        required: false,
     },
+    owner_address: {//have
+        type: String,
+        required: false,
+    },
+    status: {//have
+        type: String,
+        required: false,
+         default: 'Active',
+    },
+
 }, 
 
 {

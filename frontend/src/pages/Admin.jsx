@@ -10,10 +10,6 @@ import ProtectedRoutes from "../Routes/ProtectedRoutes.jsx";
 import AdminLogin from "./login/AdminLogin.jsx";
 import LandingPage from "./landingPage/LandingPage.jsx";
 import SalesHome from "../components/sales-management/pages/saleshome.jsx";
-import Invoice from "../components/sales-management/pages/generateinvoice.jsx";
-import InvoiceDetails from '../components/sales-management/pages/displayInvoice.jsx';
-import OrdersOverview from "../components/sales-management/pages/ordersorverview.jsx";
-
 
 
 let UserContext;
@@ -34,10 +30,7 @@ function App() {
                     {/* Public Routes */}
                     <Route path="auth/login" element={<AdminLogin handleAuthEvt={handleAuthEvt}/>}/>
                     <Route path="/about" element={<div>About</div>}/>
-                    <Route path="/SalesHome" element={<SalesHome/>}/>
-                    <Route path="/invoice" element={<Invoice/>}/>
-                    <Route path="/ordersoverview" element={<OrdersOverview/>}/>
-                    <Route path="/InvoiceDetails" element={<InvoiceDetails/>}/>
+                    <Route path="/contact" element={<div>Contact</div>}/>
                     
 
                     <Route path="/" element={
@@ -68,6 +61,14 @@ function App() {
                         element={
                             <ProtectedRoutes user={user}>
                                 <TransportHome/>
+                            </ProtectedRoutes>
+                        }
+                    />
+                    <Route
+                        path="/sales/*"
+                        element={
+                            <ProtectedRoutes user={user}>
+                                <SalesHome/>
                             </ProtectedRoutes>
                         }
                     />

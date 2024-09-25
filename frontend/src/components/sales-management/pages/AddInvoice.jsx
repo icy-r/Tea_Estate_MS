@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from '../../../services/axios.js';  // Assuming axios is set up for your API
-
+import axios from '../../../services/axios.js'; // Assuming axios is set up for your API
 
 const Invoice = () => {
   const navigate = useNavigate();
 
-  // State to hold form data
+  // State to hold form data and error messages
   const [formData, setFormData] = useState({
     invoice_Number: '',
     title: '',
@@ -23,13 +22,17 @@ const Invoice = () => {
     grand_total: 0,
   });
 
+  const [errors, setErrors] = useState({}); // State to hold validation errors
+
   // Handle input changes
   const handleChange = (e) => {
     setFormData((prevState) => ({
-      ...formData,
       ...prevState,
       [e.target.name]: e.target.value,
     }));
+
+    // Clear the corresponding error if the input is changed
+    setErrors((prevErrors) => ({ ...prevErrors, [e.target.name]: '' }));
   };
 
   // Calculate totals whenever quantity or price changes
@@ -37,7 +40,7 @@ const Invoice = () => {
     const subtotal = formData.quantity * formData.uni_price;
     const taxAmount = subtotal * formData.sales_tax;
     const grandTotal = subtotal + taxAmount;
-    
+
     setFormData((prevData) => ({
       ...prevData,
       subtotal,
@@ -45,12 +48,70 @@ const Invoice = () => {
     }));
   };
 
+  // Validate form data
+  const validate = () => {
+    let tempErrors = {};
+    let isValid = true;
+
+    if (!formData.invoice_Number) {
+      tempErrors.invoice_Number = 'Invoice Number is required';
+      isValid = false;
+    }
+    if (!formData.title) {
+      tempErrors.title = 'Invoice Title is required';
+      isValid = false;
+    }
+    if (!formData.date) {
+      tempErrors.date = 'Date is required';
+      isValid = false;
+    }
+    if (!formData.name) {
+      tempErrors.name = 'Customer Name is required';
+      isValid = false;
+    }
+    if (!formData.id) {
+      tempErrors.id = 'Order ID is required';
+      isValid = false;
+    }
+    if (!formData.address) {
+      tempErrors.address = 'Address is required';
+      isValid = false;
+    }
+    if (!formData.phone) {
+      tempErrors.phone = 'Phone is required';
+      isValid = false;
+    } else if (!/^\d{10}$/.test(formData.phone)) {
+      tempErrors.phone = 'Phone number must be exactly 10 digits';
+      isValid = false;
+    }
+    if (formData.quantity <= 0) {
+      tempErrors.quantity = 'Quantity must be greater than 0';
+      isValid = false;
+    }
+    if (formData.uni_price < 0) {
+      tempErrors.uni_price = 'Unit Price must be a positive number';
+      isValid = false;
+    }
+
+    setErrors(tempErrors);
+    return isValid;
+  };
+
   // Handle form submission
-  const handleSubmit =  (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Invoice Data Submitted", formData);
-    sendRequest().then(()=>history.push('/InvoiceDetails'))
-  
+    if (validate()) {
+      console.log("Invoice Data Submitted", formData);
+      try {
+        await sendRequest(); // This sends the invoice data to the server
+        alert('Invoice submitted successfully!'); // Success alert
+        navigate('/admin/sales/AddInvoice'); // Navigate to AddInvoice page after successful submission
+      } catch (error) {
+        alert('Error submitting invoice. Please try again.'); // Error alert
+      }
+    } else {
+      alert('Please fix the errors in the form.'); // Alert for validation errors
+    }
   };
 
   // Send request to the server
@@ -92,10 +153,11 @@ const Invoice = () => {
                   name="invoice_Number"
                   value={formData.invoice_Number}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded"
+                  className={`w-full p-2 border ${errors.invoice_Number ? 'border-red-500' : 'border-gray-300'} rounded`}
                   placeholder="INS5698"
                   required
                 />
+                {errors.invoice_Number && <p className="text-red-500">{errors.invoice_Number}</p>}
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Invoice Title</label>
@@ -104,10 +166,11 @@ const Invoice = () => {
                   name="title"
                   value={formData.title}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded"
+                  className={`w-full p-2 border ${errors.title ? 'border-red-500' : 'border-gray-300'} rounded`}
                   placeholder="Title"
                   required
                 />
+                {errors.title && <p className="text-red-500">{errors.title}</p>}
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Date</label>
@@ -116,9 +179,10 @@ const Invoice = () => {
                   name="date"
                   value={formData.date}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded"
+                  className={`w-full p-2 border ${errors.date ? 'border-red-500' : 'border-gray-300'} rounded`}
                   required
                 />
+                {errors.date && <p className="text-red-500">{errors.date}</p>}
               </div>
             </div>
 
@@ -132,10 +196,11 @@ const Invoice = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded"
+                  className={`w-full p-2 border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded`}
                   placeholder="Customer Name"
                   required
                 />
+                {errors.name && <p className="text-red-500">{errors.name}</p>}
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Order ID</label>
@@ -144,10 +209,11 @@ const Invoice = () => {
                   name="id"
                   value={formData.id}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded"
+                  className={`w-full p-2 border ${errors.id ? 'border-red-500' : 'border-gray-300'} rounded`}
                   placeholder="Order ID"
                   required
                 />
+                {errors.id && <p className="text-red-500">{errors.id}</p>}
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Address</label>
@@ -156,10 +222,11 @@ const Invoice = () => {
                   name="address"
                   value={formData.address}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded"
-                  placeholder="Street Address"
+                  className={`w-full p-2 border ${errors.address ? 'border-red-500' : 'border-gray-300'} rounded`}
+                  placeholder="Address"
                   required
                 />
+                {errors.address && <p className="text-red-500">{errors.address}</p>}
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Phone</label>
@@ -168,26 +235,26 @@ const Invoice = () => {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded"
-                  placeholder="07X XXXXXXX"
+                  className={`w-full p-2 border ${errors.phone ? 'border-red-500' : 'border-gray-300'} rounded`}
+                  placeholder="10-digit Phone Number"
                   required
                 />
+                {errors.phone && <p className="text-red-500">{errors.phone}</p>}
               </div>
             </div>
 
-            {/* Order Details */}
+            {/* Product Details */}
             <div>
-              <h3 className="text-xl font-semibold mb-4">Order Details</h3>
+              <h3 className="text-xl font-semibold mb-4">Product Details</h3>
               <div className="mb-4">
                 <label className="block text-gray-700">Description</label>
-                <input
-                  type="text"
+                <textarea
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded"
+                  rows="3"
                   placeholder="Product Description"
-                  required
                 />
               </div>
               <div className="mb-4">
@@ -200,10 +267,11 @@ const Invoice = () => {
                     handleChange(e);
                     calculateTotals();
                   }}
-                  className="w-full p-2 border border-gray-300 rounded"
-                  placeholder="Units"
+                  className={`w-full p-2 border ${errors.quantity ? 'border-red-500' : 'border-gray-300'} rounded`}
+                  min="1"
                   required
                 />
+                {errors.quantity && <p className="text-red-500">{errors.quantity}</p>}
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Unit Price</label>
@@ -215,61 +283,49 @@ const Invoice = () => {
                     handleChange(e);
                     calculateTotals();
                   }}
-                  className="w-full p-2 border border-gray-300 rounded"
-                  placeholder="Price"
+                  className={`w-full p-2 border ${errors.uni_price ? 'border-red-500' : 'border-gray-300'} rounded`}
+                  min="0"
                   required
                 />
+                {errors.uni_price && <p className="text-red-500">{errors.uni_price}</p>}
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Subtotal</label>
                 <input
                   type="text"
-                  name="subtotal"
                   value={formData.subtotal.toFixed(2)}
+                  className="w-full p-2 border border-gray-300 rounded bg-gray-100"
                   readOnly
-                  className="w-full p-2 border border-gray-300 rounded"
                 />
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Sales Tax (15%)</label>
                 <input
                   type="text"
-                  name="sales_tax"
                   value={(formData.subtotal * formData.sales_tax).toFixed(2)}
+                  className="w-full p-2 border border-gray-300 rounded bg-gray-100"
                   readOnly
-                  className="w-full p-2 border border-gray-300 rounded"
                 />
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Grand Total</label>
                 <input
                   type="text"
-                  name="grand_total"
                   value={formData.grand_total.toFixed(2)}
+                  className="w-full p-2 border border-gray-300 rounded bg-gray-100"
                   readOnly
-                  className="w-full p-2 border border-gray-300 rounded"
                 />
               </div>
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="mt-6 flex justify-between">
-            <div>
-              <button
-                type="submit"
-                className="bg-teal-500 text-white px-4 py-2 rounded mr-2"
-              >
-                GENERATE INVOICE
-              </button>
-              <button
-                type="reset"
-                onClick={() => setFormData({})}
-                className="bg-gray-500 text-white px-4 py-2 rounded"
-              >
-                CLEAR
-              </button>
-            </div>
+          <div className="flex justify-end mt-4">
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            >
+              Submit Invoice
+            </button>
           </div>
         </form>
       </div>

@@ -8,7 +8,7 @@ const router = Router();
 
 
 /*---------- Protected Routes ----------*/
-// router.use(decodeUserFromToken)
+router.use(decodeUserFromToken)
 // index for getting all orders defined in orderController
 router.get("/", orderController.index);
 

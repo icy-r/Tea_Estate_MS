@@ -94,6 +94,13 @@ app.use('/api/auction', auctionRouter)
 app.use('/api/orders', ordersRouter)
 app.use('/api/sales', salesRouter)
 
+//field-management
+app.use('/api/fields', fieldRouter)
+app.use('/api/fertilizers', fertilizerRouter)
+app.use('/api/harvests', harvestRouter)
+app.use('/api/labours', labourRouter)
+
+
 // handle 404 errors
 app.use(function (req, res, next) {
   res.status(404).json({ err: 'Not found' })

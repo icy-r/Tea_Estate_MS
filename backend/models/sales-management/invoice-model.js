@@ -8,7 +8,7 @@ const invoiceSchema = new Schema(
         title: String,
         date: String,
         name: String,
-        id: String,
+        cid: String,
         address: String,
         phone: String,
         description: String,

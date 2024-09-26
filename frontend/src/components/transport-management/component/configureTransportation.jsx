@@ -138,7 +138,7 @@ const ConfigureTransport = () => {
             </MenuItem>
             {vehicles.map((vehicle) => (
               <MenuItem key={vehicle.id} value={vehicle.id}>
-                {vehicle.owner_name} ({vehicle.chassisNo})
+                Driver:{vehicle.driver_id} - {vehicle.id} - {vehicle.type}
               </MenuItem>
             ))}
           </Select>
@@ -160,7 +160,7 @@ const ConfigureTransport = () => {
             </MenuItem>
             {routes.map((route) => (
               <MenuItem key={route.id} value={route.id}>
-                Distance: {route.distance}km - Trips/Day: {route.tripsPerDayNeeded}
+                Route: {route.id}- Distance: {route.distance}km - Trips/Day: {route.tripsPerDayNeeded}
               </MenuItem>
             ))}
           </Select>
@@ -171,7 +171,8 @@ const ConfigureTransport = () => {
           type="submit"
           variant="contained"
           color="primary"
-          className="bg-blue-500 hover:bg-blue-600 text-white"
+          sx={{ bgcolor: '#15F5BA', '&:hover': { bgcolor: '#1AACAC' },boxShadow: 'none',mr:2, color: 'black', border: 'none' }}
+          
         >
           Add Transport
         </Button>

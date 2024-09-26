@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../../services/axios.js';
 import { Box, Typography, CircularProgress, Paper } from '@mui/material';
-import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-const COLORS = ['#1AACAC', '#FA7070']; // Colors for the pie chart
-
-const ManageVehicle = () => {
+const ManageVehicleGraph = () => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [chartData, setChartData] = useState([]); // Data for pie chart
+  const [deptChartData, setDeptChartData] = useState([]); // Data for department bar chart
 
   const fetchDetails = async () => {
     setLoading(true);
     try {
       const response = await axios.get("/vehicles/");
       setVehicles(response.data);
-      calculateChartData(response.data);
+      calculateDeptChartData(response.data);
     } catch (error) {
       console.error("Error fetching vehicle data:", error);
     } finally {
@@ -27,16 +25,18 @@ const ManageVehicle = () => {
     fetchDetails();
   }, []);
 
-  const calculateChartData = (vehicles) => {
-    const activeVehicles = vehicles.filter(vehicle => vehicle.status === 'Active').length;
-    const maintenanceVehicles = vehicles.length - activeVehicles;
+  const calculateDeptChartData = (vehicles) => {
+    const deptCounts = vehicles.reduce((acc, vehicle) => {
+      acc[vehicle.assignedDept] = (acc[vehicle.assignedDept] || 0) + 1;
+      return acc;
+    }, {});
 
-    const data = [
-      { name: 'Active Vehicles', value: activeVehicles },
-      { name: 'Maintenance Vehicles', value: maintenanceVehicles },
-    ];
+    const data = Object.keys(deptCounts).map(department => ({
+      name: department,
+      value: deptCounts[department],
+    }));
 
-    setChartData(data);
+    setDeptChartData(data);
   };
 
   return (
@@ -53,26 +53,16 @@ const ManageVehicle = () => {
       ) : (
         <Paper elevation={0} sx={{ mt: 4, p: 2 }}> {/* Set elevation to 0 */}
           <Typography variant="h5" align="center" gutterBottom>
-            Vehicle Status Distribution
+            Vehicles by Department
           </Typography>
           <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={chartData}
-                cx="50%"
-                cy="50%"
-                outerRadius={80}
-                fill="#8884d8"
-                dataKey="value"
-                label
-              >
-                {chartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
+            <BarChart data={deptChartData}>
+              <XAxis dataKey="name" />
+              <YAxis />
               <Tooltip />
               <Legend />
-            </PieChart>
+              <Bar dataKey="value" fill="#1AACAC" />
+            </BarChart>
           </ResponsiveContainer>
         </Paper>
       )}
@@ -80,4 +70,4 @@ const ManageVehicle = () => {
   );
 };
 
-export default ManageVehicle;
+export default ManageVehicleGraph;

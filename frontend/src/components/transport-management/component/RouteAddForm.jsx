@@ -84,10 +84,10 @@ const RouteAddForm = () => {
             </div>
 
             <div className="flex justify-between mt-6">
-              <Button type="submit" variant="contained" color="primary">
+              <Button type="submit" variant="contained"    sx={{ bgcolor: '#15F5BA', '&:hover': { bgcolor: '#1AACAC' },boxShadow: 'none',mr:2, color: 'black', border: 'none' }}>
                 Add Route
               </Button>
-              <Button variant="outlined" color="primary" onClick={handleClear}>
+              <Button variant="outlined" sx={{ bgcolor: '#FA7070', border:'none','&:hover': { bgcolor: '#BF4010',boxShadow:'none' ,border:'none'} ,boxShadow: 'none',color: 'black'}} onClick={handleClear}>
                 Clear
               </Button>
             </div>

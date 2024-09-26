@@ -29,7 +29,7 @@ const AdminDashboardLayout = ({ children, menu }) => {
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
         {isSidebarOpen && (
-          <div className="w-64 h-full overflow-y-auto bg-gray-800 overflow-x-hidden no-scrollbar ">
+          <div className="w-64 h-full overflow-y-auto bg-color_focus overflow-x-hidden no-scrollbar ">
             <Sidebar
               setopen={setIsSidebarOpen}
               topMenuItems={topMenuItemsNav}

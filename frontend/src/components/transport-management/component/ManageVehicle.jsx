@@ -23,18 +23,32 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
+  Checkbox,
+  FormControlLabel,
+  Grid,
 } from '@mui/material';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable'; // Import autoTable
 
 const ManageVehicle = () => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [alert, setAlert] = useState({ open: false, message: '', severity: 'success' });
-  const [dialogOpen, setDialogOpen] = useState(false); // Delete dialog state
-  const [editDialogOpen, setEditDialogOpen] = useState(false); // Edit dialog state
-  const [vehicleToDelete, setVehicleToDelete] = useState(null); // Store vehicle to delete
-  const [vehicleToEdit, setVehicleToEdit] = useState({}); // Store vehicle to edit
-  const navigateTo = useNavigate();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [vehicleToDelete, setVehicleToDelete] = useState(null);
+  const [vehicleToEdit, setVehicleToEdit] = useState({});
+  
+  // State for search options
+  const [searchOptions, setSearchOptions] = useState({
+    searchById: true,
+    searchByType: false,
+    searchByDept: false,
+    searchByChassis: false,
+    searchByAddress: false,
+  });
+  const [statusFilter, setStatusFilter] = useState("");
 
   const fetchDetails = async () => {
     setLoading(true);
@@ -54,13 +68,12 @@ const ManageVehicle = () => {
   }, []);
 
   const handleUpdateOpen = (vehicle) => {
-    setVehicleToEdit(vehicle); // Set the vehicle data to edit
-    setEditDialogOpen(true); // Open the edit dialog
+    setVehicleToEdit(vehicle);
+    setEditDialogOpen(true);
   };
 
   const handleUpdate = async () => {
     try {
-      // Send the updated vehicle data to the backend
       await axios.put(`/vehicles/${vehicleToEdit.id}`, vehicleToEdit);
       setVehicles(vehicles.map((vehicle) => (vehicle.id === vehicleToEdit.id ? vehicleToEdit : vehicle)));
       setAlert({ open: true, message: 'Vehicle updated successfully', severity: 'success' });
@@ -68,29 +81,29 @@ const ManageVehicle = () => {
       console.error("Error updating vehicle:", error);
       setAlert({ open: true, message: 'Failed to update vehicle', severity: 'error' });
     } finally {
-      setEditDialogOpen(false); // Close the edit dialog
-      setTimeout(handleCloseAlert, 3000); // Close alert after 3 seconds
+      setEditDialogOpen(false);
+      setTimeout(handleCloseAlert, 3000);
     }
   };
 
   const handleDeleteClick = (id) => {
-    setVehicleToDelete(id); // Set the vehicle ID to be deleted
-    setDialogOpen(true); // Open the delete dialog
+    setVehicleToDelete(id);
+    setDialogOpen(true);
   };
 
   const handleDelete = async () => {
     if (vehicleToDelete) {
       try {
-        await axios.delete(`/vehicles/${vehicleToDelete}`);
+        await axios.put(`/vehicles/${vehicleToDelete}`);
         setVehicles(vehicles.filter((vehicle) => vehicle.id !== vehicleToDelete));
         setAlert({ open: true, message: 'Vehicle deleted successfully', severity: 'success' });
       } catch (error) {
         console.error("Error deleting vehicle:", error);
         setAlert({ open: true, message: 'Failed to delete vehicle', severity: 'error' });
       } finally {
-        setDialogOpen(false); // Close the delete dialog after deletion attempt
-        setVehicleToDelete(null); // Reset vehicle ID
-        setTimeout(handleCloseAlert, 3000); // Close alert after 3 seconds
+        setDialogOpen(false);
+        setVehicleToDelete(null);
+        setTimeout(handleCloseAlert, 3000);
       }
     }
   };
@@ -100,31 +113,56 @@ const ManageVehicle = () => {
   };
 
   const handleCloseDialog = () => {
-    setDialogOpen(false); // Close the delete dialog without deleting
-    setVehicleToDelete(null); // Reset vehicle ID
+    setDialogOpen(false);
+    setVehicleToDelete(null);
   };
 
   const handleCloseEditDialog = () => {
-    setEditDialogOpen(false); // Close the edit dialog without updating
-    setVehicleToEdit({}); // Reset vehicle data
+    setEditDialogOpen(false);
+    setVehicleToEdit({});
   };
 
-  const filteredVehicles = vehicles.filter((vehicle) =>
-    vehicle.owner_name.toLowerCase().includes(search.toLowerCase()) ||
-    vehicle.assignedDept.toLowerCase().includes(search.toLowerCase()) ||
-    vehicle.type.toLowerCase().includes(search.toLowerCase()) ||
-    vehicle.chassisNo.toLowerCase().includes(search.toLowerCase()) ||
-    vehicle.owner_address.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredVehicles = vehicles.filter((vehicle) => {
+    const matchesSearch = (searchOptions.searchById && vehicle.id.toString().includes(search)) ||
+                          (searchOptions.searchByType && vehicle.type.toLowerCase().includes(search.toLowerCase())) ||
+                          (searchOptions.searchByDept && vehicle.assignedDept.toLowerCase().includes(search.toLowerCase())) ||
+                          (searchOptions.searchByChassis && vehicle.chassisNo.toLowerCase().includes(search.toLowerCase())) ||
+                          (searchOptions.searchByAddress && vehicle.owner_address.toLowerCase().includes(search.toLowerCase()));
+
+    const matchesStatus = !statusFilter || vehicle.status === statusFilter;
+
+    return matchesSearch && matchesStatus;
+  });
+
+  // Function to generate and download the PDF report
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(20);
+    doc.text("Vehicle Report", 14, 22);
+    
+    // Prepare data for the PDF
+    const pdfData = filteredVehicles.map(vehicle => ([
+      vehicle.id,
+      vehicle.type,
+      vehicle.assignedDept,
+      vehicle.status,
+      vehicle.owner_address
+    ]));
+
+    // Add a table to the PDF
+    doc.autoTable({
+      head: [['Vehicle ID', 'Type', 'Assigned Dept', 'Status', 'Owner Address']],
+      body: pdfData,
+      startY: 30,
+    });
+
+    // Save the PDF
+    doc.save("vehicle_report.pdf");
+  };
 
   return (
     <div className="p-8">
-      {/* Page Title */}
-      <Typography variant="h4" component="h1" gutterBottom>
-        Vehicle Management
-      </Typography>
-
-      {/* Alert for deletion feedback */}
+    
       {alert.open && (
         <Alert 
           onClose={handleCloseAlert} 
@@ -135,14 +173,76 @@ const ManageVehicle = () => {
         </Alert>
       )}
 
-      {/* Search Input */}
-      <TextField
-        label="Search"
-        variant="outlined"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        style={{ marginBottom: '20px', width: '100%' }}
-      />
+      {/* Search and Status Input Row */}
+      <Grid container spacing={2} alignItems="center" style={{ marginBottom: '20px' }}>
+        <Grid item xs={8}>
+          <TextField
+            label="Search"
+            variant="outlined"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <FormControl variant="outlined" style={{ width: '100%' }}>
+            <InputLabel id="status-label">Status</InputLabel>
+            <Select
+              labelId="status-label"
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              label="Status"
+            >
+              <MenuItem value="">All</MenuItem>
+              <MenuItem value="Active">Active</MenuItem>
+              <MenuItem value="Maintenance">Maintenance</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+      </Grid>
+
+      {/* Checkboxes for search options */}
+      <div style={{ marginBottom: '20px' }}>
+        <FormControlLabel
+          control={<Checkbox checked={searchOptions.searchById} onChange={(e) => setSearchOptions({ ...searchOptions, searchById: e.target.checked })} />}
+          label="Search by ID"
+        />
+        <FormControlLabel
+          control={<Checkbox checked={searchOptions.searchByType} onChange={(e) => setSearchOptions({ ...searchOptions, searchByType: e.target.checked })} />}
+          label="Search by Type"
+        />
+        <FormControlLabel
+          control={<Checkbox checked={searchOptions.searchByDept} onChange={(e) => setSearchOptions({ ...searchOptions, searchByDept: e.target.checked })} />}
+          label="Search by Assigned Dept"
+        />
+        <FormControlLabel
+          control={<Checkbox checked={searchOptions.searchByChassis} onChange={(e) => setSearchOptions({ ...searchOptions, searchByChassis: e.target.checked })} />}
+          label="Search by Chassis No"
+        />
+        <FormControlLabel
+          control={<Checkbox checked={searchOptions.searchByAddress} onChange={(e) => setSearchOptions({ ...searchOptions, searchByAddress: e.target.checked })} />}
+          label="Search by Owner Address"
+        />
+      </div>
+
+      {/* Download Report Button */}
+          <Button 
+            variant="contained" 
+            color="primary" 
+            onClick={generatePDF} 
+              sx={{ 
+                marginBottom: '20px', 
+                backgroundColor: '#15F5BA', 
+                color: 'black', 
+                boxShadow: 'none', 
+                '&:hover': { 
+                  backgroundColor: '#1AACAC',
+                  boxShadow: 'none', 
+              } 
+          }}
+>
+        Download Report
+      </Button>
 
       {/* Show a loading spinner while fetching data */}
       {loading ? (
@@ -153,59 +253,38 @@ const ManageVehicle = () => {
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
-              <TableRow style={{ backgroundColor: '#008080' }}>
-                <TableCell style={{ color: 'white' }}>Vehicle ID</TableCell>
-                <TableCell style={{ color: 'white' }}>Type</TableCell>
-                <TableCell style={{ color: 'white' }}>Assigned Dept</TableCell>
-                <TableCell style={{ color: 'white' }}>Available Status</TableCell>
-                <TableCell style={{ color: 'white' }}>Owner Address</TableCell>
-                <TableCell style={{ color: 'white' }} align="center">Actions</TableCell>
+              <TableRow style={{ backgroundColor: '#15F5BA' }}>
+                <TableCell style={{  }}>ID</TableCell>
+                <TableCell style={{  }}>Type</TableCell>
+                <TableCell style={{  }}>Assigned Dept</TableCell>
+                <TableCell style={{  }}>Status</TableCell>
+                <TableCell style={{  }}>Owner Address</TableCell>
+                <TableCell style={{  }}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredVehicles.length > 0 ? (
-                filteredVehicles.map((vehicle) => (
-                  <TableRow key={vehicle.id} hover>
-                    <TableCell>{vehicle.id}</TableCell>
-                    <TableCell>{vehicle.type}</TableCell>
-                    <TableCell>{vehicle.assignedDept}</TableCell>
-                    <TableCell>
-                      <span
-                        style={{
-                          color: vehicle.status === 'Active' ? '#00C853' : '#FF5252',
-                          fontWeight: 'bold',
-                        }}
+              {filteredVehicles.map((vehicle) => (
+                <TableRow key={vehicle.id}>
+                  <TableCell>{vehicle.id}</TableCell>
+                  <TableCell>{vehicle.type}</TableCell>
+                  <TableCell>{vehicle.assignedDept}</TableCell>
+                  <TableCell>{vehicle.status}</TableCell>
+                  <TableCell>{vehicle.owner_address}</TableCell>
+                  <TableCell>
+                    <Button variant="outlined" onClick={() => handleUpdateOpen(vehicle)}
+                       sx={{ bgcolor: '#15F5BA', '&:hover': { bgcolor: '#1AACAC' },boxShadow: 'none',mr:2, color: 'black', border: 'none' }} 
                       >
-                        {vehicle.status === 'Active' ? 'Active' : 'Maintenance'}
-                      </span>
-                    </TableCell>
-                  
-                    <TableCell>{vehicle.owner_address}</TableCell>
-                    <TableCell align="center">
-                      <Button
-                        variant="contained"
-                        onClick={() => handleUpdateOpen(vehicle)} // Open edit dialog
-                        style={{ marginRight: '10px', backgroundColor: '#0D294D', boxShadow: '0' }}
-                      >
-                        Update
-                      </Button>
-                      <Button
-                        variant="contained"
-                        style={{ backgroundColor: '#0D294D' }}
-                        onClick={() => handleDeleteClick(vehicle.id)} // Open delete confirmation dialog
-                      >
-                        Delete
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={7} align="center">
-                    No vehicles available
+                      Edit
+                    </Button>
+                    <Button variant="outlined" color="error" onClick={() => handleDeleteClick(vehicle.id)}
+                       sx={{ bgcolor: '#FA7070', border:'none','&:hover': { bgcolor: '#BF4010',boxShadow:'none' ,border:'none'} ,boxShadow: 'none',color: 'black'}}>
+  
+                    
+                      Delete
+                    </Button>
                   </TableCell>
                 </TableRow>
-              )}
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
@@ -216,7 +295,7 @@ const ManageVehicle = () => {
         <DialogTitle>Confirm Deletion</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to delete this vehicle? This action cannot be undone.
+            Are you sure you want to delete this vehicle?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -229,7 +308,7 @@ const ManageVehicle = () => {
         </DialogActions>
       </Dialog>
 
-      {/* Dialog for Editing Vehicle */}
+      {/* Edit Vehicle Dialog */}
       <Dialog open={editDialogOpen} onClose={handleCloseEditDialog}>
         <DialogTitle>Edit Vehicle</DialogTitle>
         <DialogContent>

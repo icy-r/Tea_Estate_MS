@@ -1,23 +1,36 @@
 import React from 'react';
 import {Route, Routes} from 'react-router-dom';
-import EmployeeAdd  from './EmployeeAdd';   
-import EmployeeUpdate from './EmployeeUpdate';
-import EmployeeDetails from './EmployeeDetails';
-import Home from './EmployeeHome'
+import EmployeeAdd  from './pages/EmployeeAdd';   
+import EmployeeUpdate from './pages/EmployeeUpdate';
+import EmployeeDetails from './pages/EmployeeDetails';
+import ApplicantAdd from './pages/ApplicantAdd';
+import ApplicantAccept from './pages/ApplicantAccept';
+import EmployeeHome from './EmployeeHome';  
+import AdminDashboardLayout from '../layouts/AdminDashboardLayout';
+import EmployeeMoreDetails from './pages/EmployeeMoreDetails';
+import EmployeeProfile from './pages/EmployeeProfile';
+import menu from './data-files/menu'; 
+import LeaveRequest from './pages/LeaveRequests';
+
 
 const EmployeeRoutes = () => {
 
     return(
-
-    
         <>
-            <h1>Employee Data Base</h1>
+            <AdminDashboardLayout menu={menu}> 
             <Routes>
                 <Route path="/" element={<div>Home</div>} />
                 <Route path="/employeedetails/*" element={<EmployeeDetails />} />
-                <Route path="/employee/update/:id/" element={<EmployeeUpdate />} />
+                <Route path="/update/:id" element={<EmployeeUpdate />} /> {/* Updated path */}
                 <Route path="/employeeadd/*" element={<EmployeeAdd />} />
+                <Route path="/applicantadd/*" element={<ApplicantAdd/>} />  
+                <Route path="/applicantaccept/*" element={<ApplicantAccept/>} />
+                <Route path="/employeemoredetails/:id" element={<EmployeeMoreDetails />} />
+                <Route path="/employeehome/*" element={<EmployeeHome />} />
+                <Route path="/admin/repair/*" element={<EmployeeProfile/>}/> 
+                <Route path="/requestleave/*" element={<LeaveRequest/>}/>
             </Routes>
+            </AdminDashboardLayout>
         </>
     );
 };

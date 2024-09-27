@@ -1,12 +1,21 @@
-import React from 'react';
-import Nav from './NavBar';
+import React from "react";  
+import AdminDashboardLayout from "../layouts/AdminDashboardLayout.jsx";
+import menu from "./data-files/menu.js";
+import EmployeeDetails from "./pages/EmployeeDetails.jsx"
+
+
+
 
 const EmployeeHome = () => {
     return (
         <div>
-            <h1>Employee Management Home</h1>
-            <p>Welcome to the Employee Management System.</p>
-            <Nav/>
+ 
+            <EmployeeDetails> </EmployeeDetails>
+
+
+
+
+
         </div>
     );
 };

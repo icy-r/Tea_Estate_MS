@@ -9,7 +9,9 @@ const menuItems = [
   { name: "About", link: "/about" },
   { name: "Services", link: "/services" },
   { name: "MarketPlace", link: "/marketplace" },
+  { name: "Careers", link: "/employee/applicantadd"},
   { name: "Login", link: "/admin", special: true },
+  
 ];
 
 const Header = (props) => {

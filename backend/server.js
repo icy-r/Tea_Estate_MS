@@ -10,6 +10,7 @@ import './config/database.js'
 
 // import routes
 import { router as invoicesRouter } from './routes/sales-management/invoices-route.js'
+
 //user-management
 //transport-management
 import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js'
@@ -26,14 +27,12 @@ import { router as repairsRouter } from './routes/repair-management/repair-req-r
 //product-management
 import { router as catalogRouter } from './routes/product-management/catalog-route.js'
 import { router as buyersRouter } from './routes/product-management/buyer-route.js'
-
 //field-management
 import { router as fieldRouter } from './routes/field-management/field-route.js';
 import { router as fertilizerRouter } from './routes/field-management/fertilizer-route.js';
 import { router as harvestRouter } from './routes/field-management/harvest-route.js';
 import { router as labourRouter } from './routes/field-management/labour-route.js';
 import { router as orderTrackingRouter } from './routes/product-management/order-tracking-route.js'
-
 //supply management
 import { router as supplierRouter } from './routes/supply-management/supplier-route.js'
 import { router as supplierManagerRouter } from './routes/supply-management/supplier-manager-route.js'
@@ -43,6 +42,7 @@ import { router as supplyRouter } from './routes/supply-management/supply-route.
 //employee management
 import { router as EmployeeManagement } from './routes/employee-management/employee-route.js'
 import { router as ApplicantManagement } from './routes/employee-management/applicant-route.js'
+import { router as EmployeeProfile } from './routes/employee-management/leave-route.js'
 
 // create the express app
 const app = express()
@@ -70,6 +70,7 @@ app.use('/api/supply', supplyRouter)
 //employee-management
 app.use('/api/empManagement' , EmployeeManagement)
 app.use('/api/applicanttManagement' , ApplicantManagement)
+app.use('/api/employeeProfile' , EmployeeProfile)
 
 //transport-management
 app.use('/api/transports', transportRouter)

@@ -27,6 +27,11 @@ const leaveSchema = new Schema({
       required:true,
     },
 
+    type:{
+      type:String,
+      required:true
+    }
+
  
 
 });

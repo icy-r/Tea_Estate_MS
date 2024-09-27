@@ -12,11 +12,7 @@ import {createContext, useState} from "react";
 import * as authService from "../services/auth-service.js";
 import ProtectedRoutes from "../Routes/ProtectedRoutes.jsx";
 import AdminLogin from "./login/AdminLogin.jsx";
-import LandingPage from "./landingPage/LandingPage.jsx";
-// import EmployeeDetails from "../components/EmployeeManagement/EmployeeDetails.jsx"; 
-// import EmployeeAdd from "../components/EmployeeManagement/EmployeeAdd.jsx";
-// import EmployeeUpdate from "../components/EmployeeManagement/EmployeeUpdate.jsx";
-// import EmployeeHome from "../components/employee-management/pages/employeehome.jsx";    
+import LandingPage from "./landingPage/LandingPage.jsx"; 
 import EmployeeRoutes from "../components/employee-management/EmployeeRoutes.jsx";  
 
 let UserContext;

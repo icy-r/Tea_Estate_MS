@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import React from 'react';
-import axios from '../../services/axios.js';
+import axios from '../../../services/axios.js';
 
 function SendPdf() {
     const [name, setName] = useState("");     // State for Name
@@ -15,10 +15,10 @@ function SendPdf() {
 
     // Function to fetch existing PDFs
     const getpdf = async () => { 
-        const result = await axios.get("/pdf");
+        const result = await axios.get("c");
         console.log(result.data.data);
         setAllPdf(result.data.data);
-    };
+    }
 
     // Function to handle file input change
     const saveFile = (file) => {
@@ -37,7 +37,7 @@ function SendPdf() {
         console.log({ name, email, nic, file });
     
         try {
-            const result = await axios.post("/pdf", formData, {
+            const result = await axios.post("http://localhost:3001/api/empManagement/", formData, {
                 headers: {'Content-Type': 'multipart/form-data'},
             });
             console.log(result);

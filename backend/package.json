@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "nodemon ./bin/www.js"
+    "start": "nodemon ./bin/www.js",
+    "debug": "nodemon --inspect ./bin/www.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

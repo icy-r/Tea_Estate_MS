@@ -22,11 +22,13 @@ import { router as transportRouter } from './routes/transport-management/transpo
 //user-management
 import { router as profilesRouter } from "./routes/user-management/profiles-route.js";
 import { router as authRouter } from "./routes/authentication/auth-route.js";
-//repair-management
-import { router as machinesRouter } from "./routes/repair-management/machines-route.js";
-import { router as logsRouter } from "./routes/repair-management/log-route.js";
-import { router as maintenancesRouter } from "./routes/repair-management/maintenance-route.js";
-import { router as repairsRouter } from "./routes/repair-management/repair-req-route.js";
+// //repair-management
+// import { router as machinesRouter } from "./routes/repair-management/machines-route.js";
+import { router as assetsRouter } from "./routes/repair-management/asset-route.js";
+// import { router as maintenancesRouter } from "./routes/repair-management/maintenance-route.js";
+// import { router as repairsRouter } from "./routes/repair-management/repair-req-route.js";
+import maintenancesRouter from './routes/repair-management/maintenance-route.js'
+import technicianRouter from './routes/repair-management/technician-route.js'
 //product-management
 import { router as catalogRouter } from "./routes/product-management/catalog-route.js";
 import { router as buyersRouter } from "./routes/product-management/buyer-route.js";
@@ -99,11 +101,9 @@ app.post("/send-email", (req, res) => {
 });
 
 // mount imported routes
-//user-management
-//user-management
 app.use('/api/profiles', profilesRouter)
 app.use('/api/auth', authRouter)
-app.use('/api/machines', machinesRouter)
+// app.use('/api/machines', machinesRouter)
 
 app.use('/api/empManagement' , EmployeeManagement)
 app.use('/api/applicantManagement' , ApplicantManagement)
@@ -124,11 +124,12 @@ app.use('/api/catalog', catalogRouter)
 app.use('/api/buyers', buyersRouter)
 app.use('/api/transportLog', transportLogRouter)
 
-//repair-management
-app.use('/api/machines', machinesRouter)
-app.use('/api/logs', logsRouter)
+// //repair-management
+// app.use('/api/machines', machinesRouter)
+app.use('/api/assets', assetsRouter)
 app.use('/api/maintenances', maintenancesRouter)
-app.use("/api/repairs", repairsRouter);
+app.use('/api/technicians', technicianRouter)
+// app.use("/api/repairs", repairsRouter);
 
 //field-management
 app.use('/api/fields', fieldRouter);

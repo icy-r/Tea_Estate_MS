@@ -40,10 +40,9 @@ const vehicleSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
-    status: {//have
+    imageUrl: {
         type: String,
         required: false,
-         default: 'Active',
     },
 
 }, 

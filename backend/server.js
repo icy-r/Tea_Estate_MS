@@ -18,6 +18,8 @@ import { router as vehiclesRouter } from './routes/transport-management/vehicle-
 import { router as routeRouter } from './routes/transport-management/route-route.js'
 import { router as transportLogRouter } from './routes/transport-management/transport-log-route.js'
 import { router as transportRouter } from './routes/transport-management/transport-route.js'
+import { router as driverRouter } from './routes/transport-management/driver-route.js'
+
 //user-management
 import { router as profilesRouter } from "./routes/user-management/profiles-route.js";
 import { router as authRouter } from "./routes/authentication/auth-route.js";
@@ -43,9 +45,12 @@ import { router as orderTrackingRouter } from "./routes/product-management/order
 import { router as supplierRouter } from "./routes/supply-management/supplier-route.js";
 import { router as supplierManagerRouter } from "./routes/supply-management/supplier-manager-route.js";
 import { router as supplyRouter } from "./routes/supply-management/supply-route.js";
+import { log } from 'console'
 
 // create the express app
 const app = express();
+
+
 
 // create the socket.io server
 const server = createServer(app);
@@ -63,6 +68,8 @@ io.on("connection", (socket) => {
     console.log("user disconnected");
   });
 });
+
+
 
 // basic middleware
 app.use(cors())
@@ -95,6 +102,8 @@ app.use('/api/vehicles', vehiclesRouter)
 app.use('/api/catalog', catalogRouter)
 app.use('/api/buyers', buyersRouter)
 app.use('/api/transportLog', transportLogRouter)
+app.use('/api/driver', driverRouter)
+
 
 //repair-management
 app.use('/api/machines', machinesRouter)
@@ -114,8 +123,11 @@ app.use(function (req, res, next) {
 })
 
 // handle all other errors
+
 app.use(function (err, req, res, next) {
-  res.status(err.status || 500).json({ err: err.message })
+  console.log(req)
+  console.log(err)
+  res.status(err.status || 510).json({ err: err.message })
 })
 
 export { app }

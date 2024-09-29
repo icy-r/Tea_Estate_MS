@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { TextField, MenuItem, Button, Snackbar } from "@mui/material";
+import React, { useState,useEffect } from "react";
+import { TextField, MenuItem, Button, Snackbar,Select } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import axios from "../../../services/axios.js";
 
@@ -24,9 +24,36 @@ const VehicleAddForm = () => {
     imageUrl: null,
   });
 
+
+
   const [errors, setErrors] = useState({});
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const[drivers, setDrivers] = useState([]);
+
+  const fetchDetails = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get("/employees/");
+      if (response.data) {
+        
+        const filteredDrivers = response.data.filter(employee => employee.designation === 'Driver'); 
+        console.log("Drivers:", filteredDrivers);
+        setDrivers(filteredDrivers);
+       
+
+      }
+    } catch (error) {
+      console.error("Error fetching vehicle data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDetails();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -72,17 +99,28 @@ const VehicleAddForm = () => {
       submissionData.append(key, formData[key]);
     }
 
+   
+
+
     // Log the FormData contents for debugging
     for (const [key, value] of submissionData.entries()) {
       console.log(key, value);
     }
 
     try {
+
+      await axios.post("/drivers", {
+        driver_id: formData.driver_id,
+        vehicle_id: formData.id, // Assuming vehicle_id is the registration number
+      });
+
       const response = await axios.post("/vehicles", submissionData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "form-data",
         },
       });
+
+      
       console.log("Form submitted successfully:", response.data);
       setSnackbarMessage("Vehicle added successfully!");
       setSnackbarOpen(true);
@@ -115,7 +153,7 @@ const VehicleAddForm = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} enctype="multipart/form-data">
+      <form onSubmit={handleSubmit} >
         <div className="flex justify-center items-start p-8">
           <div className="w-full max-w-lg bg-white rounded-lg shadow-md p-8">
             <h2 className="text-xl font-semibold mb-4">Vehicle Owner Details</h2>
@@ -205,31 +243,27 @@ const VehicleAddForm = () => {
                 <MenuItem value="Harvest Transport">Harvest Transport</MenuItem>
                 <MenuItem value="Delivery Transport">Delivery Transport</MenuItem>
               </TextField>
-              <TextField
-                label="Driver"
-                variant="outlined"
-                required
+              <Select
+                labelId="driver-select-label"
                 name="driver_id"
                 value={formData.driver_id}
                 onChange={handleInputChange}
                 error={!!errors.driver_id}
-                helperText={errors.driver_id || ""}
-              />
+                
+                displayEmpty
+              >
+                <MenuItem value="" disabled>
+                  Select a driver
+                </MenuItem>
+                {drivers.map((driver) => (
+                  <MenuItem key={driver.Id} value={driver.Id}> {/* Adjust the key and value based on your driver data structure */}
+                    {driver.firstName} {/* Change 'name' to the property that represents the driver's name */}
+                  </MenuItem>
+                ))}
+              </Select>
+              
             </div>
-            <div className="grid grid-cols-2 gap-4 mt-4">
-              <UploadContainer>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  id="file-upload"
-                  name="imageUrl"
-                />
-                <label htmlFor="file-upload" className="cursor-pointer">
-                  Upload Vehicle Image
-                </label>
-              </UploadContainer>
-            </div>
+    
 
             <div className="flex justify-between mt-6">
               <Button type="submit" variant="contained" sx={{ bgcolor: '#15F5BA', '&:hover': { bgcolor: '#1AACAC', boxShadow: 'none' }, boxShadow: 'none', mr: 2, color: 'black', border: 'none' }}>

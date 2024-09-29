@@ -68,6 +68,7 @@ const ManageVehicle = () => {
       const response = await axios.get("/vehicles/");
       if (response.data) {
         setVehicles(response.data);
+        console.log("Vehicles:", vehicles);
       }
     } catch (error) {
       console.error("Error fetching vehicle data:", error);

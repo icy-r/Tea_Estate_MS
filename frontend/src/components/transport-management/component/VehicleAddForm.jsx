@@ -21,7 +21,7 @@ const VehicleAddForm = () => {
     manufactureYear: "2000", // default value
     assignedDept: "",
     driver_id: "",
-    image: null,
+    imageUrl: null,
   });
 
   const [errors, setErrors] = useState({});
@@ -39,7 +39,7 @@ const VehicleAddForm = () => {
   const handleFileChange = (e) => {
     setFormData({
       ...formData,
-      image: e.target.files[0],
+      imageUrl: e.target.files[0],
     });
   };
 
@@ -72,6 +72,11 @@ const VehicleAddForm = () => {
       submissionData.append(key, formData[key]);
     }
 
+    // Log the FormData contents for debugging
+    for (const [key, value] of submissionData.entries()) {
+      console.log(key, value);
+    }
+
     try {
       const response = await axios.post("/vehicles", submissionData, {
         headers: {
@@ -99,7 +104,7 @@ const VehicleAddForm = () => {
       manufactureYear: "2000",
       assignedDept: "",
       driver_id: "",
-      image: null,
+      imageUrl: null,
     });
     setErrors({});
   };
@@ -110,7 +115,7 @@ const VehicleAddForm = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} enctype="multipart/form-data">
         <div className="flex justify-center items-start p-8">
           <div className="w-full max-w-lg bg-white rounded-lg shadow-md p-8">
             <h2 className="text-xl font-semibold mb-4">Vehicle Owner Details</h2>
@@ -211,12 +216,26 @@ const VehicleAddForm = () => {
                 helperText={errors.driver_id || ""}
               />
             </div>
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              <UploadContainer>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  id="file-upload"
+                  name="imageUrl"
+                />
+                <label htmlFor="file-upload" className="cursor-pointer">
+                  Upload Vehicle Image
+                </label>
+              </UploadContainer>
+            </div>
 
             <div className="flex justify-between mt-6">
-              <Button type="submit" variant="contained"   sx={{ bgcolor: '#15F5BA', '&:hover': { bgcolor: '#1AACAC',boxShadow: 'none' },boxShadow: 'none',mr:2, color: 'black', border: 'none' }}>
+              <Button type="submit" variant="contained" sx={{ bgcolor: '#15F5BA', '&:hover': { bgcolor: '#1AACAC', boxShadow: 'none' }, boxShadow: 'none', mr: 2, color: 'black', border: 'none' }}>
                 Register
               </Button>
-              <Button variant="outlined" sx={{ bgcolor: '#FA7070', border:'none','&:hover': { bgcolor: '#BF4010',boxShadow:'none' ,border:'none'} ,boxShadow: 'none',color: 'black'}} onClick={handleClear}>
+              <Button variant="outlined" sx={{ bgcolor: '#FA7070', border: 'none', '&:hover': { bgcolor: '#BF4010', boxShadow: 'none', border: 'none' }, boxShadow: 'none', color: 'black' }} onClick={handleClear}>
                 Clear
               </Button>
             </div>

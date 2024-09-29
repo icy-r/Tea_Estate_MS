@@ -127,7 +127,7 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
   console.log(req)
   console.log(err)
-  res.status(err.status || 510).json({ err: err.message })
+  res.status(err.status || 500).json({ err: err.message })
 })
 
 export { app }

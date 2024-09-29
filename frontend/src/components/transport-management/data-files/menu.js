@@ -11,7 +11,8 @@ const menuItems = [
     name: "Vehicle management",
     subItems: [
       { name: "Add Vehicle", link: "transport/add-vehicle" },
-      { name: "Manage Vehicle", link: "transport/manage-vehicle" },
+      { name: "Manage Vehicles", link: "transport/manage-vehicle" },
+      { name: "Vehicle Details", link: "transport/vehicle-portal" },
     ],
   },
   {

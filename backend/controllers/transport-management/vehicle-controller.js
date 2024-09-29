@@ -26,7 +26,7 @@ async function show(req, res) {
 
 async function create(req, res) {
   try {
-    log("hi");
+    console.log("hi");
     const vehicle = new Vehicle(req.body);
     await vehicle.save();
     res.json(vehicle);

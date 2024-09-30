@@ -21,7 +21,7 @@ const Sidebar = ({ topMenuItems, menuItems, setopen }) => {
               <li key={index} className="mb-2 w-100">
                 <a
                   // href={item.link || "#"}
-                  onClick={() => navigate(`admin/repair/${item.link}`)}
+                  onClick={() => navigate(`/admin${item.link}`)}
                   className={`text-white flex text-sm font-medium   hover:bg-teal-600 hover:text-white transition-all duration-300 ${
                     item.active
                       ? "bg-teal-500 text-white px-4 py-3"

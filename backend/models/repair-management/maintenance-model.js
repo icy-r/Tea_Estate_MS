@@ -1,19 +1,27 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
+const { ObjectId } = mongoose.Schema.Types;
 
-const Schema = mongoose.Schema
+const MaintenanceScheduleSchema = new mongoose.Schema({
+  assetId: { type: ObjectId, required: true },
+  scheduledDate: { type: Date, required: true },
+  maintenanceType: { type: String, required: true },
+  description: { type: String, required: true },
+  assignedTechnician: {
+    technicianId: { type: ObjectId, required: true },
+    name: { type: String, required: true },
+  },
+  status: {
+    type: String,
+    enum: ["scheduled", "in-progress", "completed", "postponed"],
+    required: true,
+  },
+  completionDate: Date,
+  notes: String,
+});
 
-const maintenanceTaskSchema = new Schema({
-    item_id: { type: Number, required: true },
-    assigned_technician_id: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    priority_level: { type: String, enum: ['Low', 'Medium', 'High'], required: true },
-    status: { type: String, enum: ['Pending', 'In Progress', 'Completed'], required: true },
-    task_type: { type: String, enum: ['Repair', 'Routine Maintenance'], required: true },
-    scheduled_date: Date,
-    completion_date: Date,
-    }, {
-    timestamps: true,
-    })
+const MaintenanceSchedule = mongoose.model(
+  "MaintenanceSchedule",
+  MaintenanceScheduleSchema
+);
 
-const MaintenanceTask = mongoose.model('MaintenanceTask', maintenanceTaskSchema)
-
-export { MaintenanceTask }
+export { MaintenanceSchedule };

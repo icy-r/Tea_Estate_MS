@@ -11,7 +11,6 @@ const transportLogSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-
     vehicle_id: {
         type: String,
         required: true,
@@ -32,6 +31,7 @@ const transportLogSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    
 
 
 },

@@ -38,6 +38,9 @@ importers:
       multer:
         specifier: 1.4.3
         version: 1.4.3
+      nodemailer:
+        specifier: ^6.9.15
+        version: 6.9.15
       nodemon:
         specifier: ^3.1.4
         version: 3.1.4
@@ -623,6 +626,10 @@ packages:
     peerDependenciesMeta:
       encoding:
         optional: true
+
+  nodemailer@6.9.15:
+    resolution: {integrity: sha512-AHf04ySLC6CIfuRtRiEYtGEXgRfa6INgWGluDhnxTZhHSKvrBu7lc1VVchQ0d8nPc4cFaZoPq8vkyNoZr0TpGQ==}
+    engines: {node: '>=6.0.0'}
 
   nodemon@3.1.4:
     resolution: {integrity: sha512-wjPBbFhtpJwmIeY2yP7QF+UKzPfltVGtfce1g/bB15/8vCGZj8uxD62b/b9M9/WVgme0NZudpownKN+c0plXlQ==}
@@ -1566,6 +1573,8 @@ snapshots:
   node-fetch@2.7.0:
     dependencies:
       whatwg-url: 5.0.0
+
+  nodemailer@6.9.15: {}
 
   nodemon@3.1.4:
     dependencies:

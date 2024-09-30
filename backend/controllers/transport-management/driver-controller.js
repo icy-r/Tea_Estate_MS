@@ -26,6 +26,7 @@ async function show(req, res) {
 async function create(req, res) {
     try {
         const { driver_id, vehicle_id } = req.body;
+        console.log(req.body);
 
         // Check if driver already exists
         let driver = await Driver.findOne({ driver_id });

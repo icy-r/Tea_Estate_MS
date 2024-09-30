@@ -9,6 +9,7 @@ import {
   FaChevronRight,
 } from "react-icons/fa";
 import { MdClear } from "react-icons/md";
+import EditMaintenance from "./EditMaintenance.jsx";
 
 const MaintenanceReportGenerator = () => {
   const [maintenanceTasks, setMaintenanceTasks] = useState([]);
@@ -19,6 +20,7 @@ const MaintenanceReportGenerator = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [dateFilter, setDateFilter] = useState({ start: "", end: "" });
   const [loading, setLoading] = useState(true);
+  const [editingMaintenanceId, setEditingMaintenanceId] = useState(null);
 
   useEffect(() => {
     fetchMaintenanceTasks();
@@ -120,6 +122,15 @@ const MaintenanceReportGenerator = () => {
         <h1 className="text-2xl font-bold mb-2 sm:mb-0">
           Maintenance Report Generator
         </h1>
+        {editingMaintenanceId && (
+          <EditMaintenance
+            maintenanceId={editingMaintenanceId}
+            onClose={() => {
+              setEditingMaintenanceId(null);
+              fetchMaintenanceTasks(); // Refresh the list after editing
+            }}
+          />
+        )}
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setFilterOpen(!filterOpen)}
@@ -231,6 +242,24 @@ const MaintenanceReportGenerator = () => {
                     {task.completionDate
                       ? new Date(task.completionDate).toLocaleDateString()
                       : "N/A"}
+                  </td>
+                  <td className="py-3 flex gap-1 px-4">
+                    <button
+                      onClick={() => setEditingMaintenanceId(task._id)}
+                      className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition duration-700"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => {
+                        axios
+                          .delete(`/maintenances/${task._id}`)
+                          .then(() => fetchMaintenanceTasks());
+                      }}
+                      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition duration-700"
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}

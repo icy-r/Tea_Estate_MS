@@ -10,7 +10,7 @@ const router = Router();
 
 
 /*---------- Protected Routes ----------*/
-// router.use(decodeUserFromToken)
+ router.use(decodeUserFromToken)
 // index for getting all machines defined in EmployeeController
 router.get("/", EmployeeController.index);
 

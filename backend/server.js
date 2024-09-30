@@ -102,7 +102,7 @@ app.use('/api/vehicles', vehiclesRouter)
 app.use('/api/catalog', catalogRouter)
 app.use('/api/buyers', buyersRouter)
 app.use('/api/transportLog', transportLogRouter)
-app.use('/api/driver', driverRouter)
+app.use('/api/drivers', driverRouter)
 
 
 //repair-management
@@ -116,6 +116,9 @@ app.use('/api/fields', fieldRouter);
 app.use('/api/fertilizers', fertilizerRouter);
 app.use('/api/harvests', harvestRouter);
 app.use('/api/labours', labourRouter);
+
+//employee-management
+app.use('/api/employees', EmployeeManagement)
 
 // handle 404 errors
 app.use(function (req, res, next) {

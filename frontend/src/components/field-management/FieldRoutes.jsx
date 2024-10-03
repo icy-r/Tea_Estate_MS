@@ -5,7 +5,8 @@ import AddField from "./pages/AddField";
 import ManageField from "./pages/ManageField";
 import UpdateField from "./pages/UpdateField";
 import AssignLabours from "./pages/AssignLabours.jsx";
-import AdminDashboardLayout from "./component/AdminDashboardLayout.jsx";
+import AdminDashboardLayout from "../../components/layouts/AdminDashboardLayout.jsx";
+import menuItems from "./data-files/menuItems.js";
 import ViewHarvest from "./pages/ViewHarvest.jsx";
 import AddHarvest from "./pages/AddHarvest.jsx";
 import CalculateOT from "./pages/CalculateOT.jsx";
@@ -13,7 +14,7 @@ import CalculateOT from "./pages/CalculateOT.jsx";
 const FieldRoutes = () => {
   return (
     <>
-      <AdminDashboardLayout>
+      <AdminDashboardLayout menu={menuItems}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/add" element={<AddField />} />

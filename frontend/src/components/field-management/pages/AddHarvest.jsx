@@ -95,7 +95,7 @@ const AddHarvest = () => {
 
         // Add to harvests collection
         await axios.post("/harvests", {
-          id: harvest.id,
+          //id: harvest.id,
           labour_name: harvest.labour_name,
           field_name: harvest.field_name,
           date: harvest.date,
@@ -157,7 +157,6 @@ const AddHarvest = () => {
         <table className="min-w-full bg-white">
           <thead>
             <tr className="w-full bg-teal-500 text-white">
-              <th className="py-2 px-4 text-left">Harvest Id</th>
               <th className="py-2 px-4 text-left">Labour Name</th>
               <th className="py-2 px-4 text-left">Assigned Field</th>
               <th className="py-2 px-4 text-left">Date</th>
@@ -170,16 +169,6 @@ const AddHarvest = () => {
             {labours.length > 0 ? (
               labours.map((labour, index) => (
                 <tr key={labour.id} className="hover:bg-gray-100">
-                  <td className="py-2 px-4 border">
-                    <input
-                      type="number"
-                      value={harvestData[index].id}
-                      onChange={(e) =>
-                        handleQuantityChange(index, "id", e.target.value)
-                      }
-                      className="w-full px-2 py-1 border rounded"
-                    />
-                  </td>
                   <td className="py-2 px-4 border">{labour.firstName}</td>
                   <td className="py-2 px-4 border">{labour.assignedField}</td>
                   <td className="py-2 px-4 border">{currentDate}</td>

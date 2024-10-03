@@ -3,7 +3,7 @@ import axios from '../../../services/axios.js';
 import { Box, Typography, CircularProgress, Paper } from '@mui/material';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-const COLORS = ['#0088FE', '#FF8042', '#00C49F', '#FFBB28', '#FF8042']; // Colors for the pie chart
+const COLORS = ["#FF0000", "#FFFF00", "#2196f3", "#ff9800", "#9c27b0"]; // Colors for the pie chart
 
 const FieldsHarvestChart = () => {
   const [fields, setFields] = useState([]);
@@ -74,7 +74,7 @@ const FieldsHarvestChart = () => {
                 cx="50%"
                 cy="50%"
                 outerRadius={80}
-                fill="#8884d8"
+                fill="#6684d8"
                 dataKey="value"
                 label={renderCustomizedLabel} // Add custom label
                 labelLine={false} // Hide label lines for a cleaner look

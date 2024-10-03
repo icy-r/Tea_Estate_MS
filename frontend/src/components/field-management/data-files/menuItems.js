@@ -1,5 +1,9 @@
 const menuItems = [
   {
+    name: "Main",
+    subItems: [{ name: "Dashboard", link: "field" }],
+  },
+  {
     name: "Field Management",
     subItems: [
       { name: "Add Field", link: "field/add" },

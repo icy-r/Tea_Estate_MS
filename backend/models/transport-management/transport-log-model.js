@@ -1,10 +1,7 @@
 import mongoose from 'mongoose'
 
-const transportSchema = new mongoose.Schema({
-    // id string pk
-    // type string
-    // dailyOccurrence int
-    // vehicle_id string fk
+const transportLogSchema = new mongoose.Schema({
+
 
     id: {
         type: String,
@@ -12,10 +9,6 @@ const transportSchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        required: true,
-    },
-    dailyOccurrence: {
-        type: Number,
         required: true,
     },
 
@@ -27,6 +20,18 @@ const transportSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    date: {
+        type: Date,
+        required: true,
+    },
+    time: {
+        type: String,
+        required: true,
+    },
+    status: {
+        type: String,
+        required: true,
+    },
 
 
 },
@@ -35,7 +40,7 @@ const transportSchema = new mongoose.Schema({
   
 });
 
-const Transport = mongoose.model('Transport', transportSchema);
+const TransportLog = mongoose.model('TransportLog', transportLogSchema);
 
-export { Transport };
+export { TransportLog };
 

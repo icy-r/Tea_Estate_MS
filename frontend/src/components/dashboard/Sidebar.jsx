@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const Sidebar = ({ topMenuItems, menuItems, setopen }) => {
   const navigate = useNavigate();
   return (
-    <div className="bg-color_focus text-white w-64 h-lvh flex flex-col pl-8 pb-24">
+    <div className="bg-color_focus text-white w-64 h-auto flex flex-col pl-8 pb-24">
       <div className="self-end sticky top-0">
         <IoMdClose
           onClick={() => {

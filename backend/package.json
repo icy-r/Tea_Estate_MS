@@ -20,5 +20,8 @@
     "nodemailer": "^6.9.15",
     "nodemon": "^3.1.4",
     "socket.io": "^4.8.0"
+  },
+  "devDependencies": {
+    "dotenv-webpack": "^8.1.0"
   }
 }

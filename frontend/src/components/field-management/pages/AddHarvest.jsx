@@ -40,7 +40,7 @@ const AddHarvest = () => {
     try {
       const response = await axios.get("/labours");
       const filteredLabours = response.data.filter(
-        (labour) => labour.role === "Labour"
+        (labour) => labour.role === "Labour" && labour.assignedField != "none"
       );
 
       const initialData = filteredLabours.map((labour) => ({

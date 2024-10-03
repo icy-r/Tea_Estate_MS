@@ -17,6 +17,7 @@ const UpdateField = () => {
     area: field.area,
     labour: field.labour,
     cropStage: field.cropStage,
+    fieldStatus: field.fieldStatus,
   });
 
   const [notification, setNotification] = useState({
@@ -180,6 +181,21 @@ const UpdateField = () => {
               <MenuItem value="Preparation Stage">Preparation Stage</MenuItem>
               <MenuItem value="Weeding Stage">Weeding Stage</MenuItem>
               <MenuItem value="Harvesting Stage">Harvesting Stage</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl className="flex flex-col">
+            <FormLabel required>Field Status</FormLabel>
+            <Select
+              name="fieldStatus"
+              value={fieldData.fieldStatus}
+              onChange={handleChange}
+              required
+              className="border border-gray-300 p-3 rounded-md"
+            >
+              <MenuItem value="Active">Active</MenuItem>
+              <MenuItem value="Inactive">Inactive</MenuItem>
+              <MenuItem value="Needs Maintenance">Needs Maintenance</MenuItem>
             </Select>
           </FormControl>
 

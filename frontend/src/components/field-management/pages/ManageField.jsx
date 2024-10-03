@@ -15,7 +15,7 @@ const ManageField = () => {
   const [fields, setFields] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedFieldId, setSelectedFieldId] = useState(null);
-  const [snackbarOpen, setSnackbarOpen] = useState(false); // Snackbar state
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const navigateTo = useNavigate();
 
   const fetchDetails = async () => {
@@ -50,7 +50,7 @@ const ManageField = () => {
       await axios.delete(`/fields/${selectedFieldId}`);
       setFields(fields.filter((field) => field.id !== selectedFieldId));
       handleCloseDialog();
-      setSnackbarOpen(true); // Open Snackbar when delete is successful
+      setSnackbarOpen(true);
     } catch (error) {
       console.error("Error deleting field:", error);
     }
@@ -74,6 +74,7 @@ const ManageField = () => {
               <th className="py-2 px-4 text-left">Area</th>
               <th className="py-2 px-4 text-left">Supervisor</th>
               <th className="py-2 px-4 text-left">Crop Stage</th>
+              <th className="py-2 px-4 text-left">Field Status</th>
               <th className="py-2 px-4 text-center">Actions</th>
             </tr>
           </thead>
@@ -90,6 +91,7 @@ const ManageField = () => {
                   <td className="py-2 px-4 border">{field.area}</td>
                   <td className="py-2 px-4 border">{field.labour}</td>
                   <td className="py-2 px-4 border">{field.cropStage}</td>
+                  <td className="py-2 px-4 border">{field.fieldStatus}</td>
                   <td className="py-2 px-4 border flex justify-center gap-2">
                     <button
                       className="bg-teal-500 text-white px-4 py-2 rounded-md"
@@ -99,7 +101,7 @@ const ManageField = () => {
                     </button>
                     <button
                       className="bg-red-500 text-white px-4 py-2 rounded-md"
-                      onClick={() => handleOpenDialog(field.id)}
+                      onClick={() => handleOpenDialog(field.id)} // Ensure this opens the dialog
                     >
                       Delete
                     </button>
@@ -108,7 +110,7 @@ const ManageField = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="8" className="text-center py-4">
+                <td colSpan="9" className="text-center py-4">
                   No fields available
                 </td>
               </tr>
@@ -141,9 +143,9 @@ const ManageField = () => {
       {/* Snackbar for Success Alert */}
       <Snackbar
         open={snackbarOpen}
-        autoHideDuration={4000} // Duration to auto-hide the snackbar
+        autoHideDuration={4000}
         onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }} // Position of snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <Alert
           onClose={handleCloseSnackbar}

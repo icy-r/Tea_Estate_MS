@@ -13,6 +13,7 @@ export default function Form() {
     area: "",
     labour: "",
     cropStage: "",
+    fieldStatus: "",
   });
   const [supervisors, setSupervisors] = useState([]);
   const [darkMode, setDarkMode] = useState(false);
@@ -301,6 +302,28 @@ export default function Form() {
               </Select>
             </FormControl>
 
+            <FormControl className="flex flex-col">
+              <FormLabel
+                required
+                style={{
+                  fontSize: "1rem",
+                  color: darkMode ? "white" : "black",
+                }}
+              >
+                Field Status
+              </FormLabel>
+              <Select
+                name="fieldStatus"
+                value={formValues.fieldStatus}
+                onChange={handleChange}
+                required
+                className="border border-gray-300 p-2 rounded-md"
+              >
+                <MenuItem value="Active">Active</MenuItem>
+                <MenuItem value="Inactive">Inactive</MenuItem>
+                <MenuItem value="Needs Maintenance">Needs Maintenance</MenuItem>
+              </Select>
+            </FormControl>
             <button
               type="submit"
               className="bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-500 transition duration-300"

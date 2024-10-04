@@ -16,7 +16,6 @@ const UpdateField = () => {
     fertilizerSchedule: field.fertilizerSchedule,
     area: field.area,
     labour: field.labour,
-    cropStage: field.cropStage,
     fieldStatus: field.fieldStatus,
   });
 
@@ -144,7 +143,7 @@ const UpdateField = () => {
           </FormControl>
 
           <FormControl className="flex flex-col">
-            <FormLabel required>Area</FormLabel>
+            <FormLabel required>Area (in hectares)</FormLabel>
             <Input
               name="area"
               type="number"
@@ -167,24 +166,6 @@ const UpdateField = () => {
           </FormControl>
 
           <FormControl className="flex flex-col">
-            <FormLabel required>Crop Stage</FormLabel>
-            <Select
-              name="cropStage"
-              value={fieldData.cropStage}
-              onChange={handleChange}
-              required
-              className="border border-gray-300 p-3 rounded-md"
-            >
-              <MenuItem value="" disabled>
-                Select Crop Stage
-              </MenuItem>
-              <MenuItem value="Preparation Stage">Preparation Stage</MenuItem>
-              <MenuItem value="Weeding Stage">Weeding Stage</MenuItem>
-              <MenuItem value="Harvesting Stage">Harvesting Stage</MenuItem>
-            </Select>
-          </FormControl>
-
-          <FormControl className="flex flex-col">
             <FormLabel required>Field Status</FormLabel>
             <Select
               name="fieldStatus"
@@ -196,6 +177,7 @@ const UpdateField = () => {
               <MenuItem value="Active">Active</MenuItem>
               <MenuItem value="Inactive">Inactive</MenuItem>
               <MenuItem value="Needs Maintenance">Needs Maintenance</MenuItem>
+              <MenuItem value="In Progress">In Progress</MenuItem>
             </Select>
           </FormControl>
 

@@ -12,7 +12,6 @@ export default function Form() {
     fertilizerSchedule: "",
     area: "",
     labour: "",
-    cropStage: "",
     fieldStatus: "",
   });
   const [supervisors, setSupervisors] = useState([]);
@@ -93,7 +92,7 @@ export default function Form() {
           fertilizerSchedule: "",
           area: "",
           labour: "",
-          cropStage: "",
+          fieldStatus: "",
         });
         notify("Field created and supervisor updated", "success");
       }
@@ -232,7 +231,7 @@ export default function Form() {
                   color: darkMode ? "white" : "black",
                 }}
               >
-                Area
+                Area (in hectares)
               </FormLabel>
               <Input
                 name="area"
@@ -275,33 +274,6 @@ export default function Form() {
               </Select>
             </FormControl>
 
-            {/* Crop Stage Select */}
-            <FormControl className="flex flex-col">
-              <FormLabel
-                required
-                style={{
-                  fontSize: "1rem",
-                  color: darkMode ? "white" : "black",
-                }}
-              >
-                Crop Stage
-              </FormLabel>
-              <Select
-                name="cropStage"
-                value={formValues.cropStage}
-                onChange={handleChange}
-                required
-                className="border border-gray-300 p-2 rounded-md"
-              >
-                <MenuItem value="" disabled>
-                  Select Crop Stage
-                </MenuItem>
-                <MenuItem value="Preparation Stage">Preparation Stage</MenuItem>
-                <MenuItem value="Weeding Stage">Weeding Stage</MenuItem>
-                <MenuItem value="Harvesting Stage">Harvesting Stage</MenuItem>
-              </Select>
-            </FormControl>
-
             <FormControl className="flex flex-col">
               <FormLabel
                 required
@@ -322,6 +294,7 @@ export default function Form() {
                 <MenuItem value="Active">Active</MenuItem>
                 <MenuItem value="Inactive">Inactive</MenuItem>
                 <MenuItem value="Needs Maintenance">Needs Maintenance</MenuItem>
+                <MenuItem value="In Progress">In Progress</MenuItem>
               </Select>
             </FormControl>
             <button

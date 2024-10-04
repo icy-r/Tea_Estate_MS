@@ -160,9 +160,9 @@ const AddHarvest = () => {
               <th className="py-2 px-4 text-left">Labour Name</th>
               <th className="py-2 px-4 text-left">Assigned Field</th>
               <th className="py-2 px-4 text-left">Date</th>
-              <th className="py-2 px-4 text-left">Best Quality</th>
-              <th className="py-2 px-4 text-left">Good Quality</th>
-              <th className="py-2 px-4 text-left">Poor Quality</th>
+              <th className="py-2 px-4 text-left">Best Quality (KG)</th>
+              <th className="py-2 px-4 text-left">Good Quality (KG)</th>
+              <th className="py-2 px-4 text-left">Poor Quality (KG)</th>
             </tr>
           </thead>
           <tbody>

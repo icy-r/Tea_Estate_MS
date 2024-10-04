@@ -73,7 +73,6 @@ const ManageField = () => {
               <th className="py-2 px-4 text-left">Fertilizer Schedule</th>
               <th className="py-2 px-4 text-left">Area</th>
               <th className="py-2 px-4 text-left">Supervisor</th>
-              <th className="py-2 px-4 text-left">Crop Stage</th>
               <th className="py-2 px-4 text-left">Field Status</th>
               <th className="py-2 px-4 text-center">Actions</th>
             </tr>
@@ -90,7 +89,6 @@ const ManageField = () => {
                   </td>
                   <td className="py-2 px-4 border">{field.area}</td>
                   <td className="py-2 px-4 border">{field.labour}</td>
-                  <td className="py-2 px-4 border">{field.cropStage}</td>
                   <td className="py-2 px-4 border">{field.fieldStatus}</td>
                   <td className="py-2 px-4 border flex justify-center gap-2">
                     <button

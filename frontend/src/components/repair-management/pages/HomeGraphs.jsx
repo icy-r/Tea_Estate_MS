@@ -16,19 +16,29 @@ import axios from "../../../services/axios.js";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"];
 
-const CombinedDashboard = () => {
+const AssetDashboard = () => {
   const [assetData, setAssetData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get("/assets")
-      .then((response) => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("/assets");
         setAssetData(response.data);
-      })
-      .catch((error) => console.error("Error fetching asset data:", error));
+      } catch (error) {
+        console.error("Error fetching asset data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  // Asset data processing
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   const assetStatusData = assetData.reduce((acc, asset) => {
     acc[asset.status] = (acc[asset.status] || 0) + 1;
     return acc;
@@ -51,9 +61,7 @@ const CombinedDashboard = () => {
 
   return (
     <div className="container mx-auto text-black p-4">
-      <h1 className="text-2xl font-bold text-white mb-4">
-        Asset Dashboard
-      </h1>
+      <h1 className="text-2xl font-bold text-white mb-4">Asset Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-white p-4 rounded-lg shadow">
@@ -102,7 +110,6 @@ const CombinedDashboard = () => {
         </div>
       </div>
 
-      {/* <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4"> */}
       <div className="mt-8">
         <div className="bg-white p-4 rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-4">Asset List</h2>
@@ -134,4 +141,4 @@ const CombinedDashboard = () => {
   );
 };
 
-export default CombinedDashboard;
+export default AssetDashboard;

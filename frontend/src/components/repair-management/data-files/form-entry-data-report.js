@@ -4,7 +4,7 @@ function opt() {
   let options = [];
   axios.get("/machines").then((response) => {
     response.data.map((machine) => {
-      options.push({ value: machine.item_id, label: machine.name });
+      options.push({ value: machine.item_id, label: machine.item_id });
     });
   });
   return options;

@@ -216,9 +216,12 @@ const MaintenanceReportGenerator = () => {
                 <th className="py-3 px-4 text-left">Technician Name</th>
                 <th className="py-3 px-4 text-left">Status</th>
                 <th className="py-3 px-4 text-left">Completion Date</th>
+                <th className="py-3 px-4 text-left sticky right-0 bg-gray-200">
+                  Actions
+                </th>
               </tr>
             </thead>
-            <tbody className="divide-y ">
+            <tbody className="divide-y">
               {paginatedTasks.map((task, index) => (
                 <tr
                   key={index}
@@ -243,23 +246,25 @@ const MaintenanceReportGenerator = () => {
                       ? new Date(task.completionDate).toLocaleDateString()
                       : "N/A"}
                   </td>
-                  <td className="py-3 flex gap-1 px-4">
-                    <button
-                      onClick={() => setEditingMaintenanceId(task._id)}
-                      className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition duration-700"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => {
-                        axios
-                          .delete(`/maintenances/${task._id}`)
-                          .then(() => fetchMaintenanceTasks());
-                      }}
-                      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition duration-700"
-                    >
-                      Delete
-                    </button>
+                  <td className="py-3 px-4 sticky right-0 bg-white">
+                    <div className="flex gap-1">
+                      <button
+                        onClick={() => setEditingMaintenanceId(task._id)}
+                        className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition duration-700"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => {
+                          axios
+                            .delete(`/maintenances/${task._id}`)
+                            .then(() => fetchMaintenanceTasks());
+                        }}
+                        className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition duration-700"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

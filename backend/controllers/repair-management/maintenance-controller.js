@@ -25,6 +25,10 @@ export const create = async (req, res) => {
   try {
     const maintenance = new MaintenanceSchedule(req.body);
     await maintenance.save();
+    sendWhatsAppMessage(
+      maintenance.assignedTechnician.technicianId,
+      `Maintenance scheduled for ${maintenance.assetId} on ${maintenance.scheduledDate}`
+    );
     res.status(201).json(maintenance);
   } catch (error) {
     console.log(error);
@@ -40,6 +44,30 @@ export const update = async (req, res) => {
       req.body,
       { new: true }
     );
+    if (maintenance.status === "completed") {
+      sendWhatsAppMessage(
+        maintenance.assignedTechnician.technicianId,
+        `Maintenance completed for ${maintenance.assetId} on ${maintenance.completionDate}`
+      );
+    }
+    if (maintenance.status === "in-progress") {
+      sendWhatsAppMessage(
+        maintenance.assignedTechnician.technicianId,
+        `Maintenance in progress for ${maintenance.assetId} on ${maintenance.scheduledDate}`
+      );
+    }
+    if (maintenance.status === "postponed") {
+      sendWhatsAppMessage(
+        maintenance.assignedTechnician.technicianId,
+        `Maintenance postponed for ${maintenance.assetId} on ${maintenance.scheduledDate}`
+      );
+    }
+    if (maintenance.status === "scheduled") {
+      sendWhatsAppMessage(
+        maintenance.assignedTechnician.technicianId,
+        `Maintenance scheduled for ${maintenance.assetId} on ${maintenance.scheduledDate}`
+      );
+    }
     res.status(200).json(maintenance);
   } catch (error) {
     res.status(500).json({ error: error.message });

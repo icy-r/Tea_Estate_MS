@@ -31,9 +31,6 @@ const leaveSchema = new Schema({
       type:String,
       required:true
     }
-
- 
-
 });
 
 const Leave = mongoose.model("Leave", leaveSchema);

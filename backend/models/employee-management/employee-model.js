@@ -99,6 +99,7 @@ employeeSchema.post('save', async function (doc) {
       good_qnty: 0,
       damaged_qnty: 0,
       harvest_qnty: 0, // Example value or logic for 'harvest_qnty'
+      phoneNumber: doc.contactNumber, 
     };
 
     // Insert into 'Labour' collection

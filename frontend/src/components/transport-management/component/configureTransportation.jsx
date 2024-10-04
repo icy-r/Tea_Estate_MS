@@ -99,15 +99,26 @@ const ConfigureTransport = () => {
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         
         {/* Type input */}
-        <TextField
-          label="Type"
-          name="type"
-          value={formData.type}
-          onChange={handleChange}
-          required
-          fullWidth
-          variant="outlined"
-        />
+      
+        <FormControl fullWidth variant="outlined">
+          <InputLabel id="Type1">Type</InputLabel>
+          <Select
+            labelId="route-select-label"
+            name="type"
+            value={formData.type}
+            onChange={handleChange}
+            label="Type"
+            required
+          >
+            <MenuItem value="">
+              <em>Select Type</em>
+            </MenuItem>
+            <MenuItem value="Employee transportation">Employee Transportation</MenuItem>
+            <MenuItem value="Harvest transportation">Harvest Transportation</MenuItem>
+            <MenuItem value="Delivery transportation">Harvest Transportation</MenuItem>
+          </Select>
+        </FormControl>
+
 
         {/* Daily Occurrence input */}
         <TextField

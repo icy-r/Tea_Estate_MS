@@ -27,6 +27,7 @@ const menuItems = [
     subItems: [
       { name: "Configure Transportation", link: "transport/configure-transport" },
       { name: "Manage Transportation", link: "transport/manage-transport" },
+      { name: "View daily Transportation", link: "transport/transport-log" },
     ],
   },
   {

@@ -17,6 +17,13 @@ const Header = ({mainTitle, subTitle, toggleSidebar}) => {
     navigate("/");
   };
 
+  // Get the current path and split by '/'
+const currentPath = window.location.pathname;
+const pathArray = currentPath.split('/').filter(Boolean); // Remove empty elements
+
+
+
+
   // //socket.io frontend
   // const socket = io("ws://localhost:3001", {
   //   transports: ["websocket"],
@@ -56,7 +63,20 @@ const Header = ({mainTitle, subTitle, toggleSidebar}) => {
                     </svg>
                 </button> */}
         <h1 className="text-xs">
-          {mainTitle} &gt; <span className="text-action">{subTitle}</span>
+
+          <div id="pathContainer">
+              {pathArray.map((part, index) => (
+                <span key={index}>
+                  {index === pathArray.length - 1 ? (
+                    <span style={{ color: 'red' }}>{part}</span> // Last item in red
+                  ) : (
+                    <span>{part}</span>
+                  )}
+                  {index !== pathArray.length - 1 && '  >  '} {/* Add a separator */}
+                </span>
+              ))}
+            </div>
+
         </h1>
       </div>
 

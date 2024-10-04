@@ -11,6 +11,7 @@ const labourSchema = new Schema({
   best_qnty: { type: Number, required: true },
   good_qnty: { type: Number, required: true },
   damaged_qnty: { type: Number, required: true },
+  phoneNumber: { type: String, required: true },
   // Add other attributes if needed
 });
 

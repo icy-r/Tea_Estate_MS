@@ -15,10 +15,10 @@ import "./config/database.js";
 import { router as invoicesRouter } from "./routes/sales-management/invoices-route.js";
 //user-management
 //transport-management
-import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js'
-import { router as routeRouter } from './routes/transport-management/route-route.js'
-import { router as transportLogRouter } from './routes/transport-management/transport-log-route.js'
-import { router as transportRouter } from './routes/transport-management/transport-route.js'
+import { router as vehiclesRouter } from "./routes/transport-management/vehicle-route.js";
+import { router as routeRouter } from "./routes/transport-management/route-route.js";
+import { router as transportLogRouter } from "./routes/transport-management/transport-log-route.js";
+import { router as transportRouter } from "./routes/transport-management/transport-route.js";
 //user-management
 import { router as profilesRouter } from "./routes/user-management/profiles-route.js";
 import { router as authRouter } from "./routes/authentication/auth-route.js";
@@ -27,8 +27,8 @@ import { router as authRouter } from "./routes/authentication/auth-route.js";
 import { router as assetsRouter } from "./routes/repair-management/asset-route.js";
 // import { router as maintenancesRouter } from "./routes/repair-management/maintenance-route.js";
 // import { router as repairsRouter } from "./routes/repair-management/repair-req-route.js";
-import maintenancesRouter from './routes/repair-management/maintenance-route.js'
-import technicianRouter from './routes/repair-management/technician-route.js'
+import maintenancesRouter from "./routes/repair-management/maintenance-route.js";
+import technicianRouter from "./routes/repair-management/technician-route.js";
 //product-management
 import { router as catalogRouter } from "./routes/product-management/catalog-route.js";
 import { router as buyersRouter } from "./routes/product-management/buyer-route.js";

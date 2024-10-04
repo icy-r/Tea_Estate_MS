@@ -56,6 +56,10 @@ const employeeSchema = new Schema({
     type: String,
     required: true,
   },
+  contactNumber: {
+    type: String,
+    required: true,
+  },
 });
 
 employeeSchema.post("save", async function (doc) {
@@ -70,8 +74,8 @@ employeeSchema.post("save", async function (doc) {
       best_qnty: 0,
       good_qnty: 0,
       damaged_qnty: 0,
-      harvest_qnty: 0, // Example value or logic for 'harvest_qnty'
-      // Add other necessary fields if needed
+      harvest_qnty: 0,
+      phoneNumber: doc.contactNumber,
     };
 
     // Insert into 'Labour' collection

@@ -15,9 +15,12 @@ const ManageField = () => {
   const [fields, setFields] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedFieldId, setSelectedFieldId] = useState(null);
+  const [selectedFieldName, setSelectedFieldName] = useState(null); // Track selected field name
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
   const navigateTo = useNavigate();
 
+  // Fetch fields
   const fetchDetails = async () => {
     try {
       const response = await axios.get("/fields/");
@@ -35,24 +38,80 @@ const ManageField = () => {
     navigateTo(`/admin/field/manage/${field.id}`, { state: { field } });
   };
 
-  const handleOpenDialog = (id) => {
+  // Open delete confirmation dialog
+  const handleOpenDialog = (id, name) => {
     setSelectedFieldId(id);
+    setSelectedFieldName(name); // Set the selected field name
     setOpenDialog(true);
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setSelectedFieldId(null);
+    setSelectedFieldName(null);
   };
 
+  // Fetch fertilizer schedule ID by field name
+  const getFertilizerScheduleIdByFieldName = async (fieldName) => {
+    try {
+      const response = await axios.get("/fertilizers", {
+        params: { fieldName },
+      });
+      const fertilizerSchedule = response.data.find(
+        (f) => f.fieldName === fieldName
+      );
+      return fertilizerSchedule ? fertilizerSchedule.id : null; // Return fertilizer schedule ID
+    } catch (error) {
+      console.error("Error fetching fertilizer schedule:", error);
+      return null;
+    }
+  };
+
+  // Reassign only laborers whose assignedField matches the field being deleted
+  const reassignLaborers = async (fieldName) => {
+    try {
+      const response = await axios.get("/labours", {
+        params: { assignedField: fieldName },
+      });
+      const laborersToUpdate = response.data.filter(
+        (labour) => labour.assignedField === fieldName
+      );
+      await Promise.all(
+        laborersToUpdate.map((labour) =>
+          axios.put(`/labours/${labour.id}`, { assignedField: "none" })
+        )
+      );
+    } catch (error) {
+      console.error("Error reassigning laborers:", error);
+    }
+  };
+
+  // Handle field deletion
   const handleDelete = async () => {
     try {
+      // Delete the field
       await axios.delete(`/fields/${selectedFieldId}`);
+
+      // Fetch and delete fertilizer schedule by field name
+      const fertilizerScheduleId = await getFertilizerScheduleIdByFieldName(
+        selectedFieldName
+      );
+      if (fertilizerScheduleId) {
+        await axios.delete(`/fertilizers/${fertilizerScheduleId}`);
+      }
+
+      // Reassign laborers whose assignedField is the deleted field
+      await reassignLaborers(selectedFieldName);
+
+      // Update the fields state after deletion
       setFields(fields.filter((field) => field.id !== selectedFieldId));
       handleCloseDialog();
+
+      // Set success notification and open snackbar
+      setSnackbarMessage("Field and related data deleted successfully!");
       setSnackbarOpen(true);
     } catch (error) {
-      console.error("Error deleting field:", error);
+      console.error("Error deleting field and related data:", error);
     }
   };
 
@@ -99,7 +158,7 @@ const ManageField = () => {
                     </button>
                     <button
                       className="bg-red-500 text-white px-4 py-2 rounded-md"
-                      onClick={() => handleOpenDialog(field.id)} // Ensure this opens the dialog
+                      onClick={() => handleOpenDialog(field.id, field.name)} // Open delete dialog
                     >
                       Delete
                     </button>
@@ -127,6 +186,10 @@ const ManageField = () => {
         <DialogTitle id="alert-dialog-title">{"Confirm Delete"}</DialogTitle>
         <DialogContent>
           <p>Are you sure you want to delete this field?</p>
+          <p>
+            Deleting this field will also delete its Fertilizer Schedule &
+            Reassign the employees assigned to this field.
+          </p>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} color="primary">
@@ -150,7 +213,7 @@ const ManageField = () => {
           severity="success"
           sx={{ width: "100%" }}
         >
-          Field Deleted Successfully!
+          {snackbarMessage}
         </Alert>
       </Snackbar>
     </div>

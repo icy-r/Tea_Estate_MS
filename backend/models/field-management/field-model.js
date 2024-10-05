@@ -21,6 +21,7 @@ const fieldSchema = new Schema({
   fertilizerSchedule: {
     type: String,
     required: true,
+    default: "none",
   },
 
   area: {

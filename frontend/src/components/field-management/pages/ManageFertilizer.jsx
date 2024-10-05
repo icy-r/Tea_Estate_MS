@@ -54,10 +54,10 @@ const ManageFertilizer = () => {
   // Delete fertilizer schedule
   const handleDelete = async () => {
     try {
-      await axios.delete(`/fertilizer/delete/${selectedFertilizerId}`);
+      await axios.delete(`/fertilizers/${selectedFertilizerId}`);
       setFertilizers(
         fertilizers.filter(
-          (fertilizer) => fertilizer._id !== selectedFertilizerId
+          (fertilizer) => fertilizer.id !== selectedFertilizerId
         )
       );
       handleCloseDialog();
@@ -81,6 +81,7 @@ const ManageFertilizer = () => {
         <table className="min-w-full bg-white">
           <thead>
             <tr className="w-full bg-teal-500 text-white">
+              <th className="py-2 px-4 text-left">Schedule No</th>
               <th className="py-2 px-4 text-left">Schedule Name</th>
               <th className="py-2 px-4 text-left">Field</th>
               <th className="py-2 px-4 text-left">Fertilizers</th>
@@ -92,6 +93,7 @@ const ManageFertilizer = () => {
             {fertilizers.length > 0 ? (
               fertilizers.map((fertilizer) => (
                 <tr key={fertilizer._id} className="hover:bg-gray-100">
+                  <td className="py-2 px-4 border">{fertilizer.id}</td>
                   <td className="py-2 px-4 border">
                     {fertilizer.scheduleName}
                   </td>
@@ -114,7 +116,7 @@ const ManageFertilizer = () => {
                     </button>
                     <button
                       className="bg-red-500 text-white px-4 py-2 rounded-md"
-                      onClick={() => handleOpenDialog(fertilizer._id)} // Open delete dialog
+                      onClick={() => handleOpenDialog(fertilizer.id)} // Open delete dialog
                     >
                       Delete
                     </button>

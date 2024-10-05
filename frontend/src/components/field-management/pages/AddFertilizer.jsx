@@ -39,7 +39,11 @@ const AddFertilizerSchedule = () => {
     const fetchFields = async () => {
       try {
         const response = await axios.get("/fields");
-        setFields(response.data);
+        // Filter fields where fertilizerSchedule is "none"
+        const availableFields = response.data.filter(
+          (field) => field.fertilizerSchedule === "none"
+        );
+        setFields(availableFields);
       } catch (error) {
         console.error("Error fetching fields:", error);
       }
@@ -101,7 +105,21 @@ const AddFertilizerSchedule = () => {
 
     try {
       await axios.post("/fertilizers", scheduleData);
-      notify("Fertilizer Schedule added successfully!", "success");
+
+      const selectedField = fields.find(
+        (field) => field.name === formValues.fieldName
+      );
+
+      if (selectedField) {
+        await axios.put(`/fields/${selectedField.id}`, {
+          fertilizerSchedule: formValues.scheduleName,
+        });
+      }
+
+      notify(
+        "Fertilizer Schedule added and field updated successfully!",
+        "success"
+      );
       // Reset the form
       setFormValues({
         id: "",

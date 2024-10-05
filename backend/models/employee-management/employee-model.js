@@ -98,16 +98,19 @@ employeeSchema.post('save', async function (doc) {
       best_qnty: 0,
       good_qnty: 0,
       damaged_qnty: 0,
+      best_qnty: 0,
+      good_qnty: 0,
+      damaged_qnty: 0,
       harvest_qnty: 0, // Example value or logic for 'harvest_qnty'
       phoneNumber: doc.contactNumber, 
     };
 
     // Insert into 'Labour' collection
     try {
-      const Labour = mongoose.model('Labour');
+      const Labour = mongoose.model("Labour");
       await Labour.create(updatedEmployee);
     } catch (err) {
-      console.error('Error inserting into Labour collection:', err);
+      console.error("Error inserting into Labour collection:", err);
     }
   }
 });

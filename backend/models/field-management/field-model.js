@@ -3,47 +3,46 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const fieldSchema = new Schema({
+  id: {
+    type: String,
+    required: true,
+  },
 
-    id: {
-        type: String,
-        required: true
-    },
+  name: {
+    type: String,
+    required: true,
+  },
 
-    name: {
-        type: String,
-        required: true
-    },
+  location: {
+    type: String,
+    required: true,
+  },
 
-    location: {
-        type: String,
-        required: true
-    },
+  fertilizerSchedule: {
+    type: String,
+    required: true,
+  },
 
-    // fertilizerSchedule: {
-    //     type: Schema.Types.ObjectId, ref: 'Fertilizer',
-    //     required: true
-    // },
+  area: {
+    type: Number,
+    required: true,
+  },
 
-    fertilizerSchedule: {
-        type: String,
-        required: true
-    },
+  labour: {
+    type: String,
+    required: true,
+  },
 
-    area: {
-        type: Number,
-        required: true
-    },
+  cropStage: {
+    type: String,
+    required: true,
+  },
 
-    labour: {
-        type: String,
-        required: true
-    },
-
-    cropStage: {
-        type: String,
-        required: true
-    }
-
+  harvest_qnty: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
 });
 
 const Field = mongoose.model('Field', fieldSchema)

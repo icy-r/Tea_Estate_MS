@@ -6,6 +6,10 @@ import { useReactToPrint } from "react-to-print"; // Fix the import name
 import EmployeeComponent from '../components/EmployeeComponent.jsx';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'; // MUI components for confirmation dialog
 
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+
+
 const URL = "/empManagement/";
 
 function EmployeeManagement() {
@@ -13,6 +17,8 @@ function EmployeeManagement() {
     const [filteredEmployees, setFilteredEmployees] = useState([]);
     const [deleteId, setDeleteId] = useState(null); // State for tracking the employee to be deleted
     const [open, setOpen] = useState(false); // State to manage the open/close of the dialog
+ 
+
 
     const navigate = useNavigate(); // Use navigate for redirection
     const componentsRef = useRef(); // Correctly use useRef
@@ -77,6 +83,41 @@ function EmployeeManagement() {
         }
     };
 
+    // Function to generate and download the PDF report
+    const generatePDF = () => {
+    const doc = new jsPDF();
+
+    doc.setFontSize(20);
+    doc.text("Employee Details", 14, 22);
+    
+    // Prepare data for the PDF
+    const pdfData = filteredEmployees.map(EmployeeDet => ([
+        EmployeeDet?.firstName,
+        EmployeeDet?.lastName,
+        EmployeeDet?.department,
+        EmployeeDet?.designation,
+        EmployeeDet?._id,
+
+    ]));
+
+    // Add a table to the PDF
+    doc.autoTable({
+      head: [['First Name', 'Last Name', 'Department', 'Designation', 'ID']],
+      body: pdfData,
+      startY: 30,
+      headStyles: {
+        fillColor: [21, 245, 186], // RGB color for the header background (example: blue)
+        textColor: 0, // White text color for the header
+        styles: {
+            lineWidth: 1, // Thickness of the border
+            lineColor: [0, 0, 0] // Black border color
+          }
+      }
+    });
+
+    doc.save('EmployeeDetails.pdf');
+  };
+
     const handleClose = () => {
         setOpen(false); // Close the dialog without deleting
     };
@@ -95,10 +136,13 @@ function EmployeeManagement() {
                         type="text"
                         name="search"
                         placeholder="Search for an employee"
-                        className="mb-4 py-1 text-m border rounded-md"
+                        className="mb-4 py-1 text-m border rounded-md mr-1"
                     />
 
-                    <button onClick={handleSearch} className="mb-4 bg-blue-500 text-white px-4 py-2 rounded-md">Search</button>
+                    <button onClick={handleSearch} className="mb-4 mr-4 bg-blue-500 text-white px-4 py-2 rounded-md">Search</button>
+                    <button onClick={generatePDF} className="mb-4 bg-green-500 text-white px-4 py-2 rounded-md">Download</button>
+
+
 
                     {noResults ? (
                         <div>

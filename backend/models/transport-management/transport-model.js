@@ -8,7 +8,7 @@ const transportSchema = new mongoose.Schema({
 
     id: {
         type: String,
-        required: true,
+        required: false,
     },
     type: {
         type: String,
@@ -16,6 +16,15 @@ const transportSchema = new mongoose.Schema({
     },
     dailyOccurrence: {
         type: Number,
+        required: true,
+    },
+
+    vehicle_id: {
+        type: String,
+        required: true,
+    },
+    route_id: {
+        type: String,
         required: true,
     },
 

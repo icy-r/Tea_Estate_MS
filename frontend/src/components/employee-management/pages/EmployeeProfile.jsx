@@ -8,10 +8,14 @@ import EmployeeDetails from '../components/EmployeeDetails'; // Importing Employ
 const EmployeeUpdate = () => {
 
     return (
-        <div>
-            {/* Parent div to wrap both components */}
-            <EmployeeDetails />  {/* Render EmployeeDetails component */}
-            <LeaveForm />  {/* Render LeaveForm component */}
+        <div className="flex items-start justify-between space-x-4 min-h-screen p-6">
+            {/* Wrap both components inside a flexbox container */}
+            <div className="w-1/2">
+                <EmployeeDetails />  {/* Render EmployeeDetails component */}
+            </div>
+            <div className="w-1/2">
+                <LeaveForm />  {/* Render LeaveForm component */}
+            </div>
         </div>
     );
 }

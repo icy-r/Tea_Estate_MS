@@ -2,11 +2,15 @@ import { useEffect, useState, useRef } from 'react';
 import axios from 'axios'; 
 import { useParams, useNavigate } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print'; // Correct import
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 const EmployeeMoreDetails = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const componentsRef = useRef();
+    const [filteredEmployees, setFilteredEmployees] = useState([]);
+
 
     const [inputs, setInputs] = useState({
       firstName: '',
@@ -48,6 +52,42 @@ const EmployeeMoreDetails = () => {
         const day = String(today.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     };
+
+    // Function to generate and download the PDF report
+    const generatePDF = () => {
+        const doc = new jsPDF();
+    
+        doc.setFontSize(20);
+        doc.text("Employee Details", 14, 22);
+        
+        // Prepare data for the PDF
+        const pdfData = filteredEmployees.map(EmployeeDet => ([
+            EmployeeDet?.firstName,
+            EmployeeDet?.lastName,
+            EmployeeDet?.age,
+            EmployeeDet?.email,
+            EmployeeDet?.contactNumber,
+            EmployeeDet?._id,
+    
+        ]));
+    
+        // Add a table to the PDF
+        doc.autoTable({
+          head: [['First Name', 'Last Name', 'Age', 'Email', 'Contact Number', 'ID']],
+          body: pdfData,
+          startY: 30,
+          headStyles: {
+            fillColor: [21, 245, 186], // RGB color for the header background (example: blue)
+            textColor: 0, // White text color for the header
+            styles: {
+                lineWidth: 1, // Thickness of the border
+                lineColor: [0, 0, 0] // Black border color
+              }
+          }
+        });
+    
+        doc.save('EmployeeDetails.pdf');
+      };
 
     const handlePrint = useReactToPrint({
         content: () => componentsRef.current,

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import React from 'react';
-import axios from 'axios'; // Update the import statement for axios
-import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Correct import
+import { useNavigate } from 'react-router-dom'; // Ensure this import is correct if you're using routing
 
-const EmployeeUpdate = () => {
+const EmployeeUpdate = ({ _id }) => {
     const navigate = useNavigate();  // Initialize navigate hook
-    const { id } = useParams();  // Destructuring id from useParams
-  
+
+    // State to hold employee data
     const [inputs, setInputs] = useState({
       firstName: '',
       lastName: '',
@@ -24,31 +24,37 @@ const EmployeeUpdate = () => {
       address: ''
     });
   
+    // Fetch employee data by ID when component mounts or when _id changes
     useEffect(() => {
         const fetchHandler = async () => {
           try {
-            const response = await axios.get(`http://localhost:3001/api/empManagement/${id}`);
+            // Fetch employee data using _id
+            const response = await axios.get(`http://localhost:3001/api/empManagement/${_id}`);
             console.log('API Response:', response.data); // Log the full response to check its structure
       
-            // Assuming the employee data should be inside the `response.data.employee`
+            // Assuming the employee data is in response.data, set it to state
             if (response.data) {
-                setInputs(response.data);  // Remove `.employee` if data is directly under `response.data`
-              }else {
+                setInputs(response.data);  // If the data structure has an employee object, adjust accordingly
+            } else {
               console.error("Employee data not found.");
             }
           } catch (error) {
             console.error("Error fetching employee data:", error);
           }
         };
-        fetchHandler();
-      }, [id]);
-      
+
+        if (_id) {
+          fetchHandler();  // Call fetchHandler only if _id exists
+        }
+      }, [_id]);  // Add _id as a dependency to refetch when it changes
   
+    // Update input state on change
     const handleChange = (event) => {
       const { name, value } = event.target;
       setInputs({ ...inputs, [name]: value });
     };
 
+    // Utility function to get today's date
     const getTodayDate = () => {
         const today = new Date();
         const year = today.getFullYear();
@@ -57,18 +63,18 @@ const EmployeeUpdate = () => {
         return `${year}-${month}-${day}`;
     };
 
-  
+    // Submit the updated employee data
     const handleSubmit = async (event) => {
       event.preventDefault();
       console.log(inputs);
       try {
-        await axios.put(`http://localhost:3001/api/empManagement/${id}`, inputs);
+        // Update employee data by ID
+        await axios.put(`http://localhost:3001/api/empManagement/${_id}`, inputs);
         navigate('/admin/employee/employeedetails');  // Navigate after successful update
       } catch (error) {
         console.error("Error updating employee data:", error);
       }
     };
-
     return (
         <div className="flex items-center justify-center bg-white-100">
             <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-md mt-10">

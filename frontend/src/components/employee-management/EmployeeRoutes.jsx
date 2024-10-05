@@ -27,7 +27,7 @@ const EmployeeRoutes = () => {
                 <Route path="/applicantaccept/*" element={<ApplicantAccept/>} />
                 <Route path="/employeemoredetails/:id" element={<EmployeeMoreDetails />} />
                 <Route path="/employeehome/*" element={<EmployeeHome />} />
-                <Route path="/admin/repair/*" element={<EmployeeProfile/>}/> 
+                <Route path="/employeeProfile/*" element={<EmployeeProfile/>}/> 
                 <Route path="/requestleave/*" element={<LeaveRequest/>}/>
             </Routes>
             </AdminDashboardLayout>

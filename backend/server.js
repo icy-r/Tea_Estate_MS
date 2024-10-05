@@ -11,6 +11,7 @@ import "./config/database.js";
 
 // import routes
 import { router as invoicesRouter } from "./routes/sales-management/invoices-route.js";
+
 //user-management
 //transport-management
 import { router as vehiclesRouter } from "./routes/transport-management/vehicle-route.js";
@@ -30,22 +31,30 @@ import maintenancesRouter from "./routes/repair-management/maintenance-route.js"
 import technicianRouter from "./routes/repair-management/technician-route.js";
 import requestMaintenanceRouter from "./routes/repair-management/request-maintenance-route.js";
 //product-management
-import { router as catalogRouter } from "./routes/product-management/catalog-route.js";
-import { router as buyersRouter } from "./routes/product-management/buyer-route.js";
-//employee management
-import { router as EmployeeManagement } from "./routes/employee-management/employee-route.js";
-import { router as ApplicantManagement } from "./routes/employee-management/applicant-route.js";
+import { router as catalogRouter } from './routes/product-management/catalog-route.js'
+import { router as buyersRouter } from './routes/product-management/buyer-route.js'
+
+
 //field-management
-import { router as fieldRouter } from "./routes/field-management/field-route.js";
-import { router as fertilizerRouter } from "./routes/field-management/fertilizer-route.js";
-import { router as harvestRouter } from "./routes/field-management/harvest-route.js";
-import { router as labourRouter } from "./routes/field-management/labour-route.js";
-import { router as orderTrackingRouter } from "./routes/product-management/order-tracking-route.js";
+import { router as fieldRouter } from './routes/field-management/field-route.js';
+import { router as fertilizerRouter } from './routes/field-management/fertilizer-route.js';
+import { router as harvestRouter } from './routes/field-management/harvest-route.js';
+import { router as labourRouter } from './routes/field-management/labour-route.js';
+import { router as orderTrackingRouter } from './routes/product-management/order-tracking-route.js'
+
 
 //supply management
-import { router as supplierRouter } from "./routes/supply-management/supplier-route.js";
-import { router as supplierManagerRouter } from "./routes/supply-management/supplier-manager-route.js";
-import { router as supplyRouter } from "./routes/supply-management/supply-route.js";
+import { router as supplierRouter } from './routes/supply-management/supplier-route.js'
+import { router as supplierManagerRouter } from './routes/supply-management/supplier-manager-route.js'
+import { router as supplyRouter } from './routes/supply-management/supply-route.js'
+
+
+//employee management
+import { router as EmployeeManagement } from './routes/employee-management/employee-route.js'
+import { router as ApplicantManagement } from './routes/employee-management/applicant-route.js'
+import { router as EmployeeProfile } from './routes/employee-management/leave-route.js'
+
+
 
 import { router as notificationsRouter } from "./routes/repair-management/notification-route.js";
 import { router as userLoginRouter } from "./routes/authentication/user-auth-route.js";
@@ -102,7 +111,10 @@ app.use("/api/applicantManagement", ApplicantManagement);
 app.use("/api/invoices", invoicesRouter);
 app.use("/api/supplier", supplierRouter);
 app.use("/api/supplierManager", supplierManagerRouter);
-app.use("/api/supply", supplyRouter);
+app.use("/api/supply", supplyRouter);//employee-management
+app.use('/api/empManagement' , EmployeeManagement)
+app.use('/api/applicanttManagement' , ApplicantManagement)
+app.use('/api/employeeProfile' , EmployeeProfile)
 
 //transport-management
 app.use("/api/transports", transportRouter);

@@ -34,15 +34,6 @@ async function signup(req, res) {
 }
 
 async function login(req, res) {
-  //test account bypass for development
-  if (
-    req.body.email === "icy.icy@icy.com" &&
-    req.body.password === "Secret@1212"
-  ) {
-    const token = createJWT({ _id: "60f3b1b3b3b3b3b3b3b3b3b3" });
-    return res.json({ token });
-  }
-
   try {
     if (!process.env.SECRET) throw new Error("no SECRET in back-end .env");
 

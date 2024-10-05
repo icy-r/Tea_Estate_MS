@@ -5,7 +5,7 @@ const menuItems = [
     name: "Sales Home",
     subItems: [
       { name: "Dashboard", link: "sales/" },
-      { name: "Manage Status", link: "/manage-status" },
+      { name: "Manage Status", link: "/manage-status"   },
     ],
   },
   {

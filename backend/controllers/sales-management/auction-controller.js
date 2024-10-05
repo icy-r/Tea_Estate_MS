@@ -2,7 +2,6 @@ import { Auction } from '../../models/sales-management/auction-model.js';
 
 async function index(req, res) {
   try {
-    //get all auction
     const auction = await Auction.find({});
     res.json(auction);
   } catch (error) {
@@ -12,8 +11,7 @@ async function index(req, res) {
 
 async function show(req, res) {
   try {
-    //id_auction = req.params.id
-    const auction = await Auction.find({id: req.params.id});
+    const auction = await Auction.find({ id: req.params.id });
     res.json(auction);
   } catch (error) {
     res.status(404).json({ error: error });
@@ -22,7 +20,13 @@ async function show(req, res) {
 
 async function create(req, res) {
   try {
-    const auction = new Auction(req.body);
+    const meetingLink = 'https://your-meeting-platform.com/auction-room-id'; // Replace with dynamic link generation logic
+    const auction = new Auction({
+      ...req.body,
+      meetingLink,  // Save the meeting link in the auction data
+      buyer_id: Array.isArray(req.body.buyer_id) ? req.body.buyer_id : [req.body.buyer_id],  // Ensure buyer_id is an array
+      productID: req.body.productID  // Include productID
+    });
     await auction.save();
     res.json(auction);
   } catch (error) {
@@ -32,9 +36,7 @@ async function create(req, res) {
 
 async function update(req, res) {
   try {
-
-    const auction = await Auction.findByIdAndUpdate( req.params.id);
-
+    const auction = await Auction.findByIdAndUpdate(req.params.id);
     Object.assign(auction, req.body);
     await auction.save();
     res.json(auction);
@@ -45,16 +47,14 @@ async function update(req, res) {
 
 async function destroy(req, res) {
   try {
-    const auction = await Auction.findByIdAndDelete( req.params.id );
+    const auction = await Auction.findByIdAndDelete(req.params.id);
     if (!auction) {
-      return res.status(404).json({ error: 'auction not found' });
+      return res.status(404).json({ error: 'Auction not found' });
     }
     await auction.deleteOne();
-    res.json({ message: 'auction deleted' });
+    res.json({ message: 'Auction deleted' });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: error });
-
   }
 }
 

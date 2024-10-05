@@ -89,7 +89,7 @@ app.use('/api/maintenances', maintenancesRouter)
 app.use('/api/repairs', repairsRouter)
 
 //sales-management
-app.use('/api/invoices', invoicesRouter)
+app.use('/api/invoice', invoicesRouter)
 app.use('/api/auction', auctionRouter)
 app.use('/api/orders', ordersRouter)
 app.use('/api/sales', salesRouter)

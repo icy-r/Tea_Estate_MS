@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
 import axios from '../../../services/axios.js';
 import { useNavigate } from 'react-router-dom';
 
@@ -19,12 +21,10 @@ const ManageOrders = () => {
     }
   };
 
-  // Fetch orders on component mount
   useEffect(() => {
     fetchOrders();
   }, []);
 
-  // Filter orders based on search query
   useEffect(() => {
     setFilteredOrders(
       orders.filter((order) =>
@@ -51,22 +51,30 @@ const ManageOrders = () => {
     }
   };
 
-  // Handle report download
-  const handleDownloadReport = async () => {
-    try {
-      const response = await axios.get(`/orders/report/download`, {
-        responseType: 'blob',
-      });
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `Orders_Report.pdf`);
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-    } catch (error) {
-      console.error("Error downloading report:", error);
-    }
+  // Function to generate and download the PDF report for orders
+  const handleDownloadReport = () => {
+    const doc = new jsPDF();
+    const tableColumn = ["Order ID", "Order Date", "Quantity", "Product ID", "Buyer ID", "Sale ID", "Status"];
+    const tableRows = [];
+
+    // Add each order data to the table rows
+    filteredOrders.forEach((order) => {
+      const orderData = [
+        order.orderID,
+        new Date(order.orderDate).toLocaleDateString(),
+        order.quantity,
+        order.pid,
+        order.buyer_id,
+        order.saleID,
+        order.status,
+      ];
+      tableRows.push(orderData);
+    });
+
+    // Create the table in the PDF
+    doc.autoTable(tableColumn, tableRows, { startY: 20 });
+    doc.text("Order Report", 14, 15);
+    doc.save("Orders_Report.pdf"); // Save the PDF
   };
 
   return (

@@ -18,8 +18,6 @@ const invoiceSchema = new Schema(
         sales_tax: String,
         grand_total: String,
 
-        
-
     },
     {
         timestamps: true,

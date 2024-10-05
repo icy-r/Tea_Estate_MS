@@ -7,13 +7,14 @@ const createCatalog = (data, setvalue) =>{
         response.status === 200 && alert('Catalog added successfully');
         //reset the form
         setvalue({
+            pid: "",
             quality: "",   
             quantity: "",
             unitPrice: "",
             description: "",
             aucDate: "",
             aucTime: "",
-            image: "",
+        
         });
     }).catch((error) => {
             alert(error);

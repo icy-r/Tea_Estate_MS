@@ -6,12 +6,12 @@ import Error404 from "./error404.jsx";
 import {Route, Routes} from "react-router-dom";
 import {createContext, useState} from "react";
 import * as authService from "../services/auth-service.js";
-import ProtectedRoutes from "../Routes/ProtectedRoutes.jsx";
-import ProductRoutes from "../components/product-management/pages/produt-routes.jsx";   
-import BuyerRoutes from "../components/product-management/pages/buyer-routes.jsx";
+import ProtectedRoutes from "../Routes/ProtectedRoutes.jsx";  
+import BuyerRoutes from "../components/product-management/BuyerRoutes.jsx";
 import AdminLogin from "./login/AdminLogin.jsx";
 import FunctionCard from "../components/dashboard/component/FunctionCard.jsx";
 import AdminDashboardLayout from "../components/layouts/AdminDashboardLayout.jsx";
+import CatalogtRoutes from "../components/product-management/CatalogRoutes.jsx";
 // import LandingPage from "./landingPage/LandingPage.jsx";
 
 let UserContext;
@@ -70,16 +70,29 @@ function App() {
                 <TransportHome />
               </ProtectedRoutes>
             }
+            
           />
-                              <Route
-                        path="/buyer/*"
-                        element={
-                            <ProtectedRoutes user={user}>
-                                <BuyerRoutes/>
-                            </ProtectedRoutes>
-                        }
+            <Route
+              path="/buyer/*"
+              element={
+                <ProtectedRoutes user={user}>
+                    <BuyerRoutes/>
+                </ProtectedRoutes>
+              }
 
-                    />
+            />
+            <Route
+              path="/product/*"
+              element={
+                <ProtectedRoutes user={user}>
+                    <CatalogtRoutes/>
+                </ProtectedRoutes>
+              }
+
+            />
+            
+
+            
 
           {/* Catch-all route */}
           <Route path="/*" element={<Error404 />} />

@@ -8,7 +8,7 @@ const menuItems = [
   { name: "Home", link: "/" },
   { name: "About", link: "/about" },
   { name: "Services", link: "/services" },
-  { name: "MarketPlace", link: "admin/product/marketplace" },
+  { name: "MarketPlace", link: "admin/product/Catalog" },
   { name: "Login", link: "/signup", special: true },
 ];
 

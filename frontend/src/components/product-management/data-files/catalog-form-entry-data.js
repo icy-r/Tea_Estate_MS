@@ -6,7 +6,6 @@ const formdataentryCatalog = [
     { name: 'Unit Price', required: true, placeholder: 'unit price', type: 'number' },
     { name: 'Quantity', required: true, placeholder: 'quantity in KG', type: 'number' },
     { name: 'Auction Start Time', required: true, placeholder: 'auction start time', type: 'datetime-local' },
-    { name: 'Image URL', required: false, placeholder: 'image URL', type: 'url' },
 ];
 
 export default formdataentryCatalog;

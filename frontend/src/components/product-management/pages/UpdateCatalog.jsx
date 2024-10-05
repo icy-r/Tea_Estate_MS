@@ -1,68 +1,83 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import axios from '../../../services/axios';
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import updatecatalog from "../services/axios-update-catalog.js";
 
-const CatalogUpdate = () => {
-    const navigate = useNavigate();
-    const { id } = useParams();
-    const [inputs, setInputs] = useState({
-        quality: '',
-        quantity: '',
-        unitPrice: '',
-        description: '',
-        aucDate: '',
-        aucTime: '',
-        image: '',
+const UpdateCatalog = () => {
+    const navigateTo = useNavigate();
+    const location = useLocation();
+    const product = location.state.product; // Get product details from location state
+
+    const [productData, setProductData] = useState({
+        _id: product._id, // MongoDB-generated ID (read-only)
+        pid: product.pid,
+        quality: product.quality,
+        quantity: product.quantity,
+        unitPrice: product.unitPrice,
+        description: product.description,
+        aucDate: product.aucDate,
+        aucTime: product.aucTime
     });
 
-    useEffect(() => {
-        const fetchHandler = async () => {
-            try {
-                const response = await axios.get(`http://localhost:3001/api/catalog/${id}`);
-                setProduct(response.data);  // Populate product data
-            } catch (error) {
-                console.error("Error fetching product", error);
-            }
-            
-        };
-        fetchHandler();
-    }, [id]);
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setInputs({...inputs, [name]: value});
+    // Handle form field changes
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setProductData({ ...productData, [name]: value });
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log('Inputs:',inputs);
+    // Submit form data to update product
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+    
         try {
-            await axios.put(`http://localhost:3001/api/catalog/${id}`, inputs);
-            alert('Product updated successfully.');
-            navigate('admin/product/adminDashboard');
+            await updatecatalog(productData);
+            navigateTo('/admin/product/ManageCatalog'); 
         } catch (error) {
-            console.error('Error updating product', error);
-            alert('Failed to update product.');
+            console.error("Error updating product:", error);
         }
     };
-
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="w-full max-w-lg bg-white p-8 rounded-lg shadow-md">
-                <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Update Product</h1>
+                <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Add Product</h1>
                 <form onSubmit={handleSubmit}>
+                    <div className="mb-4">
+                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="pid">
+                            Product ID 
+                        </label>
+                        <input
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="pid"
+                            name="pid"
+                            value={productData.pid}
+                            type="text"
+                            placeholder="Enter product ID"
+                            onChange={handleChange}
+                        />
+                    </div>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="quality">
                             Quality
                         </label>
-                        <input 
+                        <select
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            type="text" 
-                            value={product.quality} 
-                            onChange={(e) => setProduct({...product, quality: e.target.value})} 
-                        />
+                            id="quality"
+                            name="quality"
+                            value={productData.quality}
+                            onChange={handleChange}
+                        >
+                            <option value="">Select quality</option>
+                            <option value="Flowery Orange Pekoe (FOP)">Flowery Orange Pekoe (FOP)</option>
+                            <option value="Orange Pekoe (OP)">Orange Pekoe (OP)</option>
+                            <option value="Pekoe (P)">Pekoe (P)</option>
+                            <option value="Broken Orange Pekoe (BOP)">Broken Orange Pekoe (BOP)</option>
+                            <option value="Broken Pekoe (BP)">Broken Pekoe (BP)</option>
+                            <option value="Broken Pekoe Fanning (BPF)">Broken Pekoe Fanning (BPF)</option>
+                            <option value="Pekoe Fannings (PF)">Pekoe Fannings (PF)</option>
+                            <option value="Dust Fannings (D)">Dust Fannings (D)</option>
+                            <option value="Golden Tips">Golden Tips</option>
+                            <option value="Silver Tips (White Tea)">Silver Tips (White Tea)</option>
+                        </select>
                     </div>
 
                     <div className="mb-4">
@@ -73,9 +88,9 @@ const CatalogUpdate = () => {
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             id="quantity"
                             name="quantity"
+                            value={productData.quantity}
                             type="text"
                             placeholder="Enter quantity"
-                            value={inputs.quantity}
                             onChange={handleChange}
                         />
                     </div>
@@ -87,9 +102,9 @@ const CatalogUpdate = () => {
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             id="unitPrice"
                             name="unitPrice"
+                            value={productData.unitPrice}
                             type="text"
                             placeholder="Enter unit price"
-                            value={inputs.unitPrice}
                             onChange={handleChange}
                         />
                     </div>
@@ -101,8 +116,8 @@ const CatalogUpdate = () => {
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             id="description"
                             name="description"
+                            value={productData.description}
                             placeholder="Enter description"
-                            value={inputs.description}
                             onChange={handleChange}
                         />
                     </div>
@@ -114,8 +129,8 @@ const CatalogUpdate = () => {
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             id="aucDate"
                             name="aucDate"
+                            value={productData.aucDate}
                             type="date"
-                            value={inputs.aucDate}
                             onChange={handleChange}
                         />
                     </div>
@@ -127,25 +142,12 @@ const CatalogUpdate = () => {
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             id="aucTime"
                             name="aucTime"
+                            value={productData.aucTime}
                             type="time"
-                            value={inputs.aucTime}
                             onChange={handleChange}
                         />
                     </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
-                            Image
-                        </label>
-                        <input
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            id="image"
-                            name="image"
-                            type="text"
-                            placeholder="Enter image URL"
-                            value={inputs.image}
-                            onChange={handleChange}
-                        />
-                    </div>
+                    
                     <div className="flex items-center justify-between">
                         <button type="submit" className="w-full bg-primary bg-color_button text-black py-2 px-4 rounded-md hover:bg-primary-dark mt-6">Update Product</button>
                     </div>
@@ -155,4 +157,4 @@ const CatalogUpdate = () => {
     );
 };
 
-export default CatalogUpdate;
+export default UpdateCatalog;

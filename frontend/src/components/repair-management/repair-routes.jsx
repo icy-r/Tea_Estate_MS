@@ -8,6 +8,7 @@ import NewMaintenance from "./pages/NewMaintenance.jsx";
 import NewAsset from "./pages/NewAsset.jsx";
 import HomeGraphs from "./pages/HomeGraphs.jsx";
 import AssignedTasks from "./pages/AssignedTasks.jsx";
+import ReqMaintenance from "./pages/ReqMaintenance.jsx";
 
 const RepairRoutes = () => {
   return (
@@ -19,7 +20,8 @@ const RepairRoutes = () => {
         <Route path="/maintenance" element={<ViewMaintenance />} />
         <Route path="/newmaintenance" element={<NewMaintenance />} />
         <Route path="/newasset" element={<NewAsset />} />
-        <Route path="assignedtasks" element={<AssignedTasks />} />
+        <Route path="/assignedtasks" element={<AssignedTasks />} />
+        <Route path="/reqmaintenance" element={<ReqMaintenance />} />
       </Routes>
     </AdminDashboardLayout>
   );

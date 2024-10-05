@@ -3,9 +3,7 @@ import 'dotenv/config.js'
 import express from 'express'
 import logger from 'morgan'
 import cors from 'cors'
-import formData from 'express-form-data'
-import { Server } from "socket.io";
-import { createServer, request } from "http";
+import formData from "express-form-data";
 import nodemailer from "nodemailer";
 
 // connect to MongoDB with mongoose
@@ -22,6 +20,7 @@ import { router as transportRouter } from "./routes/transport-management/transpo
 //user-management
 import { router as profilesRouter } from "./routes/user-management/profiles-route.js";
 import { router as authRouter } from "./routes/authentication/auth-route.js";
+import { router as getEmployeeIdRouter } from "./routes/authentication/get-employee-id-route.js";
 // //repair-management
 // import { router as machinesRouter } from "./routes/repair-management/machines-route.js";
 import { router as assetsRouter } from "./routes/repair-management/asset-route.js";
@@ -48,25 +47,12 @@ import { router as supplierRouter } from "./routes/supply-management/supplier-ro
 import { router as supplierManagerRouter } from "./routes/supply-management/supplier-manager-route.js";
 import { router as supplyRouter } from "./routes/supply-management/supply-route.js";
 
+import { router as notificationsRouter } from "./routes/repair-management/notification-route.js";
+import { router as userLoginRouter } from "./routes/authentication/user-auth-route.js";
 // create the express app
 const app = express();
 
-// create the socket.io server
-const server = createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-  },
-});
-
-// listen for socket.io connections
-io.on("connection", (socket) => {
-  console.log("a user connected");
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
-  });
-});
+// create the socket.io server c
 
 // basic middleware
 app.use(cors());
@@ -101,9 +87,13 @@ app.post("/send-email", (req, res) => {
   });
 });
 
+app.use("/api/notifications", notificationsRouter);
+
 // mount imported routes
 app.use("/api/profiles", profilesRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/getEmployeeId", getEmployeeIdRouter);
+app.use("/api/userLogin", userLoginRouter);
 // app.use('/api/machines', machinesRouter)
 
 app.use("/api/empManagement", EmployeeManagement);

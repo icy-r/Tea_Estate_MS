@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-
 const { Schema, Types } = mongoose;
 
 const MaintenanceRequestSchema = new Schema({
@@ -33,6 +32,10 @@ const MaintenanceRequestSchema = new Schema({
   updatedAt: { type: Date },
   completedAt: { type: Date },
 });
-mongoose.model("MaintenanceRequest", MaintenanceRequestSchema);
 
-export { MaintenanceRequestSchema };
+const MaintenanceRequest = mongoose.model(
+  "MaintenanceRequest",
+  MaintenanceRequestSchema
+);
+
+export { MaintenanceRequest };

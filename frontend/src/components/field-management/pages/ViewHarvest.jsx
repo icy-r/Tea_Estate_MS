@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "../../../services/axios.js";
 import { FaSearch } from "react-icons/fa";
 import { MdClear } from "react-icons/md";
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
 
 const ViewHarvest = () => {
   const [harvests, setHarvests] = useState([]);
@@ -23,6 +25,62 @@ const ViewHarvest = () => {
   useEffect(() => {
     fetchHarvests();
   }, []);
+
+  const handlePrint = () => {
+    const doc = new jsPDF();
+    doc.text("Daily Harvest Information", 10, 10);
+    let bodydata;
+    if (selectedField === "all" && selectedLabor === "all") {
+      bodydata = harvests.map((harvest) => [
+        harvest.labour_name,
+        harvest.field_name,
+        new Date(harvest.date).toLocaleDateString(),
+        harvest.best_qnty,
+        harvest.good_qnty,
+        harvest.damaged_qnty,
+        harvest.total,
+      ]);
+    } else if (selectedLabor !== "all") {
+      bodydata = harvests
+        .filter((harvest) => harvest.labour_name === selectedLabor)
+        .map((harvest) => [
+          harvest.labour_name,
+          harvest.field_name,
+          new Date(harvest.date).toLocaleDateString(),
+          harvest.best_qnty,
+          harvest.good_qnty,
+          harvest.damaged_qnty,
+          harvest.total,
+        ]);
+    } else {
+      bodydata = harvests
+        .filter((harvest) => harvest.field_name === selectedField)
+        .map((harvest) => [
+          harvest.labour_name,
+          harvest.field_name,
+          new Date(harvest.date).toLocaleDateString(),
+          harvest.best_qnty,
+          harvest.good_qnty,
+          harvest.damaged_qnty,
+          harvest.total,
+        ]);
+    }
+    doc.autoTable({
+      head: [
+        [
+          "Labour",
+          "Field",
+          "Date",
+          "Best Quality",
+          "Good Quality",
+          "Poor Quality",
+          "Total",
+        ],
+      ],
+      body: bodydata,
+    });
+    doc.save("daily-harvest.pdf");
+  };
 
   // Filtered data based on search term, selected labor, and field
   const filteredHarvests = harvests.filter((harvest) => {
@@ -75,6 +133,13 @@ const ViewHarvest = () => {
             <MdClear className="mr-2" /> Clear
           </button>
         </div>
+
+        <button
+          onClick={handlePrint}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+        >
+          Print Document
+        </button>
       </div>
 
       {filterOpen && (

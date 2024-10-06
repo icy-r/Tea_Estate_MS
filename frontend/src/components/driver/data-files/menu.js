@@ -7,7 +7,7 @@ const menuItems = [
     subItems: [
       { name: "Manage Vehicle", link: "driver/manage-assigned-vehicle" },
       { name: "Request for Repairs", link: "driver/repair-requests" },
-      { name: "Track Transports", link: "transport/manage-vehicle" },
+      { name: "Track Transports", link: "driver/view-tasks" },
     ],
   },
  

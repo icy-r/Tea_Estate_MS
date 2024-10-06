@@ -182,7 +182,7 @@ const ConfigureTransport = () => {
           type="submit"
           variant="contained"
           color="primary"
-          sx={{ bgcolor: '#15F5BA', '&:hover': { bgcolor: '#1AACAC' },boxShadow: 'none',mr:2, color: 'black', border: 'none' }}
+          sx={{ bgcolor: '#15F5BA', '&:hover': { bgcolor: '#1AACAC' },boxShadow: 'none', color: 'black', border: 'none' }}
           
         >
           Add Transport

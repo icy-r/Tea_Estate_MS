@@ -10,6 +10,7 @@ import ManageTransport from '../component/manageTransportation.jsx';
 import ConfigureTransport from '../component/configureTransportation.jsx';
 import VehiclePortal from '../component/vehiclePortal.jsx';
 import ViewDailyRouting from '../component/viewDailyRouting.jsx';
+import DistributeManagement from '../component/distributeManagement.jsx';
 import Home from './home.jsx';
 
 const TransportHome = () => {
@@ -21,6 +22,7 @@ const TransportHome = () => {
           
 
                  <Routes>
+
                     <Route path ="/" element={<Home/>}/>
                     <Route path="/add-vehicle" element={<VehicleAddForm />} />
                     <Route path="/manage-vehicle" element={<ManageVehicle />} />
@@ -30,6 +32,8 @@ const TransportHome = () => {
                     <Route path="/manage-transport" element={<ManageTransport/>} />
                     <Route path="/vehicle-portal" element={<VehiclePortal />} />
                     <Route path="/transport-log" element={<ViewDailyRouting />} />
+                    <Route path="/distribute-management" element={<DistributeManagement/>} />
+     
                 </Routes> 
 
             </AdminDashboardLayout>

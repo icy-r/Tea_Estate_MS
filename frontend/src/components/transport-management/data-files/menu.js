@@ -1,12 +1,7 @@
 //repairs related menu items
 
 const menuItems = [
-  {
-    name: "Main",
-    subItems: [
-      { name: "Home", link: "transport/home" },
-    ],
-  },
+
   {
     name: "Vehicle management",
     subItems: [
@@ -31,9 +26,9 @@ const menuItems = [
     ],
   },
   {
-    name: "Service",
+    name: "Distribution Management",
     subItems: [
-      { name: "Add Service", link: "/add-service" },
+      { name: "Distribution Management", link: "transport/distribute-management" },
       { name: "Manage Service", link: "/manage-service" },
     ],
   },

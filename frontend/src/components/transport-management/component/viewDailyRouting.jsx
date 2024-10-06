@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../../services/axios.js';
 import {
-  Table, TableBody, TableCell, TableContainer, TableHead,
+  Table, TableBody, TableCell, TableContainer, TableHead,Grid,
   TableRow, Paper, Typography, TextField, MenuItem, Select, InputLabel, FormControl, Box, Button, Dialog,
   DialogActions, DialogContent, DialogTitle, Snackbar, Alert
 } from '@mui/material';
@@ -216,13 +216,13 @@ const ViewDailyRouting = () => {
           <Table>
             <TableHead>
               <TableRow sx={{ bgcolor: '#15F5BA'}}>
-                <TableCell><strong>Route ID</strong></TableCell>
-                <TableCell><strong>Vehicle ID</strong></TableCell>
-                <TableCell><strong>Type</strong></TableCell>
-                <TableCell><strong>Status</strong></TableCell>
-                <TableCell><strong>Date</strong></TableCell>
-                <TableCell><strong>Time</strong></TableCell>
-                <TableCell><strong>Actions</strong></TableCell>
+                <TableCell>Route ID</TableCell>
+                <TableCell>Vehicle ID</TableCell>
+                <TableCell>Type</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>Date</TableCell>
+                <TableCell>Time</TableCell>
+                <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -277,52 +277,90 @@ const ViewDailyRouting = () => {
           </DialogActions>
         </Dialog>
 
-        {/* Update Dialog */}
-        <Dialog open={openUpdateDialog} onClose={() => setOpenUpdateDialog(false)}>
-          <DialogTitle>Update Record</DialogTitle>
-          <DialogContent>
-            <TextField
-              label="Route ID"
-              fullWidth
-              value={updateForm.route_id}
-              onChange={(e) => setUpdateForm({ ...updateForm, route_id: e.target.value })}
-            />
-            <TextField
-              label="Vehicle ID"
-              fullWidth
-              value={updateForm.vehicle_id}
-              onChange={(e) => setUpdateForm({ ...updateForm, vehicle_id: e.target.value })}
-            />
-            <TextField
-              label="Type"
-              fullWidth
-              value={updateForm.type}
-              onChange={(e) => setUpdateForm({ ...updateForm, type: e.target.value })}
-            />
-            <TextField
-              label="Status"
-              fullWidth
-              value={updateForm.status}
-              onChange={(e) => setUpdateForm({ ...updateForm, status: e.target.value })}
-            />
-            <TextField
-              label="Date"
-              fullWidth
-              value={updateForm.date}
-              onChange={(e) => setUpdateForm({ ...updateForm, date: e.target.value })}
-            />
-            <TextField
-              label="Time"
-              fullWidth
-              value={updateForm.time}
-              onChange={(e) => setUpdateForm({ ...updateForm, time: e.target.value })}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setOpenUpdateDialog(false)}>Cancel</Button>
-            <Button onClick={handleUpdate} color="primary">Update</Button>
-          </DialogActions>
-        </Dialog>
+            {/* Update Dialog */}
+            <Dialog open={openUpdateDialog} onClose={() => setOpenUpdateDialog(false)} maxWidth="sm" fullWidth>
+            <DialogTitle>
+                <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+                Update Record
+                </Typography>
+            </DialogTitle>
+            <DialogContent dividers>
+                <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <TextField
+                    label="Route ID"
+                    variant="outlined"
+                    fullWidth
+                    value={updateForm.route_id}
+                    onChange={(e) => setUpdateForm({ ...updateForm, route_id: e.target.value })}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                    label="Vehicle ID"
+                    variant="outlined"
+                    fullWidth
+                    value={updateForm.vehicle_id}
+                    onChange={(e) => setUpdateForm({ ...updateForm, vehicle_id: e.target.value })}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                    label="Type"
+                    variant="outlined"
+                    fullWidth
+                    value={updateForm.type}
+                    onChange={(e) => setUpdateForm({ ...updateForm, type: e.target.value })}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <FormControl fullWidth variant="outlined">
+                    <InputLabel>Status</InputLabel>
+                    <Select
+                        label="Status"
+                        value={updateForm.status}
+                        onChange={(e) => setUpdateForm({ ...updateForm, status: e.target.value })}
+                    >
+                        <MenuItem value="upcoming">Upcoming</MenuItem>
+                        <MenuItem value="completed">Completed</MenuItem>
+                        <MenuItem value="canceled">Canceled</MenuItem>
+                    </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                    label="Date"
+                    type="date"
+                    variant="outlined"
+                    fullWidth
+                    InputLabelProps={{ shrink: true }}
+                    value={updateForm.date}
+                    onChange={(e) => setUpdateForm({ ...updateForm, date: e.target.value })}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                    label="Time"
+                    type="time"
+                    variant="outlined"
+                    fullWidth
+                    InputLabelProps={{ shrink: true }}
+                    value={updateForm.time}
+                    onChange={(e) => setUpdateForm({ ...updateForm, time: e.target.value })}
+                    />
+                </Grid>
+                </Grid>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={() => setOpenUpdateDialog(false)} color="secondary" variant="outlined">
+                Cancel
+                </Button>
+                <Button onClick={handleUpdate} color="primary" variant="contained">
+                Update
+                </Button>
+            </DialogActions>
+            </Dialog>
+
       </div>
     </LocalizationProvider>
   );

@@ -3,10 +3,6 @@ import mongoose from 'mongoose'
 const transportLogSchema = new mongoose.Schema({
 
 
-    id: {
-        type: String,
-        required: false,
-    },
     type: {
         type: String,
         required: true,

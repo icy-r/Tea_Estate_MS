@@ -1,9 +1,4 @@
-import { log } from 'console';
 import { Vehicle } from '../../models/transport-management/vehicle-model.js';
-
-
-
-
 async function index(req, res) {
   try {
     //get all vehicles
@@ -13,7 +8,6 @@ async function index(req, res) {
     res.status(500).json({ error: error });
   }
 }
-
 async function show(req, res) {
   try {
     //id_transport = req.params.id
@@ -34,7 +28,6 @@ async function create(req, res) {
     res.status(400).json({ error: error });
   }
 }
-
 async function update(req, res) {
   try {
 
@@ -47,7 +40,6 @@ async function update(req, res) {
     res.status(400).json({ error: error });
   }
 }
-
 async function destroy(req, res) {
   try {
     const vehicle = await Vehicle.findOne({ id: req.params.id });

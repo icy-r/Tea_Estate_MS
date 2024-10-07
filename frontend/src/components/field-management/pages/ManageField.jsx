@@ -148,7 +148,29 @@ const ManageField = () => {
                   </td>
                   <td className="py-2 px-4 border">{field.area}</td>
                   <td className="py-2 px-4 border">{field.labour}</td>
-                  <td className="py-2 px-4 border">{field.fieldStatus}</td>
+                  {/* <td className="py-2 px-4 border">{field.fieldStatus}</td> */}
+                  <td className="py-3 px-4">
+                    {field.fieldStatus === "Active" && (
+                      <span className="bg-green-500 text-white px-6 py-1 rounded-full text-xs">
+                        Active
+                      </span>
+                    )}
+                    {field.fieldStatus === "Inactive" && (
+                      <span className="bg-red-500 text-white px-6 py-1 rounded-full text-xs">
+                        Inactive
+                      </span>
+                    )}
+                    {field.fieldStatus === "In Progress" && (
+                      <span className="bg-yellow-500 text-white px-5 py-1 rounded-full text-xs">
+                        In Progress
+                      </span>
+                    )}
+                    {field.fieldStatus === "Needs Maintenance" && (
+                      <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-xs">
+                        Needs Maintenance
+                      </span>
+                    )}
+                  </td>
                   <td className="py-2 px-4 border flex justify-center gap-2">
                     <button
                       className="bg-teal-500 text-white px-4 py-2 rounded-md"

@@ -126,20 +126,12 @@ const UpdateField = () => {
 
           <FormControl className="flex flex-col">
             <FormLabel required>Fertilizer Schedule</FormLabel>
-            <Select
+            <Input
               name="fertilizerSchedule"
               value={fieldData.fertilizerSchedule}
-              onChange={handleChange}
-              required
+              readOnly
               className="border border-gray-300 p-3 rounded-md"
-            >
-              <MenuItem value="" disabled>
-                Select Schedule
-              </MenuItem>
-              <MenuItem value="Schedule 01">Schedule 01</MenuItem>
-              <MenuItem value="Schedule 02">Schedule 02</MenuItem>
-              <MenuItem value="Schedule 03">Schedule 03</MenuItem>
-            </Select>
+            />
           </FormControl>
 
           <FormControl className="flex flex-col">

@@ -31,12 +31,11 @@ async function create(req, res) {
     const total = harvest.best_qnty + harvest.good_qnty + harvest.damaged_qnty;
     const damagedPercentage = (harvest.damaged_qnty / total) * 100;
 
-    if (damagedPercentage > 30) {
-      const field = await Field.findOne({ name: harvest.field_name });
+    const field = await Field.findOne({ name: harvest.field_name });
 
-      if (field) {
+    if (field) {
+      if (damagedPercentage > 30) {
         field.fieldStatus = "Needs Maintenance";
-        await field.save();
 
         const supervisor = await Labour.findOne({
           assignedField: field.name,
@@ -60,12 +59,15 @@ async function create(req, res) {
               "Error sending WhatsApp notification:",
               notificationError
             );
-            // Note: We're not throwing this error to avoid disrupting the harvest creation process
           }
         } else {
           console.log(`No supervisor found for field ${field.name}`);
         }
+      } else {
+        field.fieldStatus = "Active";
       }
+
+      await field.save();
     }
 
     res.json(harvest);

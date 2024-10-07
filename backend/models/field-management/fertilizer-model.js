@@ -10,6 +10,7 @@ import mongoose from "mongoose";
         {
           type: { type: String, required: true },
           applicationRate: { type: Number, required: true },
+          defaultApplicationRate: { type: Number, required: true },
         },
       ],
       frequency: { type: String, required: true },

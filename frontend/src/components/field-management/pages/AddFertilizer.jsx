@@ -19,7 +19,7 @@ import Notification from "../component/NotificationContent.jsx"; // Import Notif
 const AddFertilizerSchedule = () => {
   const [fields, setFields] = useState([]);
   const [fertilizers, setFertilizers] = useState([
-    { type: "", applicationRate: "" },
+    { type: "", applicationRate: "", defaultApplicationRate: "" },
   ]);
   const [formValues, setFormValues] = useState({
     id: "",
@@ -93,7 +93,13 @@ const AddFertilizerSchedule = () => {
   // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const scheduleData = { ...formValues, fertilizers };
+    const scheduleData = {
+      ...formValues,
+      fertilizers: fertilizers.map((fertilizer) => ({
+        ...fertilizer,
+        defaultApplicationRate: fertilizer.applicationRate, // Store default rate as well
+      })),
+    };
 
     const regex = /^[a-zA-Z\s]+$/;
 
@@ -128,7 +134,9 @@ const AddFertilizerSchedule = () => {
         frequency: "",
         weatherAdjustment: false,
       });
-      setFertilizers([{ type: "", applicationRate: "" }]);
+      setFertilizers([
+        { type: "", applicationRate: "", defaultApplicationRate: "" },
+      ]);
     } catch (error) {
       console.error("Error adding fertilizer schedule:", error);
       notify("Error adding fertilizer schedule", "error");

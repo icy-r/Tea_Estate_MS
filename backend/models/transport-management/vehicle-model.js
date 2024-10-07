@@ -53,6 +53,35 @@ const vehicleSchema = new mongoose.Schema({
   
 });
 
-const Vehicle = mongoose.model('Vehicle', vehicleSchema);
+vehicleSchema.post("save", async function (doc) {
+  //add to asset model as well
+  const Asset = mongoose.model("Asset");
+  const asset = new Asset({
+    assetNumber: doc.chassisNo,
+    assetType: "vehicle",
+    name: doc.owner_name,
+    model: doc.type,
+    manufacturer: "N/A",
+    purchaseDate: doc.manufactureYear,
+    lastMaintenanceDate: null,
+    nextScheduledMaintenance: null,
+    status: doc.status,
+    location: doc.owner_address,
+    maintenanceHistory: [],
+  });
+  await asset.save();
+});
+
+vehicleSchema.post("findOneAndDelete", async function (doc) {
+  //delete from asset model as well
+  const Asset = mongoose.model("Asset");
+  await Asset.findOne({
+    assetNumber: doc.chassisNo,
+  }).deleteOne();
+});
+
+const Vehicle = mongoose.model("Vehicle", vehicleSchema);
 
 export { Vehicle };
+
+

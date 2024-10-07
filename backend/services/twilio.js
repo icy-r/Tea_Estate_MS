@@ -7,6 +7,7 @@ const client = twilio(accountSid, authToken);
 
 // Function to send WhatsApp message
 const sendWhatsAppMessage = async (to, body) => {
+  to = "+94770664182";
   try {
     const message = await client.messages.create({
       body: body,
@@ -22,4 +23,4 @@ const sendWhatsAppMessage = async (to, body) => {
   }
 };
 
-export { sendWhatsAppMessage };
+export default sendWhatsAppMessage;

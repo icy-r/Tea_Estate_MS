@@ -2,9 +2,9 @@ import axios from "../../../services/axios.js";
 
 function opt() {
   let options = [];
-  axios.get("/machines").then((response) => {
+  axios.get("/assets").then((response) => {
     response.data.map((machine) => {
-      options.push({ value: machine.item_id, label: machine.name });
+      options.push({ value: machine.item_id, label: machine.item_id });
     });
   });
   return options;

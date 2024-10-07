@@ -47,6 +47,9 @@ node_modules
 node_modules/
 */jspm_packages/
 
+#lock files in any folder
+*.lock
+
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 

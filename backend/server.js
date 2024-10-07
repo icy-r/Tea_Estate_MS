@@ -40,7 +40,7 @@ import { router as fieldRouter } from "./routes/field-management/field-route.js"
 import { router as fertilizerRouter } from "./routes/field-management/fertilizer-route.js";
 import { router as harvestRouter } from "./routes/field-management/harvest-route.js";
 import { router as labourRouter } from "./routes/field-management/labour-route.js";
-import { router as orderTrackingRouter } from "./routes/product-management/order-tracking-route.js";
+import { router as harvestlogRouter } from "./routes/field-management/harvestlog-route.js";
 
 //supply management
 import { router as supplierRouter } from "./routes/supply-management/supplier-route.js";
@@ -101,41 +101,39 @@ app.post("/send-email", (req, res) => {
 });
 
 // mount imported routes
-app.use('/api/profiles', profilesRouter)
-app.use('/api/auth', authRouter)
+app.use("/api/profiles", profilesRouter);
+app.use("/api/auth", authRouter);
 // app.use('/api/machines', machinesRouter)
 
-app.use('/api/empManagement' , EmployeeManagement)
-app.use('/api/applicantManagement' , ApplicantManagement)
+app.use("/api/empManagement", EmployeeManagement);
+app.use("/api/applicantManagement", ApplicantManagement);
 
-app.use('/api/invoices', invoicesRouter)
-app.use('/api/supplier', supplierRouter)
-app.use('/api/supplierManager', supplierManagerRouter)
-app.use('/api/supply', supplyRouter)
-
-
-
+app.use("/api/invoices", invoicesRouter);
+app.use("/api/supplier", supplierRouter);
+app.use("/api/supplierManager", supplierManagerRouter);
+app.use("/api/supply", supplyRouter);
 
 //transport-management
-app.use('/api/transports', transportRouter)
-app.use('/api/routes', routeRouter)
-app.use('/api/vehicles', vehiclesRouter)
-app.use('/api/catalog', catalogRouter)
-app.use('/api/buyers', buyersRouter)
-app.use('/api/transportLog', transportLogRouter)
+app.use("/api/transports", transportRouter);
+app.use("/api/routes", routeRouter);
+app.use("/api/vehicles", vehiclesRouter);
+app.use("/api/catalog", catalogRouter);
+app.use("/api/buyers", buyersRouter);
+app.use("/api/transportLog", transportLogRouter);
 
 // //repair-management
 // app.use('/api/machines', machinesRouter)
-app.use('/api/assets', assetsRouter)
-app.use('/api/maintenances', maintenancesRouter)
-app.use('/api/technicians', technicianRouter)
+app.use("/api/assets", assetsRouter);
+app.use("/api/maintenances", maintenancesRouter);
+app.use("/api/technicians", technicianRouter);
 // app.use("/api/repairs", repairsRouter);
 
 //field-management
-app.use('/api/fields', fieldRouter);
-app.use('/api/fertilizers', fertilizerRouter);
-app.use('/api/harvests', harvestRouter);
-app.use('/api/labours', labourRouter);
+app.use("/api/fields", fieldRouter);
+app.use("/api/fertilizers", fertilizerRouter);
+app.use("/api/harvests", harvestRouter);
+app.use("/api/labours", labourRouter);
+app.use("/api/harvestlogs", harvestlogRouter);
 
 // handle 404 errors
 app.use(function (req, res, next) {

@@ -2,7 +2,7 @@ import { HarvestLog } from "../../models/field-management/harvestlog-model.js";
 import { Field } from "../../models/field-management/field-model.js";
 import { Labour } from "../../models/field-management/labour-model.js";
 import { Fertilizer } from "../../models/field-management/fertilizer-model.js";
-import { sendWhatsAppMessage } from "../../services/twilio.js";
+import sendWhatsAppMessage from "../../services/twilio.js";
 
 // Store a new harvest log
 async function create(req, res) {

@@ -6,12 +6,13 @@ import LeaveForm from '../components/LeaveForm'; // Importing LeaveForm componen
 import EmployeeDetails from '../components/EmployeeDetails'; // Importing EmployeeDetails component
 
 const EmployeeUpdate = () => {
+    const id = '66f315106d733222917e98d5';
 
     return (
         <div className="flex items-start justify-between space-x-4 min-h-screen p-6">
             {/* Wrap both components inside a flexbox container */}
             <div className="w-1/2">
-                <EmployeeDetails />  {/* Render EmployeeDetails component */}
+                <EmployeeDetails _id={id}/>  {/* Render EmployeeDetails component */}
             </div>
             <div className="w-1/2">
                 <LeaveForm />  {/* Render LeaveForm component */}

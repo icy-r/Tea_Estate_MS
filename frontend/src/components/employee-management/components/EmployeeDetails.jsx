@@ -3,6 +3,7 @@ import React from 'react';
 import axios from 'axios'; // Correct import
 import { useNavigate } from 'react-router-dom'; // Ensure this import is correct if you're using routing
 
+  // Set the ID of the employee to fetch
 const EmployeeUpdate = ({ _id }) => {
     const navigate = useNavigate();  // Initialize navigate hook
 

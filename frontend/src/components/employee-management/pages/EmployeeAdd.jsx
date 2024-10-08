@@ -198,7 +198,7 @@ const EmployeeAdd = () => {
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Contact Number</label>
                             <input
-                                type="number"
+                                type="tel"
                                 name="contactNumber"
                                 pattern=".{10,12}"
                                 onChange={handleChange}

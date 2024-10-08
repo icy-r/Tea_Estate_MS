@@ -53,7 +53,7 @@ import { router as supplyRouter } from './routes/supply-management/supply-route.
 import { router as EmployeeManagement } from './routes/employee-management/employee-route.js'
 import { router as ApplicantManagement } from './routes/employee-management/applicant-route.js'
 import { router as EmployeeProfile } from './routes/employee-management/leave-route.js'
-
+import { router as ApplicantRoles } from './routes/employee-management/roles-route.js'
 
 
 import { router as notificationsRouter } from "./routes/repair-management/notification-route.js";
@@ -112,9 +112,12 @@ app.use("/api/invoices", invoicesRouter);
 app.use("/api/supplier", supplierRouter);
 app.use("/api/supplierManager", supplierManagerRouter);
 app.use("/api/supply", supplyRouter);//employee-management
+
+//employee-management
 app.use('/api/empManagement' , EmployeeManagement)
 app.use('/api/applicanttManagement' , ApplicantManagement)
 app.use('/api/employeeProfile' , EmployeeProfile)
+app.use('/api/applicantRoles' , ApplicantRoles)
 
 //transport-management
 app.use("/api/transports", transportRouter);

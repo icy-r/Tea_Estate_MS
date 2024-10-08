@@ -7,6 +7,8 @@ const menuItems = [
     subItems: [
       { name: "Add Supply", link: "supply/add" },
       { name: "Manage Supply", link: "supply/manage" },
+      { name: "Calling for Supplies", link: "supply/calling-supply" },
+      
       
     ],
   },

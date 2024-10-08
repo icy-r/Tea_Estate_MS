@@ -15,6 +15,7 @@ import ManageSupplier from './ManageSupplier.jsx';
 import OrderSupply from './OrderSupply.jsx';
 import SupplyTypePieChart from '../components/SupplyTypePieChart.jsx';
 import ViewHistory from '../pages/ViewHistory.jsx';
+import CallingSupply from "./CallingSupply.jsx";
 
 
 const SupplyHome = () => {
@@ -37,7 +38,7 @@ const SupplyHome = () => {
                     <Route path="/update/:id" element={<UpdateSupply />} />
                     <Route path="/ordersupplies" element={<OrderSupply />} />
                     <Route path="/viewhistory" element={<ViewHistory />} />
-
+                    <Route path="/calling-supply" element={<CallingSupply />} />
                  </Routes>
                       
                     

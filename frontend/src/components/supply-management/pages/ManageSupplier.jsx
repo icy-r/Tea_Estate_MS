@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'; 
 import axios from '../../../services/axios.js';
 import { useNavigate } from 'react-router-dom';
 import { Snackbar, Alert, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Button } from '@mui/material';
@@ -54,24 +54,27 @@ const ManageSupplier = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/supplier/${id}`);
-      setFilteredSuppliers(filteredSuppliers.filter((supplier) => supplier._id !== id));
-      setAlert({ open: true, message: 'Supplier deleted successfully', severity: 'success' });
+        // Use backticks instead of slashes for template literals
+        await axios.delete(`/supplier/${id}`);
+        setFilteredSuppliers(filteredSuppliers.filter((supplier) => supplier._id !== id));
+        setAlert({ open: true, message: 'Supplier deleted successfully', severity: 'success' });
     } catch (error) {
-      setAlert({ open: true, message: 'Error deleting supplier', severity: 'error' });
+        setAlert({ open: true, message: 'Error deleting supplier', severity: 'error' });
     }
-  };
+};
 
-  const handleUpdateSupplier = async () => {
+const handleUpdateSupplier = async () => {
     try {
-      await axios.put(`/supplier/${selectedSupplier._id}`, selectedSupplier);
-      setFilteredSuppliers(filteredSuppliers.map((supplier) => (supplier._id === selectedSupplier._id ? selectedSupplier : supplier)));
-      setAlert({ open: true, message: 'Supplier updated successfully', severity: 'success' });
-      handleDialogClose();
+        // Use backticks instead of slashes for template literals
+        await axios.put(`/supplier/${selectedSupplier._id}`, selectedSupplier);
+        setFilteredSuppliers(filteredSuppliers.map((supplier) => (supplier._id === selectedSupplier._id ? selectedSupplier : supplier)));
+        setAlert({ open: true, message: 'Supplier updated successfully', severity: 'success' });
+        handleDialogClose();
     } catch (error) {
-      setAlert({ open: true, message: 'Error updating supplier', severity: 'error' });
+        setAlert({ open: true, message: 'Error updating supplier', severity: 'error' });
     }
-  };
+};
+
 
   const handleCloseAlert = () => {
     setAlert({ ...alert, open: false });
@@ -126,14 +129,14 @@ const ManageSupplier = () => {
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white">
           <thead>
-            <tr className="w-full bg-teal-500 text-white">
-              <th className="py-2 px-4 text-left">First Name</th>
-              <th className="py-2 px-4 text-left">Last Name</th>
-              <th className="py-2 px-4 text-left">NIC</th>
-              <th className="py-2 px-4 text-left">Company Name</th>
-              <th className="py-2 px-4 text-left">Contact Number</th>
-              <th className="py-2 px-4 text-left">Email</th>
-              <th className="py-2 px-4 text-left">Supply Type</th> {/* Added Supply Type column */}
+            <tr className="w-full bg-teal-500 text-black ">
+              <th className="py-2 px-4 text-center">First Name</th>
+              <th className="py-2 px-4 text-center">Last Name</th>
+              <th className="py-2 px-4 text-center">NIC</th>
+              <th className="py-2 px-4 text-center">Company Name</th>
+              <th className="py-2 px-4 text-center">Contact Number</th>
+              <th className="py-2 px-4 text-center">Email</th>
+              <th className="py-2 px-4 text-center">Supply Type</th> {/* Added Supply Type column */}
               <th className="py-2 px-4 text-center">Actions</th>
             </tr>
           </thead>
@@ -150,13 +153,13 @@ const ManageSupplier = () => {
                   <td className="py-2 px-4 border">{supplier.supplyType}</td> {/* Displaying Supply Type */}
                   <td className="py-2 px-4 border flex justify-center gap-2">
                     <button
-                      className="bg-teal-500 text-white px-4 py-2 rounded-md"
+                      className="bg-teal-500 text-black px-4 py-2 rounded-md"
                       onClick={() => handleUpdateOpen(supplier)}
                     >
                       Update
                     </button>
                     <button
-                      className="bg-red-500 text-white px-4 py-2 rounded-md"
+                      className="bg-red-500 text-black px-4 py-2 rounded-md"
                       onClick={() => handleDelete(supplier._id)}
                     >
                       Delete

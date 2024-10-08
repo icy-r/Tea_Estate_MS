@@ -22,8 +22,6 @@ const supplierSchema = new Schema (
 }
 );
 
-
-
 const Supplier = mongoose.model("Supplier", supplierSchema);
 
 export { Supplier };

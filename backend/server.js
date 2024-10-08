@@ -45,6 +45,8 @@ import { router as supplierRouter } from './routes/supply-management/supplier-ro
 import { router as supplierManagerRouter } from './routes/supply-management/supplier-manager-route.js'
 import { router as supplyRouter } from './routes/supply-management/supply-route.js'
 import { router as orderRouter } from './routes/supply-management/order-route.js'
+import { router as quotationRouter } from './routes/supply-management/quotation-route.js'
+import { router as callingSupplyRoute } from './routes/supply-management/calling-supply-route.js'
 
 
 
@@ -118,8 +120,8 @@ app.use('/api/supplier', supplierRouter)
 app.use('/api/supplierManager', supplierManagerRouter)
 app.use('/api/supplies', supplyRouter)
 app.use('/api/orders', orderRouter)
-
-
+app.use('/api/quotation', quotationRouter)
+app.use('/api/callingSupply', callingSupplyRoute)
 
 
 //transport-management

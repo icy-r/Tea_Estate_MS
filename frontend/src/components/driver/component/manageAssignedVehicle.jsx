@@ -33,6 +33,7 @@ const ManageAssignedVehicle = ({ driverId }) => {
     try {
       const response = await axios.get(`/drivers/${id}`);
       const vehicleId = response.data.vehicle_id;
+      console.log('Driver details:', response.data);
 
       const vehicleResponse = await axios.get(`/vehicles/${vehicleId}`);
       setVehicleDetails(vehicleResponse.data[0]);

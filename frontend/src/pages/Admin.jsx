@@ -11,6 +11,7 @@ import ProtectedRoutes from "../Routes/ProtectedRoutes.jsx";
 import AdminLogin from "./login/AdminLogin.jsx";
 import FunctionCard from "../components/dashboard/component/FunctionCard.jsx";
 import AdminDashboardLayout from "../components/layouts/AdminDashboardLayout.jsx";
+import EmployeeRoutes from "../components/employee-management/EmployeeRoutes.jsx";
 // import LandingPage from "./landingPage/LandingPage.jsx";
 
 let UserContext;
@@ -69,6 +70,15 @@ function App() {
                 <TransportHome />
               </ProtectedRoutes>
             }
+          />
+
+          <Route
+              path="/employee/*"
+              element={
+                  <ProtectedRoutes user={user}>
+                      <EmployeeRoutes/>
+                  </ProtectedRoutes>
+              }
           />
 
      

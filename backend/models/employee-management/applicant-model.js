@@ -17,23 +17,6 @@ const applicantSchema = new Schema({
       required:true,
     },
 
-    age:{
-        type:Number,
-        required:true,
-      },
-
-    address:{
-      type:String,
-      required:true,
-    },
-
-    dateOfBirth:{
-      type:String,
-      required:true,
-    },
-
- 
-
 });
 
 const Applicant = mongoose.model("Applicant", applicantSchema);

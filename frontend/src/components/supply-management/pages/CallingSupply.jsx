@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CallingSupplyForm from '../components/CallingSupplyForm.jsx';
 import CallingSupplyList from '../components/CallingSupplyList.jsx';
+import { useNavigate } from 'react-router-dom';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import axios from "../../../services/axios.js"; // Axios instance
 
@@ -19,11 +20,15 @@ const CallingSupply = () => {
         setOpenDialog(false);
     };
 
+
+ 
+
     // Fetch the calling supplies data initially
     const fetchCallingSupplies = async () => {
         try {
             const response = await axios.get('/callingSupply/'); // Replace with correct API endpoint
             setCallingSupplies(response.data);
+            
             setLoading(false);
         } catch (error) {
             setLoading(false);
@@ -70,7 +75,11 @@ const CallingSupply = () => {
             </Dialog>
 
             {/* Display the CallingSupplyList below, passing the callingSupplies data */}
-            <CallingSupplyList callingSupplies={callingSupplies} loading={loading} />
+            <div className='px-20'>
+
+                     <CallingSupplyList callingSupplies={callingSupplies} loading={loading} />
+            </div>
+           
         </div>
     );
 };

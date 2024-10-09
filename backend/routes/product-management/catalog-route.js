@@ -8,7 +8,7 @@ const router = Router();
 
 /*---------- Protected Routes ----------*/
 
-//router.use(decodeUserFromToken);
+router.use(decodeUserFromToken);
 router.get("/", catalogCtrl.index);
 router.post("/", checkAuth, catalogCtrl.create);
 router.get("/:id", catalogCtrl.show);

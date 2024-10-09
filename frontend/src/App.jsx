@@ -18,7 +18,6 @@ function App() {
         
         <Menubar props={[open, setOpen]} />
         <Header />
-        
         <Routes>
             <Route path="/" element={<div>Home</div>} />
             <Route path="/about" element={<div>About</div>} />

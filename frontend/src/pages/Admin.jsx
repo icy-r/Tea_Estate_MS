@@ -6,10 +6,12 @@ import Error404 from "./error404.jsx";
 import { Route, Routes } from "react-router-dom";
 import { createContext, useState } from "react";
 import * as authService from "../services/auth-service.js";
-import ProtectedRoutes from "../Routes/ProtectedRoutes.jsx";
+import ProtectedRoutes from "../Routes/ProtectedRoutes.jsx";  
+import BuyerRoutes from "../components/product-management/BuyerRoutes.jsx";
 import AdminLogin from "./login/AdminLogin.jsx";
 import FunctionCard from "../components/dashboard/component/FunctionCard.jsx";
 import AdminDashboardLayout from "../components/layouts/AdminDashboardLayout.jsx";
+import CatalogtRoutes from "../components/product-management/CatalogRoutes.jsx";
 import EmployeeRoutes from "../components/employee-management/EmployeeRoutes.jsx";
 // import LandingPage from "./landingPage/LandingPage.jsx";
 
@@ -35,6 +37,7 @@ function App() {
           />
           <Route path="/about" element={<div>About</div>} />
 
+<<<<<<<<< Temporary merge branch 1
           {/* Protected Routes */}
           <Route
             path="/"
@@ -70,15 +73,51 @@ function App() {
               </ProtectedRoutes>
             }
           />
+=========
+                    {/* Protected Routes */}
+                    <Route
+                        path="/repair/*"
+                        element={
+                            <ProtectedRoutes user={user}>
+                                <RepairRoutes/>
+                            </ProtectedRoutes>
+                        }
+                    />
+                    <Route
+                        path="/field/*"
+                        element={
+                            <ProtectedRoutes user={user}>
+                                <FieldRoutes/>
+                            </ProtectedRoutes>
+                        }
+                    />
+                    <Route
+                        path="/transport/*"
+                        element={
+                            <ProtectedRoutes user={user}>
+                                <TransportHome/>
+                            </ProtectedRoutes>
+                        }
+                    />
+                    <Route
+                        path="/product/*"
+                        element={
+                            <ProtectedRoutes user={user}>
+                                <ProductRoutes/>
+                            </ProtectedRoutes>
+                        }
 
-          <Route
-              path="/employee/*"
-              element={
-                  <ProtectedRoutes user={user}>
-                      <EmployeeRoutes/>
-                  </ProtectedRoutes>
-              }
-          />
+                    />
+                    <Route
+                        path="/buyer/*"
+                        element={
+                            <ProtectedRoutes user={user}>
+                                <BuyerRoutes/>
+                            </ProtectedRoutes>
+                        }
+
+                    />
+>>>>>>>>> Temporary merge branch 2
 
           {/* Catch-all route */}
           <Route path="/*" element={<Error404 />} />

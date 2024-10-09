@@ -24,7 +24,7 @@ const DriverHome = () => {
                 <Routes>
                     <Route path ="/" element={<Home driverId ={"EMP11569968"}/>}/>
                     <Route path ="/manage-assigned-vehicle" element={<ManageAssignedVehicle driverId ={"EMP11569968"}/>}/>
-                    <Route path ="/repair-requests" element={<RepairRequests/>}/>
+                    <Route path ="/repair-requests" element={<RepairRequests driverId ={"EMP11569968"}/>}/>
                     <Route path ="/view-tasks" element={<ViewTasks driverId ={"EMP11569968"}/>}/>
                 </Routes> 
 

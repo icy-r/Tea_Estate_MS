@@ -46,10 +46,7 @@ import { router as labourRouter } from './routes/field-management/labour-route.j
 import { router as orderTrackingRouter } from './routes/product-management/order-tracking-route.js'
 
 
-//supply management
-import { router as supplierRouter } from './routes/supply-management/supplier-route.js'
-import { router as supplierManagerRouter } from './routes/supply-management/supplier-manager-route.js'
-import { router as supplyRouter } from './routes/supply-management/supply-route.js'
+
 
 
 //employee management
@@ -58,7 +55,7 @@ import { router as ApplicantManagement } from './routes/employee-management/appl
 import { router as EmployeeProfile } from './routes/employee-management/leave-route.js'
 
 
-
+//supply management
 import { router as notificationsRouter } from "./routes/repair-management/notification-route.js";
 import { router as userLoginRouter } from "./routes/authentication/user-auth-route.js";
 import { router as supplierRouter } from "./routes/supply-management/supplier-route.js";

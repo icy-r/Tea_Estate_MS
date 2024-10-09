@@ -5,14 +5,15 @@ import AddField from "./pages/AddField";
 import ManageField from "./pages/ManageField";
 import UpdateField from "./pages/UpdateField";
 import AssignLabours from "./pages/AssignLabours.jsx";
-import AdminDashboardLayout from "./component/AdminDashboardLayout.jsx";
+import AdminDashboardLayout from "../layouts/AdminDashboardLayout.jsx";
 import ViewHarvest from "./pages/ViewHarvest.jsx";
 import AddHarvest from "./pages/AddHarvest.jsx";
+import menuItems from './data-files/menuItems.js';
 
 const FieldRoutes = () => {
   return (
     <>
-      <AdminDashboardLayout>
+      <AdminDashboardLayout menu={menuItems}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/add" element={<AddField />} />

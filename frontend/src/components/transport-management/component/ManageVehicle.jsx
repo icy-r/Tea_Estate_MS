@@ -267,7 +267,7 @@ const ManageVehicle = () => {
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
-              <TableRow>
+              <TableRow sx={{ bgcolor: '#15F5BA'}}>
                 <TableCell>Vehicle ID</TableCell>
                 <TableCell>Type</TableCell>
                 <TableCell>Assigned Dept</TableCell>

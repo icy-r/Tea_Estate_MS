@@ -87,6 +87,7 @@ const employeeSchema = new Schema({
 
 // Post-save hook for additional operations for specific designations
 employeeSchema.post('save', async function (doc) {
+  try{
   if (doc.designation === 'Labour' || doc.designation === 'Supervisor') {
     // Add additional attributes if needed for Labour/Supervisor
     const updatedEmployee = {

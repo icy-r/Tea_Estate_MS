@@ -1,5 +1,5 @@
 import { TransportLog } from '../../models/transport-management/transport-log-model.js';
-import { Transport } from '../../models/transport-management/Transport-model.js'; // Assuming Transport model is in models/Transport
+import { Transport } from '../../models/transport-management/Transport-model.js'; 
 
 // Function to schedule transports and log them
 
@@ -8,7 +8,7 @@ async function create(req, res) {
   try {
     // 1. Fetch all transports
     const transports = await Transport.find({});
-
+  
     // 2. Define the times for different dailyOccurrence values
     const timeSlots = {
       1: ['17:00'], // Only evening log (5 PM)
@@ -71,29 +71,40 @@ async function show(req, res) {
 
 async function update(req, res) {
   try {
-
-    const transport = await TransportLog.findOne({id: req.params.id});
-
-    Object.assign(transport, req.body);
-    await transport.save();
-    res.json(transport);
-  } catch (error) {
-    res.status(400).json({ error: error });
-  }
-}
-
-async function destroy(req, res) {
-  try {
-    const transport = await TransportLog.findOne({ id: req.params.id });
+    // Find the transport log by MongoDB _id
+    const transport = await TransportLog.findById(req.params.id);
+    
+    // If the transport log doesn't exist, return a 404 error
     if (!transport) {
       return res.status(404).json({ error: 'Transport not found' });
     }
-    await transport.deleteOne();
+
+    // Update the transport log with the data from the request body
+    Object.assign(transport, req.body);
+    
+    // Save the updated transport log
+    await transport.save();
+    
+    // Send back the updated transport log
+    res.json(transport);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: error.message });
+  }
+}
+
+
+async function destroy(req, res) {
+  try {
+    const transport = await TransportLog.findById(req.params.id); // Find by MongoDB _id
+    if (!transport) {
+      return res.status(404).json({ error: 'Transport not found' });
+    }
+    await transport.deleteOne(); // Delete the transport log
     res.json({ message: 'Transport deleted' });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: error });
-
   }
 }
 

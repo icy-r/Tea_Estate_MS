@@ -1,147 +1,133 @@
-import React, { useState } from 'react';
-import axios from 'axios'; // Replace with your axios instance if necessary
-import { TextField, Button, MenuItem, FormControl, InputLabel, Select, Box, Typography } from '@mui/material';
+import React, { useState, useEffect } from "react";
+import axios from "../../../services/axios";
 
-const AddRequestForm = () => {
+const RepairRequests = ({ driverId }) => {
+  console.log('Driver ID:', driverId);
+  const [vehicleDetails, setVehicleDetails] = useState(null);
   const [formData, setFormData] = useState({
-    request_id: '',
-    item_id: '',
-    request_date: '',
-    issue_description: '',
-    priority_level: 'Low', // Default value
-    assigned_technician_id: '',
-    status: 'Pending', // Default value
+    vehicleId: "",
+    issueDescription: "",
+    location: "",
+    assignedTechnician: null,
   });
-
+  const [confirmationMessage, setConfirmationMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState({ open: false, message: '', severity: 'info' });
 
-  // Handle input change
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  useEffect(() => {
+    if (driverId) {
+      fetchVehicleDetails(driverId);
+      console.log('Fetching vehicle details for driver ID:');
+    }
+  }, [driverId]);
 
-  // Handle form submit
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const fetchVehicleDetails = async (id) => {
+    setLoading(true);
     try {
-      const response = await axios.post('/api/requests', formData); // Replace with your actual endpoint
-      setAlert({ open: true, message: 'Request submitted successfully!', severity: 'success' });
-      console.log(response.data);
+      console.log('Fetching vehicle details for driver ID:');
+      const response = await axios.get(`/drivers/${id}`);
+      const vehicleId = response.data.vehicle_id;
+
+      const vehicleResponse = await axios.get(`/vehicles/${vehicleId}`);
+      setVehicleDetails(vehicleResponse.data[0]);
+      console.log('Vehicle details:', vehicleResponse.data);
+
+      setFormData((prevData) => ({
+        ...prevData,
+        vehicleId: vehicleId, // Set vehicleId in form data
+      }));
+
+      setAlert({ open: true, message: 'Driver-Vehicle details fetched successfully!', severity: 'success' });
     } catch (error) {
-      console.error('Error submitting request:', error);
-      setAlert({ open: true, message: 'Error submitting request.', severity: 'error' });
+      console.error('Error fetching vehicle details:', error);
+      setVehicleDetails(null);
+      setAlert({ open: true, message: 'Vehicle not found or error fetching details.', severity: 'error' });
+    } finally {
+      setLoading(false);
+      setTimeout(() => {
+        setAlert((prevAlert) => ({ ...prevAlert, open: false }));
+      }, 3000);
     }
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    axios
+      .post("requestmaintenance/", formData) // Use formData directly
+      .then(() => {
+        setConfirmationMessage("Issue reported successfully!");
+        setFormData({
+          vehicleId: "",
+          issueDescription: "",
+          location: "",
+          assignedTechnician: null,
+        });
+      })
+      .catch((error) => {
+        console.error("Error reporting issue:", error);
+        setConfirmationMessage("Failed to report issue. Please try again.");
+      });
+  };
+
   return (
-    <Box sx={{ maxWidth: 500, margin: 'auto', padding: '16px', boxShadow: 3 }}>
-      <Typography variant="h5" gutterBottom>
-        Add New Request
-      </Typography>
-
-      <form onSubmit={handleSubmit}>
-        <TextField
-          fullWidth
-          label="Request ID"
-          name="request_id"
-          value={formData.request_id}
-          onChange={handleChange}
-          required
-          margin="normal"
-          type="number"
-        />
-
-        <TextField
-          fullWidth
-          label="Item ID"
-          name="item_id"
-          value={formData.item_id}
-          onChange={handleChange}
-          required
-          margin="normal"
-          type="number"
-        />
-
-        <TextField
-          fullWidth
-          label="Request Date"
-          name="request_date"
-          value={formData.request_date}
-          onChange={handleChange}
-          required
-          margin="normal"
-          type="date"
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-
-        <TextField
-          fullWidth
-          label="Issue Description"
-          name="issue_description"
-          value={formData.issue_description}
-          onChange={handleChange}
-          required
-          margin="normal"
-          multiline
-          rows={4}
-        />
-
-        <FormControl fullWidth margin="normal">
-          <InputLabel>Priority Level</InputLabel>
-          <Select
-            name="priority_level"
-            value={formData.priority_level}
-            onChange={handleChange}
-            required
+    <div className="flex w-full justify-center items-start p-2">
+      <div className="w-full bg-white rounded-lg shadow-md p-8">
+        <h2 className="text-xl font-semibold mb-4">Report Vehicle Issue</h2>
+        
+        
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block text-gray-700">Vehicle ID:</label>
+            <input
+              type="text"
+              name="vehicleId"
+              value={formData.vehicleId}
+              readOnly // Make this field read-only
+              className="w-full px-3 py-2 border rounded-md bg-gray-100" // Optional: gray background to indicate it's read-only
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Issue Description:</label>
+            <textarea
+              name="issueDescription"
+              value={formData.issueDescription}
+              onChange={handleChange}
+              required
+              className="w-full px-3 py-2 border rounded-md"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Location:</label>
+            <input
+              type="text"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+              required
+              className="w-full px-3 py-2 border rounded-md"
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
           >
-            <MenuItem value="Low">Low</MenuItem>
-            <MenuItem value="Medium">Medium</MenuItem>
-            <MenuItem value="High">High</MenuItem>
-          </Select>
-        </FormControl>
-
-        <TextField
-          fullWidth
-          label="Technician ID"
-          name="assigned_technician_id"
-          value={formData.assigned_technician_id}
-          onChange={handleChange}
-          required
-          margin="normal"
-          type="number"
-        />
-
-        <FormControl fullWidth margin="normal">
-          <InputLabel>Status</InputLabel>
-          <Select
-            name="status"
-            value={formData.status}
-            onChange={handleChange}
-            required
-          >
-            <MenuItem value="Pending">Pending</MenuItem>
-            <MenuItem value="In Progress">In Progress</MenuItem>
-            <MenuItem value="Completed">Completed</MenuItem>
-          </Select>
-        </FormControl>
-
-        <Button variant="contained" color="primary" type="submit" fullWidth>
-          Submit
-        </Button>
-      </form>
-
-      {alert.open && (
-        <Typography variant="body2" color={alert.severity === 'success' ? 'green' : 'red'}>
-          {alert.message}
-        </Typography>
-      )}
-    </Box>
+            Submit
+          </button>
+        </form>
+        {confirmationMessage && <p className="mt-4">{confirmationMessage}</p>}
+      </div>
+    </div>
   );
 };
 
-export default AddRequestForm;
-
-
+export default RepairRequests;

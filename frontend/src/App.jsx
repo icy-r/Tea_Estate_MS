@@ -3,9 +3,11 @@ import Menubar from '@components/MenuBar/Menubar'
 import {Route, RouterProvider, Routes} from "react-router-dom";
 import Header from "@components/navbar/Header.jsx";
 import Header from "./components/navbar/Header.jsx";
-import Login from '../components/product-management/Login.jsx';
-import MarketPlace from '../pages/productManagement/Products/Buyer/markeketPlace.jsx';
+import Login from "./pages/productManagement/Login.jsx";
+import MarketPlace from './pages/productManagement/marketPlace.jsx';
+import SendPdf from './components/employee-management/pages/ApplicantAdd.jsx';
 import './App.css'
+import Form  from 'react-router-dom';
 
 
 function App() {
@@ -13,6 +15,7 @@ function App() {
   return (
     <>
         <Header props={setOpen} />
+        
         <Menubar props={[open, setOpen]} />
         <Header />
         <Routes>
@@ -20,6 +23,7 @@ function App() {
             <Route path="/about" element={<div>About</div>} />
             <Route path="/login" component={Login} />
             <Route path="/marketplace" component={MarketPlace} />
+            <Route path="/add-applicant" element={<SendPdf/>} />
         </Routes>
     </>
   )

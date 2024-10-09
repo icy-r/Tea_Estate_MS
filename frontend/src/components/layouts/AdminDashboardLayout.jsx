@@ -3,7 +3,8 @@ import Sidebar from '../dashboard/Sidebar.jsx';
 import topMenuItemsNav from "../../constants/top-menu-items.js";
 import Content from "../dashboard/Content.jsx";
 import "../dashboard/dashboardStyle.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "../../services/axios.js";
 
 const AdminDashboardLayout = ({ children, menu }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -12,6 +13,21 @@ const AdminDashboardLayout = ({ children, menu }) => {
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  //test getEmployeeId from backend
+  useEffect(() => {
+    getEmployeeId();
+  }, []);
+
+  const getEmployeeId = async () => {
+    try {
+      const response = await axios.get("/getEmployeeId");
+      const data = response.data;
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching employee ID:", error);
+    }
   };
 
   return (

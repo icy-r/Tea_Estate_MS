@@ -1,27 +1,35 @@
+import {
+  create,
+  destroy,
+  index,
+  searchField,
+  show,
+  update,
+} from "../../controllers/repair-management/maintenance-controller.js";
+import { checkAuth, decodeUserFromToken } from "../../middleware/auth-mid.js";
 import { Router } from "express";
-import * as maintenanceController from "../../controllers/repair-management/maintenance-controller.js";
-import {checkAuth, decodeUserFromToken} from "../../middleware/auth-mid.js";
 
 const router = Router();
 
 /*---------- Public Routes ----------*/
-
-
 /*---------- Protected Routes ----------*/
-// router.use(decodeUserFromToken)
-// index for getting all maintenances defined in maintenanceController
-router.get("/", maintenanceController.index);
+router.use(decodeUserFromToken);
+// index for getting all maintenances defined in maintenance-controller
+router.get("/", checkAuth, index);
 
-// show for getting a single maintenance defined in maintenanceController
-router.get("/:id", maintenanceController.show);
+// show for getting a single maintenance defined in maintenance-controller
+router.get("/:id", checkAuth, show);
 
-// create for creating a new maintenance defined in maintenanceController
-router.post("/", checkAuth, maintenanceController.create);
+// create for creating a new maintenance defined in maintenance-controller
+router.post("/", checkAuth, create);
 
-// update for updating a maintenance defined in maintenanceController
-router.put("/:id", checkAuth, maintenanceController.update);
+// update for updating a maintenance defined in maintenance-controller
+router.put("/:id", checkAuth, update);
 
-// destroy for deleting a maintenance defined in maintenanceController
-router.delete("/:id", checkAuth, maintenanceController.destroy);
+// destroy for deleting a maintenance defined in maintenance-controller
+router.delete("/:id", checkAuth, destroy);
 
-export { router };
+// searchField for searching a maintenance defined in maintenance-controller
+router.get("/searchField", checkAuth, searchField);
+
+export default router;

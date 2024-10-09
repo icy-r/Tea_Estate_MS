@@ -77,51 +77,47 @@ function App() {
               </ProtectedRoutes>
             }
           />
-                    {/* Protected Routes */}
-                    <Route
-                        path="/repair/*"
-                        element={
-                            <ProtectedRoutes user={user}>
-                                <RepairRoutes/>
-                            </ProtectedRoutes>
-                        }
-                    />
-                    <Route
-                        path="/field/*"
-                        element={
-                            <ProtectedRoutes user={user}>
-                                <FieldRoutes/>
-                            </ProtectedRoutes>
-                        }
-                    />
-                    <Route
-                        path="/transport/*"
-                        element={
-                            <ProtectedRoutes user={user}>
-                                <TransportHome/>
-                            </ProtectedRoutes>
-                        }
-                    />
-                    <Route
-                        path="/product/*"
-                        element={
-                            <ProtectedRoutes user={user}>
-                                <ProductRoutes/>
-                            </ProtectedRoutes>
-                        }
-
-                    />
-                    <Route
-                        path="/buyer/*"
-                        element={
-                            <ProtectedRoutes user={user}>
-                                <BuyerRoutes/>
-                            </ProtectedRoutes>
-                        }
-
-                    />
-
-     
+          {/* Protected Routes */}
+          <Route
+            path="/repair/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <RepairRoutes />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/field/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <FieldRoutes />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/transport/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <TransportHome />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/product/*"
+            element={
+              <ProtectedRoutes user={user}>
+                {/* <ProductRoutes/> */}
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/buyer/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <BuyerRoutes />
+              </ProtectedRoutes>
+            }
+          />
 
           <Route
             path="/driver/*"
@@ -131,7 +127,6 @@ function App() {
               </ProtectedRoutes>
             }
           />
-
 
           {/* Catch-all route */}
           <Route path="/*" element={<Error404 />} />

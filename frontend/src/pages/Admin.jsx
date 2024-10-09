@@ -14,6 +14,7 @@ import AdminDashboardLayout from "../components/layouts/AdminDashboardLayout.jsx
 import CatalogtRoutes from "../components/product-management/CatalogRoutes.jsx";
 import EmployeeRoutes from "../components/employee-management/EmployeeRoutes.jsx";
 // import LandingPage from "./landingPage/LandingPage.jsx";
+// import ProductRoutes from "../components/product-management/ProductRoutes.jsx";
 
 let UserContext;
 
@@ -36,8 +37,6 @@ function App() {
             element={<AdminLogin handleAuthEvt={handleAuthEvt} />}
           />
           <Route path="/about" element={<div>About</div>} />
-
-<<<<<<<<< Temporary merge branch 1
           {/* Protected Routes */}
           <Route
             path="/"
@@ -73,51 +72,47 @@ function App() {
               </ProtectedRoutes>
             }
           />
-=========
-                    {/* Protected Routes */}
-                    <Route
-                        path="/repair/*"
-                        element={
-                            <ProtectedRoutes user={user}>
-                                <RepairRoutes/>
-                            </ProtectedRoutes>
-                        }
-                    />
-                    <Route
-                        path="/field/*"
-                        element={
-                            <ProtectedRoutes user={user}>
-                                <FieldRoutes/>
-                            </ProtectedRoutes>
-                        }
-                    />
-                    <Route
-                        path="/transport/*"
-                        element={
-                            <ProtectedRoutes user={user}>
-                                <TransportHome/>
-                            </ProtectedRoutes>
-                        }
-                    />
-                    <Route
-                        path="/product/*"
-                        element={
-                            <ProtectedRoutes user={user}>
-                                <ProductRoutes/>
-                            </ProtectedRoutes>
-                        }
-
-                    />
-                    <Route
-                        path="/buyer/*"
-                        element={
-                            <ProtectedRoutes user={user}>
-                                <BuyerRoutes/>
-                            </ProtectedRoutes>
-                        }
-
-                    />
->>>>>>>>> Temporary merge branch 2
+          {/* Protected Routes */}
+          <Route
+            path="/repair/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <RepairRoutes />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/field/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <FieldRoutes />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/transport/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <TransportHome />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/product/*"
+            element={
+              <ProtectedRoutes user={user}>
+                {/* <ProductRoutes /> */}
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/buyer/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <BuyerRoutes />
+              </ProtectedRoutes>
+            }
+          />
 
           {/* Catch-all route */}
           <Route path="/*" element={<Error404 />} />

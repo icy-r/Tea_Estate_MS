@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import * as inventoryController from '../../controllers/inventory-management/inventory-controller.js';
-import { checkAuth } from '../../middleware/auth-mid.js';
+import { checkAuth, decodeUserFromToken} from '../../middleware/auth-mid.js';
 import { body } from 'express-validator'; // For validation
 
 const router = Router();
@@ -22,8 +22,8 @@ const validateInventory = [
 
 router.get('/', inventoryController.index);
 router.get('/:id', inventoryController.show);
-router.post('/', validateInventory, inventoryController.create);
-router.put('/:id', validateInventory, inventoryController.update);
-router.delete('/:id', inventoryController.destroy);
+router.post('/', checkAuth, validateInventory, inventoryController.create);
+router.put('/:id', checkAuth, validateInventory, inventoryController.update);
+router.delete('/:id', checkAuth, inventoryController.destroy);
 
 export { router };

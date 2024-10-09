@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../../services/axios.js';
 import { useNavigate } from 'react-router-dom';
 import UpdateInventory from './UpdateInventory.jsx';
-import DeleteInventory from './DeleteInventory.jsx'; // Import the DeleteInventory component
+import DeleteInventory from './DeleteInventory.jsx'; 
 
 const ReadInventory = () => {
   const [inventory, setInventory] = useState([]);

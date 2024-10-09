@@ -1,7 +1,7 @@
 import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import GenerateGraphs from './GenerateGraphs'; // Adjust the path as necessary
+import GenerateGraphs from './GenerateGraphs'; 
 
 export default function InventoryForm() {
     const [darkMode, setDarkMode] = useState(false);

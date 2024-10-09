@@ -7,7 +7,7 @@ const router = Router();
 /*---------- Public Routes ----------*/
 
 /*---------- Protected Routes ----------*/
-// router.use(decodeUserFromToken)
+router.use(decodeUserFromToken)
 // index for getting all machines defined in machineController
 router.get("/", buyerController.index);
 

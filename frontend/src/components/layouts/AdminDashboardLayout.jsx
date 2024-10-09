@@ -3,8 +3,7 @@ import Sidebar from '../dashboard/Sidebar.jsx';
 import topMenuItemsNav from "../../constants/top-menu-items.js";
 import Content from "../dashboard/Content.jsx";
 import "../dashboard/dashboardStyle.css";
-import { useState, useEffect } from "react";
-import axios from "../../services/axios.js";
+import { useState } from "react";
 
 const AdminDashboardLayout = ({ children, menu }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -13,21 +12,6 @@ const AdminDashboardLayout = ({ children, menu }) => {
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
-  };
-
-  //test getEmployeeId from backend
-  useEffect(() => {
-    getEmployeeId();
-  }, []);
-
-  const getEmployeeId = async () => {
-    try {
-      const response = await axios.get("/getEmployeeId");
-      const data = response.data;
-      console.log(data);
-    } catch (error) {
-      console.error("Error fetching employee ID:", error);
-    }
   };
 
   return (
@@ -45,7 +29,7 @@ const AdminDashboardLayout = ({ children, menu }) => {
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
         {isSidebarOpen && (
-          <div className="w-64 h-full overflow-y-auto bg-gray-800 overflow-x-hidden no-scrollbar ">
+          <div className="w-64 h-full overflow-y-auto bg-color_focus overflow-x-hidden no-scrollbar ">
             <Sidebar
               setopen={setIsSidebarOpen}
               topMenuItems={topMenuItemsNav}

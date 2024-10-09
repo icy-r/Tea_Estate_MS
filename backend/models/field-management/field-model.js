@@ -21,6 +21,7 @@ const fieldSchema = new Schema({
   fertilizerSchedule: {
     type: String,
     required: true,
+    default: "none",
   },
 
   area: {
@@ -33,15 +34,16 @@ const fieldSchema = new Schema({
     required: true,
   },
 
-  cropStage: {
-    type: String,
-    required: true,
-  },
-
   harvest_qnty: {
     type: Number,
     required: true,
     default: 0,
+  },
+  fieldStatus: {
+    type: String,
+    required: true,
+    enum: ["Active", "Inactive", "Needs Maintenance", "In Progress"], // Define the possible statuses
+    default: "Active",
   },
 });
 

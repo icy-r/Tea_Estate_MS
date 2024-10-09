@@ -72,6 +72,10 @@ const employeeSchema = new Schema({
     type: String,
     required: true,
   },
+  contactNumber: {
+    type: String,
+    required: true,
+  },
 
   address: {
     type: String,
@@ -87,6 +91,7 @@ const employeeSchema = new Schema({
 
 // Post-save hook for additional operations for specific designations
 employeeSchema.post('save', async function (doc) {
+  try{
   if (doc.designation === 'Labour' || doc.designation === 'Supervisor') {
     // Add additional attributes if needed for Labour/Supervisor
     const updatedEmployee = {
@@ -98,21 +103,37 @@ employeeSchema.post('save', async function (doc) {
       best_qnty: 0,
       good_qnty: 0,
       damaged_qnty: 0,
-      best_qnty: 0,
-      good_qnty: 0,
-      damaged_qnty: 0,
-      harvest_qnty: 0, // Example value or logic for 'harvest_qnty'
-      phoneNumber: doc.contactNumber, 
+      harvest_qnty: 0,
+      phoneNumber: doc.contactNumber,
+
     };
 
     // Insert into 'Labour' collection
-    try {
       const Labour = mongoose.model("Labour");
       await Labour.create(updatedEmployee);
-    } catch (err) {
-      console.error("Error inserting into Labour collection:", err);
-    }
   }
+  
+
+  // Handle Driver designation
+  if (doc.designation === "Driver") {
+    const updatedDriver = {
+      name: `${doc.firstName} ${doc.lastName}`,
+      id: doc.Id,
+      phoneNumber: "000000000", 
+      address: doc.address,
+      dateOfBirth: new Date(doc.dateOfBirth), // Convert to Date object
+      assignedVehicle: "none", // Default value, update as necessary
+    };
+
+    const Driver = mongoose.model("Driver");
+    await Driver.create(updatedDriver);
+  }
+
+} catch (err) {
+  console.error("Error inserting into Labour or Driver collection:", err);
+}
+
+
 });
 
 // Pre-save hook for hashing password if modified

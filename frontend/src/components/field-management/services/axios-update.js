@@ -1,15 +1,14 @@
 import axios from "../../../services/axios";
 
-const updateField = async (data, navigateTo) => {
+const updateField = async (data) => {
   try {
     const response = await axios.put(`/fields/${data.id}`, data);
     if (response.status === 200) {
-      alert('Field updated successfully');
-      navigateTo('/admin/field/manage');
+      return { success: true, message: "Field updated successfully" };
     }
   } catch (error) {
     console.error("Error updating field:", error);
-    alert("Failed to update the field");
+    return { success: false, message: "Failed to update the field" };
   }
 };
 

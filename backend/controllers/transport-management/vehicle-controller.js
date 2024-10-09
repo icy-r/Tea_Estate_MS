@@ -1,5 +1,4 @@
 import { Vehicle } from '../../models/transport-management/vehicle-model.js';
-
 async function index(req, res) {
   try {
     //get all vehicles
@@ -9,10 +8,9 @@ async function index(req, res) {
     res.status(500).json({ error: error });
   }
 }
-
 async function show(req, res) {
   try {
-    //id_vehicle = req.params.id
+    //id_transport = req.params.id
     const vehicle = await Vehicle.find({id: req.params.id});
     res.json(vehicle);
   } catch (error) {
@@ -22,6 +20,7 @@ async function show(req, res) {
 
 async function create(req, res) {
   try {
+    console.log("hi");
     const vehicle = new Vehicle(req.body);
     await vehicle.save();
     res.json(vehicle);
@@ -29,7 +28,6 @@ async function create(req, res) {
     res.status(400).json({ error: error });
   }
 }
-
 async function update(req, res) {
   try {
 
@@ -42,15 +40,14 @@ async function update(req, res) {
     res.status(400).json({ error: error });
   }
 }
-
 async function destroy(req, res) {
   try {
     const vehicle = await Vehicle.findOne({ id: req.params.id });
     if (!vehicle) {
-      return res.status(404).json({ error: 'Vehicle not found' });
+      return res.status(404).json({ error: 'Transport not found' });
     }
     await vehicle.deleteOne();
-    res.json({ message: 'Vehicle deleted' });
+    res.json({ message: 'Transport deleted' });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: error });

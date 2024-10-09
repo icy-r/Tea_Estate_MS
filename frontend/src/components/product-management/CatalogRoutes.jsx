@@ -8,7 +8,7 @@ import ManagerDashboard from "./pages/ManagerDashboard.jsx";
 import AdminDashboardLayout from "../../components/layouts/AdminDashboardLayout.jsx";
 import catalogMenuItems from "./data-files/catalogMenuItems.js";
 import Catalog from "./pages/Catalog.jsx";
-
+import WishList from "./pages/WishList.jsx";
 const CatalogtRoutes = () => {
     return (
         
@@ -25,6 +25,7 @@ const CatalogtRoutes = () => {
         <Route path="manageCatalog/" element={<ManageCatalog />} />
         <Route path="manageCatalog/:id" element={<UpdateCatalog />} />
         <Route path="catalog/" element={<Catalog />} />
+        <Route path="wishlist/" element={<WishList />} />
         
         // Buyer routes here
         

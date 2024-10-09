@@ -12,13 +12,15 @@ const buyerMenuItems = [
       subItems: [
         {name : "Sign Up", link: "buyer/AddBuyer"},
         { name: "Buyer Details", link: "buyer/ManageBuyer" },
+        { name: "Catalog", link: "buyer/Catalog" },
+        { name: "Wish List", link: "buyer/WishList" },
         ],
     },
 
     {
       name: "Our Teas",
       subItems: [
-        {name : "Sign Up", link: "buyer/AddBuyer"},
+        {name : "Teas", link: "buyer/AddBuyer"},
         ],
     },
 

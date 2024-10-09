@@ -14,6 +14,7 @@ const menuItems = [
       { name: "Applicant Details", link: "employee/applicantdetails" },
       { name: "Send Email", link: "employee/applicantaccept/" },
       { name: "Add Vacancy", link: "employee/vacancyForm" },
+      { name: "Vacancy Details", link: "employee/vacancyDisplay" },
 
     ],
   },

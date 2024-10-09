@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
 import axios from '../../../services/axios.js';
 
-const LeaveForm = () => {
+const LeaveForm = ({_id}) => {
     const navigate = useNavigate(); // Use navigate for redirection
+    const { id } = useParams();
 
     const [inputs, setInputs] = useState({
         Name: '',
@@ -14,6 +15,25 @@ const LeaveForm = () => {
         Email: '',
         type: ''
     });
+
+    useEffect(() => {
+        const fetchHandler = async () => {
+          try {
+            const response = await axios.get(`http://localhost:3001/api/empManagement/${_id}`);
+            console.log('API Response:', response.data); // Log the full response to check its structure
+      
+            // Assuming the employee data should be inside the `response.data.employee`
+            if (response.data) {
+                setInputs(response.data);  // Remove `.employee` if data is directly under `response.data`
+              }else {
+              console.error("Employee data not found.");
+            }
+          } catch (error) {
+            console.error("Error fetching employee data:", error);
+          }
+        };
+        fetchHandler();
+      }, [_id]);
 
     const handleChange = (e) => {
         setInputs((prevState) => ({
@@ -59,7 +79,7 @@ const LeaveForm = () => {
     };
     return (
 
-        <div className="min-h-screen flex items-center justify-center bg-white-100">
+        <div className=" flex justify-center bg-white-100">
             <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-md mt-10">
                 <h1 className="text-2xl font-bold mb-4 text-center text-gray-800">Leave Application</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">

@@ -47,7 +47,7 @@ const VacancyForm = () => {
 
     return (
 
-        <div className="min-h-screen flex items-center justify-center bg-white-100">
+        <div className=" flex justify-center bg-white-100">
         <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-md mt-10">
             <h1 className="text-2xl font-bold mb-4 text-center text-gray-800">Available Vacancies</h1>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -68,16 +68,29 @@ const VacancyForm = () => {
 
                     {/* department Input */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Department</label>
-                        <input
-                            type="text"
-                            name="department"
-                            onChange={handleChange}
-                            value={inputs.department}
-                            required
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        />
-                    </div>
+                            <label htmlFor="department" className="block text-sm font-medium text-gray-700">Department</label>
+                            <div className="mt-1">
+                                <select
+                                    id="department"
+                                    name="department"
+                                    value={inputs.department} // Controlled input
+                                    onChange={handleChange}
+                                    required
+                                    className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                >
+                                    <option value="" disabled>Select department</option> {/* Placeholder */}
+                                    <option value="Repair">Repair</option>
+                                    <option value="Inventory">Inventory</option>
+                                    <option value="Supply">Supply</option>
+                                    <option value="Transport">Transport</option>
+                                    <option value="Product">Product</option>
+                                    <option value="Harvest">Harvest</option>
+                                    <option value="Sales">Sales</option>
+                                    <option value="Field">Field</option>
+                                    <option value="Employee">Employee</option>
+                                </select>
+                            </div>
+                        </div>
 
                     {/* location From Input */}
                     <div>
@@ -148,7 +161,7 @@ const VacancyForm = () => {
                         type="submit"
                         className="bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 text-sm"
                     >
-                        Add vacancy
+                        Add Vacancy
                     </button>
                 </div>
             </form>

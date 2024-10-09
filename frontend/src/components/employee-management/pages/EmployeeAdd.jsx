@@ -31,18 +31,29 @@ const EmployeeAdd = () => {
         }));
     };
 
-    const getTodayDate = () => {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0');
-        const day = String(today.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    };
-
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(inputs);
         sendRequest().then(() => navigate('/admin/employee/employeedetails'));
+    };
+
+    // Helper function to get today's date in YYYY-MM-DD format
+    const getTodayDate = () => {
+        const today = new Date();
+        return today.toISOString().split("T")[0]; // Format the date to YYYY-MM-DD
+    };
+
+    // Helper function to get the date one month ago from today
+    const getOneMonthAgoDate = () => {
+        const oneMonthAgo = new Date();
+        oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1); // Set to one month ago
+        return oneMonthAgo.toISOString().split("T")[0]; // Format the date to YYYY-MM-DD
+    };
+
+    const getEighteenYearsAgoDate = () => {
+        const today = new Date();
+        today.setFullYear(today.getFullYear() - 18); // Subtract 18 years from today
+        return today.toISOString().split("T")[0]; // Format the date to YYYY-MM-DD
     };
 
     const sendRequest = async () => {
@@ -75,7 +86,7 @@ const EmployeeAdd = () => {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-white-100">
-            <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-md mt-10">
+            <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-md mt-2">
                 <h1 className="text-2xl font-bold mb-4 text-center text-gray-800">Add Employee</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -147,36 +158,22 @@ const EmployeeAdd = () => {
                             />
                         </div>
     
-                        {/* Gender Input */}
+                    {/* Gender Input */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700">Gender</label>
-                            <div className="flex items-center space-x-4 mt-1">
-                                <div>
-                                    <input
-                                        type="radio"
-                                        name="gender"
-                                        value="Male"
-                                        id="male"
-                                        onChange={handleChange}
-                                        checked={inputs.gender === 'Male'}
-                                        required
-                                        className="mr-1"
-                                    />
-                                    <label htmlFor="male" className="text-sm text-gray-700">Male</label>
-                                </div>
-                                <div>
-                                    <input
-                                        type="radio"
-                                        name="gender"
-                                        value="Female"
-                                        id="female"
-                                        onChange={handleChange}
-                                        checked={inputs.gender === 'Female'}
-                                        required
-                                        className="mr-1"
-                                    />
-                                    <label htmlFor="female" className="text-sm text-gray-700">Female</label>
-                                </div>
+                            <label htmlFor="gender" className="block text-sm font-medium text-gray-700">Gender</label>
+                            <div className="mt-1">
+                                <select
+                                    id="gender"
+                                    name="gender"
+                                    value={inputs.gender} // Controlled input
+                                    onChange={handleChange}
+                                    required
+                                    className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                >
+                                    <option value="" disabled>Select gender</option> {/* Placeholder */}
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
                             </div>
                         </div>
     
@@ -188,7 +185,7 @@ const EmployeeAdd = () => {
                                 name="dateOfBirth"
                                 onChange={handleChange}
                                 value={inputs.dateOfBirth}
-                                max={getTodayDate()} // Set the max date to today's date
+                                max={getEighteenYearsAgoDate()} // Set the max date to 18 years ago from today
                                 required
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             />
@@ -210,29 +207,59 @@ const EmployeeAdd = () => {
     
                         {/* Designation Input */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700">Designation</label>
-                            <input
-                                type="text"
-                                name="designation"
-                                onChange={handleChange}
-                                value={inputs.designation}
-                                required
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            />
+                            <label htmlFor="designation" className="block text-sm font-medium text-gray-700">Designation</label>
+                            <div className="mt-1">
+                                <select
+                                    id="designation"
+                                    name="designation"
+                                    value={inputs.designation} // Controlled input
+                                    onChange={handleChange}
+                                    required
+                                    className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                >
+                                    <option value="" disabled>Select designation</option> {/* Placeholder */}
+                                    <option value="Employee Manager">Employee Manager</option>
+                                    <option value="Labour">Labour</option>
+                                    <option value="Supervisor">Supervisor</option>
+                                    <option value="Technician">Technician</option>
+                                    <option value="Driver">Driver</option>
+                                    <option value="Inventory Manager">Inventory Manager</option>
+                                    <option value="Field Manager">Field Manager</option>
+                                    <option value="Supply Manager">Supply Manager</option>
+                                    <option value="Transport Manager">Transport Manager</option>
+                                    <option value="Product Manager">Product Manager</option>
+                                    <option value="Sales Manager">Sales Manager</option>
+                                    <option value="Repair Manager">Repair Manager</option>
+                                </select>
+                            </div>
                         </div>
     
                         {/* Department Input */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-700">Department</label>
-                            <input
-                                type="text"
-                                name="department"
-                                onChange={handleChange}
-                                value={inputs.department}
-                                required
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            />
+                            <label htmlFor="department" className="block text-sm font-medium text-gray-700">Department</label>
+                            <div className="mt-1">
+                                <select
+                                    id="department"
+                                    name="department"
+                                    value={inputs.department} // Controlled input
+                                    onChange={handleChange}
+                                    required
+                                    className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                >
+                                    <option value="" disabled>Select department</option> {/* Placeholder */}
+                                    <option value="Repair">Repair</option>
+                                    <option value="Inventory">Inventory</option>
+                                    <option value="Supply">Supply</option>
+                                    <option value="Transport">Transport</option>
+                                    <option value="Product">Product</option>
+                                    <option value="Harvest">Harvest</option>
+                                    <option value="Sales">Sales</option>
+                                    <option value="Field">Field</option>
+                                    <option value="Employee">Employee</option>
+                                </select>
+                            </div>
                         </div>
+
     
                         {/* Date of Joining Input */}
                         <div>
@@ -242,7 +269,8 @@ const EmployeeAdd = () => {
                                 name="dateOfJoining"
                                 onChange={handleChange}
                                 value={inputs.dateOfJoining}
-                                min={getTodayDate()} // Automatically set min date to today's date
+                                min={getOneMonthAgoDate()} // Set min date to one month ago
+                                max={getTodayDate()} // Set max date to today's date
                                 required
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             />
@@ -252,7 +280,7 @@ const EmployeeAdd = () => {
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Salary</label>
                             <input
-                                type="number"
+                                type="text"
                                 name="salary"
                                 onChange={handleChange}
                                 value={inputs.salary}

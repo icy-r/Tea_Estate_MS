@@ -199,6 +199,8 @@ const EmployeeMoreDetails = () => {
                                 value={inputs.dateOfBirth}
                                 max={getTodayDate()} // Set the max date to today's date
                                 required
+                                readOnly
+
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             />
                         </div>
@@ -211,6 +213,8 @@ const EmployeeMoreDetails = () => {
                                 name="contactNo"
                                 value={inputs.contactNumber}
                                 required
+                                readOnly
+
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             />
                         </div>
@@ -223,6 +227,8 @@ const EmployeeMoreDetails = () => {
                                 name="designation"
                                 value={inputs.designation}
                                 required
+                                readOnly
+
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             />
                         </div>
@@ -235,6 +241,8 @@ const EmployeeMoreDetails = () => {
                                 name="department"
                                 value={inputs.department}
                                 required
+                                readOnly
+
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             />
                         </div>
@@ -248,6 +256,8 @@ const EmployeeMoreDetails = () => {
                                 value={inputs.dateOfJoining}
                                 min={getTodayDate()} // Automatically set min date to today's date
                                 required
+                                readOnly
+
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             />
                         </div>
@@ -260,6 +270,8 @@ const EmployeeMoreDetails = () => {
                                 name="salary"
                                 value={inputs.salary}
                                 required
+                                readOnly
+
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             />
                         </div>
@@ -283,6 +295,8 @@ const EmployeeMoreDetails = () => {
                                 name="address"
                                 value={inputs.address}
                                 required
+                                readOnly
+
                                 rows="2" // You can adjust the number of rows as needed
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             ></textarea>

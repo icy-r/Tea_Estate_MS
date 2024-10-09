@@ -12,7 +12,8 @@ import EmployeeProfile from './pages/EmployeeProfile';
 import menu from './data-files/menu'; 
 import LeaveRequest from './pages/LeaveRequests';
 import VacancyForm from './components/rolesAdd';
-import VacancyDisplay from './components/VacancyDisplay';   
+import VacancyDisplay from './components/VacancyDisplay';  
+import PublicVacancyTable from './components/publicVacncyTable';    
 
 
 
@@ -34,6 +35,7 @@ const EmployeeRoutes = () => {
                 <Route path="/requestleave/*" element={<LeaveRequest/>}/>
                 <Route path="/vacancyForm/*"element={<VacancyForm/>} />
                 <Route path="/vacancyDisplay/*" element={<VacancyDisplay/>} />
+                <Route path='/publicVacancyTable/*' element={<PublicVacancyTable/>} />
             </Routes>
             </AdminDashboardLayout>
         </>

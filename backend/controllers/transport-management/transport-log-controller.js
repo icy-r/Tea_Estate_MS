@@ -1,5 +1,6 @@
 import { TransportLog } from '../../models/transport-management/transport-log-model.js';
 import { Transport } from '../../models/transport-management/Transport-model.js'; 
+import { Notification } from "../../models/repair-management/notification-model.js";
 
 // Function to schedule transports and log them
 
@@ -41,6 +42,14 @@ async function create(req, res) {
 
     // Send success response
     res.status(200).json({ message: 'Transport logs scheduled successfully.' });
+
+    const notification = new Notification({
+      title: "Today's Transport Logs Scheduled",
+      description: `Navigate to the Transport Logs section to view today's transport logs.`,
+    });
+    await notification.save();
+
+
 
   } catch (error) {
     console.error('Error scheduling transport logs:', error);

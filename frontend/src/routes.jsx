@@ -3,6 +3,8 @@ import Admin from "./pages/Admin.jsx";
 import LandingPage from "./pages/landingPage/LandingPage.jsx";
 import Error404 from "./pages/error404.jsx";
 import Login from "./components/divs/Login.jsx";
+import Layouts from "./components/layouts/AdminDashboardLayout.jsx";
+import Signup from "./components/product-management/components/Signup.jsx"
 import Register from "./components/divs/Register.jsx";
 import CareerVacancy from './components/employee-management/pages/careersPage.jsx';
 

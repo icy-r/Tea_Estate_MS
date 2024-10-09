@@ -37,7 +37,7 @@
     "styled-components": "^6.1.13",
     "recharts": "^2.12.7",
     "socket.io-client": "^4.8.0",
-    "uuid": "^10.0.0"
+    "styled-components": "^6.1.13"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",

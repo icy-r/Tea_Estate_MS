@@ -4,7 +4,7 @@ import LandingPage from "./pages/landingPage/LandingPage.jsx";
 import Error404 from "./pages/error404.jsx";
 import Login from "./components/divs/Login.jsx";
 import Register from "./components/divs/Register.jsx";
-import SendPdf from './components/employee-management/pages/ApplicantAdd.jsx';
+import CareerVacancy from './components/employee-management/pages/careersPage.jsx';
 
 
 const router = createBrowserRouter([
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
   },
   {  
     path: "/add-applicant",
-     element: <SendPdf/>},
+     element: <CareerVacancy/>},
   {
     path: "*",
     element: <Error404 />,

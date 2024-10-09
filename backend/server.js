@@ -134,10 +134,10 @@ app.use('/api/transportLog', transportLogRouter)
 app.use('/api/drivers', driverRouter)
 
 //repair-management
-
-
-
-
+app.use("/api/technicians", technicianRouter);
+app.use("/api/requestMaintenance", requestMaintenanceRouter);
+app.use("/api/maintenances", maintenancesRouter);
+app.use("/api/assets", assetsRouter);
 
 //field-management
 app.use("/api/fields", fieldRouter);

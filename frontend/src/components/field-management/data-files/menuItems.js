@@ -1,7 +1,14 @@
 const menuItems = [
   {
+    name: "Main",
+    subItems: [{ name: "Dashboard", link: "field" }],
+  },
+  {
     name: "Field Management",
     subItems: [
+      { name: "Add Field", link: "field/add" },
+      { name: "Manage Field", link: "field/manage" },
+      { name: "Assign Labours", link: "field/labours" },
       { name: "Add Field", link: "field/add" },
       { name: "Manage Field", link: "field/manage" },
       { name: "Assign Labours", link: "field/labours" },
@@ -15,7 +22,7 @@ const menuItems = [
     ],
   },
   {
-    name: "Transport management",
+    name: "Fertilizer Management",
     subItems: [
       { name: "Schedule a routine", link: "field/schedule-routine" },
       { name: "Manage Routines", link: "field/manage-routines" },

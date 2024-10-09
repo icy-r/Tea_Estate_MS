@@ -52,7 +52,7 @@ const pathArray = currentPath.split('/').filter(Boolean); // Remove empty elemen
 
   const markAsRead = async (id) => {
     try {
-      await axios.put(`/api/notifications/${id}/read`);
+      await axios.put(`notifications/${id}/read`);
       setNotifications((prevNotifications) =>
         prevNotifications.map((n) =>
           n._id === id ? { ...n, isRead: true } : n

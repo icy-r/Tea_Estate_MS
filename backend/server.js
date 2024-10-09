@@ -1,8 +1,8 @@
 // npm packages
-import 'dotenv/config.js'
-import express from 'express'
-import logger from 'morgan'
-import cors from 'cors'
+import "dotenv/config.js";
+import express from "express";
+import logger from "morgan";
+import cors from "cors";
 import formData from "express-form-data";
 import nodemailer from "nodemailer";
 
@@ -34,17 +34,15 @@ import technicianRouter from "./routes/repair-management/technician-route.js";
 import requestMaintenanceRouter from "./routes/repair-management/request-maintenance-route.js";
 
 //product-management
-import { router as catalogRouter } from './routes/product-management/catalog-route.js'
-import { router as buyersRouter } from './routes/product-management/buyer-route.js'
-
+import { router as catalogRouter } from "./routes/product-management/catalog-route.js";
+import { router as buyersRouter } from "./routes/product-management/buyer-route.js";
 
 //field-management
-import { router as fieldRouter } from './routes/field-management/field-route.js';
-import { router as fertilizerRouter } from './routes/field-management/fertilizer-route.js';
-import { router as harvestRouter } from './routes/field-management/harvest-route.js';
-import { router as labourRouter } from './routes/field-management/labour-route.js';
-import { router as orderTrackingRouter } from './routes/product-management/order-tracking-route.js'
-
+import { router as fieldRouter } from "./routes/field-management/field-route.js";
+import { router as fertilizerRouter } from "./routes/field-management/fertilizer-route.js";
+import { router as harvestRouter } from "./routes/field-management/harvest-route.js";
+import { router as labourRouter } from "./routes/field-management/labour-route.js";
+import { router as harvestlogRouter } from "./routes/field-management/harvestlog-route.js";
 
 
 
@@ -53,7 +51,7 @@ import { router as orderTrackingRouter } from './routes/product-management/order
 import { router as EmployeeManagement } from './routes/employee-management/employee-route.js'
 import { router as ApplicantManagement } from './routes/employee-management/applicant-route.js'
 import { router as EmployeeProfile } from './routes/employee-management/leave-route.js'
-
+import { router as ApplicantRoles } from './routes/employee-management/roles-route.js'
 
 //supply management
 import { router as notificationsRouter } from "./routes/repair-management/notification-route.js";
@@ -110,20 +108,21 @@ app.use("/api/notifications", notificationsRouter);
 // mount imported routes
 app.use("/api/profiles", profilesRouter);
 app.use("/api/auth", authRouter);
-app.use("/api/getEmployeeId", getEmployeeIdRouter);
-app.use("/api/userLogin", userLoginRouter);
 // app.use('/api/machines', machinesRouter)
 
 app.use("/api/empManagement", EmployeeManagement);
 app.use("/api/applicantManagement", ApplicantManagement);
-
 app.use("/api/invoices", invoicesRouter);
 app.use("/api/supplier", supplierRouter);
 app.use("/api/supplierManager", supplierManagerRouter);
-app.use("/api/supply", supplyRouter);//employee-management
+app.use("/api/supply", supplyRouter);
+//employee-management
+
+//employee-management
 app.use('/api/empManagement' , EmployeeManagement)
 app.use('/api/applicanttManagement' , ApplicantManagement)
 app.use('/api/employeeProfile' , EmployeeProfile)
+app.use('/api/applicantRoles' , ApplicantRoles)
 
 //transport-management
 app.use('/api/transports', transportRouter)
@@ -135,26 +134,25 @@ app.use('/api/transportLog', transportLogRouter)
 app.use('/api/drivers', driverRouter)
 
 //repair-management
-// app.use('/api/machines', machinesRouter)
-app.use("/api/assets", assetsRouter);
-app.use("/api/maintenances", maintenancesRouter);
-app.use("/api/technicians", technicianRouter);
-app.use("/api/requestmaintenance", requestMaintenanceRouter);
-// app.use("/api/repairs", repairsRouter);
+
+
+
+
 
 //field-management
-app.use('/api/fields', fieldRouter);
-app.use('/api/fertilizers', fertilizerRouter);
-app.use('/api/harvests', harvestRouter);
-app.use('/api/labours', labourRouter);
+app.use("/api/fields", fieldRouter);
+app.use("/api/fertilizers", fertilizerRouter);
+app.use("/api/harvests", harvestRouter);
+app.use("/api/labours", labourRouter);
+app.use("/api/harvestlogs", harvestlogRouter);
 
 //employee-management
 app.use('/api/employees', EmployeeManagement)
 
 // handle 404 errors
 app.use(function (req, res, next) {
-  res.status(404).json({ err: 'Not found' })
-})
+  res.status(404).json({ err: "Not found" });
+});
 
 // handle all other errors
 
@@ -164,4 +162,5 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500).json({ err: err.message })
 })
 
-export { app }
+
+export { app };

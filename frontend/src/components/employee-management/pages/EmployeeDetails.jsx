@@ -123,14 +123,14 @@ function EmployeeManagement() {
     setOpen(false); // Close the dialog without deleting
   };
 
-  return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="container mx-auto">
-        <div className="bg-white shadow-lg rounded-lg">
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">
-            Employee Management
-          </h1>
-          <h2 className="text-xl text-gray-600 mb-8">Employee Details Page</h2>
+    return (
+        <div className=" bg-gray-100">
+            <div className="container mx-auto">
+
+
+                <div className="bg-white shadow-lg rounded-lg">
+                    <h1 className="text-3xl font-bold text-gray-800 mb-4">Employee Management</h1>
+                    <h2 className="text-xl text-gray-600 mb-8">Employee Details Page</h2>
 
           <input
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -153,61 +153,60 @@ function EmployeeManagement() {
             Download
           </button>
 
-          {noResults ? (
-            <div>
-              <p>No Users Found</p>
-            </div>
-          ) : (
-            <div ref={componentsRef} className="overflow-x-auto">
-              <table className="min-w-full bg-white border border-gray-200">
-                <thead>
-                  <tr className="w-full bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                    <th className="py-3 px-6 text-left">First Name</th>
-                    <th className="py-3 px-6 text-left">Last Name</th>
-                    <th className="py-3 px-6 text-left">Department</th>
-                    <th className="py-3 px-6 text-left">Designation</th>
-                    <th className="py-3 px-6 text-left">Employee ID</th>
-                    <th className="py-3 px-6 text-left">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="text-gray-600 text-sm font-light">
-                  {filteredEmployees &&
-                    filteredEmployees.map((employee) => (
-                      <tr
-                        key={employee._id}
-                        className="border-b border-gray-200 hover:bg-gray-100"
-                      >
-                        <td className="py-3 px-6">{employee.firstName}</td>
-                        <td className="py-3 px-6">{employee.lastName}</td>
-                        <td className="py-3 px-6">{employee.department}</td>
-                        <td className="py-3 px-6">{employee.designation}</td>
-                        <td className="py-3 px-6">{employee._id}</td>
-                        <td className="py-3 px-6 flex space-x-2">
-                          <button
-                            onClick={() => handleUpdate(employee._id)}
-                            className="bg-blue-500 text-white px-2 py-1 rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          >
-                            Update
-                          </button>
-                          <button
-                            onClick={() => moredetails(employee._id)}
-                            className="bg-green-500 text-white px-2 py-1 rounded-md shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
-                          >
-                            More Details
-                          </button>
-                          <button
-                            onClick={() => handleDeleteClick(employee._id)}
-                            className="bg-red-500 text-white px-2 py-1 rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+                    {noResults ? (
+                        <div>
+                            <p>No Users Found</p>
+                        </div>
+                    ) : (
+                        <div ref={componentsRef} className="overflow-x-auto">
+                            <div className="overflow-y-auto" style={{ maxHeight: '450px' }}> {/* Adjust height as needed */}
+                                <table className="min-w-full bg-white border border-gray-200">
+                                    <thead>
+                                        <tr className="w-full bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                            <th className="py-3 px-6 text-left">First Name</th>
+                                            <th className="py-3 px-6 text-left">Last Name</th>
+                                            <th className="py-3 px-6 text-left">Department</th>
+                                            <th className="py-3 px-6 text-left">Designation</th>
+                                            <th className="py-3 px-6 text-left">Employee ID</th>
+                                            <th className="py-3 px-6 text-left">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="text-gray-600 text-sm font-light">
+                                        {filteredEmployees && filteredEmployees.map((employee) => (
+                                            <tr key={employee._id} className="border-b border-gray-200 hover:bg-gray-100">
+                                                <td className="py-3 px-6">{employee.firstName}</td>
+                                                <td className="py-3 px-6">{employee.lastName}</td>
+                                                <td className="py-3 px-6">{employee.department}</td>
+                                                <td className="py-3 px-6">{employee.designation}</td>
+                                                <td className="py-3 px-6">{employee._id}</td>
+                                                <td className="py-3 px-6 flex space-x-2">
+                                                    <button
+                                                        onClick={() => handleUpdate(employee._id)}
+                                                        className="bg-blue-500 text-white px-2 py-1 rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                    >
+                                                        Update
+                                                    </button>
+                                                    <button
+                                                        onClick={() => moredetails(employee._id)}
+                                                        className="bg-green-500 text-white px-2 py-1 rounded-md shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+                                                    >
+                                                        More Details
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDeleteClick(employee._id)}
+                                                        className="bg-red-500 text-white px-2 py-1 rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    )}
+
 
           {/* Delete Confirmation Dialog */}
           <Dialog

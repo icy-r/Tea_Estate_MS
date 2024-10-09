@@ -1,6 +1,7 @@
 import FieldRoutes from "../components/field-management/FieldRoutes.jsx";
 import TransportHome from "../components/transport-management/pages/TransportHome.jsx";
 import RepairRoutes from "../components/repair-management/repair-routes.jsx";
+import DriverHome from "../components/driver/pages/DriverHome.jsx";
 import "../App.css";
 import Error404 from "./error404.jsx";
 import { Route, Routes } from "react-router-dom";
@@ -118,6 +119,18 @@ function App() {
 
                     />
 >>>>>>>>> Temporary merge branch 2
+
+     
+
+          <Route
+            path="/driver/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <DriverHome />
+              </ProtectedRoutes>
+            }
+          />
+
 
           {/* Catch-all route */}
           <Route path="/*" element={<Error404 />} />

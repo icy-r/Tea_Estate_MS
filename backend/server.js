@@ -14,14 +14,16 @@ import { router as invoicesRouter } from "./routes/sales-management/invoices-rou
 
 //user-management
 //transport-management
-import { router as vehiclesRouter } from "./routes/transport-management/vehicle-route.js";
-import { router as routeRouter } from "./routes/transport-management/route-route.js";
-import { router as transportLogRouter } from "./routes/transport-management/transport-log-route.js";
-import { router as transportRouter } from "./routes/transport-management/transport-route.js";
+import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js'
+import { router as routeRouter } from './routes/transport-management/route-route.js'
+import { router as transportLogRouter } from './routes/transport-management/transport-log-route.js'
+import { router as transportRouter } from './routes/transport-management/transport-route.js'
+import { router as driverRouter } from './routes/transport-management/driver-route.js'
 //user-management
 import { router as profilesRouter } from "./routes/user-management/profiles-route.js";
 import { router as authRouter } from "./routes/authentication/auth-route.js";
 import { router as getEmployeeIdRouter } from "./routes/authentication/get-employee-id-route.js";
+
 // //repair-management
 // import { router as machinesRouter } from "./routes/repair-management/machines-route.js";
 import { router as assetsRouter } from "./routes/repair-management/asset-route.js";
@@ -30,6 +32,7 @@ import { router as assetsRouter } from "./routes/repair-management/asset-route.j
 import maintenancesRouter from "./routes/repair-management/maintenance-route.js";
 import technicianRouter from "./routes/repair-management/technician-route.js";
 import requestMaintenanceRouter from "./routes/repair-management/request-maintenance-route.js";
+
 //product-management
 import { router as catalogRouter } from "./routes/product-management/catalog-route.js";
 import { router as buyersRouter } from "./routes/product-management/buyer-route.js";
@@ -41,10 +44,8 @@ import { router as harvestRouter } from "./routes/field-management/harvest-route
 import { router as labourRouter } from "./routes/field-management/labour-route.js";
 import { router as harvestlogRouter } from "./routes/field-management/harvestlog-route.js";
 
-//supply management
-import { router as supplierRouter } from "./routes/supply-management/supplier-route.js";
-import { router as supplierManagerRouter } from "./routes/supply-management/supplier-manager-route.js";
-import { router as supplyRouter } from "./routes/supply-management/supply-route.js";
+
+
 
 //employee management
 import { router as EmployeeManagement } from './routes/employee-management/employee-route.js'
@@ -52,13 +53,22 @@ import { router as ApplicantManagement } from './routes/employee-management/appl
 import { router as EmployeeProfile } from './routes/employee-management/leave-route.js'
 import { router as ApplicantRoles } from './routes/employee-management/roles-route.js'
 
-
+//supply management
 import { router as notificationsRouter } from "./routes/repair-management/notification-route.js";
 import { router as userLoginRouter } from "./routes/authentication/user-auth-route.js";
+import { router as supplierRouter } from "./routes/supply-management/supplier-route.js";
+import { router as supplierManagerRouter } from "./routes/supply-management/supplier-manager-route.js";
+import { router as supplyRouter } from "./routes/supply-management/supply-route.js";
+import { log } from 'console'
+
 // create the express app
 const app = express();
 
+
+
 // create the socket.io server c
+
+
 
 // basic middleware
 app.use(cors());
@@ -102,11 +112,11 @@ app.use("/api/auth", authRouter);
 
 app.use("/api/empManagement", EmployeeManagement);
 app.use("/api/applicantManagement", ApplicantManagement);
-
 app.use("/api/invoices", invoicesRouter);
 app.use("/api/supplier", supplierRouter);
 app.use("/api/supplierManager", supplierManagerRouter);
-app.use("/api/supply", supplyRouter);//employee-management
+app.use("/api/supply", supplyRouter);
+//employee-management
 
 //employee-management
 app.use('/api/empManagement' , EmployeeManagement)
@@ -115,25 +125,19 @@ app.use('/api/employeeProfile' , EmployeeProfile)
 app.use('/api/applicantRoles' , ApplicantRoles)
 
 //transport-management
-app.use("/api/transports", transportRouter);
-app.use("/api/routes", routeRouter);
-app.use("/api/vehicles", vehiclesRouter);
-app.use("/api/catalog", catalogRouter);
-app.use("/api/buyers", buyersRouter);
-app.use("/api/transportLog", transportLogRouter);
-app.use("/api/transports", transportRouter);
-app.use("/api/routes", routeRouter);
-app.use("/api/vehicles", vehiclesRouter);
-app.use("/api/catalog", catalogRouter);
-app.use("/api/buyers", buyersRouter);
-app.use("/api/transportLog", transportLogRouter);
+app.use('/api/transports', transportRouter)
+app.use('/api/routes', routeRouter)
+app.use('/api/vehicles', vehiclesRouter)
+app.use('/api/catalog', catalogRouter)
+app.use('/api/buyers', buyersRouter)
+app.use('/api/transportLog', transportLogRouter)
+app.use('/api/drivers', driverRouter)
 
-// //repair-management
-// app.use('/api/machines', machinesRouter)
-app.use("/api/assets", assetsRouter);
-app.use("/api/maintenances", maintenancesRouter);
-app.use("/api/technicians", technicianRouter);
-// app.use("/api/repairs", repairsRouter);
+//repair-management
+
+
+
+
 
 //field-management
 app.use("/api/fields", fieldRouter);
@@ -142,14 +146,21 @@ app.use("/api/harvests", harvestRouter);
 app.use("/api/labours", labourRouter);
 app.use("/api/harvestlogs", harvestlogRouter);
 
+//employee-management
+app.use('/api/employees', EmployeeManagement)
+
 // handle 404 errors
 app.use(function (req, res, next) {
   res.status(404).json({ err: "Not found" });
 });
 
 // handle all other errors
+
 app.use(function (err, req, res, next) {
-  res.status(err.status || 500).json({ err: err.message });
-});
+  console.log(req)
+  console.log(err)
+  res.status(err.status || 500).json({ err: err.message })
+})
+
 
 export { app };

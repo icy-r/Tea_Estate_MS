@@ -21,9 +21,13 @@ const AdminDashboardLayout = ({ children, menu }) => {
   }, []);
 
   const getEmployeeId = async () => {
-    const response = await axios.get("/getEmployeeId");
-    const data = await response.json();
-    console.log(data);
+    try {
+      const response = await axios.get("/getEmployeeId");
+      const data = response.data;
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching employee ID:", error);
+    }
   };
 
   return (

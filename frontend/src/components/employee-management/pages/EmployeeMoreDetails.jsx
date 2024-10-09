@@ -1,99 +1,101 @@
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios'; 
 import { useParams, useNavigate } from 'react-router-dom';
-import { useReactToPrint } from 'react-to-print'; // Correct import
+// import { useReactToPrint } from 'react-to-print'; // Correct import
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 const EmployeeMoreDetails = () => {
-    const navigate = useNavigate();
-    const { id } = useParams();
-    const componentsRef = useRef();
-    const [filteredEmployees, setFilteredEmployees] = useState([]);
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const componentsRef = useRef();
+  const [filteredEmployees, setFilteredEmployees] = useState([]);
 
+  const [inputs, setInputs] = useState({
+    firstName: "",
+    lastName: "",
+    Id: "",
+    email: "",
+    age: "",
+    gender: "",
+    dateOfBirth: "",
+    contactNo: "",
+    designation: "",
+    department: "",
+    dateOfJoining: "",
+    salary: "",
+    leavesLeft: 30,
+    address: "",
+  });
 
-    const [inputs, setInputs] = useState({
-      firstName: '',
-      lastName: '',
-      Id: '',
-      email: '',
-      age: '',
-      gender: '',
-      dateOfBirth: '',
-      contactNo: '',
-      designation: '',
-      department: '',
-      dateOfJoining: '',
-      salary: '',
-      leavesLeft: 30,
-      address: ''
-    });
-
-    useEffect(() => {
-        const fetchHandler = async () => {
-            try {
-                const response = await axios.get(`http://localhost:3001/api/empManagement/${id}`);
-                if (response.data) {
-                    setInputs(response.data);
-                } else {
-                    console.error("Employee data not found.");
-                }
-            } catch (error) {
-                console.error("Error fetching employee data:", error);
-            }
-        };
-        fetchHandler();
-    }, [id]);
-
-    const getTodayDate = () => {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0');
-        const day = String(today.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
+  useEffect(() => {
+    const fetchHandler = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/api/empManagement/${id}`
+        );
+        if (response.data) {
+          setInputs(response.data);
+        } else {
+          console.error("Employee data not found.");
+        }
+      } catch (error) {
+        console.error("Error fetching employee data:", error);
+      }
     };
+    fetchHandler();
+  }, [id]);
 
-    // Function to generate and download the PDF report
-    const generatePDF = () => {
-        const doc = new jsPDF();
-    
-        doc.setFontSize(20);
-        doc.text("Employee Details", 14, 22);
-        
-        // Prepare data for the PDF
-        const pdfData = filteredEmployees.map(EmployeeDet => ([
-            EmployeeDet?.firstName,
-            EmployeeDet?.lastName,
-            EmployeeDet?.age,
-            EmployeeDet?.email,
-            EmployeeDet?.contactNumber,
-            EmployeeDet?._id,
-    
-        ]));
-    
-        // Add a table to the PDF
-        doc.autoTable({
-          head: [['First Name', 'Last Name', 'Age', 'Email', 'Contact Number', 'ID']],
-          body: pdfData,
-          startY: 30,
-          headStyles: {
-            fillColor: [21, 245, 186], // RGB color for the header background (example: blue)
-            textColor: 0, // White text color for the header
-            styles: {
-                lineWidth: 1, // Thickness of the border
-                lineColor: [0, 0, 0] // Black border color
-              }
-          }
-        });
-    
-        doc.save('EmployeeDetails.pdf');
-      };
+  const getTodayDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
 
-    const handlePrint = useReactToPrint({
-        content: () => componentsRef.current,
-        documentTitle: "Employee Report",
-        onAfterPrint: () => alert("Employee Report Successfully Downloaded!")
+  // Function to generate and download the PDF report
+  const generatePDF = () => {
+    const doc = new jsPDF();
+
+    doc.setFontSize(20);
+    doc.text("Employee Details", 14, 22);
+
+    // Prepare data for the PDF
+    const pdfData = filteredEmployees.map((EmployeeDet) => [
+      EmployeeDet?.firstName,
+      EmployeeDet?.lastName,
+      EmployeeDet?.age,
+      EmployeeDet?.email,
+      EmployeeDet?.contactNumber,
+      EmployeeDet?._id,
+    ]);
+
+    // Add a table to the PDF
+    doc.autoTable({
+      head: [
+        ["First Name", "Last Name", "Age", "Email", "Contact Number", "ID"],
+      ],
+      body: pdfData,
+      startY: 30,
+      headStyles: {
+        fillColor: [21, 245, 186], // RGB color for the header background (example: blue)
+        textColor: 0, // White text color for the header
+        styles: {
+          lineWidth: 1, // Thickness of the border
+          lineColor: [0, 0, 0], // Black border color
+        },
+      },
     });
+
+    doc.save("EmployeeDetails.pdf");
+  };
+
+  // const handlePrint = useReactToPrint({
+  //     content: () => componentsRef.current,
+  //     documentTitle: "Employee Report",
+  //     onAfterPrint: () => alert("Employee Report Successfully Downloaded!")
+  // });
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-white-100">

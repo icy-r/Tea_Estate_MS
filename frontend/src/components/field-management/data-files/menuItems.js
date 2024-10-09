@@ -1,31 +1,29 @@
 const menuItems = [
   {
+    name: "Main",
+    subItems: [{ name: "Dashboard", link: "field" }],
+  },
+  {
     name: "Field Management",
     subItems: [
-      { name: "Add Field", link: "/admin/field/add" },
-      { name: "Manage Field", link: "/admin/field/manage" },
-      { name: "Assign Labours", link: "/admin/field/labours" },
+      { name: "Add Field", link: "field/add" },
+      { name: "Manage Field", link: "field/manage" },
+      { name: "Assign Labours", link: "field/labours" },
     ],
   },
   {
     name: "Harvest Management",
     subItems: [
-      { name: "Add Harvest", link: "/admin/field/add-harvest", active: true },
-      { name: "View Harvest", link: "/admin/field/view-harvest" },
+      { name: "Add Harvest", link: "field/add-harvest" },
+      { name: "View Harvest", link: "field/view-harvest" },
+      { name: "Calculate OT", link: "field/calculate-ot" },
     ],
   },
   {
-    name: "Transport management",
+    name: "Fertilizer Management",
     subItems: [
-      { name: "Schedule a routine", link: "/schedule-routine" },
-      { name: "Manage Routines", link: "/manage-routines" },
-    ],
-  },
-  {
-    name: "Distribution Management",
-    subItems: [
-      { name: "Manage Distributions", link: "/manage-distributions" },
-      { name: "Delivery Complains", link: "/delivery-complains" },
+      { name: "Add Fertilizer Schedule", link: "field/add-fertilizer" },
+      { name: "Manage Fertilizer Schedules", link: "field/manage-fertilizer" },
     ],
   },
 ];

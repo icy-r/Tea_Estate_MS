@@ -1,7 +1,7 @@
 import { Harvest } from "../../models/field-management/harvest-model.js";
 import { Field } from "../../models/field-management/field-model.js";
 import { Labour } from "../../models/field-management/labour-model.js";
-import { sendWhatsAppMessage } from "../../services/twilio.js";
+import sendWhatsAppMessage from "../../services/twilio.js";
 
 async function index(req, res) {
   try {

@@ -117,10 +117,10 @@ const ManageTransport = () => {
       <div className="manage-transport p-6  mx-auto bg-white rounded-lg ">
         <h2 className="text-2xl font-semibold mb-4">Manage Transport</h2>
 
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper}  >
           <Table>
-            <TableHead>
-              <TableRow>
+            <TableHead className>
+              <TableRow sx={{ bgcolor: '#15F5BA'}}>
                 <TableCell>ID</TableCell>
                 <TableCell>Type</TableCell>
                 <TableCell>Daily Occurrence</TableCell>
@@ -140,15 +140,16 @@ const ManageTransport = () => {
                   <TableCell>
                     <Button
                       variant="contained"
-                      color="primary"
+                      sx={{ bgcolor: '#15F5BA', '&:hover': { bgcolor: '#1AACAC' },boxShadow: 'none',mr:2, color: 'black', border: 'none' }} 
                       onClick={() => handleUpdate(transport)}
-                      className="mr-2"
+                      className="mr-2 bg-color_button"
                     >
                       Update
                     </Button>
                     <Button
                       variant="contained"
-                      color="secondary"
+                      sx={{ bgcolor: '#FA7070', '&:hover': { bgcolor: '#fd707f' } ,boxShadow: 'none',color: 'black'}} 
+                      className="bg-red-500 text-white"
                       onClick={() => handleDelete(transport.id)}
                     >
                       Delete

@@ -5,11 +5,11 @@ import ActionButtonColor from "@divs/ActionButtonColor.jsx";
 import {motion} from "framer-motion";
 
 const menuItems = [
-    {name: "Home", link: "/"},
-    {name: "About", link: "/about"},
-    {name: "Services", link: "/services"},
-    {name: "MarketPlace", link: "/marketplace"},
-    {name: "Login", link: "/login", special: true}
+  { name: "Home", link: "/" },
+  { name: "About", link: "/about" },
+  { name: "Services", link: "/services" },
+  { name: "MarketPlace", link: "/marketplace" },
+  { name: "Login", link: "/admin", special: true },
 ];
 
 const Header = (props) => {

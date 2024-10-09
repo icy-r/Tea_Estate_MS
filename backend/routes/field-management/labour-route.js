@@ -8,7 +8,7 @@ const router = Router();
 
 
 /*---------- Protected Routes ----------*/
-// router.use(decodeUserFromToken)
+//router.use(decodeUserFromToken);
 // index for getting all labour defined in labourController
 router.get("/", labourController.index);
 
@@ -16,9 +16,9 @@ router.get("/", labourController.index);
 router.get("/:id", labourController.show);
 
 // create for creating a new labour defined in labourController
-router.post("/", checkAuth, labourController.create);
+router.post("/", labourController.create);
 
 // update for updating a labour defined in labourController
-router.put("/:id", checkAuth, labourController.update);
+router.put("/:id", labourController.update);
 
 export { router };

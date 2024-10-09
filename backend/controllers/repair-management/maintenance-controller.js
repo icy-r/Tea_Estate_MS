@@ -1,56 +1,73 @@
-import { MaintenanceTask } from "../../models/repair-management/maintenance-model.js";
+import { MaintenanceSchedule } from "../../models/repair-management/maintenance-model.js";
 
-async function index(req, res) {
-    try {
-        const tasks = await MaintenanceTask.find({});
-        res.json(tasks);
-    } catch (error) {
-        res.status(500).json({ error: error });
-    }
-}
+// index for getting all maintenances
+export const index = async (req, res) => {
+  try {
+    const maintenances = await MaintenanceSchedule.find();
+    res.status(200).json(maintenances);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-async function show(req, res) {
-    try {
-        const task = await MaintenanceTask.find({ id: req.params.id });
-        res.json(task);
-    } catch (error) {
-        res.status(404).json({ error: error });
-    }
-}
+// show for getting a single maintenance
+export const show = async (req, res) => {
+  try {
+    const maintenance = await MaintenanceSchedule.findById(req.params.id);
+    res.status(200).json(maintenance);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-async function create(req, res) {
-    try {
-        const task = new MaintenanceTask(req.body);
-        await task.save();
-        res.json(task);
-    } catch (error) {
-        res.status(400).json({ error: error });
-    }
-}
+// create for creating a new maintenance
+export const create = async (req, res) => {
+  try {
+    const maintenance = new MaintenanceSchedule(req.body);
+    await maintenance.save();
+    res.status(201).json(maintenance);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: error.message });
+  }
+};
 
-async function update(req, res) {
-    try {
-        const task = await MaintenanceTask.findOne({ id: req.params.id });
-        Object.assign(task, req.body);
-        await task.save();
-        res.json(task);
-    } catch (error) {
-        res.status(400).json({ error: error });
-    }
-}
+// update for updating a maintenance
+export const update = async (req, res) => {
+  try {
+    const maintenance = await MaintenanceSchedule.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    res.status(200).json(maintenance);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-async function destroy(req, res) {
-    try {
-        const task = await MaintenanceTask.findOne({ id: req.params.id });
-        if (!task) {
-            return res.status(404).json({ error: 'Task not found' });
-        }
-        await task.deleteOne();
-        res.json({ message: 'Task deleted' });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ error: error });
-    }
-}
+// destroy for deleting a maintenance
+export const destroy = async (req, res) => {
+  try {
+    await MaintenanceSchedule.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "Maintenance deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-export { index, show, create, update, destroy };
+//searchfield for searching a maintenance
+export const searchField = async (req, res) => {
+  try {
+    const maintenances = await MaintenanceSchedule.find({
+      $or: [
+        { assetId: req.body.assetId },
+        { maintenanceType: req.body.maintenanceType },
+        { status: req.body.status },
+      ],
+    });
+    res.status(200).json(maintenances);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

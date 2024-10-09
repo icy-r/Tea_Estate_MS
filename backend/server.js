@@ -3,9 +3,7 @@ import 'dotenv/config.js'
 import express from 'express'
 import logger from 'morgan'
 import cors from 'cors'
-import formData from 'express-form-data'
-import { Server } from "socket.io";
-import { createServer } from "http";
+import formData from "express-form-data";
 import nodemailer from "nodemailer";
 
 // connect to MongoDB with mongoose
@@ -13,37 +11,53 @@ import "./config/database.js";
 
 // import routes
 import { router as invoicesRouter } from "./routes/sales-management/invoices-route.js";
+
 //user-management
 //transport-management
-import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js'
-import { router as routeRouter } from './routes/transport-management/route-route.js'
-import { router as transportLogRouter } from './routes/transport-management/transport-log-route.js'
-import { router as transportRouter } from './routes/transport-management/transport-route.js'
+import { router as vehiclesRouter } from "./routes/transport-management/vehicle-route.js";
+import { router as routeRouter } from "./routes/transport-management/route-route.js";
+import { router as transportLogRouter } from "./routes/transport-management/transport-log-route.js";
+import { router as transportRouter } from "./routes/transport-management/transport-route.js";
 //user-management
 import { router as profilesRouter } from "./routes/user-management/profiles-route.js";
 import { router as authRouter } from "./routes/authentication/auth-route.js";
-//repair-management
-import { router as machinesRouter } from "./routes/repair-management/machines-route.js";
-import { router as logsRouter } from "./routes/repair-management/log-route.js";
-import { router as maintenancesRouter } from "./routes/repair-management/maintenance-route.js";
-import { router as repairsRouter } from "./routes/repair-management/repair-req-route.js";
+import { router as getEmployeeIdRouter } from "./routes/authentication/get-employee-id-route.js";
+// //repair-management
+// import { router as machinesRouter } from "./routes/repair-management/machines-route.js";
+import { router as assetsRouter } from "./routes/repair-management/asset-route.js";
+// import { router as maintenancesRouter } from "./routes/repair-management/maintenance-route.js";
+// import { router as repairsRouter } from "./routes/repair-management/repair-req-route.js";
+import maintenancesRouter from "./routes/repair-management/maintenance-route.js";
+import technicianRouter from "./routes/repair-management/technician-route.js";
+import requestMaintenanceRouter from "./routes/repair-management/request-maintenance-route.js";
 //product-management
-import { router as catalogRouter } from "./routes/product-management/catalog-route.js";
-import { router as buyersRouter } from "./routes/product-management/buyer-route.js";
-//employee management
-import { router as EmployeeManagement } from "./routes/employee-management/employee-route.js";
-import { router as ApplicantManagement } from "./routes/employee-management/applicant-route.js";
+import { router as catalogRouter } from './routes/product-management/catalog-route.js'
+import { router as buyersRouter } from './routes/product-management/buyer-route.js'
+
+
 //field-management
-import { router as fieldRouter } from "./routes/field-management/field-route.js";
-import { router as fertilizerRouter } from "./routes/field-management/fertilizer-route.js";
-import { router as harvestRouter } from "./routes/field-management/harvest-route.js";
-import { router as labourRouter } from "./routes/field-management/labour-route.js";
-import { router as orderTrackingRouter } from "./routes/product-management/order-tracking-route.js";
+import { router as fieldRouter } from './routes/field-management/field-route.js';
+import { router as fertilizerRouter } from './routes/field-management/fertilizer-route.js';
+import { router as harvestRouter } from './routes/field-management/harvest-route.js';
+import { router as labourRouter } from './routes/field-management/labour-route.js';
+import { router as orderTrackingRouter } from './routes/product-management/order-tracking-route.js'
+
 
 //supply management
 import { router as supplierRouter } from './routes/supply-management/supplier-route.js'
 import { router as supplierManagerRouter } from './routes/supply-management/supplier-manager-route.js'
 import { router as supplyRouter } from './routes/supply-management/supply-route.js'
+
+
+//employee management
+import { router as EmployeeManagement } from './routes/employee-management/employee-route.js'
+import { router as ApplicantManagement } from './routes/employee-management/applicant-route.js'
+import { router as EmployeeProfile } from './routes/employee-management/leave-route.js'
+
+
+
+import { router as notificationsRouter } from "./routes/repair-management/notification-route.js";
+import { router as userLoginRouter } from "./routes/authentication/user-auth-route.js";
 import { router as orderRouter } from './routes/supply-management/order-route.js'
 import { router as quotationRouter } from './routes/supply-management/quotation-route.js'
 import { router as callingSupplyRoute } from './routes/supply-management/calling-supply-route.js'
@@ -53,22 +67,7 @@ import { router as callingSupplyRoute } from './routes/supply-management/calling
 // create the express app
 const app = express();
 
-// create the socket.io server
-const server = createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-  },
-});
-
-// listen for socket.io connections
-io.on("connection", (socket) => {
-  console.log("a user connected");
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
-  });
-});
+// create the socket.io server c
 
 // basic middleware
 app.use(cors());
@@ -103,13 +102,22 @@ app.post("/send-email", (req, res) => {
   });
 });
 
-// mount imported routes
-//user-management
-//user-management
-app.use('/api/profiles', profilesRouter)
-app.use('/api/auth', authRouter)
-app.use('/api/machines', machinesRouter)
+app.use("/api/notifications", notificationsRouter);
 
+// mount imported routes
+app.use("/api/profiles", profilesRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/getEmployeeId", getEmployeeIdRouter);
+app.use("/api/userLogin", userLoginRouter);
+// app.use('/api/machines', machinesRouter)
+
+app.use("/api/empManagement", EmployeeManagement);
+app.use("/api/applicantManagement", ApplicantManagement);
+
+app.use("/api/invoices", invoicesRouter);
+// app.use("/api/supplier", supplierRouter);
+app.use("/api/supplierManager", supplierManagerRouter);
+app.use("/api/supply", supplyRouter);//employee-management
 app.use('/api/empManagement' , EmployeeManagement)
 app.use('/api/applicantManagement' , ApplicantManagement)
 
@@ -123,20 +131,24 @@ app.use('/api/orders', orderRouter)
 app.use('/api/quotation', quotationRouter)
 app.use('/api/callingSupply', callingSupplyRoute)
 
+app.use('/api/applicanttManagement' , ApplicantManagement)
+app.use('/api/employeeProfile' , EmployeeProfile)
 
 //transport-management
-app.use('/api/transports', transportRouter)
-app.use('/api/routes', routeRouter)
-app.use('/api/vehicles', vehiclesRouter)
-app.use('/api/catalog', catalogRouter)
-app.use('/api/buyers', buyersRouter)
-app.use('/api/transportLog', transportLogRouter)
+app.use("/api/transports", transportRouter);
+app.use("/api/routes", routeRouter);
+app.use("/api/vehicles", vehiclesRouter);
+app.use("/api/catalog", catalogRouter);
+app.use("/api/buyers", buyersRouter);
+app.use("/api/transportLog", transportLogRouter);
 
-//repair-management
-app.use('/api/machines', machinesRouter)
-app.use('/api/logs', logsRouter)
-app.use('/api/maintenances', maintenancesRouter)
-app.use("/api/repairs", repairsRouter);
+// //repair-management
+// app.use('/api/machines', machinesRouter)
+app.use("/api/assets", assetsRouter);
+app.use("/api/maintenances", maintenancesRouter);
+app.use("/api/technicians", technicianRouter);
+app.use("/api/requestmaintenance", requestMaintenanceRouter);
+// app.use("/api/repairs", repairsRouter);
 
 //field-management
 app.use('/api/fields', fieldRouter);

@@ -8,7 +8,9 @@ import Header from "@components/navbar/Header.jsx";
 
 import Login from "./pages/productManagement/Login.jsx";
 import MarketPlace from './pages/productManagement/marketPlace.jsx';
+import SendPdf from './components/employee-management/pages/ApplicantAdd.jsx';
 import './App.css'
+import Form  from 'react-router-dom';
 
 
 
@@ -20,6 +22,7 @@ function App() {
         
 
         <Header props={setOpen} />
+        
         <Menubar props={[open, setOpen]} />
         
         
@@ -28,6 +31,7 @@ function App() {
             <Route path="/about" element={<div>About</div>} />
             <Route path="/login" component={Login} />
             <Route path="/marketplace" component={MarketPlace} />
+            <Route path="/add-applicant" element={<SendPdf/>} />
         </Routes>
     </>
   )

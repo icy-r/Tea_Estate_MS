@@ -12,6 +12,10 @@ import AdminLogin from "./login/AdminLogin.jsx";
 import LandingPage from "./landingPage/LandingPage.jsx";
 
 
+import FunctionCard from "../components/dashboard/component/FunctionCard.jsx";
+import AdminDashboardLayout from "../components/layouts/AdminDashboardLayout.jsx";
+import EmployeeRoutes from "../components/employee-management/EmployeeRoutes.jsx";
+// import LandingPage from "./landingPage/LandingPage.jsx";
 
 let UserContext;
 
@@ -35,6 +39,50 @@ function App() {
           />
           <Route path="/about" element={<div>About</div>} />
 
+          {/* Protected Routes */}
+          <Route
+            path="/"
+            element={
+              <AdminDashboardLayout user={user}>
+                <ProtectedRoutes user={user}>
+                  <FunctionCard />
+                </ProtectedRoutes>
+              </AdminDashboardLayout>
+            }
+          />
+          <Route
+            path="/repair/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <RepairRoutes />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/field/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <FieldRoutes />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/transport/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <TransportHome />
+              </ProtectedRoutes>
+            }
+          />
+
+          <Route
+              path="/employee/*"
+              element={
+                  <ProtectedRoutes user={user}>
+                      <EmployeeRoutes/>
+                  </ProtectedRoutes>
+              }
+          />
                     {/* Protected Routes */}
                     <Route
                         path="/repair/*"

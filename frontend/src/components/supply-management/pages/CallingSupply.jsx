@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CallingSupplyForm from '../components/CallingSupplyForm.jsx';
 import CallingSupplyList from '../components/CallingSupplyList.jsx';
-import { useNavigate } from 'react-router-dom';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import axios from "../../../services/axios.js"; // Axios instance
 
@@ -20,15 +19,11 @@ const CallingSupply = () => {
         setOpenDialog(false);
     };
 
-
- 
-
     // Fetch the calling supplies data initially
     const fetchCallingSupplies = async () => {
         try {
             const response = await axios.get('/callingSupply/'); // Replace with correct API endpoint
             setCallingSupplies(response.data);
-            
             setLoading(false);
         } catch (error) {
             setLoading(false);
@@ -44,6 +39,22 @@ const CallingSupply = () => {
     // Function to add new supply to the list after form submission
     const addNewSupply = (newSupply) => {
         setCallingSupplies((prevSupplies) => [...prevSupplies, newSupply]);
+    };
+
+    // Function to handle supply updates
+    const updateSupply = (updatedSupply) => {
+        setCallingSupplies((prevSupplies) =>
+            prevSupplies.map((supply) =>
+                supply.callingSupplyId === updatedSupply.callingSupplyId ? updatedSupply : supply
+            )
+        );
+    };
+
+    // Function to handle supply deletion
+    const deleteSupply = (supplyId) => {
+        setCallingSupplies((prevSupplies) =>
+            prevSupplies.filter((supply) => supply.callingSupplyId !== supplyId)
+        );
     };
 
     return (
@@ -76,10 +87,13 @@ const CallingSupply = () => {
 
             {/* Display the CallingSupplyList below, passing the callingSupplies data */}
             <div className='px-20'>
-
-                     <CallingSupplyList callingSupplies={callingSupplies} loading={loading} />
+                <CallingSupplyList 
+                    callingSupplies={callingSupplies} 
+                    loading={loading} 
+                    onUpdateSupply={updateSupply} 
+                    onDeleteSupply={deleteSupply}
+                />
             </div>
-           
         </div>
     );
 };

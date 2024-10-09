@@ -22,6 +22,17 @@ const menuItems = [
       { name: "View History", link: "supply/viewhistory" },
     ],
   },
+
+  {
+    name: "Supplier Portal",
+    subItems: [
+      { name: "Add Supply", link: "supply/add" },
+      { name: "Manage Supply", link: "supply/manage" },
+      { name: "Calling for Supplies", link: "supply/calling-supply" },
+      
+      
+    ],
+  },
   
 ];
 

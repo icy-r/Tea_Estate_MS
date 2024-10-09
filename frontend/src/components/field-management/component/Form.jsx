@@ -9,7 +9,6 @@ export default function Form() {
     id: "",
     name: "",
     location: "",
-    fertilizerSchedule: "",
     area: "",
     labour: "",
     fieldStatus: "",
@@ -89,7 +88,6 @@ export default function Form() {
           id: "",
           name: "",
           location: "",
-          fertilizerSchedule: "",
           area: "",
           labour: "",
           fieldStatus: "",
@@ -148,7 +146,6 @@ export default function Form() {
                 className="border border-gray-300 p-2 rounded-md"
               />
             </FormControl>
-
             {/* Field Name Input */}
             <FormControl className="flex flex-col">
               <FormLabel
@@ -171,7 +168,6 @@ export default function Form() {
                 className="border border-gray-300 p-2 rounded-md"
               />
             </FormControl>
-
             {/* Location Input */}
             <FormControl className="flex flex-col">
               <FormLabel
@@ -194,34 +190,7 @@ export default function Form() {
                 className="border border-gray-300 p-2 rounded-md"
               />
             </FormControl>
-
-            {/* Fertilizer Schedule Select */}
-            <FormControl className="flex flex-col">
-              <FormLabel
-                required
-                style={{
-                  fontSize: "1rem",
-                  color: darkMode ? "white" : "black",
-                }}
-              >
-                Fertilizer Schedule
-              </FormLabel>
-              <Select
-                name="fertilizerSchedule"
-                value={formValues.fertilizerSchedule}
-                onChange={handleChange}
-                required
-                className="border border-gray-300 p-2 rounded-md"
-              >
-                <MenuItem value="" disabled>
-                  Select Schedule
-                </MenuItem>
-                <MenuItem value="Schedule 01">Schedule 01</MenuItem>
-                <MenuItem value="Schedule 02">Schedule 02</MenuItem>
-                <MenuItem value="Schedule 03">Schedule 03</MenuItem>
-              </Select>
-            </FormControl>
-
+           
             {/* Area Input */}
             <FormControl className="flex flex-col">
               <FormLabel
@@ -244,7 +213,6 @@ export default function Form() {
                 className="border border-gray-300 p-2 rounded-md"
               />
             </FormControl>
-
             {/* Supervisor Select */}
             <FormControl className="flex flex-col">
               <FormLabel
@@ -273,7 +241,6 @@ export default function Form() {
                 ))}
               </Select>
             </FormControl>
-
             <FormControl className="flex flex-col">
               <FormLabel
                 required

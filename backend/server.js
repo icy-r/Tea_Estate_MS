@@ -56,6 +56,9 @@ import { router as ApplicantRoles } from './routes/employee-management/roles-rou
 //supply management
 import { router as notificationsRouter } from "./routes/repair-management/notification-route.js";
 import { router as userLoginRouter } from "./routes/authentication/user-auth-route.js";
+import { router as orderRouter } from './routes/supply-management/order-route.js'
+import { router as quotationRouter } from './routes/supply-management/quotation-route.js'
+import { router as callingSupplyRoute } from './routes/supply-management/calling-supply-route.js'
 import { router as supplierRouter } from "./routes/supply-management/supplier-route.js";
 import { router as supplierManagerRouter } from "./routes/supply-management/supplier-manager-route.js";
 import { router as supplyRouter } from "./routes/supply-management/supply-route.js";
@@ -113,13 +116,25 @@ app.use("/api/auth", authRouter);
 app.use("/api/empManagement", EmployeeManagement);
 app.use("/api/applicantManagement", ApplicantManagement);
 app.use("/api/invoices", invoicesRouter);
-app.use("/api/supplier", supplierRouter);
+// app.use("/api/supplier", supplierRouter);
 app.use("/api/supplierManager", supplierManagerRouter);
 app.use("/api/supply", supplyRouter);
 //employee-management
 
 //employee-management
 app.use('/api/empManagement' , EmployeeManagement)
+app.use('/api/applicantManagement' , ApplicantManagement)
+
+app.use('/api/invoices', invoicesRouter)
+
+//supply-management
+app.use('/api/supplier', supplierRouter)
+app.use('/api/supplierManager', supplierManagerRouter)
+app.use('/api/supplies', supplyRouter)
+app.use('/api/orders', orderRouter)
+app.use('/api/quotation', quotationRouter)
+app.use('/api/callingSupply', callingSupplyRoute)
+
 app.use('/api/applicanttManagement' , ApplicantManagement)
 app.use('/api/employeeProfile' , EmployeeProfile)
 app.use('/api/applicantRoles' , ApplicantRoles)

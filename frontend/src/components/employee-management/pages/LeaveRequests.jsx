@@ -38,7 +38,7 @@ const LeaveTable = () => {
 
   const handleReject = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/leaves/${id}`, {
+      const response = await fetch(`http://localhost:3001/api/leaves/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) {

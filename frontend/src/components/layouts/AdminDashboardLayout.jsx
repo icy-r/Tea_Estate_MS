@@ -60,7 +60,7 @@ const AdminDashboardLayout = ({ children, menu }) => {
         )}
 
         {/* Main Content */}
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="flex-1 overflow-y-auto min-h-max">
           <Content>{children}</Content>
         </div>
       </div>

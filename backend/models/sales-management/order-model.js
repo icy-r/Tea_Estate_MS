@@ -9,7 +9,6 @@ const orderSchema = new Schema(
         quantity: String,
         pid: String,
         buyer_id: String, 
-        saleID: String,
         status: String,
         
     },

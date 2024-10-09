@@ -6,8 +6,8 @@ const auctionSchema = new Schema(
   {
     auID: String, 
     date: Date,
-    productID: String,  // Added field for product ID
-    buyer_id: [String], // Changed buyer_id to an array of strings
+    productID: { type: Schema.Types.ObjectId, ref: "Catalog" },  // Reference to Catalog model
+    buyer_id: { type: Schema.Types.ObjectId, ref: "Buyer" },  // Reference to Buyer model
     status: String,
     meetingLink: String,
   },
@@ -16,6 +16,6 @@ const auctionSchema = new Schema(
   }
 );
 
-const Auction = mongoose.model("auction", auctionSchema);
+const Auction = mongoose.model("Auction", auctionSchema);
 
 export { Auction };

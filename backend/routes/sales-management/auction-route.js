@@ -1,29 +1,27 @@
 import { Router } from "express";
 import * as auctionController from "../../controllers/sales-management/auction-controller.js";
-import {checkAuth, decodeUserFromToken} from "../../middleware/auth-mid.js";
+import { checkAuth, decodeUserFromToken } from "../../middleware/auth-mid.js";
 
 const router = Router();
 
 /*---------- Public Routes ----------*/
 
-
 /*---------- Protected Routes ----------*/
-router.use(decodeUserFromToken)
-// index for getting all auction defined in auctionController
+router.use(decodeUserFromToken);  // Ensure the token is decoded for all protected routes
+
+// Index for getting all auctions
 router.get("/", auctionController.index);
 
-// show for getting a single auction defined in auctionController
+// Show for getting a single auction by ID
 router.get("/:id", auctionController.show);
 
-// create for creating a new auction defined in auctionController
+// Create for creating a new auction
 router.post("/", checkAuth, auctionController.create);
 
-// update for updating a auction defined in auctionController
+// Update for updating an auction
 router.put("/:id", checkAuth, auctionController.update);
 
-// destroy for deleting a auction defined in auctionController
+// Delete for deleting an auction
 router.delete("/:id", checkAuth, auctionController.destroy);
 
-
 export { router };
-

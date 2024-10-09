@@ -11,8 +11,9 @@ const menuItems = [
   {
     name: "Auction Managment",
     subItems: [
-      { name: "Start Auction", link: "repair/machine/" },
-      { name: "Auction Overview", link: "/add-machine" },
+      { name: "Start Auction", link: "sales/startAuction/" },
+      { name: "Auction Details", link: "sales/addAuction" },
+      { name: "Manage Auctions", link: "sales/manageauctions" },
      
     ],
   },
@@ -21,7 +22,6 @@ const menuItems = [
     subItems: [
       { name: "Add Orders", link: "sales/order" },
       { name: "Manage Orders", link: "sales/manageorders" },
-      { name: "Ready To Deliver", link: "/ordersoverview" },
 
     ],
   },

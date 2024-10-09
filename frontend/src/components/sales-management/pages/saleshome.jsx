@@ -9,6 +9,9 @@ import Order from './AddOrder.jsx';
 import ManageOrders from './ManageOrders.jsx';
 import Home from './home.jsx';
 import UpdateOrder from './UpdateOrders.jsx';
+import AddAuction from './AddAuction.jsx';
+import StartAuctionPage from './StartAuction.jsx';
+import ManageAuction from './ManageAuction.jsx';
 
 
 
@@ -28,6 +31,11 @@ const SalesHome = () => {
             <Route path="/addinvoice/:id" element={<UpdateInvoice />} />
             <Route path="/manageorders" element={<ManageOrders />} />
             <Route path="/manageorders/:id" element={<UpdateOrder />} />
+            <Route path= "/addAuction" element={<AddAuction />}/>
+            <Route path= "/startAuction/" element={<StartAuctionPage />}/>
+            <Route path= "/manageauctions" element={<ManageAuction />}/>
+
+            
         </Routes>
 
         </AdminDashboardLayout>

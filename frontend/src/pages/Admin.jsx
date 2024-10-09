@@ -37,6 +37,7 @@ function App() {
           />
           <Route path="/about" element={<div>About</div>} />
 
+<<<<<<<<< Temporary merge branch 1
           {/* Protected Routes */}
           <Route
             path="/"
@@ -72,27 +73,51 @@ function App() {
               </ProtectedRoutes>
             }
           />
-            <Route
-              path="/buyer/*"
-              element={
-                <ProtectedRoutes user={user}>
-                    <BuyerRoutes/>
-                </ProtectedRoutes>
-              }
+=========
+                    {/* Protected Routes */}
+                    <Route
+                        path="/repair/*"
+                        element={
+                            <ProtectedRoutes user={user}>
+                                <RepairRoutes/>
+                            </ProtectedRoutes>
+                        }
+                    />
+                    <Route
+                        path="/field/*"
+                        element={
+                            <ProtectedRoutes user={user}>
+                                <FieldRoutes/>
+                            </ProtectedRoutes>
+                        }
+                    />
+                    <Route
+                        path="/transport/*"
+                        element={
+                            <ProtectedRoutes user={user}>
+                                <TransportHome/>
+                            </ProtectedRoutes>
+                        }
+                    />
+                    <Route
+                        path="/product/*"
+                        element={
+                            <ProtectedRoutes user={user}>
+                                <ProductRoutes/>
+                            </ProtectedRoutes>
+                        }
 
-            />
-            <Route
-              path="/product/*"
-              element={
-                <ProtectedRoutes user={user}>
-                    <CatalogtRoutes/>
-                </ProtectedRoutes>
-              }
+                    />
+                    <Route
+                        path="/buyer/*"
+                        element={
+                            <ProtectedRoutes user={user}>
+                                <BuyerRoutes/>
+                            </ProtectedRoutes>
+                        }
 
-            />
-            
-
-            
+                    />
+>>>>>>>>> Temporary merge branch 2
 
           {/* Catch-all route */}
           <Route path="/*" element={<Error404 />} />

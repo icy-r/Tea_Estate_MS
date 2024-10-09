@@ -106,7 +106,7 @@ function App() {
             path="/product/*"
             element={
               <ProtectedRoutes user={user}>
-                {/* <ProductRoutes /> */}
+                {/* <ProductRoutes/> */}
               </ProtectedRoutes>
             }
           />
@@ -119,8 +119,6 @@ function App() {
             }
           />
 
-     
-
           <Route
             path="/driver/*"
             element={
@@ -129,40 +127,6 @@ function App() {
               </ProtectedRoutes>
             }
           />
-                    {/* Protected Routes */}
-                    <Route
-                        path="/repair/*"
-                        element={
-                            <ProtectedRoutes user={user}>
-                                <RepairRoutes/>
-                            </ProtectedRoutes>
-                        }
-                    />
-                    <Route
-                        path="/field/*"
-                        element={
-                            <ProtectedRoutes user={user}>
-                                <FieldRoutes/>
-                            </ProtectedRoutes>
-                        }
-                    />
-                    <Route
-                        path="/transport/*"
-                        element={
-                            <ProtectedRoutes user={user}>
-                                <TransportHome/>
-                            </ProtectedRoutes>
-                        }
-                    />
-                    <Route 
-                        path="/supply/*"
-                        element={
-                            <ProtectedRoutes user={user}>
-                                <SupplyHome/>
-                            </ProtectedRoutes>
-                        }
-                        />
-
 
           {/* Catch-all route */}
           <Route path="/*" element={<Error404 />} />

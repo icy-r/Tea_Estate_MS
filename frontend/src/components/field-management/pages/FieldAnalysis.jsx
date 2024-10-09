@@ -145,12 +145,14 @@ const FieldAnalysis = () => {
           start: startOfMonth(selectedMonth),
           end: endOfMonth(selectedMonth),
         }).map((date) => {
-          const harvest = harvestData.find(
-            (h) =>
-              format(new Date(h.date), "yyyy-MM-dd") ===
+          const logForDate = harvestlogData.find(
+            (log) =>
+              format(new Date(log.date), "yyyy-MM-dd") ===
               format(date, "yyyy-MM-dd")
           );
-          return harvest ? harvest.total : 0;
+          return logForDate
+            ? logForDate.logs.reduce((sum, log) => sum + log.totalAll, 0)
+            : 0;
         }),
         borderColor: "rgb(75, 192, 192)",
         tension: 0.1,
@@ -356,7 +358,12 @@ const FieldAnalysis = () => {
                         <TableCell>
                           {format(new Date(harvestlog.date), "dd-MM-yyyy")}
                         </TableCell>
-                        <TableCell>{harvestlog.totalAll}</TableCell>
+                        <TableCell>
+                          {harvestlog.logs.reduce(
+                            (sum, log) => sum + log.totalAll,
+                            0
+                          )}
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

@@ -30,7 +30,7 @@ const menuItems = [
     name: "Insight and Overview",
     subItems: [
       { name: "Field Analysis", link: "field/field-analysis" },
-      { name: "Manage Fertilizer Schedules", link: "field/manage-fertilizer" },
+      { name: "Labour Performance", link: "field/labour-performance" },
     ],
   },
 ];

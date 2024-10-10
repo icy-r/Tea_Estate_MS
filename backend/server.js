@@ -40,6 +40,7 @@ import { router as fertilizerRouter } from "./routes/field-management/fertilizer
 import { router as harvestRouter } from "./routes/field-management/harvest-route.js";
 import { router as labourRouter } from "./routes/field-management/labour-route.js";
 import { router as harvestlogRouter } from "./routes/field-management/harvestlog-route.js";
+import { router as fertilizerlogRouter } from "./routes/field-management/fertilizerlog-route.js";
 
 //supply management
 import { router as supplierRouter } from "./routes/supply-management/supplier-route.js";
@@ -133,6 +134,7 @@ app.use("/api/fertilizers", fertilizerRouter);
 app.use("/api/harvests", harvestRouter);
 app.use("/api/labours", labourRouter);
 app.use("/api/harvestlogs", harvestlogRouter);
+app.use("/api/fertilizerlogs", fertilizerlogRouter);
 
 // handle 404 errors
 app.use(function (req, res, next) {

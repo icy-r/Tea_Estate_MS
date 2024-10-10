@@ -14,19 +14,19 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import Notification from "../component/NotificationContent.jsx"; // Import Notification Component
+import Notification from "../component/NotificationContent.jsx";
 
 const AddFertilizerSchedule = () => {
   const [fields, setFields] = useState([]);
   const [fertilizers, setFertilizers] = useState([
-    { type: "", applicationRate: "", defaultApplicationRate: "" },
+    { type: "", applicationRate: "" },
   ]);
   const [formValues, setFormValues] = useState({
     id: "",
     fieldName: "",
     scheduleName: "",
     frequency: "",
-    weatherAdjustment: false, // Weather adjustment field
+    weatherAdjustment: false,
   });
   const [notification, setNotification] = useState({
     open: false,
@@ -34,12 +34,10 @@ const AddFertilizerSchedule = () => {
     type: "",
   });
 
-  // Fetch the fields from the database to populate the dropdown
   useEffect(() => {
     const fetchFields = async () => {
       try {
         const response = await axios.get("/fields");
-        // Filter fields where fertilizerSchedule is "none"
         const availableFields = response.data.filter(
           (field) => field.fertilizerSchedule === "none"
         );
@@ -52,36 +50,30 @@ const AddFertilizerSchedule = () => {
     fetchFields();
   }, []);
 
-  // Handle change for form fields
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
   };
 
-  // Handle change for the weather adjustment checkbox
   const handleWeatherAdjustmentChange = (event) => {
     setFormValues({ ...formValues, weatherAdjustment: event.target.checked });
   };
 
-  // Handle dynamic change for fertilizer inputs
   const handleFertilizerChange = (index, field, value) => {
     const updatedFertilizers = [...fertilizers];
     updatedFertilizers[index][field] = value;
     setFertilizers(updatedFertilizers);
   };
 
-  // Add a new fertilizer field
   const handleAddFertilizer = () => {
     setFertilizers([...fertilizers, { type: "", applicationRate: "" }]);
   };
 
-  // Remove a fertilizer field
   const handleRemoveFertilizer = (index) => {
     const updatedFertilizers = fertilizers.filter((_, i) => i !== index);
     setFertilizers(updatedFertilizers);
   };
 
-  // Show notification message
   const notify = (message, type) => {
     setNotification({ open: true, message, type });
     setTimeout(
@@ -90,43 +82,27 @@ const AddFertilizerSchedule = () => {
     );
   };
 
-  // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     const scheduleData = {
       ...formValues,
-      fertilizers: fertilizers.map((fertilizer) => ({
-        ...fertilizer,
-        defaultApplicationRate: fertilizer.applicationRate, // Store default rate as well
-      })),
+      fertilizers,
     };
 
     const regex = /^[a-zA-Z\s]+$/;
-
     const isValid = formValues.scheduleName.match(regex);
+
     if (!isValid) {
-      notify("Field name must contain only letters and spaces", "error");
+      notify("Schedule name must contain only letters and spaces", "error");
       return;
     }
 
     try {
-      await axios.post("/fertilizers", scheduleData);
+      const response = await axios.post("/fertilizers", scheduleData);
+      notify("Fertilizer Schedule added successfully!", "success");
 
-      const selectedField = fields.find(
-        (field) => field.name === formValues.fieldName
-      );
-
-      if (selectedField) {
-        await axios.put(`/fields/${selectedField.id}`, {
-          fertilizerSchedule: formValues.scheduleName,
-        });
-      }
-
-      notify(
-        "Fertilizer Schedule added and field updated successfully!",
-        "success"
-      );
-      // Reset the form
+      // Reset the form after submission
       setFormValues({
         id: "",
         fieldName: "",
@@ -134,9 +110,7 @@ const AddFertilizerSchedule = () => {
         frequency: "",
         weatherAdjustment: false,
       });
-      setFertilizers([
-        { type: "", applicationRate: "", defaultApplicationRate: "" },
-      ]);
+      setFertilizers([{ type: "", applicationRate: "" }]);
     } catch (error) {
       console.error("Error adding fertilizer schedule:", error);
       notify("Error adding fertilizer schedule", "error");
@@ -145,7 +119,6 @@ const AddFertilizerSchedule = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      {/* Notification */}
       <Notification
         open={notification.open}
         handleClose={() => setNotification({ ...notification, open: false })}
@@ -171,6 +144,7 @@ const AddFertilizerSchedule = () => {
                 className="border border-gray-300 p-2 rounded-md"
               />
             </FormControl>
+
             {/* Field Selection */}
             <FormControl className="flex flex-col">
               <FormLabel required>Field Name</FormLabel>

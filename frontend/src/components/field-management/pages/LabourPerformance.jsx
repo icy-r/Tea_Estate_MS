@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Collapse, IconButton } from "@mui/material";
 import { ExpandMore, ExpandLess } from "@mui/icons-material";
 import { Pie, Line } from "react-chartjs-2";
+import { QRCodeCanvas } from "qrcode.react"; // Import QR Code generator
 import axios from "../../../services/axios.js";
 
 const LabourList = () => {
@@ -111,6 +112,20 @@ const LabourList = () => {
     };
   };
 
+  // Function to download QR code as image
+  const downloadQRCode = (labour) => {
+    const canvas = document.getElementById(`qr-${labour.id}`);
+    const pngUrl = canvas
+      .toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+    const downloadLink = document.createElement("a");
+    downloadLink.href = pngUrl;
+    downloadLink.download = `${labour.firstName}-${labour.lastName}-qr.png`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  };
+
   return (
     <div className="p-8">
       <h1 className="text-2xl font-semibold mb-4">Labour Performance</h1>
@@ -138,6 +153,7 @@ const LabourList = () => {
               <th className="py-2 px-4 text-left">Last Name</th>
               <th className="py-2 px-4 text-left">Total Harvest (kg)</th>
               <th className="py-2 px-4 text-left">Best Quality (%)</th>
+              <th className="py-2 px-4 text-center">QR Code</th>
               <th className="py-2 px-4 text-center">Actions</th>
             </tr>
           </thead>
@@ -156,6 +172,30 @@ const LabourList = () => {
                       <td className="py-2 px-4 border">{totalQuantity} kg</td>
                       <td className="py-2 px-4 border">{bestQualityRatio} %</td>
                       <td className="py-2 px-4 border text-center">
+                        {/* QR Code Generation */}
+                        <QRCodeCanvas
+                          id={`qr-${labour.id}`}
+                          value={JSON.stringify({
+                            id: labour.id,
+                            firstName: labour.firstName,
+                            lastName: labour.lastName,
+                            harvest_qnty: labour.harvest_qnty,
+                            best_qnty: labour.best_qnty,
+                            good_qnty: labour.good_qnty,
+                            damaged_qnty: labour.damaged_qnty,
+                          })}
+                          size={100}
+                          level={"H"}
+                          includeMargin={true}
+                        />
+                        <button
+                          className="btn btn-secondary mt-2"
+                          onClick={() => downloadQRCode(labour)}
+                        >
+                          Download QR
+                        </button>
+                      </td>
+                      <td className="py-2 px-4 border text-center">
                         <IconButton onClick={() => toggleRow(labour.id)}>
                           {openRows[labour.id] ? (
                             <ExpandLess />
@@ -166,14 +206,14 @@ const LabourList = () => {
                       </td>
                     </tr>
                     <tr>
-                      <td colSpan={6} style={{ padding: 0 }}>
+                      <td colSpan={7} style={{ padding: 0 }}>
                         <Collapse
                           in={openRows[labour.id]}
                           timeout="auto"
                           unmountOnExit
                         >
-                          <div className="p-4 flex flex-col md:flex-row justify-between">
-                            <div className="flex-1 mb-4 md:mr-4">
+                          <div className="p-4 flex flex-col md:flex-row justify-between items-start">
+                            <div className="flex-1 md:mr-4 mb-4">
                               <h3 className="text-lg font-semibold mb-2">
                                 Labour Details
                               </h3>
@@ -195,11 +235,7 @@ const LabourList = () => {
                               </p>
                             </div>
 
-                            {/* Pie Chart for quality distribution */}
-                            <div
-                              className="flex-1 mb-4"
-                              style={{ width: "300px", height: "300px" }}
-                            >
+                            <div className="flex-1 mx-2 mb-4">
                               <h3 className="text-lg font-semibold mb-2">
                                 Quality Distribution
                               </h3>
@@ -207,23 +243,17 @@ const LabourList = () => {
                                 data={preparePieData(labour)}
                                 width={300}
                                 height={300}
-                                key={labour.id}
                               />
                             </div>
 
-                            {/* Line Chart for daily harvest trends */}
-                            <div
-                              className="flex-1 mb-4"
-                              style={{ width: "300px", height: "300px" }}
-                            >
+                            <div className="flex-1 md:ml-4 mb-4">
                               <h3 className="text-lg font-semibold mb-2">
-                                Harvest Trend (Daily)
+                                Daily Harvest
                               </h3>
                               <Line
                                 data={prepareLineData(labour.id)}
                                 width={300}
                                 height={300}
-                                key={labour.id}
                               />
                             </div>
                           </div>
@@ -235,8 +265,8 @@ const LabourList = () => {
               })
             ) : (
               <tr>
-                <td colSpan={6} className="text-center py-4">
-                  No labours available
+                <td colSpan={7} className="text-center py-4">
+                  No labours found.
                 </td>
               </tr>
             )}

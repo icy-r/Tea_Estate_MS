@@ -8,9 +8,8 @@ import Error404 from "./error404.jsx";
 import { Route, Routes } from "react-router-dom";
 import { createContext, useState } from "react";
 import * as authService from "../services/auth-service.js";
-import ProtectedRoutes from "../Routes/ProtectedRoutes.jsx";
-import InventoryDashboard from "../components/inventory-management/pages/InventoryDashboard.jsx";
 import ProtectedRoutes from "../Routes/ProtectedRoutes.jsx";  
+import InventoryDashboard from "../components/inventory-management/pages/InventoryDashboard.jsx";
 import BuyerRoutes from "../components/product-management/BuyerRoutes.jsx";
 import AdminLogin from "./login/AdminLogin.jsx";
 import LandingPage from "./landingPage/LandingPage.jsx";
@@ -53,7 +52,6 @@ function App() {
               <AdminDashboardLayout user={user}>
                 <ProtectedRoutes user={user}>
                   <FunctionCard />
-                  <LandingPage user={user}/>
                 </ProtectedRoutes>
               </AdminDashboardLayout>
             }
@@ -78,9 +76,9 @@ function App() {
             path="/inventory/*"
             element={
               <ProtectedRoutes user={user}>
-                  <InventoryDashboard/>
+                <InventoryDashboard/>
               </ProtectedRoutes>
-            }
+              }
           />
           <Route
             path="/transport/*"

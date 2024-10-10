@@ -54,6 +54,7 @@ const GenerateReports = () => {
         item.minLevel
       ]),
     });
+    doc.text("Inventory Report", 15, 10);
     doc.save('inventory_report.pdf');
   };
 

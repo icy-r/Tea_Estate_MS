@@ -10,7 +10,6 @@ import nodemailer from "nodemailer";
 import "./config/database.js";
 
 // import routes
-<<<<<<< HEAD
 
 import { router as inventoryRoute } from './routes/inventory-management/inventory-route.js';
 
@@ -158,21 +157,10 @@ app.use('/api/transportLog', transportLogRouter)
 app.use('/api/drivers', driverRouter)
 
 //repair-management
-<<<<<<< HEAD
-app.use('/api/machines', machinesRouter)
-app.use('/api/inventory', inventoryRoute);
-app.use('/api/logs', logsRouter)
-app.use('/api/maintenances', maintenancesRouter)
-app.use('/api/repairs', repairsRouter)
-app.use('/api/logs', logsRouter)
-app.use('/api/maintenances', maintenancesRouter)
-app.use('/api/repairs', repairsRouter)
-=======
 app.use("/api/technicians", technicianRouter);
 app.use("/api/requestMaintenance", requestMaintenanceRouter);
 app.use("/api/maintenances", maintenancesRouter);
 app.use("/api/assets", assetsRouter);
->>>>>>> db1774206ff14dcc0287b86bdece937150fb98b2
 
 //field-management
 app.use("/api/fields", fieldRouter);

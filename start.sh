@@ -1,14 +1,22 @@
 #!/bin/bash
 
-# A simple bash script
+#kill already running ports 
+#sudo lsof -t -i:3002 | xargs kill -9
+#sudo lsof -t -i:5374 | xargs kill -9
 
-echo "Welcome to the Tea Estate Management System!"
-echo "Starting the system..."
+# start tmux session
+# tmux new-session -d -s "TeaEstateManagementSystem" -n "frontend" "cd frontend; npm run dev"
+# tmux split-window -v "cd backend; npm start"
+# tmux -2 attach-session -d
 
-# start frontend in a new shell
-gnome-terminal -- bash -c "cd frontend; npm run dev"
+#no more tmux
+# cd frontend; npm run dev
+#here i cant run the backend bcs command will never end, how can i do that?
+#i dont want to stop the frontend
+# Run the frontend in the background
+cd frontend && npm run dev &
 
-# start backend in a new shell
-gnome-terminal -- bash -c "cd backend; npm start"
+# Change to the backend directory and start it
+cd .. && cd backend && npm start
 
-echo "System started successfully."
+

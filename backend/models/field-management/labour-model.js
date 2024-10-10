@@ -8,6 +8,10 @@ const labourSchema = new Schema({
   role: { type: String, required: true },
   assignedField: { type: String, required: true },
   harvest_qnty: { type: Number, required: true },
+  best_qnty: { type: Number, required: true },
+  good_qnty: { type: Number, required: true },
+  damaged_qnty: { type: Number, required: true },
+  phoneNumber: { type: String, required: true },
   // Add other attributes if needed
 });
 

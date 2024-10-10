@@ -8,7 +8,7 @@ const router = Router();
 
 
 /*---------- Protected Routes ----------*/
-// router.use(decodeUserFromToken)
+router.use(decodeUserFromToken);
 // index for getting all machines defined in machineController
 router.get("/", fieldController.index);
 
@@ -16,13 +16,13 @@ router.get("/", fieldController.index);
 router.get("/:id", fieldController.show);
 
 // create for creating a new machine defined in machineController
-router.post("/", checkAuth, fieldController.create);
+router.post("/",checkAuth, fieldController.create);
 
 // update for updating a machine defined in machineController
-router.put("/:id", checkAuth, fieldController.update);
+router.put("/:id",checkAuth, fieldController.update);
 
 // destroy for deleting a machine defined in machineController
-router.delete("/:id", checkAuth, fieldController.destroy);
+router.delete("/:id",checkAuth, fieldController.destroy);
 
 export { router };
 

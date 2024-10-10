@@ -8,7 +8,7 @@ const transportSchema = new mongoose.Schema({
 
     id: {
         type: String,
-        required: true,
+        required: false,
     },
     type: {
         type: String,
@@ -19,6 +19,15 @@ const transportSchema = new mongoose.Schema({
         required: true,
     },
 
+    vehicle_id: {
+        type: String,
+        required: true,
+    },
+    route_id: {
+        type: String,
+        required: true,
+    },
+
 
 },
 {
@@ -26,7 +35,7 @@ const transportSchema = new mongoose.Schema({
   
 });
 
-const Transport = mongoose.model('Transport', transportSchema);
+const Transport = mongoose.models.Transport || mongoose.model('Transport', transportSchema);
 
 export { Transport };
 

@@ -4,30 +4,29 @@ const menuItems = [
   {
     name: "Repair Home",
     subItems: [
-      { name: "Dashboard", link: "/add-status" },
-      { name: "Manage Status", link: "/manage-status" },
+      { name: "Dashboard", link: "/repair" },
+      { name: "Graphs", link: "/repair/graphs" },
     ],
   },
   {
     name: "Machine",
     subItems: [
-      { name: "Machine Home", link: "repair/machine/" },
-      { name: "Add Machine", link: "/add-machine" },
-      { name: "Manage Machine", link: "/manage-machine" },
+      { name: "Machine List", link: "/repair/machine" },
+      { name: "Add Machine", link: "/repair/machine/add" },
     ],
   },
   {
     name: "Repair",
     subItems: [
-      { name: "Add Repair", link: "/add-repair" },
-      { name: "Manage Repair", link: "/manage-repair" },
+      { name: "Repair List", link: "/repair/reports" },
+      { name: "Add Repair", link: "/repair/reports/add" },
     ],
   },
   {
-    name: "Service",
+    name: "Maintenance",
     subItems: [
-      { name: "Add Service", link: "/add-service" },
-      { name: "Manage Service", link: "/manage-service" },
+      { name: "Maintenance List", link: "repair/maintenance" },
+      { name: "Add Maintenance", link: "repair/newmaintenance" },
     ],
   },
 ];

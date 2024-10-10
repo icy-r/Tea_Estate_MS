@@ -34,15 +34,17 @@ async function create(req, res) {
 
 async function update(req, res) {
   try {
-
-    const field = await Field.findOne({id: req.params.id});
-
-    Object.assign(field, req.body);
-    await field.save();
+    const field = await Field.findOneAndUpdate(
+      { id: req.params.id },
+      req.body,
+      {
+        new: true,
+      }
+    );
     res.json(field);
-    } catch (error) {
-      res.status(400).json({ error: error });
-    }
+  } catch (error) {
+    res.status(404).json({ error: error });
+  }
 }
 
 async function destroy(req, res) {

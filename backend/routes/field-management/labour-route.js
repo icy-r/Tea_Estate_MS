@@ -8,7 +8,7 @@ const router = Router();
 
 
 /*---------- Protected Routes ----------*/
-// router.use(decodeUserFromToken)
+router.use(decodeUserFromToken);
 // index for getting all labour defined in labourController
 router.get("/", labourController.index);
 

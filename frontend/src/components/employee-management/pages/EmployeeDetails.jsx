@@ -160,10 +160,9 @@ function EmployeeManagement() {
                     ) : (
                         <div ref={componentsRef} className="overflow-x-auto">
                             <div className="overflow-y-auto" style={{ maxHeight: '450px' }}> {/* Adjust height as needed */}
-                                <table className="min-w-full bg-white border border-gray-200">
+                                <table className="w-[98%] bg-white border border-gray-200 mx-auto">
                                     <thead>
-                                        <tr className="w-full bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                            <th className="py-3 px-6 text-left">First Name</th>
+                                    <tr style={{ backgroundColor: '#1AACAC' }} className="text-white uppercase text-sm leading-normal">                                            <th className="py-3 px-6 text-left">First Name</th>
                                             <th className="py-3 px-6 text-left">Last Name</th>
                                             <th className="py-3 px-6 text-left">Department</th>
                                             <th className="py-3 px-6 text-left">Designation</th>
@@ -194,7 +193,8 @@ function EmployeeManagement() {
                                                     </button>
                                                     <button
                                                         onClick={() => handleDeleteClick(employee._id)}
-                                                        className="bg-red-500 text-white px-2 py-1 rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                                        style={{ backgroundColor: '#fa7070' }} // Inline style for background color
+                                                        className="text-white px-2 py-1 rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
                                                     >
                                                         Delete
                                                     </button>

@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios'; 
 import { useParams, useNavigate } from 'react-router-dom';
-// import { useReactToPrint } from 'react-to-print'; // Correct import
+import { useReactToPrint } from 'react-to-print'; // Correct import
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -91,11 +91,11 @@ const EmployeeMoreDetails = () => {
     doc.save("EmployeeDetails.pdf");
   };
 
-  // const handlePrint = useReactToPrint({
-  //     content: () => componentsRef.current,
-  //     documentTitle: "Employee Report",
-  //     onAfterPrint: () => alert("Employee Report Successfully Downloaded!")
-  // });
+  const handlePrint = useReactToPrint({
+      content: () => componentsRef.current,
+      documentTitle: "Employee Report",
+      onAfterPrint: () => alert("Employee Report Successfully Downloaded!")
+  });
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-white-100">

@@ -61,8 +61,7 @@ const LeaveTable = () => {
                 <div className="overflow-x-auto">
                     <table className="min-w-full bg-white border border-gray-200">
                         <thead>
-                            <tr className="w-full bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                <th className="py-3 px-6 text-left">Name</th>
+                        <tr style={{ backgroundColor: '#1AACAC' }} className="text-white uppercase text-sm leading-normal">                                <th className="py-3 px-6 text-left">Name</th>
                                 <th className="py-3 px-6 text-left">Email</th>
                                 <th className="py-3 px-6 text-left">Reason</th>
                                 <th className="py-3 px-6 text-left">Date From</th>

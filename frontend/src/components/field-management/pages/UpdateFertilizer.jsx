@@ -22,10 +22,10 @@ const UpdateFertilizerSchedule = () => {
 
   const [fertilizerData, setFertilizerData] = useState({
     fieldName: fertilizer.fieldName, // Read-only
-    scheduleName: fertilizer.scheduleName,
-    fertilizers: fertilizer.fertilizers,
-    frequency: fertilizer.frequency,
-    weatherAdjustment: fertilizer.weatherAdjustment,
+    scheduleName: fertilizer.scheduleName || "", // Ensure default values if undefined
+    fertilizers: fertilizer.fertilizers || [{ type: "", applicationRate: "" }], // Default to empty fertilizer
+    frequency: fertilizer.frequency || "", // Ensure a default value
+    weatherAdjustment: fertilizer.weatherAdjustment || "", // Default value for weatherAdjustment
   });
 
   const [notification, setNotification] = useState({
@@ -70,14 +70,41 @@ const UpdateFertilizerSchedule = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Validate if all required fields are filled
+    if (!fertilizerData.scheduleName || !fertilizerData.frequency) {
+      setNotification({
+        open: true,
+        message: "Please fill in all required fields.",
+        severity: "error",
+      });
+      return;
+    }
+
+    // Ensure all fertilizers have valid entries
+    if (
+      fertilizerData.fertilizers.some(
+        (fertilizer) => !fertilizer.type || !fertilizer.applicationRate
+      )
+    ) {
+      setNotification({
+        open: true,
+        message: "Please provide valid fertilizer type and application rate.",
+        severity: "error",
+      });
+      return;
+    }
+
     try {
       const updatedData = {
-        ...fertilizerData,
+        fieldName: fertilizerData.fieldName,
+        scheduleName: fertilizerData.scheduleName,
         fertilizers: fertilizerData.fertilizers.map((f) => ({
-          _id: f._id, // Include _id to ensure it remains intact
           type: f.type,
-          applicationRate: f.applicationRate,
+          applicationRate: parseFloat(f.applicationRate),
+          defaultApplicationRate: parseFloat(f.applicationRate), // Add this if it's required by your schema
         })),
+        frequency: fertilizerData.frequency,
+        weatherAdjustment: fertilizerData.weatherAdjustment,
       };
 
       // Ensure that the payload structure matches what the backend expects

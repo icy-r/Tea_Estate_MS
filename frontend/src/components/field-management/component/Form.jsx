@@ -190,7 +190,7 @@ export default function Form() {
                 className="border border-gray-300 p-2 rounded-md"
               />
             </FormControl>
-           
+
             {/* Area Input */}
             <FormControl className="flex flex-col">
               <FormLabel
@@ -239,29 +239,6 @@ export default function Form() {
                     {supervisor.firstName} {supervisor.lastName}
                   </MenuItem>
                 ))}
-              </Select>
-            </FormControl>
-            <FormControl className="flex flex-col">
-              <FormLabel
-                required
-                style={{
-                  fontSize: "1rem",
-                  color: darkMode ? "white" : "black",
-                }}
-              >
-                Field Status
-              </FormLabel>
-              <Select
-                name="fieldStatus"
-                value={formValues.fieldStatus}
-                onChange={handleChange}
-                required
-                className="border border-gray-300 p-2 rounded-md"
-              >
-                <MenuItem value="Active">Active</MenuItem>
-                <MenuItem value="Inactive">Inactive</MenuItem>
-                <MenuItem value="Needs Maintenance">Needs Maintenance</MenuItem>
-                <MenuItem value="In Progress">In Progress</MenuItem>
               </Select>
             </FormControl>
             <button

@@ -1,23 +1,63 @@
 import { FertilizerLog } from "../../models/field-management/fertilizerlog-model.js";
 import { Fertilizer } from "../../models/field-management/fertilizer-model.js";
 
-// Controller to create a fertilizer log
-export async function createFertilizerLog(req, res) {
+// Controller to show fertilizer logs
+ async function showFertilizerLogs(req, res) {
+  try {
+    const { scheduleId } = req.params; // Fetch the schedule ID from the request params
+
+    let logs;
+
+    // If a specific schedule ID is provided, find logs for that schedule
+    if (scheduleId) {
+      logs = await FertilizerLog.find({ scheduleId });
+
+      if (!logs || logs.length === 0) {
+        return res.status(404).json({ message: "No logs found for this fertilizer schedule" });
+      }
+    } else {
+      // If no schedule ID is provided, fetch all logs
+      logs = await FertilizerLog.find();
+    }
+
+    // Respond with the found logs
+    res.status(200).json({ message: "Fertilizer logs retrieved successfully", logs });
+  } catch (error) {
+    res.status(500).json({ message: "Error retrieving fertilizer logs", error });
+  }
+}
+
+// Controller to list all fertilizer logs
+async function indexFertilizerLogs(req, res) {
+  try {
+    const logs = await FertilizerLog.find();
+
+    if (!logs || logs.length === 0) {
+      return res.status(404).json({ message: "No fertilizer logs found" });
+    }
+
+    // Respond with the found logs
+    res.status(200).json({ message: "Fertilizer logs retrieved successfully", logs });
+  } catch (error) {
+    res.status(500).json({ message: "Error retrieving fertilizer logs", error });
+  }
+}
+
+
+// Existing createFertilizerLog method
+async function createFertilizerLog(req, res) {
   try {
     const { scheduleId, fertilizerType, amount, recordedBy } = req.body;
 
-    // Find the schedule by its ID
     const schedule = await Fertilizer.findById(scheduleId);
 
     if (!schedule) {
       return res.status(404).json({ message: "Fertilizer schedule not found" });
     }
 
-    // Find the field's area and calculate total amount applied
     const fieldArea = schedule.fieldId.area;
     const totalAmountApplied = amount * fieldArea;
 
-    // Create a new fertilizer log entry
     const newLog = new FertilizerLog({
       scheduleId,
       dateApplied: new Date(),
@@ -25,10 +65,8 @@ export async function createFertilizerLog(req, res) {
       amount: totalAmountApplied,
     });
 
-    // Save the log entry
     await newLog.save();
 
-    // Update the fertilizer schedule's total applied amounts
     schedule.totalAmountApplied += totalAmountApplied;
 
     const fertilizerEntry = schedule.totalPerFertilizer.find(
@@ -44,13 +82,11 @@ export async function createFertilizerLog(req, res) {
       });
     }
 
-    // Calculate the next and last fertilization dates
     schedule.lastFertilizationDate = new Date();
     schedule.nextFertilizationDate = calculateNextFertilizationDate(
       schedule.frequency
     );
 
-    // Save the updated schedule
     await schedule.save();
 
     res.status(201).json({ message: "Fertilizer log created", log: newLog });
@@ -59,7 +95,6 @@ export async function createFertilizerLog(req, res) {
   }
 }
 
-// Function to calculate the next fertilization date based on frequency
 function calculateNextFertilizationDate(frequency) {
   const now = new Date();
   switch (frequency) {
@@ -68,6 +103,8 @@ function calculateNextFertilizationDate(frequency) {
     case "Twice a week":
       return new Date(now.setDate(now.getDate() + 3));
     default:
-      return new Date(now.setDate(now.getDate() + 14)); // Default to every two weeks
+      return new Date(now.setDate(now.getDate() + 14));
   }
 }
+
+export { showFertilizerLogs, indexFertilizerLogs, createFertilizerLog };

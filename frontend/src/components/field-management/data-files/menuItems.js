@@ -12,18 +12,18 @@ const menuItems = [
     ],
   },
   {
+    name: "Fertilizer Management",
+    subItems: [
+      { name: "Add Fertilizer Schedule", link: "field/add-fertilizer" },
+      { name: "Manage Fertilizer Schedules", link: "field/manage-fertilizer" },
+    ],
+  },
+  {
     name: "Harvest Management",
     subItems: [
       { name: "Add Harvest", link: "field/add-harvest" },
       { name: "View Harvest", link: "field/view-harvest" },
       { name: "Calculate OT", link: "field/calculate-ot" },
-    ],
-  },
-  {
-    name: "Fertilizer Management",
-    subItems: [
-      { name: "Add Fertilizer Schedule", link: "field/add-fertilizer" },
-      { name: "Manage Fertilizer Schedules", link: "field/manage-fertilizer" },
     ],
   },
   {

@@ -1,4 +1,3 @@
-// ViewHarvest.js
 import React, { useEffect, useState } from "react";
 import axios from "../../../services/axios.js";
 import { FaSearch } from "react-icons/fa";
@@ -15,6 +14,8 @@ const ViewHarvest = () => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [showSummary, setShowSummary] = useState(false);
   const [fields, setFields] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
 
   // Fetch harvest data from the collection
   const fetchHarvests = async () => {
@@ -44,8 +45,27 @@ const ViewHarvest = () => {
     const doc = new jsPDF();
     doc.text("Daily Harvest Information", 10, 10);
     let bodydata;
-    if (selectedField === "all" && selectedLabor === "all") {
-      bodydata = harvests.map((harvest) => [
+
+    if (showSummary) {
+      // Create summary data for printing
+      const summaryData = calculateSummary();
+      bodydata = summaryData.map((summary) => [
+        summary.fieldName,
+        summary.totalBest,
+        summary.totalGood,
+        summary.totalDamaged,
+        summary.totalAll,
+      ]);
+
+      doc.autoTable({
+        head: [
+          ["Field", "Best Quality", "Good Quality", "Poor Quality", "Total"],
+        ],
+        body: bodydata,
+      });
+    } else {
+      // Create harvest data for printing
+      bodydata = filteredHarvests.map((harvest) => [
         harvest.labour_name,
         harvest.field_name,
         new Date(harvest.date).toLocaleDateString(),
@@ -54,45 +74,23 @@ const ViewHarvest = () => {
         harvest.damaged_qnty,
         harvest.total,
       ]);
-    } else if (selectedLabor !== "all") {
-      bodydata = harvests
-        .filter((harvest) => harvest.labour_name === selectedLabor)
-        .map((harvest) => [
-          harvest.labour_name,
-          harvest.field_name,
-          new Date(harvest.date).toLocaleDateString(),
-          harvest.best_qnty,
-          harvest.good_qnty,
-          harvest.damaged_qnty,
-          harvest.total,
-        ]);
-    } else {
-      bodydata = harvests
-        .filter((harvest) => harvest.field_name === selectedField)
-        .map((harvest) => [
-          harvest.labour_name,
-          harvest.field_name,
-          new Date(harvest.date).toLocaleDateString(),
-          harvest.best_qnty,
-          harvest.good_qnty,
-          harvest.damaged_qnty,
-          harvest.total,
-        ]);
-    }
-    doc.autoTable({
-      head: [
-        [
-          "Labour",
-          "Field",
-          "Date",
-          "Best Quality",
-          "Good Quality",
-          "Poor Quality",
-          "Total",
+
+      doc.autoTable({
+        head: [
+          [
+            "Labour",
+            "Field",
+            "Date",
+            "Best Quality",
+            "Good Quality",
+            "Poor Quality",
+            "Total",
+          ],
         ],
-      ],
-      body: bodydata,
-    });
+        body: bodydata,
+      });
+    }
+
     doc.save("daily-harvest.pdf");
   };
 
@@ -110,21 +108,29 @@ const ViewHarvest = () => {
     return matchesSearch && matchesLabor && matchesField;
   });
 
+  // Sort filtered data by date in descending order
+  const sortedFilteredHarvests = filteredHarvests.sort((a, b) => {
+    return new Date(b.date) - new Date(a.date);
+  });
+
+  // Pagination logic
+  const pageCount = Math.ceil(sortedFilteredHarvests.length / itemsPerPage);
+  const paginatedHarvests = sortedFilteredHarvests.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   // Unique list of labors and fields for filter options
   const laborOptions = [...new Set(harvests.map((h) => h.labour_name))];
   const fieldOptions = [...new Set(harvests.map((h) => h.field_name))];
 
   // Handle Summary Calculation for today's date
   const calculateSummary = () => {
-    // Get today's date in the format 'YYYY-MM-DD' for comparison
-    const today = new Date().toLocaleDateString("en-CA"); // Canada locale for 'YYYY-MM-DD'
-
-    // Filter harvests by the current date
+    const today = new Date().toLocaleDateString("en-CA");
     const todayHarvests = harvests.filter(
       (harvest) => new Date(harvest.date).toLocaleDateString("en-CA") === today
     );
 
-    // Calculate the summary for each field, only considering today's harvests
     const summary = fields.map((field) => {
       const fieldHarvests = todayHarvests.filter(
         (harvest) => harvest.field_name === field.name
@@ -192,15 +198,24 @@ const ViewHarvest = () => {
           </button>
         </div>
 
-        <button
-          onClick={handlePrint}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
-        >
-          Print Document
-        </button>
+        <div className="flex space-x-2">
+          <button
+            onClick={handlePrint}
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+          >
+            Print Document
+          </button>
+          <button
+            onClick={() => setShowSummary(!showSummary)}
+            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
+          >
+            {showSummary ? "Hide Summary" : "Show Summary"}
+          </button>
+        </div>
       </div>
 
-      {filterOpen && (
+      {/* Conditionally render the filters */}
+      {!showSummary && filterOpen && (
         <div className="mb-4 p-4 bg-gray-100 rounded-lg shadow-inner">
           <div className="flex space-x-4">
             <select
@@ -232,59 +247,82 @@ const ViewHarvest = () => {
         </div>
       )}
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white">
-          <thead>
-            <tr className="w-full bg-teal-500 text-white">
-              <th className="py-2 px-4 text-left">Labour</th>
-              <th className="py-2 px-4 text-left">Field</th>
-              <th className="py-2 px-4 text-left">Date</th>
-              <th className="py-2 px-4 text-left">Best Quality</th>
-              <th className="py-2 px-4 text-left">Good Quality</th>
-              <th className="py-2 px-4 text-left">Poor Quality</th>
-              <th className="py-2 px-4 text-left">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredHarvests.length > 0 ? (
-              filteredHarvests.map((harvest) => (
-                <tr key={harvest.id} className="hover:bg-gray-100">
-                  <td className="py-2 px-4 border">{harvest.labour_name}</td>
-                  <td className="py-2 px-4 border">{harvest.field_name}</td>
-                  <td className="py-2 px-4 border">
-                    {new Date(harvest.date).toLocaleDateString()}
-                  </td>
-                  <td className="py-2 px-4 border">{harvest.best_qnty} kg</td>
-                  <td className="py-2 px-4 border">{harvest.good_qnty} kg</td>
-                  <td className="py-2 px-4 border">
-                    {harvest.damaged_qnty} kg
-                  </td>
-                  <td className="py-2 px-4 border">{harvest.total} kg</td>
+      {/* Conditionally render the tables */}
+      {showSummary ? (
+        <SummaryTable summaryData={summaryData} />
+      ) : (
+        <div>
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white">
+              <thead>
+                <tr className="w-full bg-teal-500 text-white">
+                  <th className="py-2 px-4 text-left">Labour</th>
+                  <th className="py-2 px-4 text-left">Field</th>
+                  <th className="py-2 px-4 text-left">Date</th>
+                  <th className="py-2 px-4 text-left">Best Quality</th>
+                  <th className="py-2 px-4 text-left">Good Quality</th>
+                  <th className="py-2 px-4 text-left">Poor Quality</th>
+                  <th className="py-2 px-4 text-left">Total</th>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="7" className="text-center py-4">
-                  No harvest records available
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+              </thead>
+              <tbody>
+                {paginatedHarvests.length > 0 ? (
+                  paginatedHarvests.map((harvest) => (
+                    <tr key={harvest.id} className="hover:bg-gray-100">
+                      <td className="py-2 px-4 border">
+                        {harvest.labour_name}
+                      </td>
+                      <td className="py-2 px-4 border">{harvest.field_name}</td>
+                      <td className="py-2 px-4 border">
+                        {new Date(harvest.date).toLocaleDateString()}
+                      </td>
+                      <td className="py-2 px-4 border">
+                        {harvest.best_qnty} kg
+                      </td>
+                      <td className="py-2 px-4 border">
+                        {harvest.good_qnty} kg
+                      </td>
+                      <td className="py-2 px-4 border">
+                        {harvest.damaged_qnty} kg
+                      </td>
+                      <td className="py-2 px-4 border">{harvest.total} kg</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="7" className="text-center py-4">
+                      No harvest records available
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
 
-      {/* Summary Button */}
-      <div className="flex justify-end mt-4">
-        <button
-          onClick={() => setShowSummary(!showSummary)}
-          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
-        >
-          {showSummary ? "Hide Summary" : "Show Summary"}
-        </button>
-      </div>
-
-      {/* Summary Table */}
-      {showSummary && <SummaryTable summaryData={summaryData} />}
+          {/* Pagination Controls */}
+          <div className="flex justify-between mt-4">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500 transition duration-300"
+            >
+              Previous
+            </button>
+            <span>
+              Page {currentPage} of {pageCount}
+            </span>
+            <button
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, pageCount))
+              }
+              disabled={currentPage === pageCount}
+              className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500 transition duration-300"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

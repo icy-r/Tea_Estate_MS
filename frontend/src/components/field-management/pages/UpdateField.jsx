@@ -157,22 +157,6 @@ const UpdateField = () => {
             />
           </FormControl>
 
-          <FormControl className="flex flex-col">
-            <FormLabel required>Field Status</FormLabel>
-            <Select
-              name="fieldStatus"
-              value={fieldData.fieldStatus}
-              onChange={handleChange}
-              required
-              className="border border-gray-300 p-3 rounded-md"
-            >
-              <MenuItem value="Active">Active</MenuItem>
-              <MenuItem value="Inactive">Inactive</MenuItem>
-              <MenuItem value="Needs Maintenance">Needs Maintenance</MenuItem>
-              <MenuItem value="In Progress">In Progress</MenuItem>
-            </Select>
-          </FormControl>
-
           <button
             type="submit"
             className="bg-teal-500 text-white py-3 rounded-md font-semibold hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"

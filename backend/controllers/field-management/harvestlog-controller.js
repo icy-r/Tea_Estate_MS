@@ -20,7 +20,7 @@ async function create(req, res) {
 
       if (field) {
         if (damagedPercentage > 30) {
-          field.fieldStatus = "Needs Maintenance";
+          field.fieldStatus = "In Progress";
 
           // Update fertilizer schedule for poor-quality harvests
           await updateFertilizerSchedule(log.fieldName, damagedPercentage);
@@ -36,7 +36,7 @@ async function create(req, res) {
               field.name
             }" has ${damagedPercentage.toFixed(
               2
-            )}% damaged crops and has been marked as "Needs Maintenance". The fertilizer schedule has been automatically updated. Please take necessary actions.`;
+            )}% damaged crops and has been marked as "In Progress". The fertilizer schedule has been automatically updated.`;
 
             try {
               await sendWhatsAppMessage(supervisor.phoneNumber, message);

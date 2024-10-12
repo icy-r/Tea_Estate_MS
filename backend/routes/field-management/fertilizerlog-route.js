@@ -12,4 +12,10 @@ router.use(decodeUserFromToken);
 // create for creating a new fertilizer log defined in ferlizerLogController
 router.post("/", checkAuth, ferlizerLogController.createFertilizerLog);
 
+// index for getting all machines defined in ferlizerLogController
+router.get("/", ferlizerLogController.indexFertilizerLogs);
+
+// show for getting a single machine defined in ferlizerLogController
+router.get("/:id", ferlizerLogController.showFertilizerLogs);
+
 export { router };

@@ -6,7 +6,7 @@ import CreateFuel from './../components/fuel/CreateFuel';
 import CreateUtilities from './../components/utilities/CreateUtilities';
 import axios from "../../../services/axios.js";
 
-const CreateInventory = () => {
+const CreateTest = () => {
     const [openTeaDialog, setOpenTeaDialog] = useState(false);
     const [openFertDialog, setOpenFertDialog] = useState(false);
     const [openFuelDialog, setOpenFuelDialog] = useState(false);
@@ -69,4 +69,4 @@ const CreateInventory = () => {
     );
 };
 
-export default CreateInventory;
+export default CreateTest;

@@ -28,8 +28,7 @@ const router = createBrowserRouter([
   },
   {  
     path: "/add-applicant",
-     element: <CareerVacancy/>
-  },
+     element: <CareerVacancy/>},
   {
     path: "*",
     element: <Error404 />,

@@ -7,7 +7,7 @@ async function index(req, res) {
     const inventory = await Inventory.find({});
     res.json(inventory);
   } catch (error) {
-    res.status(500).json({ error: error });
+    res.status(500).json({ error: error });z
   }
 }
 

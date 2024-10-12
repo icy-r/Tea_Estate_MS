@@ -22,8 +22,8 @@ const validateInventory = [
 
 router.get('/', inventoryController.index);
 router.get('/:id', inventoryController.show);
-router.post('/', checkAuth, validateInventory, inventoryController.create);
-router.put('/:id', checkAuth, validateInventory, inventoryController.update);
-router.delete('/:id', checkAuth, inventoryController.destroy);
+router.post('/',  validateInventory, inventoryController.create);
+router.put('/:id', validateInventory, inventoryController.update);
+router.delete('/:id',  inventoryController.destroy);
 
 export { router };

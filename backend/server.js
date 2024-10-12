@@ -11,13 +11,16 @@ import "./config/database.js";
 
 // import routes
 
+//inventory-management
 import { router as inventoryRoute } from './routes/inventory-management/inventory-route.js';
+import { router as teaInventoryRoute } from './routes/inventory-management/inventory-teaRoute.js';
+import { router as fertInventoryRoute } from './routes/inventory-management/inventory-fertRoute.js';
+import { router as fuelInventoryRoute } from './routes/inventory-management/inventory-fuelRoute.js';
+import { router as utilitiesInventoryRoute } from './routes/inventory-management/inventory-utilitiesRoute.js';
 
 import { router as invoicesRouter } from './routes/sales-management/invoices-route.js'
-=======
-import { router as invoicesRouter } from "./routes/sales-management/invoices-route.js";
 
->>>>>>> db1774206ff14dcc0287b86bdece937150fb98b2
+
 //user-management
 
 //transport-management
@@ -127,7 +130,13 @@ app.use("/api/invoices", invoicesRouter);
 // app.use("/api/supplier", supplierRouter);
 app.use("/api/supplierManager", supplierManagerRouter);
 app.use("/api/supply", supplyRouter);
-//employee-management
+
+//inventory-management
+app.use("/api/inventory", inventoryRoute);
+app.use("/api/tea", teaInventoryRoute);
+app.use("/api/fuel", fuelInventoryRoute);
+app.use("/api/fert", fertInventoryRoute);
+app.use("/api/utilities", utilitiesInventoryRoute);
 
 //employee-management
 app.use('/api/empManagement' , EmployeeManagement)

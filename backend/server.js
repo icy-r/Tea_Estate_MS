@@ -10,9 +10,19 @@ import nodemailer from "nodemailer";
 import "./config/database.js";
 
 // import routes
-import { router as invoicesRouter } from "./routes/sales-management/invoices-route.js";
+
+//inventory-management
+import { router as inventoryRoute } from './routes/inventory-management/inventory-route.js';
+import { router as teaInventoryRoute } from './routes/inventory-management/inventory-teaRoute.js';
+import { router as fertInventoryRoute } from './routes/inventory-management/inventory-fertRoute.js';
+import { router as fuelInventoryRoute } from './routes/inventory-management/inventory-fuelRoute.js';
+import { router as utilitiesInventoryRoute } from './routes/inventory-management/inventory-utilitiesRoute.js';
+
+import { router as invoicesRouter } from './routes/sales-management/invoices-route.js'
+
 
 //user-management
+
 //transport-management
 import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js'
 import { router as routeRouter } from './routes/transport-management/route-route.js'
@@ -63,6 +73,7 @@ import { router as supplierRouter } from "./routes/supply-management/supplier-ro
 import { router as supplierManagerRouter } from "./routes/supply-management/supplier-manager-route.js";
 import { router as supplyRouter } from "./routes/supply-management/supply-route.js";
 import { log } from 'console'
+
 
 // create the express app
 const app = express();
@@ -119,7 +130,13 @@ app.use("/api/invoices", invoicesRouter);
 // app.use("/api/supplier", supplierRouter);
 app.use("/api/supplierManager", supplierManagerRouter);
 app.use("/api/supply", supplyRouter);
-//employee-management
+
+//inventory-management
+app.use("/api/inventory", inventoryRoute);
+app.use("/api/tea", teaInventoryRoute);
+app.use("/api/fuel", fuelInventoryRoute);
+app.use("/api/fert", fertInventoryRoute);
+app.use("/api/utilities", utilitiesInventoryRoute);
 
 //employee-management
 app.use('/api/empManagement' , EmployeeManagement)

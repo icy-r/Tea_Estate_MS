@@ -9,9 +9,11 @@ import { Route, Routes } from "react-router-dom";
 import { createContext, useState } from "react";
 import * as authService from "../services/auth-service.js";
 import ProtectedRoutes from "../Routes/ProtectedRoutes.jsx";  
+import InventoryDashboard from "../components/inventory-management/pages/InventoryDashboard.jsx";
 import BuyerRoutes from "../components/product-management/BuyerRoutes.jsx";
 import AdminLogin from "./login/AdminLogin.jsx";
 import LandingPage from "./landingPage/LandingPage.jsx";
+import CreateInventory from '../components/inventory-management/components/CreateInventory.jsx';
 
 
 import FunctionCard from "../components/dashboard/component/FunctionCard.jsx";
@@ -37,6 +39,7 @@ function App() {
       <UserContext.Provider value={{ user, setUser }}>
         <Routes>
           {/* Public Routes */}
+          <Route path="/createinventory" element={<CreateInventory />}/>
           <Route
             path="auth/login"
             element={<AdminLogin handleAuthEvt={handleAuthEvt} />}
@@ -68,6 +71,14 @@ function App() {
                 <FieldRoutes />
               </ProtectedRoutes>
             }
+          />
+          <Route
+            path="/inventory/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <InventoryDashboard/>
+              </ProtectedRoutes>
+              }
           />
           <Route
             path="/transport/*"

@@ -16,7 +16,6 @@ const RepairRequests = ({ driverId }) => {
     description: "",
     location: "",
   });
-  const [confirmationMessage, setConfirmationMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState({ open: false, message: "", severity: "" });
   const [dialogOpen, setDialogOpen] = useState(false); // State to control dialog open/close
@@ -87,10 +86,11 @@ const RepairRequests = ({ driverId }) => {
     }
 
     try {
-      await axios.post("requestmaintenance/", formData);
-      
-      // Update vehicle status to "Maintenance"
-      await axios.put(`/vehicles/${vehicleId}`, { status: "Maintenance" });
+      // Send the repair request
+      await axios.post("/requestmaintenance/", formData);
+
+      // Update the vehicle's status to "Unavailable" after reporting the issue
+      await axios.put(`/vehicles/${vehicleDetails.id}`, { status: "Maintenance" });
 
       // Reset form data
       setFormData({
@@ -102,13 +102,12 @@ const RepairRequests = ({ driverId }) => {
       // Show success message in Snackbar
       setAlert({
         open: true,
-        message: "Issue reported successfully! Vehicle status updated to Maintenance.",
+        message: "Issue reported successfully! Vehicle status updated to Unavailable.",
         severity: "success",
       });
 
       // Refresh vehicle details to reflect the updated status
       fetchVehicleDetails(driverId);
-
     } catch (error) {
       console.error("Error reporting issue:", error);
       setAlert({

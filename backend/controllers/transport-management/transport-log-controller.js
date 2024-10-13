@@ -1,5 +1,5 @@
 import { TransportLog } from '../../models/transport-management/transport-log-model.js';
-import { Transport } from '../../models/transport-management/Transport-model.js'; 
+import { Transport } from "../../models/transport-management/transport-model.js"; 
 import { Notification } from "../../models/repair-management/notification-model.js";
 
 // Function to schedule transports and log them

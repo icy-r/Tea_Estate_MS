@@ -21,7 +21,6 @@ const supplierManagerSchema = new Schema (
 );
 
 
-
 const SupplierManager = mongoose.model("SupplierManager", supplierManagerSchema);
 
 export { SupplierManager };

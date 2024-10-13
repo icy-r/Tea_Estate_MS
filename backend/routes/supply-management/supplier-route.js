@@ -8,12 +8,12 @@ const router = Router();
 
 
 /*---------- Protected Routes ----------*/
-// router.use(decodeUserFromToken)
+ router.use(decodeUserFromToken)
 // index for getting all suppliers defined in supplierController
-router.get("/", supplierController.index);
+router.get("/",checkAuth, supplierController.index);
 
 // show for getting a single supplier defined in supplierController
-router.get("/:id", supplierController.show);
+router.get("/:id",checkAuth, supplierController.show);
 
 // create for creating a new supplier defined in supplierController
 router.post("/", checkAuth, supplierController.create);

@@ -21,7 +21,7 @@ const menuItems = [
   {
     name: "Harvest Management",
     subItems: [
-      { name: "Add Harvest", link: "field/add-harvest", active: true },
+      { name: "Add Harvest", link: "field/add-harvest" },
       { name: "View Harvest", link: "field/view-harvest" },
     ],
   },

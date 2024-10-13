@@ -1,72 +1,83 @@
 import React, { useState } from 'react';
-import { Button, Typography, Box } from '@mui/material';
-import CreateTea from '../components/tea/CreateTea';
-import CreateFert from './../components/fertilizer/CreateFert';
-import CreateFuel from './../components/fuel/CreateFuel';
-import CreateUtilities from './../components/utilities/CreateUtilities';
-import axios from "../../../services/axios.js";
+import { Button, Box, Typography } from '@mui/material';
+import ReportTea from '../components/tea/ReportTea'; 
+import ReportFuel from '../components/fuel/ReportFuel'; 
+import ReportFert from '../components/fertilizer/ReportFert'; 
+import ReportUtilities from '../components/utilities/ReportUtilities'; // Import ReportUtilities
 
-const CreateTest = () => {
-    const [openTeaDialog, setOpenTeaDialog] = useState(false);
-    const [openFertDialog, setOpenFertDialog] = useState(false);
-    const [openFuelDialog, setOpenFuelDialog] = useState(false);
-    const [openUtilityDialog, setOpenUtilityDialog] = useState(false);
+const GenerateReports = () => {
+  const [currentTable, setCurrentTable] = useState(null);
 
-    const handleOpenTea = () => setOpenTeaDialog(true);
-    const handleCloseTea = () => setOpenTeaDialog(false);
+  // Function to show the ReportTea component
+  const handleShowTea = () => {
+    setCurrentTable('Tea');
+  };
 
-    const handleOpenFert = () => setOpenFertDialog(true);
-    const handleCloseFert = () => setOpenFertDialog(false);
+  // Function to show the ReportFuel component
+  const handleShowFuel = () => {
+    setCurrentTable('Fuel');
+  };
 
-    const handleOpenFuel = () => setOpenFuelDialog(true);
-    const handleCloseFuel = () => setOpenFuelDialog(false);
+  // Function to show the ReportFert component
+  const handleShowFert = () => {
+    setCurrentTable('Fertilizer');
+  };
 
-    const handleOpenUtility = () => setOpenUtilityDialog(true);
-    const handleCloseUtility = () => setOpenUtilityDialog(false);
+  // Function to show the ReportUtilities component
+  const handleShowUtilities = () => {
+    setCurrentTable('Utilities');
+  };
 
-    return (
-        <Box sx={{ padding: '20px' }}>
-            <Typography variant="h4" sx={{ marginBottom: '20px' }}>
-                Create Inventory
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px', marginBottom: '20px' }}>
-                <Button 
-                    variant="contained" 
-                    onClick={handleOpenTea}
-                    sx={{ backgroundColor: '#4CAF50', '&:hover': { backgroundColor: '#45a049' } }}
-                >
-                    Create Tea
-                </Button>
-                <Button 
-                    variant="contained" 
-                    onClick={handleOpenFert}
-                    sx={{ backgroundColor: '#4CAF50', '&:hover': { backgroundColor: '#45a049' } }}
-                >
-                    Create Fertilizer
-                </Button>
-                <Button 
-                    variant="contained" 
-                    onClick={handleOpenFuel}
-                    sx={{ backgroundColor: '#4CAF50', '&:hover': { backgroundColor: '#45a049' } }}
-                >
-                    Create Fuel
-                </Button>
-                <Button 
-                    variant="contained" 
-                    onClick={handleOpenUtility}
-                    sx={{ backgroundColor: '#4CAF50', '&:hover': { backgroundColor: '#45a049' } }}
-                >
-                    Create Utility
-                </Button>
-            </Box>
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-semibold mb-4">Generate Reports</h1>
 
-            {/* Dialogs for each create form */}
-            <CreateTea open={openTeaDialog} onClose={handleCloseTea} />
-            <CreateFert open={openFertDialog} onClose={handleCloseFert} />
-            <CreateFuel open={openFuelDialog} onClose={handleCloseFuel} />
-            <CreateUtilities open={openUtilityDialog} onClose={handleCloseUtility} />
-        </Box>
-    );
+      {/* Inventory Selection Buttons */}
+      <Box sx={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleShowTea}
+        >
+          Tea
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleShowFuel}
+        >
+          Fuel
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleShowFert}
+        >
+          Fertilizer
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleShowUtilities} // Add button for Utilities
+        >
+          Utilities
+        </Button>
+      </Box>
+
+      {/* Conditional Rendering of Report Components */}
+      {currentTable === 'Tea' && <ReportTea />}
+      {currentTable === 'Fuel' && <ReportFuel />}
+      {currentTable === 'Fertilizer' && <ReportFert />}
+      {currentTable === 'Utilities' && <ReportUtilities />} {/* Render ReportUtilities when selected */}
+
+      {/* Message when no table is selected */}
+      {!currentTable && (
+        <Typography variant="body2" style={{ marginTop: '20px' }}>
+          Please select an inventory type to display the report.
+        </Typography>
+      )}
+    </div>
+  );
 };
 
-export default CreateTest;
+export default GenerateReports;

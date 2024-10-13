@@ -68,9 +68,15 @@ export default function CreateFert({ open, onClose, fetchFert }) {
         const validationErrors = {};
         if (!formValues.fertilizerName) validationErrors.fertilizerName = "Fertilizer Name is required";
         if (!formValues.fertilizerType) validationErrors.fertilizerType = "Fertilizer Type is required";
-        if (!formValues.quantityInStock || isNaN(formValues.quantityInStock)) validationErrors.quantityInStock = "Quantity must be a valid number";
-        if (!formValues.dailyDistributionAmount || isNaN(formValues.dailyDistributionAmount)) validationErrors.dailyDistributionAmount = "Daily Distribution Amount must be a valid number";
-        if (!formValues.minimumLevel || isNaN(formValues.minimumLevel)) validationErrors.minimumLevel = "Minimum Level must be a valid number";
+        if (!formValues.quantityInStock || isNaN(formValues.quantityInStock) || formValues.quantityInStock <= 0) {
+            validationErrors.quantityInStock = "Quantity must be a positive number";
+        }
+        if (!formValues.dailyDistributionAmount || isNaN(formValues.dailyDistributionAmount) || formValues.dailyDistributionAmount <= 0) {
+            validationErrors.dailyDistributionAmount = "Distribution Amount must be a positive number";
+        }
+        if (!formValues.minimumLevel || isNaN(formValues.minimumLevel) || formValues.minimumLevel <= 0) {
+            validationErrors.minimumLevel = "Minimum Level must be a positive number";
+        }
     
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
@@ -104,6 +110,7 @@ export default function CreateFert({ open, onClose, fetchFert }) {
 
     const handleClear = () => {
         setFormValues({
+            fertilizerId: formValues.fertilizerId,
             fertilizerName: '',
             fertilizerType: '',
             quantityInStock: '',

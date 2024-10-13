@@ -33,7 +33,6 @@ export default function CreateTea({ open, onClose, fetchTea }) {
                     setFormValues((prev) => ({ ...prev, teaId: response.data.teaId })); // Set the teaId
                 } catch (error) {
                     console.error("Error fetching tea ID:", error);
-                    // Optionally handle error state or fallback logic here
                 }
 
                 // Resetting other fields and errors after fetching teaId
@@ -68,11 +67,17 @@ export default function CreateTea({ open, onClose, fetchTea }) {
         event.preventDefault();
     
         const validationErrors = {};
+        
+        // Check for null values
         if (!formValues.teaName) validationErrors.teaName = "Tea Name is required";
         if (!formValues.teaGrade) validationErrors.teaGrade = "Tea Grade is required";
-        if (!formValues.quantityInStock || isNaN(formValues.quantityInStock)) validationErrors.quantityInStock = "Quantity must be a valid number";
+        if (!formValues.quantityInStock || isNaN(formValues.quantityInStock) || formValues.quantityInStock <= 0) {
+            validationErrors.quantityInStock = "Quantity must be a positive number";
+        }
         if (!formValues.addedDate) validationErrors.addedDate = "Added Date is required";
-        if (!formValues.minimumLevel || isNaN(formValues.minimumLevel)) validationErrors.minimumLevel = "Minimum Level must be a valid number";
+        if (!formValues.minimumLevel || isNaN(formValues.minimumLevel) || formValues.minimumLevel <= 0) {
+            validationErrors.minimumLevel = "Minimum Level must be a positive number";
+        }
     
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
@@ -102,6 +107,7 @@ export default function CreateTea({ open, onClose, fetchTea }) {
 
     const handleClear = () => {
         setFormValues({
+            teaId: formValues.teaId,
             teaName: '',
             teaGrade: '',
             quantityInStock: '',

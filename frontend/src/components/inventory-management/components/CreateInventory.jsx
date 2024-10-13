@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Typography, Box } from '@mui/material';
+import { Button, Box } from '@mui/material';
 import CreateTea from '../components/tea/CreateTea';
 import CreateFert from './../components/fertilizer/CreateFert';
 import CreateFuel from './../components/fuel/CreateFuel';
 import CreateUtilities from './../components/utilities/CreateUtilities';
-import axios from "../../../services/axios.js";
 
 const CreateInventory = () => {
     const [openTeaDialog, setOpenTeaDialog] = useState(false);
@@ -26,9 +25,7 @@ const CreateInventory = () => {
 
     return (
         <Box sx={{ padding: '20px' }}>
-            <Typography variant="h4" sx={{ marginBottom: '20px' }}>
-                Create Inventory
-            </Typography>
+            <h1 className="text-2xl font-semibold mb-4">Create Inventory</h1>
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: '10px', marginBottom: '20px' }}>
                 <Button 
                     variant="contained" 

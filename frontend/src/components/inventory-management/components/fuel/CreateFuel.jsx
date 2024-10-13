@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import axios from '../../../../services/axios.js';
 
-export default function CreateFuel({ open, onClose, fetchFuel }) {
+export default function CreateFuel({ open = false, onClose = () => {}, fetchFuel = () => {} }) {
     const [formValues, setFormValues] = useState({
         fuelId: '',
         fuelType: '',
@@ -28,15 +28,14 @@ export default function CreateFuel({ open, onClose, fetchFuel }) {
         const fetchFuelId = async () => {
             if (open) {
                 try {
-                    const response = await axios.get('/fuel/latest-id'); // Fetch the next fuelId
-                    setFormValues((prev) => ({ 
-                        ...prev, 
-                        fuelId: response.data.fuelId, // Set the fetched fuelId
-                        fuelType: '', // Reset other fields
+                    const response = await axios.get('/fuel/latest-id');
+                    setFormValues({
+                        fuelId: response.data.fuelId,
+                        fuelType: '',
                         quantityInStock: '',
                         dailyDistributionAmount: '',
                         minimumLevel: '',
-                    })); 
+                    });
                 } catch (error) {
                     console.error("Error fetching fuel ID:", error);
                 }
@@ -64,9 +63,15 @@ export default function CreateFuel({ open, onClose, fetchFuel }) {
 
         const validationErrors = {};
         if (!formValues.fuelType) validationErrors.fuelType = "Fuel Type is required";
-        if (!formValues.quantityInStock || isNaN(formValues.quantityInStock)) validationErrors.quantityInStock = "Quantity must be a valid number";
-        if (!formValues.dailyDistributionAmount || isNaN(formValues.dailyDistributionAmount)) validationErrors.dailyDistributionAmount = "Daily Distribution Amount must be a valid number";
-        if (!formValues.minimumLevel || isNaN(formValues.minimumLevel)) validationErrors.minimumLevel = "Minimum Level must be a valid number";
+        if (!formValues.quantityInStock || isNaN(formValues.quantityInStock) || formValues.quantityInStock <= 0) {
+            validationErrors.quantityInStock = "Quantity must be a positive number";
+        }
+        if (!formValues.dailyDistributionAmount || isNaN(formValues.dailyDistributionAmount) || formValues.dailyDistributionAmount <= 0) {
+            validationErrors.dailyDistributionAmount = "Distribution Amount must be a positive number";
+        }
+        if (!formValues.minimumLevel || isNaN(formValues.minimumLevel) || formValues.minimumLevel <= 0) {
+            validationErrors.minimumLevel = "Minimum Level must be a positive number";
+        }
 
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
@@ -81,25 +86,18 @@ export default function CreateFuel({ open, onClose, fetchFuel }) {
                 minimumLevel: Number(formValues.minimumLevel),
             });
             alert('Fuel created successfully!');
-            console.log("Fuel created:", response.data);
-
             if (fetchFuel) fetchFuel();
-            
-            // Clear the form after successful submission
-            handleClear(); // Call handleClear to reset form values
-            onClose();
+            handleClear(); // Clear form values after successful submission
+            onClose(); // Close the dialog
         } catch (error) {
             console.error("Error saving fuel:", error);
-            if (error.response && error.response.data.error) {
-                alert(error.response.data.error);
-            } else {
-                alert('Error saving data. Please try again.');
-            }
+            alert('Error saving data. Please try again.');
         }
     };
 
     const handleClear = () => {
         setFormValues({
+            fuelId: formValues.fuelId, 
             fuelType: '',
             quantityInStock: '',
             dailyDistributionAmount: '',
@@ -117,8 +115,8 @@ export default function CreateFuel({ open, onClose, fetchFuel }) {
                         <FormLabel required>Fuel ID</FormLabel>
                         <TextField
                             name="fuelId"
-                            value={formValues.fuelId} // Ensure fuelId is displayed
-                            disabled // Disable input
+                            value={formValues.fuelId}
+                            disabled
                             fullWidth
                         />
                     </FormControl>
@@ -127,7 +125,7 @@ export default function CreateFuel({ open, onClose, fetchFuel }) {
                         <FormLabel required>Fuel Type</FormLabel>
                         <Select
                             name="fuelType"
-                            value={formValues.fuelType || ''} // Ensure it's always a string
+                            value={formValues.fuelType || ''}
                             onChange={handleChange}
                             displayEmpty
                         >
@@ -145,7 +143,7 @@ export default function CreateFuel({ open, onClose, fetchFuel }) {
                         <TextField
                             name="quantityInStock"
                             type="number"
-                            value={formValues.quantityInStock || ''} // Ensure it's always a string
+                            value={formValues.quantityInStock || ''}
                             onChange={handleChange}
                             placeholder="Enter quantity in stock"
                             fullWidth
@@ -158,7 +156,7 @@ export default function CreateFuel({ open, onClose, fetchFuel }) {
                         <TextField
                             name="dailyDistributionAmount"
                             type="number"
-                            value={formValues.dailyDistributionAmount || ''} // Ensure it's always a string
+                            value={formValues.dailyDistributionAmount || ''}
                             onChange={handleChange}
                             placeholder="Enter daily distribution amount"
                             fullWidth
@@ -171,7 +169,7 @@ export default function CreateFuel({ open, onClose, fetchFuel }) {
                         <TextField
                             name="minimumLevel"
                             type="number"
-                            value={formValues.minimumLevel || ''} // Ensure it's always a string
+                            value={formValues.minimumLevel || ''}
                             onChange={handleChange}
                             placeholder="Enter minimum level"
                             fullWidth

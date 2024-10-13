@@ -69,9 +69,15 @@ export default function CreateUtility({ open, onClose, fetchUtilities }) {
         const validationErrors = {};
         if (!formValues.utilityName) validationErrors.utilityName = "Utility Name is required";
         if (!formValues.utilityType) validationErrors.utilityType = "Utility Type is required";
-        if (!formValues.quantityInStock || isNaN(formValues.quantityInStock)) validationErrors.quantityInStock = "Quantity must be a valid number";
-        if (!formValues.dailyDistributionAmount || isNaN(formValues.dailyDistributionAmount)) validationErrors.dailyDistributionAmount = "Daily Distribution Amount must be a valid number";
-        if (!formValues.minimumLevel || isNaN(formValues.minimumLevel)) validationErrors.minimumLevel = "Minimum Level must be a valid number";
+        if (!formValues.quantityInStock || isNaN(formValues.quantityInStock) || formValues.quantityInStock <= 0) {
+            validationErrors.quantityInStock = "Quantity must be a positive number";
+        }
+        if (!formValues.dailyDistributionAmount || isNaN(formValues.dailyDistributionAmount) || formValues.dailyDistributionAmount <= 0) {
+            validationErrors.dailyDistributionAmount = "Distribution Amount must be a positive number";
+        }
+        if (!formValues.minimumLevel || isNaN(formValues.minimumLevel) || formValues.minimumLevel <= 0) {
+            validationErrors.minimumLevel = "Minimum Level must be a positive number";
+        }
     
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
@@ -102,6 +108,7 @@ export default function CreateUtility({ open, onClose, fetchUtilities }) {
 
     const handleClear = () => {
         setFormValues({
+            utilityId: formValues.utilityId,
             utilityName: '',
             utilityType: '',
             quantityInStock: '',

@@ -1,142 +1,81 @@
-import React, { useEffect, useState } from 'react';
-import axios from '../../../services/axios.js';
-import { Button, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import React, { useState } from 'react';
+import { Button, Box, Typography } from '@mui/material';
+import ReportTea from '../components/tea/ReportTea'; 
+import ReportFuel from '../components/fuel/ReportFuel'; 
+import ReportFert from '../components/fertilizer/ReportFert'; 
+import ReportUtilities from '../components/utilities/ReportUtilities'; // Import ReportUtilities
 
 const GenerateReports = () => {
-  const [inventory, setInventory] = useState([]);
-  const [selectedType, setSelectedType] = useState('');
-  const [filteredInventory, setFilteredInventory] = useState([]);
+  const [currentTable, setCurrentTable] = useState(null);
 
-  const inventoryTypes = ['Tea', 'Fertilizer', 'Fuel', 'Utilities'];
-
-  const fetchDetails = async () => {
-    try {
-      const response = await axios.get("/inventory/");
-      setInventory(response.data);
-      setFilteredInventory(response.data); // Initialize with all inventory
-    } catch (error) {
-      console.error("Error fetching inventory data:", error);
-    }
+  // Function to show the ReportTea component
+  const handleShowTea = () => {
+    setCurrentTable('Tea');
   };
 
-  useEffect(() => {
-    fetchDetails();
-  }, []);
-
-  const handleSearch = () => {
-    let results = inventory;
-
-    // Filter by type
-    if (selectedType) {
-      results = results.filter(item => item.type === selectedType);
-    }
-
-    setFilteredInventory(results);
+  // Function to show the ReportFuel component
+  const handleShowFuel = () => {
+    setCurrentTable('Fuel');
   };
 
-  const handleClear = () => {
-    setSelectedType('');
-    setFilteredInventory(inventory); // Reset to all items
+  // Function to show the ReportFert component
+  const handleShowFert = () => {
+    setCurrentTable('Fertilizer');
   };
 
-  const handleGenerateReport = () => {
-    const doc = new jsPDF();
-    doc.autoTable({
-      head: [['Inventory ID', 'Name', 'Type', 'Quantity', 'Purchase Date', 'Minimum Level']],
-      body: filteredInventory.map(item => [
-        item.inventoryId,
-        item.name,
-        item.type,
-        item.quantity,
-        new Date(item.purchaseDate).toLocaleDateString(),
-        item.minLevel
-      ]),
-    });
-    doc.text("Inventory Report", 15, 10);
-    doc.save('inventory_report.pdf');
+  // Function to show the ReportUtilities component
+  const handleShowUtilities = () => {
+    setCurrentTable('Utilities');
   };
 
   return (
     <div className="p-8">
       <h1 className="text-2xl font-semibold mb-4">Generate Reports</h1>
 
-      {/* Search Section */}
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-        <FormControl variant="outlined" size="medium" style={{ marginRight: '10px', minWidth: 200 }}>
-          <InputLabel id="select-type-label">Select Type</InputLabel>
-          <Select
-            labelId="select-type-label"
-            value={selectedType}
-            onChange={(e) => setSelectedType(e.target.value)}
-            label="Select Type"
-          >
-            <MenuItem value="">
-              <em>Select Type</em>
-            </MenuItem>
-            {inventoryTypes.map(type => (
-              <MenuItem key={type} value={type}>{type}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+      {/* Inventory Selection Buttons */}
+      <Box sx={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
         <Button
           variant="contained"
           color="primary"
-          onClick={handleSearch}
-          style={{ marginRight: '10px' }}
+          onClick={handleShowTea}
         >
-          Search
-        </Button>
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={handleClear}
-        >
-          Clear
+          Tea
         </Button>
         <Button
           variant="contained"
-          color="success"
-          onClick={handleGenerateReport}
-          style={{ marginLeft: '10px' }}
+          color="primary"
+          onClick={handleShowFuel}
         >
-          Generate Report
+          Fuel
         </Button>
-      </div>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleShowFert}
+        >
+          Fertilizer
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleShowUtilities} // Add button for Utilities
+        >
+          Utilities
+        </Button>
+      </Box>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white">
-          <thead>
-            <tr className="w-full bg-teal-500 text-white">
-              <th className="py-2 px-4 text-left">Inventory ID</th>
-              <th className="py-2 px-4 text-left">Name</th>
-              <th className="py-2 px-4 text-left">Type</th>
-              <th className="py-2 px-4 text-left">Quantity</th>
-              <th className="py-2 px-4 text-left">Purchase Date</th>
-              <th className="py-2 px-4 text-left">Minimum Level</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredInventory.length > 0 ? (
-              filteredInventory.map((item) => (
-                <tr key={item.inventoryId} className="hover:bg-gray-100">
-                  <td className="py-2 px-4 border">{item.inventoryId}</td>
-                  <td className="py-2 px-4 border">{item.name}</td>
-                  <td className="py-2 px-4 border">{item.type}</td>
-                  <td className="py-2 px-4 border">{item.quantity}</td>
-                  <td className="py-2 px-4 border">{new Date(item.purchaseDate).toLocaleDateString()}</td>
-                  <td className="py-2 px-4 border">{item.minLevel}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="6" className="text-center py-4">No inventory items available</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+      {/* Conditional Rendering of Report Components */}
+      {currentTable === 'Tea' && <ReportTea />}
+      {currentTable === 'Fuel' && <ReportFuel />}
+      {currentTable === 'Fertilizer' && <ReportFert />}
+      {currentTable === 'Utilities' && <ReportUtilities />} {/* Render ReportUtilities when selected */}
+
+      {/* Message when no table is selected */}
+      {!currentTable && (
+        <Typography variant="body2" style={{ marginTop: '20px' }}>
+          Please select an inventory type to display the report.
+        </Typography>
+      )}
     </div>
   );
 };

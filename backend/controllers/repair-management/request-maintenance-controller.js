@@ -7,6 +7,7 @@ export const create = async (req, res) => {
     await maintenanceRequest.save();
     res.status(201).json(maintenanceRequest);
   } catch (error) {
+    console.log(req.body);
     res.status(500).json({ error: error.message });
   }
 };

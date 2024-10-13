@@ -37,6 +37,7 @@ async function update(req, res) {
     await vehicle.save();
     res.json(vehicle);
   } catch (error) {
+    console.log("hi");
     res.status(400).json({ error: error });
   }
 }

@@ -13,6 +13,7 @@ import {
   Card,
   CardContent,
   CardMedia,
+  Autocomplete,
 } from '@mui/material';
 
 const VehiclePortal = ({ vehicle_id, isSearchOpen = true }) => {
@@ -20,6 +21,7 @@ const VehiclePortal = ({ vehicle_id, isSearchOpen = true }) => {
   const [vehicleDetails, setVehicleDetails] = useState(null);
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState({ open: false, message: '', severity: 'success' });
+  const [vehicleIdSuggestions, setVehicleIdSuggestions] = useState([]); // To store vehicle ID suggestions
 
   useEffect(() => {
     if (vehicle_id) {
@@ -27,6 +29,21 @@ const VehiclePortal = ({ vehicle_id, isSearchOpen = true }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vehicle_id]);
+
+  // Fetch all vehicle IDs for autocomplete suggestions
+  useEffect(() => {
+    const fetchVehicleIds = async () => {
+      try {
+        const response = await axios.get('/vehicles');
+        // Assuming the response is an array of vehicle objects with an 'id' field
+        setVehicleIdSuggestions(response.data.map((vehicle) => vehicle.id));
+      } catch (error) {
+        console.error('Error fetching vehicle IDs:', error);
+      }
+    };
+
+    fetchVehicleIds();
+  }, []);
 
   const fetchVehicleDetails = async (id) => {
     setLoading(true);
@@ -69,9 +86,11 @@ const VehiclePortal = ({ vehicle_id, isSearchOpen = true }) => {
   return (
     <div style={{ padding: '32px' }}>
       {/* Page Title */}
-      <Typography variant="h4" component="h1" gutterBottom>
-        Vehicle Portal
-      </Typography>
+      <div className='px-32'>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Vehicle Portal
+        </Typography>
+      </div>
 
       {/* Alert for feedback */}
       {alert.open && (
@@ -86,29 +105,39 @@ const VehiclePortal = ({ vehicle_id, isSearchOpen = true }) => {
 
       {/* Conditionally render the search bar based on isSearchOpen */}
       {isSearchOpen && (
-        <Grid container spacing={2} alignItems="center" sx={{ mb: 4 }}>
-          <Grid item xs={12} sm={8}>
-            <TextField
-              label="Enter Vehicle ID"
-              variant="outlined"
-              fullWidth
-              value={searchId}
-              onChange={(e) => setSearchId(e.target.value)}
-              onKeyPress={handleKeyPress}
-            />
+        <div className='px-32'>
+          <Grid container spacing={2} alignItems="center" sx={{ mb: 4 }}>
+            <Grid item xs={12} sm={8}>
+              {/* Autocomplete for smart suggestions */}
+              <Autocomplete
+                freeSolo
+                options={vehicleIdSuggestions}
+                inputValue={searchId}
+                onInputChange={(event, newInputValue) => {
+                  setSearchId(newInputValue);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Enter Vehicle ID"
+                    variant="outlined"
+                    fullWidth
+                    onKeyPress={handleKeyPress}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Button
+               variant="contained" color="secondary" style={{ marginRight: '10px', backgroundColor: '#15F5BA', boxShadow: 'none', color: 'black'}}
+                onClick={handleSearch}
+                disabled={loading}
+              >
+                {loading ? <CircularProgress size={24} color="inherit" /> : 'Search'}
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={4}>
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              onClick={handleSearch}
-              disabled={loading}
-            >
-              {loading ? <CircularProgress size={24} color="inherit" /> : 'Search'}
-            </Button>
-          </Grid>
-        </Grid>
+        </div>
       )}
 
       {/* Display Vehicle Details */}

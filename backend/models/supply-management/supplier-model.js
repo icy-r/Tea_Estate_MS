@@ -11,6 +11,7 @@ const supplierSchema = new Schema (
     lname: String,
     nic: String,
     companyAddress: String,
+    supplyType: String,
     password: String,
     companyName: String,
     contactNum: String,
@@ -20,8 +21,6 @@ const supplierSchema = new Schema (
     timestamps: true, 
 }
 );
-
-
 
 const Supplier = mongoose.model("Supplier", supplierSchema);
 

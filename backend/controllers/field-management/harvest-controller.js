@@ -3,6 +3,7 @@ import { Field } from "../../models/field-management/field-model.js";
 import { Labour } from "../../models/field-management/labour-model.js";
 import { Fertilizer } from "../../models/field-management/fertilizer-model.js";
 
+
 async function index(req, res) {
   try {
     //get all harvests

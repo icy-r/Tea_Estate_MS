@@ -20,6 +20,13 @@ const Header = ({ mainTitle, subTitle, toggleSidebar }) => {
     navigate("/");
   };
 
+  // Get the current path and split by '/'
+const currentPath = window.location.pathname;
+const pathArray = currentPath.split('/').filter(Boolean); // Remove empty elements
+
+
+
+
   useEffect(() => {
     const fetchNotifications = async () => {
       setIsLoading(true);
@@ -45,7 +52,7 @@ const Header = ({ mainTitle, subTitle, toggleSidebar }) => {
 
   const markAsRead = async (id) => {
     try {
-      await axios.put(`/api/notifications/${id}/read`);
+      await axios.put(`notifications/${id}/read`);
       setNotifications((prevNotifications) =>
         prevNotifications.map((n) =>
           n._id === id ? { ...n, isRead: true } : n
@@ -66,8 +73,21 @@ const Header = ({ mainTitle, subTitle, toggleSidebar }) => {
 
       {/* Middle Section (Remaining space, content aligned to the left) */}
       <div className="flex-grow flex items-center space-x-4 pl-4">
-        <h1 className="text-xs">
-          {mainTitle} &gt; <span className="text-action">{subTitle}</span>
+        <h1 className="">
+
+          <div id="pathContainer">
+              {pathArray.map((part, index) => (
+                <span key={index}>
+                  {index === pathArray.length - 1 ? (
+                    <span style={{ color: 'red' }}>{part}</span> // Last item in red
+                  ) : (
+                    <span>{part}</span>
+                  )}
+                  {index !== pathArray.length - 1 && '  >  '} {/* Add a separator */}
+                </span>
+              ))}
+            </div>
+
         </h1>
       </div>
 

@@ -49,6 +49,8 @@ node_modules/
 
 #lock files in any folder
 *.lock
+*/package-lock.json
+package-lock.json
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/

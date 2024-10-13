@@ -35,7 +35,7 @@ const transportSchema = new mongoose.Schema({
   
 });
 
-const Transport = mongoose.model('Transport', transportSchema);
+const Transport = mongoose.models.Transport || mongoose.model('Transport', transportSchema);
 
 export { Transport };
 

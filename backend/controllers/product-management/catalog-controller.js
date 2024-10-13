@@ -1,6 +1,4 @@
 import {Catalog } from '../../models/product-management/catalog-model.js';
-//import catalogModel from '../models/catalog-model.js';
-
 
 async function index(req, res) {
     try {

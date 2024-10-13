@@ -144,11 +144,11 @@ const ManageRoute = () => {
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
-              <TableRow style={{ backgroundColor: '#008080' }}>
-                <TableCell style={{ color: 'white' }}>Route ID</TableCell>
-                <TableCell style={{ color: 'white' }}>Distance (km)</TableCell>
-                <TableCell style={{ color: 'white' }}>Trips Per Day Needed</TableCell>
-                <TableCell style={{ color: 'white' }} align="center">Actions</TableCell>
+              <TableRow style={{ backgroundColor: '#15F5BA'}}>
+                <TableCell style={{  }}>Route ID</TableCell>
+                <TableCell style={{}}>Distance (km)</TableCell>
+                <TableCell style={{ }}>Trips Per Day Needed</TableCell>
+                <TableCell style={{  }} align="center">Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -162,13 +162,13 @@ const ManageRoute = () => {
                       <Button
                         variant="contained"
                         onClick={() => handleUpdateOpen(route)}
-                        style={{ marginRight: '10px', backgroundColor: '#0D294D', boxShadow: '0' }}
+                        style={{ marginRight: '10px', backgroundColor: '#15F5BA', boxShadow: 'none', color: 'black'}}
                       >
                         Update
                       </Button>
                       <Button
                         variant="contained"
-                        style={{ backgroundColor: '#0D294D' }}
+                        style={{ backgroundColor: '#FA7070', color: 'black', boxShadow: 'none' }}
                         onClick={() => handleDeleteClick(route.id)}
                       >
                         Delete

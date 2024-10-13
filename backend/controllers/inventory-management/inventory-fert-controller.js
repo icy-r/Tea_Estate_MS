@@ -26,16 +26,16 @@ async function indexFert(req, res) {
     }
 }
 
-// Get a single tea item by ID
+// Get a single fertilizer item by fertilizerId
 async function showFert(req, res) {
-  try {
-      const fertilizer = await Fert.findById(req.params.id);
-      if (!fertilizer) throw new Error('Fertilizer item not found');
-      res.json(fertilizer);
-  } catch (error) {
-      res.status(404).json({ error: error.message });
-  }
-}
+    try {
+        const fertilizer = await Fert.findOne({ fertilizerId: req.params.id }); // Change here
+        if (!fertilizer) throw new Error('Fertilizer item not found');
+        res.json(fertilizer);
+    } catch (error) {
+        res.status(404).json({ error: error.message });
+    }
+  }  
 
 // Create a new fertilizer item
 async function createFert(req, res) {
@@ -71,8 +71,7 @@ async function createFert(req, res) {
   }
 }
 
-
-// Update an existing fertilizer item
+// Update an existing fertilizer item by fertilizerId
 async function updateFert(req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -80,7 +79,12 @@ async function updateFert(req, res) {
     }
 
     try {
-        const updatedFert = await Fert.findByIdAndUpdate(req.params.id,req.body, { new: true });
+        const updatedFert = await Fert.findOneAndUpdate(
+            { fertilizerId: req.params.id }, // Change here
+            req.body,
+            { new: true }
+        );
+
         if (!updatedFert) {
             return res.status(404).json({ error: 'Fertilizer item not found' });
         }
@@ -91,16 +95,18 @@ async function updateFert(req, res) {
     }
 }
 
-// Delete a fertilizer item
+
+// Delete a fertilizer item by fertilizerId
 async function destroyFert(req, res) {
     try {
-        const fertilizer = await Fert.findByIdAndDelete(req.params.id);
+        const fertilizer = await Fert.findOneAndDelete({ fertilizerId: req.params.id }); // Change here
         if (!fertilizer) throw new Error('Fertilizer item not found');
         res.json({ message: 'Fertilizer item deleted' });
     } catch (error) {
         res.status(404).json({ error: error.message });
     }
 }
+
 
 // Export all functions including generateNextFertId
 export { indexFert, showFert, createFert, updateFert, destroyFert, generateNextFertId };

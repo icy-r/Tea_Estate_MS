@@ -35,7 +35,7 @@ router.get('/latest-id', async (req, res) => {
 router.get('/', teaController.indexTea);
 router.get('/:id', teaController.showTea);
 router.post('/', validateTea, teaController.createTea);
-router.put('/:id', checkAuth, validateTea, teaController.updateTea);
-router.delete('/:id', checkAuth, teaController.destroyTea);
+router.put('/:id', validateTea, teaController.updateTea);
+router.delete('/:id', teaController.destroyTea);
 
 export { router };

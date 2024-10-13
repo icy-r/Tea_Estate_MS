@@ -29,7 +29,7 @@ async function indexTea(req, res) {
 // Get a single tea item by ID
 async function showTea(req, res) {
     try {
-        const tea = await Tea.findById(req.params.id);
+        const tea = await Tea.findOne({ teaId: req.params.id }); // Change to find by teaId
         if (!tea) throw new Error('Tea item not found');
         res.json(tea);
     } catch (error) {
@@ -79,7 +79,8 @@ async function updateTea(req, res) {
     }
 
     try {
-        const updatedTea = await Tea.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const updatedTea = await Tea.findOneAndUpdate(
+            { teaId: req.params.id }, req.body, { new: true });
         if (!updatedTea) {
             return res.status(404).json({ error: 'Tea item not found' });
         }
@@ -90,10 +91,11 @@ async function updateTea(req, res) {
     }
 }
 
+
 // Delete a tea item
 async function destroyTea(req, res) {
     try {
-        const tea = await Tea.findByIdAndDelete(req.params.id);
+        const tea = await Tea.findOneAndDelete({ teaId: req.params.id }); 
         if (!tea) throw new Error('Tea item not found');
         res.json({ message: 'Tea item deleted' });
     } catch (error) {
@@ -101,5 +103,4 @@ async function destroyTea(req, res) {
     }
 }
 
-// Export all functions including generateNextTeaId
 export { indexTea, showTea, createTea, updateTea, destroyTea, generateNextTeaId };

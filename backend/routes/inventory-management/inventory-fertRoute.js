@@ -28,7 +28,7 @@ router.get('/latest-id', async (req, res) => {
 router.get('/', fertController.indexFert);
 router.get('/:id', fertController.showFert);
 router.post('/', validateFert, fertController.createFert);
-router.put('/:id', checkAuth, validateFert, fertController.updateFert);
-router.delete('/:id', checkAuth, fertController.destroyFert);
+router.put('/:id', validateFert, fertController.updateFert);
+router.delete('/:id', fertController.destroyFert);
 
 export { router };

@@ -29,7 +29,7 @@ async function indexUtilities(req, res) {
   // Get a single utility item by ID
   async function showUtilities(req, res) {
     try {
-      const utilities = await Utilities.findById(req.params.id);
+        const utilities = await Utilities.findOne({ utilityId: req.params.id }); // Change to find by utilityId
       if (!utilities) throw new Error('Utility item not found');
       res.json(utilities);
     } catch (error) {
@@ -79,7 +79,7 @@ async function indexUtilities(req, res) {
     }
   
     try {
-      const updatedUtility = await Utilities.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const updatedUtility = await Utilities.findOneAndUpdate({ utilityId: req.params.id }, req.body, { new: true });
       if (!updatedUtility) {
           return res.status(404).json({ error: 'Utility item not found' });
       }
@@ -93,7 +93,7 @@ async function indexUtilities(req, res) {
   // Delete a utility item
   async function destroyUtilities(req, res) {
     try {
-      const utilities = await Utilities.findByIdAndDelete(req.params.id);
+        const utilities = await Utilities.findOneAndDelete({ utilityId: req.params.id });
       if (!utilities) throw new Error('Utility item not found');
       res.json({ message: 'Utility item deleted' });
     } catch (error) {

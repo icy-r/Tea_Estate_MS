@@ -37,7 +37,7 @@ router.get('/latest-id', async (req, res) => {
 router.get('/', utilitiesController.indexUtilities);
 router.get('/:id', utilitiesController.showUtilities);
 router.post('/', validateUtilities, utilitiesController.createUtilities);
-router.put('/:id', checkAuth, validateUtilities, utilitiesController.updateUtilities);
-router.delete('/:id', checkAuth, utilitiesController.destroyUtilities);
+router.put('/:id', validateUtilities, utilitiesController.updateUtilities);
+router.delete('/:id', utilitiesController.destroyUtilities);
 
 export { router };

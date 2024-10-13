@@ -39,7 +39,7 @@ router.get('/latest-id', async (req, res) => {
 router.get('/', fuelController.indexFuel);
 router.get('/:id', fuelController.showFuel);
 router.post('/', validateFuel, fuelController.createFuel);
-router.put('/:id', checkAuth, validateFuel, fuelController.updateFuel);
-router.delete('/:id', checkAuth, fuelController.destroyFuel);
+router.put('/:id',  validateFuel, fuelController.updateFuel);
+router.delete('/:id',  fuelController.destroyFuel);
 
 export { router };

@@ -21,6 +21,7 @@ const catalogMenuItems = [
         { name: "Admin Market Place", link: "product/ManageCatalog" },
         { name: "Catalog", link: "product/Catalog" },
         { name: "Wish List", link: "product/WishList" },
+        { name: "Tea Products", link: "product/TeaProducts" },
 
         
       ],

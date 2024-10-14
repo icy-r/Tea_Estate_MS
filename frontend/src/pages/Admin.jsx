@@ -11,7 +11,6 @@ import * as authService from "../services/auth-service.js";
 import ProtectedRoutes from "../Routes/ProtectedRoutes.jsx";  
 import BuyerRoutes from "../components/product-management/BuyerRoutes.jsx";
 import AdminLogin from "./login/AdminLogin.jsx";
-import LandingPage from "./landingPage/LandingPage.jsx";
 
 
 import FunctionCard from "../components/dashboard/component/FunctionCard.jsx";
@@ -19,7 +18,7 @@ import AdminDashboardLayout from "../components/layouts/AdminDashboardLayout.jsx
 import CatalogtRoutes from "../components/product-management/CatalogRoutes.jsx";
 import EmployeeRoutes from "../components/employee-management/EmployeeRoutes.jsx";
 // import LandingPage from "./landingPage/LandingPage.jsx";
-// import ProductRoutes from "../components/product-management/ProductRoutes.jsx";
+
 
 let UserContext;
 
@@ -106,7 +105,7 @@ function App() {
             path="/product/*"
             element={
               <ProtectedRoutes user={user}>
-                {/* <ProductRoutes/> */}
+               <CatalogtRoutes/>
               </ProtectedRoutes>
             }
           />

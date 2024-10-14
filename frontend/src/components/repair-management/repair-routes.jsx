@@ -13,7 +13,7 @@ import TaskPriorityManagement from "./pages/TaskPriorityManagement.jsx";
 import MaintenanceScheduler from "./pages/MaintenanceScheduler.jsx";
 import AssetDetails from "./pages/AssetDetails.jsx";
 import ViewMaintenanceDetails from "./pages/ViewMaintenanceDetails.jsx";
-
+import EditAsset from "./pages/EditAsset.jsx";
 const RepairRoutes = () => {
   return (
     <AdminDashboardLayout menu={menu}>
@@ -28,6 +28,7 @@ const RepairRoutes = () => {
         <Route path="reqmaintenance" element={<ReqMaintenance />} />
         <Route path="taskpriority" element={<TaskPriorityManagement />} />
         <Route path="scheduler" element={<MaintenanceScheduler />} />
+        <Route path="assets/edit/:id" element={<EditAsset />} />
         <Route path="assetDetails/:id" element={<AssetDetails />} />
         <Route
           path="viewmaintenance/:id"

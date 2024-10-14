@@ -7,38 +7,38 @@ const quotationSchema = new Schema({
     
   quotationId: {
     type:String,
-    required: true
+    required: false
   },
 
   callingSupplyId:{
     type: String,
-    required: true
+    required: false
   },
 
   supplierID:{
     type: String,
-    required: true
+    required: false
   },
 
   supplyType: {
     type: String,
     enum: ['fertilizer', 'chemicals', 'fuel'], // Supply types
-    required: true
+    required: false
   },
 
   quantity: {
     type: Number,
-    required: true
+    required: false
   },
 
   price:{
     type: Number,
-    required: true
+    required: false
   },
 
   status:{
     type: String,
-    required: true
+    required: false
   }
 
 }, {

@@ -6,9 +6,9 @@ const menuItems = [
     {
       name: "Supplier Home",
       subItems: [
-        { name: "Add Supply", link: "supplier/view" },
-        { name: "View Supply Requests", link: "supplier/supplycalls" },
-        { name: "Calling for Supplies", link: "supply/calling-supply" },
+        { name: "View Requests", link: "supplier/view" },
+        { name: "View open Supply Requests ", link: "supplier/supplycalls" },
+        // { name: "Calling for Supplies", link: "supply/calling-supply" },
         
         
       ],

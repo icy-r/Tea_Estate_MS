@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../../../services/axios.js';
-import { Snackbar, Alert, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Typography } from '@mui/material';
+import { Snackbar, Alert, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Typography, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 
 const CallingSupplyList = ({ supplierid }) => {
     const [supplierDetails, setSupplierDetails] = useState(null);
     const [callingSupplies, setCallingSupplies] = useState([]);
-    const [filteredSupplies, setFilteredSupplies] = useState([]); // For filtered supplies
+    const [filteredSupplies, setFilteredSupplies] = useState([]);
     const [loading, setLoading] = useState(true);
     const [alert, setAlert] = useState({ open: false, message: '', severity: 'success' });
+
+    const [openQuoteDialog, setOpenQuoteDialog] = useState(false); // State for opening send quote dialog
+    const [openViewQuoteDialog, setOpenViewQuoteDialog] = useState(false); // State for viewing/editing a quote
+
+    const [selectedSupply, setSelectedSupply] = useState(null); // State to track the supply selected for quote
+    const [quoteDetails, setQuoteDetails] = useState({ quantity: '', price: '', status: '' }); // State for the quote form
 
     const handleCloseAlert = () => {
         setAlert({ ...alert, open: false });
@@ -16,26 +22,22 @@ const CallingSupplyList = ({ supplierid }) => {
     // Fetch supplier details
     const fetchSupplierDetails = async () => {
         try {
-            const response = await axios.get(`/supplier/${supplierid}`); // Replace with the correct API endpoint
+            const response = await axios.get(`/supplier/${supplierid}`);
             setSupplierDetails(response.data[0]);
-            console.log(response.data[0]);
         } catch (error) {
             setAlert({ open: true, message: 'Error fetching supplier details', severity: 'error' });
-            console.error("Error fetching supplier details:", error);
         }
     };
 
     // Fetch calling supplies
     const fetchCallingSupplies = async () => {
         try {
-            const response = await axios.get(`/callingSupply?supplierId=${supplierid}`); // Assuming the API filters by supplierId
+            const response = await axios.get(`/callingSupply?supplierId=${supplierid}`);
             setCallingSupplies(response.data);
-            console.log(response.data[0]);
             setLoading(false);
         } catch (error) {
             setLoading(false);
             setAlert({ open: true, message: 'Error fetching calling supplies', severity: 'error' });
-            console.error("Error fetching calling supplies:", error);
         }
     };
 
@@ -49,13 +51,80 @@ const CallingSupplyList = ({ supplierid }) => {
         }
     }, [supplierDetails, callingSupplies]);
 
-    // Fetch the supplier details and calling supplies when the component mounts
     useEffect(() => {
         if (supplierid) {
             fetchSupplierDetails();
             fetchCallingSupplies();
         }
     }, [supplierid]);
+
+    // Handle dialog open for sending a quote
+    const handleOpenQuoteDialog = (supply) => {
+        setSelectedSupply(supply);
+        setOpenQuoteDialog(true);
+    };
+
+    // Handle dialog open for viewing/editing a quote
+    const handleOpenViewQuoteDialog = (supply) => {
+        setSelectedSupply(supply);
+        setOpenViewQuoteDialog(true);
+        // Fetch the existing quote details (optional)
+        fetchQuoteDetails(supply.callingSupplyId);
+    };
+
+    // Handle closing dialogs
+    const handleCloseDialogs = () => {
+        setOpenQuoteDialog(false);
+        setOpenViewQuoteDialog(false);
+        setQuoteDetails({ quantity: '', price: '', status: '' });
+    };
+
+    // Handle sending quote submission
+    const handleSendQuote = async () => {
+        try {
+            const response = await axios.post('/quotation/', {
+                callingSupplyId: selectedSupply.callingSupplyId,
+                supplierID: supplierid,
+                supplyType: selectedSupply.supplyType,
+                quantity: quoteDetails.quantity,
+                price: quoteDetails.price,
+                status: quoteDetails.status,
+            });
+            setAlert({ open: true, message: 'Quote sent successfully', severity: 'success' });
+            handleCloseDialogs();
+        } catch (error) {
+            setAlert({ open: true, message: 'Error sending quote', severity: 'error' });
+        }
+    };
+
+    // Handle updating quote submission
+    const handleUpdateQuote = async () => {
+        try {
+            const response = await axios.put(`/quotation/${selectedSupply.callingSupplyId}`, {
+                quantity: quoteDetails.quantity,
+                price: quoteDetails.price,
+                status: quoteDetails.status,
+            });
+            setAlert({ open: true, message: 'Quote updated successfully', severity: 'success' });
+            handleCloseDialogs();
+        } catch (error) {
+            setAlert({ open: true, message: 'Error updating quote', severity: 'error' });
+        }
+    };
+
+    // Fetch quote details (for view/edit quote functionality)
+    const fetchQuoteDetails = async (callingSupplyId) => {
+        try {
+            const response = await axios.get(`/quotation/${callingSupplyId}`);
+            setQuoteDetails({
+                quantity: response.data.quantity,
+                price: response.data.price,
+                status: response.data.status,
+            });
+        } catch (error) {
+            setAlert({ open: true, message: 'Error fetching quote details', severity: 'error' });
+        }
+    };
 
     return (
         <div>
@@ -87,20 +156,27 @@ const CallingSupplyList = ({ supplierid }) => {
                                 <TableCell><b><center>Supply Type</center></b></TableCell>
                                 <TableCell><b><center>Quantity</center></b></TableCell>
                                 <TableCell><b><center>Status</center></b></TableCell>
+                                <TableCell><b><center>Actions</center></b></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {filteredSupplies.length > 0 ? (
                                 filteredSupplies.map((supply) => (
                                     <TableRow key={supply.callingSupplyId} className="hover:bg-gray-100">
-                                        <TableCell className="py-2 px-4 border"><center>{supply.supplyType}</center></TableCell>
-                                        <TableCell className="py-2 px-4 border"><center>{supply.quantity}</center></TableCell>
-                                        <TableCell className="py-2 px-4 border"><center>{supply.status}</center></TableCell>
+                                        <TableCell><center>{supply.supplyType}</center></TableCell>
+                                        <TableCell><center>{supply.quantity}</center></TableCell>
+                                        <TableCell><center>{supply.status}</center></TableCell>
+                                        <TableCell>
+                                            <center>
+                                                <Button onClick={() => handleOpenQuoteDialog(supply)} variant="outlined" color="primary">Send Quote</Button>
+                                                <Button onClick={() => handleOpenViewQuoteDialog(supply)} variant="contained" color="secondary" className="ml-2">View Quote</Button>
+                                            </center>
+                                        </TableCell>
                                     </TableRow>
                                 ))
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan="3" className="text-center py-4">No matching calling supplies available</TableCell>
+                                    <TableCell colSpan="4" className="text-center py-4">No matching calling supplies available</TableCell>
                                 </TableRow>
                             )}
                         </TableBody>
@@ -108,8 +184,77 @@ const CallingSupplyList = ({ supplierid }) => {
                 </TableContainer>
             )}
 
+            {/* Dialog for Sending Quote */}
+            <Dialog open={openQuoteDialog} onClose={handleCloseDialogs}>
+                <DialogTitle>Send Quote</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        margin="dense"
+                        label="Quantity"
+                        type="number"
+                        fullWidth
+                        value={quoteDetails.quantity}
+                        onChange={(e) => setQuoteDetails({ ...quoteDetails, quantity: e.target.value })}
+                    />
+                    <TextField
+                        margin="dense"
+                        label="Price"
+                        type="number"
+                        fullWidth
+                        value={quoteDetails.price}
+                        onChange={(e) => setQuoteDetails({ ...quoteDetails, price: e.target.value })}
+                    />
+                    <TextField
+                        margin="dense"
+                        label="Status"
+                        fullWidth
+                        value={quoteDetails.status}
+                        onChange={(e) => setQuoteDetails({ ...quoteDetails, status: e.target.value })}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDialogs}>Cancel</Button>
+                    <Button onClick={handleSendQuote} variant="contained" color="primary">Send</Button>
+                </DialogActions>
+            </Dialog>
+
+            {/* Dialog for Viewing/Editing Quote */}
+            <Dialog open={openViewQuoteDialog} onClose={handleCloseDialogs}>
+                <DialogTitle>View/Edit Quote</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        margin="dense"
+                        label="Quantity"
+                        type="number"
+                        fullWidth
+                        value={quoteDetails.quantity}
+                        onChange={(e) => setQuoteDetails({ ...quoteDetails, quantity: e.target.value })}
+                    />
+                    <TextField
+                        margin="dense"
+                        label="Price"
+                        type="number"
+                        fullWidth
+                        value={quoteDetails.price}
+                        onChange={(e) => setQuoteDetails({ ...quoteDetails, price: e.target.value })}
+                    />
+                    <TextField
+                        margin="dense"
+                        label="Status"
+                        fullWidth
+                        value={quoteDetails.status}
+                        onChange={(e) => setQuoteDetails({ ...quoteDetails, status: e.target.value })}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDialogs}>Cancel</Button>
+                    <Button onClick={handleUpdateQuote} variant="contained" color="primary">Update</Button>
+                </DialogActions>
+            </Dialog>
+
+            {/* Snackbar for alerts */}
             <Snackbar open={alert.open} autoHideDuration={6000} onClose={handleCloseAlert}>
-                <Alert onClose={handleCloseAlert} severity={alert.severity} sx={{ width: '100%' }}>
+                <Alert onClose={handleCloseAlert} severity={alert.severity}>
                     {alert.message}
                 </Alert>
             </Snackbar>

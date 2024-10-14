@@ -51,7 +51,7 @@ function SendPdf() {
             console.log("Payload:", { name, email, nic, fileUrl });
 
             // Make the API request to store PDF metadata in the backend
-            const result = await axios.post("http://localhost:3001/api/applicanttManagement/", payload, {
+            const result = await axios.post("http://localhost:3001/api/applicantManagement/", payload, {
                 headers: { 
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer YOUR_TOKEN_HERE' 

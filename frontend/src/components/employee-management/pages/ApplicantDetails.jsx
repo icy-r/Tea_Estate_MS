@@ -31,7 +31,7 @@ function ViewPdfs({ refresh }) {
     const fetchPdfs = async () => {
         setLoading(true);  // Set loading to true before fetching
         try {
-            const result = await axios.get('http://localhost:3001/api/applicanttManagement/', {
+            const result = await axios.get('http://localhost:3001/api/applicantManagement/', {
                 headers: {
                     Authorization: 'Bearer YOUR_TOKEN_HERE',
                 },

@@ -14,6 +14,7 @@ const buyerMenuItems = [
         { name: "Catalog", link: "buyer/Catalog" },
         { name: "Wish List", link: "buyer/WishList" },
         { name: "Manage Buyer", link: "buyer/ManageBuyer" },
+        { name:"Order Tracking", link: "buyer/OrderTracking" },
         ],
     },
 

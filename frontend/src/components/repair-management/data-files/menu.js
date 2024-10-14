@@ -27,7 +27,12 @@ const menuItems = [
     subItems: [
       { name: "Maintenance List", link: "repair/maintenance" },
       { name: "Add Maintenance", link: "repair/newmaintenance" },
+      { name: "Task Priority", link: "repair/taskpriority" },
     ],
+  },
+  {
+    name: "Technicians",
+    subItems: [{ name: "Technician List", link: "repair/technicians" }],
   },
 ];
 

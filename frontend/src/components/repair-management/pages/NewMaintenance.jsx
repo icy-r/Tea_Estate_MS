@@ -1,9 +1,12 @@
 import axios from "../../../services/axios";
 import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const maintenanceStatus = ["scheduled", "in-progress"];
 
 const NewMaintenance = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [technicians, setTechnicians] = useState([]);
   const [assetlist, setAssetlist] = useState([]);
   const [assetNumber, setAssetNumber] = useState("");
@@ -18,17 +21,19 @@ const NewMaintenance = () => {
             _id: emp._id,
             name: emp.firstName + " " + emp.lastName,
           }));
-        console.log("Fetched technicians:", technicians); // Add this line
+        console.log("Fetched technicians:", technicians);
         setTechnicians(technicians);
       })
       .catch((error) => {
-        console.error("Error fetching technicians:", error); // Add this line
+        console.error("Error fetching technicians:", error);
       });
   }, []);
 
   const [formData, setFormData] = useState({
     assetId: "",
-    scheduledDate: "",
+    scheduledDate: location.state?.scheduledDate
+      ? new Date(location.state.scheduledDate).toISOString().split("T")[0]
+      : "",
     maintenanceType: "",
     description: "",
     assignedTechnician: {
@@ -107,6 +112,7 @@ const NewMaintenance = () => {
           notes: "",
         });
         setAssetNumber("");
+        navigate("/admin/repair/maintenance");
       })
       .catch((error) => {
         console.error("Error:", error);

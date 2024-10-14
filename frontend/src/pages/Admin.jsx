@@ -65,7 +65,7 @@ function App() {
             }
           />
           <Route
-            path="/repair/*"
+            path="repair/*"
             element={
               <ProtectedRoutes user={user}>
                 <RepairRoutes />

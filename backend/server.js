@@ -34,12 +34,6 @@ import { router as profilesRouter } from "./routes/user-management/profiles-rout
 import { router as authRouter } from "./routes/authentication/auth-route.js";
 import { router as getEmployeeIdRouter } from "./routes/authentication/get-employee-id-route.js";
 
-// Transport Management Routes
-import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js';
-import { router as routeRouter } from './routes/transport-management/route-route.js';
-import { router as transportLogRouter } from './routes/transport-management/transport-log-route.js';
-import { router as transportRouter } from './routes/transport-management/transport-route.js';
-import { router as driverRouter } from './routes/transport-management/driver-route.js';
 
 // Repair Management Routes
 import { router as assetsRouter } from "./routes/repair-management/asset-route.js";

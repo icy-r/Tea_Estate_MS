@@ -32,7 +32,7 @@ async function update(req, res) {
   try {
 
     const vehicle = await Vehicle.findOne({id: req.params.id});
-
+    console.log("updating");
     Object.assign(vehicle, req.body);
     await vehicle.save();
     res.json(vehicle);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from "../../../services/axios.js";
-import ViewTodayTasks from "../component/TodayTaskShower.jsx";
+
  import DriverAnalytics from '../component/driverAnalytics.jsx';
 
 const Home = ({ driverId }) => {
@@ -51,8 +51,8 @@ const Home = ({ driverId }) => {
         </div>
       )}
       
-      <ViewTodayTasks driverId={driverId} />
-      {vehicleId && <DriverAnalytics vehicleId={vehicleId} />} 
+      
+      {vehicleId && <DriverAnalytics vehicleId={vehicleId} driverId={driverId} />} 
     </div>
   );
 };

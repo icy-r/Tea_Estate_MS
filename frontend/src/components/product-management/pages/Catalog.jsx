@@ -43,7 +43,7 @@ function Catalog() {
             case "Broken Orange Pekoe (BOP)": return bop;
             case "Broken Pekoe (BP)": return bp;
             case "Broken Pekoe Fanning (BPF)": return bpf;
-            case "Dust Fannings (D)": return dust;
+            case "Dust Fannings (D)": return dust; 
             case "Flowery Orange Pekoe (FOP)": return fop;
             case "Golden Tip": return golden;
             case "Orange Pekoe (OP)": return op;
@@ -68,7 +68,7 @@ function Catalog() {
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
             <div className="w-full max-w-7xl bg-white p-8 rounded-lg shadow-md">
                 <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">
-                    Market Place
+                   Bio Tea Market Place
                 </h1>
 
                 {/* Search Bar */}
@@ -125,10 +125,14 @@ function Catalog() {
                                 </div>
 
                                 {/* Auction Button */}
-                                <div className="flex justify-between items-center">
-                                    <button className="bg-color_button text-white py-2 px-4 rounded-md">
-                                        Join Auction
-                                    </button>
+                                <div className="flex justify-center items-center">
+                                <a href="https://us05web.zoom.us/j/89246140524?pwd=55Vb5cCr6EJtarp25c0xn7YrVzzauf.1"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="bg-color_button text-white py-2 px-4 rounded-md"
+                                >
+                                Join Auction
+                                </a>
                                 </div>
                             </div>
                         ))}

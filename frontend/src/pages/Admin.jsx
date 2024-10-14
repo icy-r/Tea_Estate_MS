@@ -2,6 +2,7 @@ import FieldRoutes from "../components/field-management/FieldRoutes.jsx";
 import TransportHome from "../components/transport-management/pages/TransportHome.jsx";
 import RepairRoutes from "../components/repair-management/repair-routes.jsx";
 import SupplyHome from "../components/supply-management/pages/SupplyHome.jsx";
+import SupplierHome from "../components/supplier/pages/supplierHome.jsx";
 import DriverHome from "../components/driver/pages/DriverHome.jsx";
 import "../App.css";
 import Error404 from "./error404.jsx";
@@ -69,6 +70,14 @@ function App() {
             element={
               <ProtectedRoutes user={user}>
                 <RepairRoutes />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/supply/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <SupplyHome />
               </ProtectedRoutes>
             }
           />
@@ -146,6 +155,15 @@ function App() {
               </ProtectedRoutes>
             }
           />
+
+                    <Route 
+                        path="/supplier/*"
+                        element={
+                            <ProtectedRoutes user={user}>
+                                <SupplierHome/>
+                            </ProtectedRoutes>
+                        }
+                        />
 
           {/* Catch-all route */}
           <Route path="/*" element={<Error404 />} />

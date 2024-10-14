@@ -288,16 +288,14 @@ const ManageVehicle = () => {
 
                     <Button
                         onClick={() => handleViewDetails(vehicle.id)}
-                        variant="outlined"
-                        style={{ marginRight: '10px' }}
-                    >
+                        variant="contained" color="secondary" style={{ marginRight: '10px', backgroundColor: '#1AACAC', boxShadow: 'none', color: 'black'}}>
                         View Details
                     </Button>
 
-                    <Button onClick={() => handleUpdateOpen(vehicle)} variant="outlined" style={{ marginRight: '10px' }}>
+                    <Button onClick={() => handleUpdateOpen(vehicle)} variant="contained" color="secondary" style={{ marginRight: '10px', backgroundColor: '#15F5BA', boxShadow: 'none', color: 'black'}}>
                       Edit
                     </Button>
-                    <Button onClick={() => handleDeleteClick(vehicle?.id)} variant="contained" color="secondary">
+                    <Button onClick={() => handleDeleteClick(vehicle?.id)} variant="contained" color="secondary" style={{ backgroundColor: '#FA7070', color: 'black', boxShadow: 'none' }}>
                       Delete
                     </Button>
                   </TableCell>
@@ -308,68 +306,82 @@ const ManageVehicle = () => {
         </TableContainer>
       )}
 
-      {/* Confirmation Dialog for Delete */}
-      <Dialog open={dialogOpen} onClose={handleCloseDialog}>
-        <DialogTitle>Delete Vehicle</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Are you sure you want to delete this vehicle? This action cannot be undone.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleDelete} color="secondary">
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+          {/* Confirmation Dialog for Delete */}
+          <Dialog open={dialogOpen} onClose={handleCloseDialog}>
+            <DialogTitle>Delete Vehicle</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Are you sure you want to delete this vehicle? This action cannot be undone.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCloseDialog} color="primary">
+                Cancel
+              </Button>
+              <Button onClick={handleDelete} color="secondary">
+                Delete
+              </Button>
+            </DialogActions>
+          </Dialog>
 
-      {/* Edit Vehicle Dialog */}
-      <Dialog open={editDialogOpen} onClose={handleCloseEditDialog}>
-        <DialogTitle>Edit Vehicle</DialogTitle>
-        <DialogContent>
-          {/* Fields for editing the vehicle */}
-          <TextField
-            label="Type"
-            fullWidth
-            margin="normal"
+        {/* Edit Vehicle Dialog */}
+    <Dialog open={editDialogOpen} onClose={handleCloseEditDialog}>
+      <DialogTitle>Edit Vehicle</DialogTitle>
+      <DialogContent>
+        {/* Fields for editing the vehicle */}
+        
+        <FormControl fullWidth margin="normal">
+          <InputLabel>Type</InputLabel>
+          <Select
             value={vehicleToEdit?.type || ''}
             onChange={(e) => setVehicleToEdit({ ...vehicleToEdit, type: e.target.value })}
-          />
-          <TextField
-            label="Assigned Dept"
-            fullWidth
-            margin="normal"
+          >
+            <MenuItem value="lorry">Lorry</MenuItem>
+            <MenuItem value="tipper">Tipper</MenuItem>
+            <MenuItem value="tractor">Tractor</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormControl fullWidth margin="normal">
+          <InputLabel>Assigned Dept</InputLabel>
+          <Select
             value={vehicleToEdit?.assignedDept || ''}
             onChange={(e) => setVehicleToEdit({ ...vehicleToEdit, assignedDept: e.target.value })}
-          />
-          <TextField
-            label="Status"
-            fullWidth
-            margin="normal"
+          >
+            <MenuItem value="Harvest Transport">Harvest</MenuItem>
+            <MenuItem value="Employee Transport">Employee</MenuItem>
+            <MenuItem value="Distribution Transport">Distribution</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormControl fullWidth margin="normal">
+          <InputLabel>Status</InputLabel>
+          <Select
             value={vehicleToEdit?.status || ''}
             onChange={(e) => setVehicleToEdit({ ...vehicleToEdit, status: e.target.value })}
-          />
-          <TextField
-            label="Owner Address"
-            fullWidth
-            margin="normal"
-            value={vehicleToEdit?.owner_address || ''}
-            onChange={(e) => setVehicleToEdit({ ...vehicleToEdit, owner_address: e.target.value })}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseEditDialog} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleUpdate} color="secondary">
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
+          >
+            <MenuItem value="Active">Active</MenuItem>
+            <MenuItem value="Maintenance">Maintenance</MenuItem>
+          </Select>
+        </FormControl>
 
+        <TextField
+          label="Owner Address"
+          fullWidth
+          margin="normal"
+          value={vehicleToEdit?.owner_address || ''}
+          onChange={(e) => setVehicleToEdit({ ...vehicleToEdit, owner_address: e.target.value })}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCloseEditDialog} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={handleUpdate} color="secondary">
+          Save
+        </Button>
+      </DialogActions>
+    </Dialog>
 
            {/* Dialog for VehiclePortal */}
            <Dialog

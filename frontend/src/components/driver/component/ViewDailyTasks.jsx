@@ -134,23 +134,16 @@ const ViewDailyTasks = ({ driverId }) => {
               style={{ marginRight: '8px' }}
             />
 
-            {/* <TextField
-              label="Filter by Time"
-              value={selectedTime}
-              onChange={(e) => setSelectedTime(e.target.value)}
-              placeholder="HH:MM"
-              style={{ marginRight: '8px' }}
-            /> */}
-              <FormControl style={{ minWidth: 120 }}>
+            <FormControl style={{ minWidth: 120 }}>
               <InputLabel>Filter by Time</InputLabel>
               <Select
                 value={selectedTime}
                 onChange={(e) => setSelectedTime(e.target.value)}
               >
                 <MenuItem value="">All</MenuItem>
-                <MenuItem value="17:00">Evening</MenuItem>
-                <MenuItem value="12:00">Afternoon</MenuItem>
                 <MenuItem value="08:00">Morning</MenuItem>
+                <MenuItem value="12:00">Afternoon</MenuItem>
+                <MenuItem value="17:00">Evening</MenuItem>
               </Select>
             </FormControl>
 
@@ -173,7 +166,7 @@ const ViewDailyTasks = ({ driverId }) => {
             <TableContainer component={Paper}>
               <Table>
                 <TableHead>
-                  <TableRow>
+                  <TableRow sx={{ bgcolor: '#15F5BA'}} >
                     <TableCell>Route ID</TableCell>
                     <TableCell>Scheduled Date</TableCell>
                     <TableCell>Time</TableCell>
@@ -190,7 +183,26 @@ const ViewDailyTasks = ({ driverId }) => {
                       <TableCell>{moment(log.date).format('YYYY-MM-DD')}</TableCell>
                       <TableCell>{log.time}</TableCell>
                       <TableCell>{calculateRemainingTime(log.time, moment(log.date).format('YYYY-MM-DD'))}</TableCell>
-                      <TableCell>{log.status}</TableCell>
+                      <TableCell>
+                      <div
+                        style={{
+                          display: 'inline-block',
+                          padding: '5px 10px',
+                          borderRadius: '5px',
+                          color: '#fff',
+                          backgroundColor:
+                            log.status === 'upcoming'
+                              ? '#FFA500' // Orange for upcoming
+                              : log.status === 'Trip Started'
+                              ? '#1E90FF' // Blue for Trip Started
+                              : log.status === 'Completed'
+                              ? '#28A745' // Green for Completed
+                              : '#6C757D', // Grey for any other status
+                        }}
+                      >
+                        {log.status}
+                      </div>
+                        </TableCell>
                       <TableCell>
                         {log.startedTime && log.completedTime ? (
                           moment(log.completedTime).diff(moment(log.startedTime), 'minutes') + ' minutes'
@@ -226,7 +238,7 @@ const ViewDailyTasks = ({ driverId }) => {
               </Table>
             </TableContainer>
           ) : (
-            <Typography>No transport logs available for this vehicle.</Typography>
+            <Typography>No transport logs match the selected criteria.</Typography>
           )}
         </div>
       ) : (

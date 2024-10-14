@@ -39,6 +39,7 @@ import maintenancesRouter from "./routes/repair-management/maintenance-route.js"
 import technicianRouter from "./routes/repair-management/technician-route.js";
 import requestMaintenanceRouter from "./routes/repair-management/request-maintenance-route.js";
 
+
 // product-management
 import { router as catalogRouter } from "./routes/product-management/catalog-route.js";
 import { router as buyersRouter } from "./routes/product-management/buyer-route.js";
@@ -86,11 +87,12 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Email sending route
 app.post("/send-email", (req, res) => {
   const { to, subject, text } = req.body;
 
   const mailOptions = {
-    from: "hennahnime@gmail.com",
+    from: process.env.USER_EMAIL,
     to,
     subject,
     text,
@@ -159,7 +161,7 @@ app.use("/api/labours", labourRouter);
 app.use("/api/harvestlogs", harvestlogRouter);
 
 // handle 404 errors
-app.use(function (req, res, next) {
+app.use((req, res) => {
   res.status(404).json({ err: "Not found" });
 });
 

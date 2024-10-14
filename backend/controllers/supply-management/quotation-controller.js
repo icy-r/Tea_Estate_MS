@@ -13,7 +13,7 @@ async function index(req, res) {
 // Get a single quotation
 async function show(req, res) {
   try {
-    const quotation = await Quotation.findOne({ quotationId: req.params.id });
+    const quotation = await Quotation.findOne({ callingSupplyId: req.params.id });
     if (!quotation) {
       return res.status(404).json({ error: 'Quotation not found' });
     }
@@ -26,6 +26,7 @@ async function show(req, res) {
 // Create a quotation
 async function create(req, res) {
   try {
+    console.log(req.body);
     const quotation = new Quotation(req.body);
     await quotation.save();
     res.json(quotation);
@@ -37,7 +38,7 @@ async function create(req, res) {
 // Update a quotation
 async function update(req, res) {
   try {
-    const quotation = await Quotation.findOneAndUpdate({ quotationId: req.params.id }, req.body, { new: true });
+    const quotation = await Quotation.findOneAndUpdate({ callingSupplyId: req.params.id }, req.body, { new: true });
     if (!quotation) {
       return res.status(404).json({ error: 'Quotation not found' });
     }

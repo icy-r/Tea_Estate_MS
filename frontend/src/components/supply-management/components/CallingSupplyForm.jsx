@@ -70,9 +70,9 @@ const CallingSupplyForm = ({ onAddSupply, onCloseDialog }) => {
                     className="w-full p-2 border border-gray-300 rounded"
                     required
                 >
-                    <MenuItem value="Fertilizer">Fertilizer</MenuItem>
+                    <MenuItem value="fertilizer">Fertilizer</MenuItem>
                     <MenuItem value="Chemicals">Chemicals</MenuItem>
-                    <MenuItem value="Fuel">Fuel</MenuItem>
+                    <MenuItem value="fuel">Fuel</MenuItem>
                 </Select>
             </div>
 

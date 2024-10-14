@@ -3,7 +3,7 @@ import axios from '../../../services/axios.js';
 import {
   Table, TableBody, TableCell, TableContainer, TableHead,Grid,
   TableRow, Paper, Typography, TextField, MenuItem, Select, InputLabel, FormControl, Box, Button, Dialog,
-  DialogActions, DialogContent, DialogTitle, Snackbar, Alert
+  DialogActions, DialogContent, DialogTitle, Snackbar, Alert,TablePagination
 } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -19,11 +19,26 @@ const ViewDailyRouting = () => {
   const [typeFilter, setTypeFilter] = useState('');
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-
+  const [routData,setRoutData] = useState([]);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
   const [selectedLog, setSelectedLog] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+       // Handle pagination
+       const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+      };
+    
+      const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 5));
+        setPage(0); // Reset page to 0 when rows per page changes
+      };
+    
+
+
 
   // Form states for update
   const [updateForm, setUpdateForm] = useState({
@@ -38,6 +53,9 @@ const ViewDailyRouting = () => {
           setTransportLog(response.data);
           setFilteredLog(response.data);
         }
+        const response2 = await axios.get("/routes/");
+        console.log("API Response:", response2.data);
+        setRoutData(response2.data);
       } catch (error) {
         console.error('Error fetching transport log:', error);
       }
@@ -115,6 +133,7 @@ const ViewDailyRouting = () => {
       transportDet?.time
     ]));
 
+
     // Add a table to the PDF
     doc.autoTable({
       head: [['Route ID', 'Vehicle ID', 'Type', 'Status', 'Date', 'Time']],
@@ -162,12 +181,21 @@ const ViewDailyRouting = () => {
             </Select>
           </FormControl>
 
-          {/* Route Filter */}
-          <TextField
-            label="Route ID"
-            value={routeFilter}
-            onChange={(e) => setRouteFilter(e.target.value)}
-          />
+          <FormControl sx={{ minWidth: 120 }}>
+            <InputLabel id="route-select-label">Route ID</InputLabel>
+            <Select
+              labelId="route-select-label"
+              value={routeFilter}
+              onChange={(e) => setRouteFilter(e.target.value)}
+            >
+              <MenuItem value=""><em>None</em></MenuItem>
+              {routData.map((route) => (
+                <MenuItem key={route.id} value={route.id}>
+                  {route.id}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
           {/* Type Filter */}
           <FormControl sx={{ minWidth: 120 }}>
@@ -211,52 +239,56 @@ const ViewDailyRouting = () => {
           </Button>
         </Box>
 
-        {/* Table */}
-        <TableContainer component={Paper} sx={{boxShadow:"0.5"}}>
-          <Table>
-            <TableHead>
-              <TableRow sx={{ bgcolor: '#15F5BA'}}>
-                <TableCell>Route ID</TableCell>
-                <TableCell>Vehicle ID</TableCell>
-                <TableCell>Type</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>Time</TableCell>
-                <TableCell>Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {filteredLog.map((log, index) => (
-                <TableRow key={index}>
-                  <TableCell>{log.route_id}</TableCell>
-                  <TableCell>{log.vehicle_id}</TableCell>
-                  <TableCell>{log.type}</TableCell>
-                  <TableCell>{log.status}</TableCell>
-                  <TableCell>{new Date(log.date).toLocaleDateString()}</TableCell>
-                  <TableCell>{log.time}</TableCell>
-                  <TableCell>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => handleUpdateClick(log)}
-                     sx={{ bgcolor: '#15F5BA', '&:hover': { bgcolor: '#1AACAC' },boxShadow: 'none',mr:2, color: 'black', border: 'none',marginRight:1 }}
-                    >
-                      Update
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="error"
-                      onClick={() => setSelectedLog(log) || setOpenDeleteDialog(true)}
-                      sx={{ backgroundColor: '#FA7070', color: 'black', boxShadow: 'none'}}
-                    >
-                      Delete
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              
+            {/* Table */}
+            <TableContainer component={Paper} sx={{ boxShadow: "0.5" }}>
+              <Table>
+                <TableHead>
+                  <TableRow sx={{ bgcolor: '#15F5BA' }}>
+                    <TableCell>Route ID</TableCell>
+                    <TableCell>Vehicle ID</TableCell>
+                    <TableCell>Type</TableCell>
+                    <TableCell>Status</TableCell>
+                    <TableCell>Date</TableCell>
+                    <TableCell>Time</TableCell>
+                    <TableCell>Actions</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {filteredLog
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((log, index) => (
+                      <TableRow key={index}>
+                        <TableCell>{log.route_id}</TableCell>
+                        <TableCell>{log.vehicle_id}</TableCell>
+                        <TableCell>{log.type}</TableCell>
+                        <TableCell>{log.status}</TableCell>
+                        <TableCell>{new Date(log.date).toLocaleDateString()}</TableCell>
+                        <TableCell>{log.time}</TableCell>
+                        <TableCell>
+                          {/* Update and Delete buttons */}
+                          <Button variant="contained" color="primary" sx={{ bgcolor: '#15F5BA', color:'black' }}>
+                            Update
+                          </Button>
+                          <Button variant="contained" color="error" sx={{ backgroundColor: '#FA7070', marginLeft: '10px',color:'black' }}>
+                            Delete
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+
+            {/* Pagination */}
+            <TablePagination
+              component="div"
+              count={filteredLog.length}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
 
         {/* Snackbar for success messages */}
         <Snackbar open={!!successMessage} autoHideDuration={6000} onClose={handleCloseSnackbar}>

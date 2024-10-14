@@ -139,6 +139,15 @@ function App() {
             }
           />
 
+          <Route
+            path="/supply/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <SupplyHome />
+              </ProtectedRoutes>
+            }
+          />
+
           {/* Catch-all route */}
           <Route path="/*" element={<Error404 />} />
         </Routes>

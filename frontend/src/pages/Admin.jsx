@@ -39,7 +39,7 @@ function App() {
       <UserContext.Provider value={{ user, setUser }}>
         <Routes>
           {/* Public Routes */}
-          <Route path="/createinventory" element={<CreateInventory />}/>
+          <Route path="/createinventory" element={<CreateInventory />} />
           <Route
             path="auth/login"
             element={<AdminLogin handleAuthEvt={handleAuthEvt} />}
@@ -57,7 +57,15 @@ function App() {
             }
           />
           <Route
-            path="/repair/*"
+            path="/employee/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <EmployeeRoutes />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="repair/*"
             element={
               <ProtectedRoutes user={user}>
                 <RepairRoutes />
@@ -76,9 +84,9 @@ function App() {
             path="/inventory/*"
             element={
               <ProtectedRoutes user={user}>
-                <InventoryDashboard/>
+                <InventoryDashboard />
               </ProtectedRoutes>
-              }
+            }
           />
           <Route
             path="/transport/*"

@@ -10,6 +10,8 @@ import AssignedTasks from "./pages/AssignedTasks.jsx";
 import ReqMaintenance from "./pages/ReqMaintenance.jsx";
 import TaskPriorityManagement from "./pages/TaskPriorityManagement.jsx";
 import TechnicianManagement from "./pages/TechnicianManagement.jsx";
+import PreventiveMaintenanceScheduler from "./pages/PreventiveMaintenanceScheduler.jsx";
+import AssetPerformance from "./pages/AssetPerformance.jsx";
 
 const RepairRoutes = () => {
   return (
@@ -24,6 +26,11 @@ const RepairRoutes = () => {
         <Route path="/reqmaintenance" element={<ReqMaintenance />} />
         <Route path="/taskpriority" element={<TaskPriorityManagement />} />
         <Route path="/technicians" element={<TechnicianManagement />} />
+        <Route
+          path="/preventive-maintenance"
+          element={<PreventiveMaintenanceScheduler />}
+        />
+        <Route path="/asset-performance" element={<AssetPerformance />} />
       </Routes>
     </AdminDashboardLayout>
   );

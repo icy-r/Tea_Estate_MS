@@ -87,6 +87,11 @@ const employeeSchema = new Schema({
     required: true,
   },
 
+  ot:{
+    type: String,
+    required: false,
+  }
+
 });
 
 // Post-save hook for additional operations for specific designations

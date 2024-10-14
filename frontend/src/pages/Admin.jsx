@@ -39,7 +39,7 @@ function App() {
       <UserContext.Provider value={{ user, setUser }}>
         <Routes>
           {/* Public Routes */}
-          <Route path="/createinventory" element={<CreateInventory />}/>
+          <Route path="/createinventory" element={<CreateInventory />} />
           <Route
             path="auth/login"
             element={<AdminLogin handleAuthEvt={handleAuthEvt} />}
@@ -54,6 +54,14 @@ function App() {
                   <FunctionCard />
                 </ProtectedRoutes>
               </AdminDashboardLayout>
+            }
+          />
+          <Route
+            path="/employee/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <EmployeeRoutes />
+              </ProtectedRoutes>
             }
           />
           <Route
@@ -76,9 +84,9 @@ function App() {
             path="/inventory/*"
             element={
               <ProtectedRoutes user={user}>
-                <InventoryDashboard/>
+                <InventoryDashboard />
               </ProtectedRoutes>
-              }
+            }
           />
           <Route
             path="/transport/*"

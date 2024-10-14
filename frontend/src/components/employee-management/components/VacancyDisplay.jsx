@@ -66,8 +66,7 @@ const VacancyTable = () => {
           <div className="bg-white shadow-lg rounded-lg overflow-x-auto">
               <table className="min-w-full bg-white border border-gray-200">
                   <thead>
-                      <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                          <th className="py-3 px-6 text-left border border-gray-300">Title</th>
+                  <tr style={{ backgroundColor: '#1AACAC' }} className="text-white uppercase text-sm leading-normal">                          <th className="py-3 px-6 text-left border border-gray-300">Title</th>
                           <th className="py-3 px-6 text-left border border-gray-300">Department</th>
                           <th className="py-3 px-6 text-left border border-gray-300">Location</th>
                           <th className="py-3 px-6 text-left border border-gray-300">Employment Type</th>

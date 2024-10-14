@@ -2,12 +2,12 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const applicantSchema = new Schema({
-    Name:{
+    name:{
       type:String,
       required:true,
     },
 
-    NIC:{
+    nic:{
       type:String,
       required:true,
     },
@@ -16,6 +16,11 @@ const applicantSchema = new Schema({
       type:String,
       required:true,
     },
+
+    file: {
+      type: String,
+      required: true
+    }
 
 });
 

@@ -135,7 +135,7 @@ const ViewOrders = () => {
             {filteredOrders.length > 0 ? (
               filteredOrders.map((order) => (
                 <tr key={order._id} className="hover:bg-gray-100">
-                  <td className="py-2 px-4 border">{order.supplierId?.companyName || 'N/A'}</td>
+                  <td className="py-2 px-4 border">{order.supplierId}</td>
                   <td className="py-2 px-4 border">{order.supplyType || 'N/A'}</td>
                   <td className="py-2 px-4 border">{order.quantity || 'N/A'}</td>
                   <td className="py-2 px-4 border">{order.additionalConditions || 'N/A'}</td>

@@ -2,6 +2,7 @@ import FieldRoutes from "../components/field-management/FieldRoutes.jsx";
 import TransportHome from "../components/transport-management/pages/TransportHome.jsx";
 import RepairRoutes from "../components/repair-management/repair-routes.jsx";
 import SupplyHome from "../components/supply-management/pages/SupplyHome.jsx";
+import SupplierHome from "../components/supplier/pages/supplierHome.jsx";
 import DriverHome from "../components/driver/pages/DriverHome.jsx";
 import "../App.css";
 import Error404 from "./error404.jsx";
@@ -21,7 +22,7 @@ import AdminDashboardLayout from "../components/layouts/AdminDashboardLayout.jsx
 import CatalogtRoutes from "../components/product-management/CatalogRoutes.jsx";
 import EmployeeRoutes from "../components/employee-management/EmployeeRoutes.jsx";
 // import LandingPage from "./landingPage/LandingPage.jsx";
-// import ProductRoutes from "../components/product-management/ProductRoutes.jsx";
+
 
 let UserContext;
 
@@ -39,7 +40,7 @@ function App() {
       <UserContext.Provider value={{ user, setUser }}>
         <Routes>
           {/* Public Routes */}
-          <Route path="/createinventory" element={<CreateInventory />}/>
+          <Route path="/createinventory" element={<CreateInventory />} />
           <Route
             path="auth/login"
             element={<AdminLogin handleAuthEvt={handleAuthEvt} />}
@@ -57,13 +58,22 @@ function App() {
             }
           />
           <Route
-            path="/repair/*"
+            path="/employee/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <EmployeeRoutes />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="repair/*"
             element={
               <ProtectedRoutes user={user}>
                 <RepairRoutes />
               </ProtectedRoutes>
             }
           />
+          
           <Route
             path="/field/*"
             element={
@@ -76,9 +86,9 @@ function App() {
             path="/inventory/*"
             element={
               <ProtectedRoutes user={user}>
-                <InventoryDashboard/>
+                <InventoryDashboard />
               </ProtectedRoutes>
-              }
+            }
           />
           <Route
             path="/transport/*"
@@ -117,7 +127,7 @@ function App() {
             path="/product/*"
             element={
               <ProtectedRoutes user={user}>
-                {/* <ProductRoutes/> */}
+               <CatalogtRoutes/>
               </ProtectedRoutes>
             }
           />
@@ -139,14 +149,22 @@ function App() {
             }
           />
 
-          <Route
-            path="/supply/*"
+        <Route
+          path="/supply/*"
+          element={
+            <ProtectedRoutes user={user}>
+              <SupplyHome />
+            </ProtectedRoutes>
+          }
+        />
+        <Route 
+            path="/supplier/*"
             element={
-              <ProtectedRoutes user={user}>
-                <SupplyHome />
-              </ProtectedRoutes>
+                <ProtectedRoutes user={user}>
+                    <SupplierHome/>
+                </ProtectedRoutes>
             }
-          />
+            />
 
           {/* Catch-all route */}
           <Route path="/*" element={<Error404 />} />

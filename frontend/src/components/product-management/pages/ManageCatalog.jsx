@@ -62,8 +62,8 @@ const ManageCatalog = () => {
                             <tr key={product._id} className="border-b border-gray-200">
                                 <td className="py-2 px-4 text-left">{product.pid}</td>
                                 <td className="py-2 px-4 text-left">{product.quality}</td>
-                                <td className="py-2 px-4 text-left">{product.quantity}</td>
-                                <td className="py-2 px-4 text-left">{product.unitPrice}</td>
+                                <td className="py-2 px-4 text-left">{product.quantity} Kg</td>
+                                <td className="py-2 px-4 text-left">Rs.{product.unitPrice}</td>
                                 <td className="py-2 px-4 text-left">{product.description}</td>
                                 <td className="py-2 px-4 text-left">{product.aucDate}</td>
                                 <td className="py-2 px-4 text-left">{product.aucTime}</td>

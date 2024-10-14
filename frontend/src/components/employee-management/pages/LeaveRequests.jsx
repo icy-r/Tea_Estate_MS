@@ -23,19 +23,25 @@ const LeaveTable = () => {
           throw new Error("Failed to fetch data from server");
         }
         const data = await response.json();
-        console.log("Fetched data:", data); // Debugging: check if data is being fetched correctly
-        setLeaves(data);
-        setLoading(false);  // Set loading to false after fetching
+        // Add a status field to each leave object
+        const leavesWithStatus = data.map(leave => ({
+          ...leave,
+          status: "Pending" // Initialize status as "Pending"
+        }));
+        console.log("Fetched data:", leavesWithStatus); // Debugging: check if data is being fetched correctly
+        setLeaves(leavesWithStatus);
+        setLoading(false); // Set loading to false after fetching
       } catch (error) {
         console.error("Error fetching leaves data:", error);
         setError(error.message); // Set the error message if fetch fails
-        setLoading(false);  // Set loading to false in case of an error
+        setLoading(false); // Set loading to false in case of an error
       }
     };
-
+  
     fetchLeaves();
     fetchHandler();
   }, []);
+  
 
   const fetchHandler = async () => {
     try {
@@ -77,6 +83,13 @@ const LeaveTable = () => {
       await axios.put(`http://localhost:3001/api/empManagement/${employee._id}`, {
         leavesLeft: updatedLeavesLeft
       });
+
+      // Update the leave's status to "Approved"
+      setLeaves((prevLeaves) =>
+        prevLeaves.map((leave) =>
+          leave._id === id ? { ...leave, status: "Approved" } : leave
+        )
+      );
   
       setEmployees((prevEmployees) =>
         prevEmployees.map((emp) =>
@@ -106,8 +119,7 @@ const LeaveTable = () => {
       console.log(`Attempting to reject leave request with ID: ${id}`); // Debugging line
       // Use axios to send a DELETE request to the API
       const response = await axios.delete(`http://localhost:3001/api/employeeProfile/${id}`);
-      console.log(`Attempting to delete leave with ID: ${id}`);
-
+      
   
       // If successful, remove the leave request from the state
       if (response.status === 200) {
@@ -157,22 +169,21 @@ const LeaveTable = () => {
   
           <div className="overflow-x-auto">
             <table className="min-w-full bg-white border border-gray-200">
-              <thead>
-              <tr
-                style={{ backgroundColor: "#1AACAC" }}
-                className="text-white uppercase text-sm leading-normal"
-              >
-                <th className="py-3 px-4 text-left w-1/8">Name</th> {/* Reduced width */}
-                <th className="py-3 px-4 text-left w-1/6">Email</th>
-                <th className="py-3 px-4 text-left w-1/12">Leaves Left</th> {/* Reduced width */}
-                <th className="py-3 px-4 text-left w-1/6">Reason</th>
-                <th className="py-3 px-4 text-left w-1/8">Date From</th> {/* Increased width */}
-                <th className="py-3 px-4 text-left w-1/8">Date To</th> {/* Increased width */}
-                <th className="py-3 px-4 text-left w-1/12">Type</th>
-                <th className="py-3 px-4 text-left w-1/12">Actions</th>
-              </tr>
-
-
+            <thead>
+                <tr
+                  style={{ backgroundColor: "#1AACAC" }}
+                  className="text-white uppercase text-sm leading-normal"
+                >
+                  <th className="py-3 px-4 text-left w-1/8">Name</th>
+                  <th className="py-3 px-4 text-left w-1/6">Email</th>
+                  <th className="py-3 px-4 text-left w-1/12">Leaves Left</th>
+                  <th className="py-3 px-4 text-left w-1/6">Reason</th>
+                  <th className="py-3 px-4 text-left w-1/8">Date From</th>
+                  <th className="py-3 px-4 text-left w-1/8">Date To</th>
+                  <th className="py-3 px-4 text-left w-1/12">Type</th>
+                  <th className="py-3 px-4 text-left w-1/12">Status</th> {/* New Status Column */}
+                  <th className="py-3 px-4 text-left w-1/12">Actions</th>
+                </tr>
               </thead>
               <tbody className="text-gray-600 text-sm font-light">
                 {leaves.length > 0 ? (
@@ -196,6 +207,7 @@ const LeaveTable = () => {
                       <td className="py-3 px-4">{leave.DateFrom}</td>
                       <td className="py-3 px-4">{leave.DateTo}</td>
                       <td className="py-3 px-4">{leave.type}</td>
+                      <td className="py-3 px-4">{leave.status}</td> {/* Display status */}
                       <td className="py-3 px-4 flex space-x-2">
                         <button
                           className="bg-green-500 text-white px-2 py-1 rounded-md shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"

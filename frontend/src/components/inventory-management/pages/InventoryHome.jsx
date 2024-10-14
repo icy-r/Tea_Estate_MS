@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GenerateGraphs from './GenerateGraphs'; 
 
-export default function InventoryForm() {
+export default function InventoryHome() {
     const [darkMode, setDarkMode] = useState(false);
     const navigate = useNavigate();
 

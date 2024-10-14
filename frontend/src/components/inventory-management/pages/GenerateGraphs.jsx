@@ -45,11 +45,7 @@ const GenerateGraphs = () => {
 
   return (
     <Box p={3}>
-      <Typography variant="h4" gutterBottom>
-        Inventory Overview
-      </Typography>
-
-      {/* Loading spinner */}
+          {/* Loading spinner */}
       {loading ? (
         <Box display="flex" justifyContent="center" alignItems="center">
           <CircularProgress />

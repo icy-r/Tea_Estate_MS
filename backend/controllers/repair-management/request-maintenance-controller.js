@@ -7,6 +7,7 @@ export const create = async (req, res) => {
     await maintenanceRequest.save();
     res.status(201).json(maintenanceRequest);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: error.message });
   }
 };
@@ -68,3 +69,15 @@ export const search = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// //delete all call once
+// export const deleteAll = async (req, res) => {
+//   try {
+//     await MaintenanceRequest.deleteMany({});
+//     console.log("All Maintenance Requests deleted");
+//   } catch (error) {
+//     console.error("Error deleting Maintenance Requests:", error);
+//   }
+// };
+
+// deleteAll();

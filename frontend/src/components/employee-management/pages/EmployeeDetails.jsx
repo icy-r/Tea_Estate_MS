@@ -1,32 +1,32 @@
-import { useEffect, useState, useRef } from 'react'; // Correctly import useRef
+import { useEffect, useState, useRef } from 'react';
 import React from 'react';
 import axios from '../../../services/axios.js';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-// import { useReactToPrint } from "react-to-print"; // Fix the import name
+import { useNavigate } from 'react-router-dom';
 import EmployeeComponent from '../components/EmployeeComponent.jsx';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'; // MUI components for confirmation dialog
-
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-
 
 const URL = "/empManagement/";
 
 function EmployeeManagement() {
   const [employees, setEmployees] = useState([]);
   const [filteredEmployees, setFilteredEmployees] = useState([]);
-  const [deleteId, setDeleteId] = useState(null); // State for tracking the employee to be deleted
-  const [open, setOpen] = useState(false); // State to manage the open/close of the dialog
+  const [deleteId, setDeleteId] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [noResults, setNoResults] = useState(false);
+  const [roleFilter, setRoleFilter] = useState("");
 
-  const navigate = useNavigate(); // Use navigate for redirection
-  const componentsRef = useRef(); // Correctly use useRef
+  const navigate = useNavigate();
+  const componentsRef = useRef();
 
   useEffect(() => {
     const fetchHandler = async () => {
       try {
         const response = await axios.get(URL);
         setEmployees(response.data);
-        setFilteredEmployees(response.data); // Set initial filtered employees
+        setFilteredEmployees(response.data); 
         console.log(response.data);
       } catch (error) {
         console.error("There was an error fetching employee data!", error);
@@ -37,15 +37,12 @@ function EmployeeManagement() {
   }, []);
 
   const handleUpdate = (id) => {
-    navigate(`/admin/employee/update/${id}`); // Absolute path from the root
+    navigate(`/admin/employee/update/${id}`);
   };
 
   const moredetails = (id) => {
-    navigate(`/admin/employee/employeemoredetails/${id}`); // Absolute path from the root
+    navigate(`/admin/employee/employeemoredetails/${id}`);
   };
-
-  const [searchQuery, setSearchQuery] = useState("");
-  const [noResults, setNoResults] = useState(false);
 
   const handleSearch = () => {
     const filtered = employees.filter((employee) =>
@@ -57,42 +54,27 @@ function EmployeeManagement() {
     setNoResults(filtered.length === 0);
   };
 
-  // const handlePrint = useReactToPrint({
-  //     content: () => componentsRef.current,
-  //     documentTitle: "Employee Report",
-  //     onAfterPrint: () => alert("Employee Report Successfully Downloaded!")
-  // });
-
   const handleDeleteClick = (id) => {
     setDeleteId(id);
-    setOpen(true); // Open the confirmation dialog
+    setOpen(true);
   };
 
   const handleConfirmDelete = async () => {
     try {
       await axios.delete(`${URL}/${deleteId}`);
-      // Update the employee list after deletion
-      setEmployees((prevEmployees) =>
-        prevEmployees.filter((emp) => emp._id !== deleteId)
-      );
-      setFilteredEmployees((prevEmployees) =>
-        prevEmployees.filter((emp) => emp._id !== deleteId)
-      ); // Update filtered list
+      setEmployees((prevEmployees) => prevEmployees.filter((emp) => emp._id !== deleteId));
+      setFilteredEmployees((prevEmployees) => prevEmployees.filter((emp) => emp._id !== deleteId));
       console.log("Deleted employee with ID:", deleteId);
-      setOpen(false); // Close the dialog
+      setOpen(false);
     } catch (error) {
       console.error("There was an error deleting the employee!", error);
     }
   };
 
-  // Function to generate and download the PDF report
   const generatePDF = () => {
     const doc = new jsPDF();
-
     doc.setFontSize(20);
     doc.text("Employee Details", 14, 22);
-
-    // Prepare data for the PDF
     const pdfData = filteredEmployees.map((EmployeeDet) => [
       EmployeeDet?.firstName,
       EmployeeDet?.lastName,
@@ -100,58 +82,95 @@ function EmployeeManagement() {
       EmployeeDet?.designation,
       EmployeeDet?._id,
     ]);
-
-    // Add a table to the PDF
     doc.autoTable({
       head: [["First Name", "Last Name", "Department", "Designation", "ID"]],
       body: pdfData,
       startY: 30,
       headStyles: {
-        fillColor: [21, 245, 186], // RGB color for the header background (example: blue)
-        textColor: 0, // White text color for the header
+        fillColor: [21, 245, 186],
+        textColor: 0,
         styles: {
-          lineWidth: 1, // Thickness of the border
-          lineColor: [0, 0, 0], // Black border color
+          lineWidth: 1,
+          lineColor: [0, 0, 0],
         },
       },
     });
-
     doc.save("EmployeeDetails.pdf");
   };
 
   const handleClose = () => {
-    setOpen(false); // Close the dialog without deleting
+    setOpen(false);
+  };
+
+  // Function to filter employees by role
+  const filterByRole = (role) => {
+    setRoleFilter(role);
+
+    const filtered = employees.filter((employee) => {
+      if (role === "Manager") {
+        const designationWords = employee.designation?.split(" ");
+        return designationWords?.length > 1 && designationWords[1].toLowerCase() === "manager";
+      }
+      return employee.designation === role;
+    });
+
+    setFilteredEmployees(filtered);
+    setNoResults(filtered.length === 0);
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="bg-gray-100">
       <div className="container mx-auto">
-        <div className="bg-white shadow-lg rounded-lg">
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">
-            Employee Management
-          </h1>
+        <div className="bg-white shadow-lg rounded-lg p-6">
+          <h1 className="text-3xl font-bold text-gray-800 mb-4">Employee Management</h1>
           <h2 className="text-xl text-gray-600 mb-8">Employee Details Page</h2>
 
-          <input
-            onChange={(e) => setSearchQuery(e.target.value)}
-            type="text"
-            name="search"
-            placeholder="Search for an employee"
-            className="mb-4 py-1 text-m border rounded-md mr-1"
-          />
+          {/* Search Bar, Role Filter Buttons, and Download Button on the same line */}
+          <div className="mb-4 flex flex-wrap items-center space-x-4">
+            {/* Search Bar */}
+            <input
+              onChange={(e) => setSearchQuery(e.target.value)}
+              type="text"
+              name="search"
+              placeholder="Search for an employee"
+              className="py-2 text-m border rounded-md px-4"
+            />
 
-          <button
-            onClick={handleSearch}
-            className="mb-4 mr-4 bg-blue-500 text-white px-4 py-2 rounded-md"
-          >
-            Search
-          </button>
-          <button
-            onClick={generatePDF}
-            className="mb-4 bg-green-500 text-white px-4 py-2 rounded-md"
-          >
-            Download
-          </button>
+            {/* Search Button */}
+            <button
+              onClick={handleSearch}
+              className="bg-blue-500 text-white px-4 py-2 rounded-md"
+            >
+              Search
+            </button>
+
+            {/* Role Filter Buttons */}
+
+            <Button onClick={() => filterByRole("Manager")} variant="contained" className="bg-red-500 text-white">
+              Manager
+            </Button>
+            <Button onClick={() => filterByRole("Labour")} variant="contained" className="bg-blue-500 text-white">
+              Labour
+            </Button>
+            <Button onClick={() => filterByRole("Driver")} variant="contained" className="bg-yellow-500 text-white">
+              Driver
+            </Button>
+            <Button onClick={() => filterByRole("Technician")} variant="contained" className="bg-purple-500 text-white">
+              Technician
+            </Button>
+
+            <Button onClick={() => { setFilteredEmployees(employees); setRoleFilter(""); }} variant="contained" className="bg-gray-400 text-white">
+              Clear Filter
+            </Button>
+
+            {/* Download Button */}
+            <button
+              onClick={generatePDF}
+              className="ml-auto bg-green-500 text-white px-4 py-2 rounded-md"
+            >
+              Download
+            </button>
+          </div>
 
           {noResults ? (
             <div>
@@ -159,24 +178,21 @@ function EmployeeManagement() {
             </div>
           ) : (
             <div ref={componentsRef} className="overflow-x-auto">
-              <table className="min-w-full bg-white border border-gray-200">
-                <thead>
-                  <tr className="w-full bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                    <th className="py-3 px-6 text-left">First Name</th>
-                    <th className="py-3 px-6 text-left">Last Name</th>
-                    <th className="py-3 px-6 text-left">Department</th>
-                    <th className="py-3 px-6 text-left">Designation</th>
-                    <th className="py-3 px-6 text-left">Employee ID</th>
-                    <th className="py-3 px-6 text-left">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="text-gray-600 text-sm font-light">
-                  {filteredEmployees &&
-                    filteredEmployees.map((employee) => (
-                      <tr
-                        key={employee._id}
-                        className="border-b border-gray-200 hover:bg-gray-100"
-                      >
+              <div className="overflow-y-auto" style={{ maxHeight: '450px' }}>
+                <table className="w-[100%] bg-white border border-gray-200 mx-auto">
+                  <thead>
+                    <tr style={{ backgroundColor: '#1AACAC' }} className="text-white uppercase text-sm leading-normal">
+                      <th className="py-3 px-6 text-left">First Name</th>
+                      <th className="py-3 px-6 text-left">Last Name</th>
+                      <th className="py-3 px-6 text-left">Department</th>
+                      <th className="py-3 px-6 text-left">Designation</th>
+                      <th className="py-3 px-6 text-left">Employee ID</th>
+                      <th className="py-3 px-6 text-left">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-gray-600 text-sm font-light">
+                    {filteredEmployees && filteredEmployees.map((employee) => (
+                      <tr key={employee._id} className="border-b border-gray-200 hover:bg-gray-100">
                         <td className="py-3 px-6">{employee.firstName}</td>
                         <td className="py-3 px-6">{employee.lastName}</td>
                         <td className="py-3 px-6">{employee.department}</td>
@@ -197,17 +213,20 @@ function EmployeeManagement() {
                           </button>
                           <button
                             onClick={() => handleDeleteClick(employee._id)}
-                            className="bg-red-500 text-white px-2 py-1 rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+                            style={{ backgroundColor: '#fa7070' }}
+                            className="text-white px-2 py-1 rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
                           >
                             Delete
                           </button>
                         </td>
                       </tr>
                     ))}
-                </tbody>
-              </table>
+                  </tbody>
+                </table>
+              </div>
             </div>
           )}
+
 
           {/* Delete Confirmation Dialog */}
           <Dialog

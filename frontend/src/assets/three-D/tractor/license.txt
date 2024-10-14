@@ -1,0 +1,11 @@
+Model Information:
+* title:	Tractor - game asset
+* source:	https://sketchfab.com/3d-models/tractor-game-asset-fe97d02daaac44bea0caffc4f1cb93a4
+* author:	Igor Bistritski (https://sketchfab.com/discodancer)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Tractor - game asset" (https://sketchfab.com/3d-models/tractor-game-asset-fe97d02daaac44bea0caffc4f1cb93a4) by Igor Bistritski (https://sketchfab.com/discodancer) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

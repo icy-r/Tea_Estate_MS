@@ -5,6 +5,7 @@ import {
   search,
   show,
   update,
+  performance,
 } from "../../controllers/repair-management/asset-controller.js";
 import { checkAuth, decodeUserFromToken } from "../../middleware/auth-mid.js";
 import { Router } from "express";
@@ -19,6 +20,8 @@ router.get("/", checkAuth, index);
 
 // show for getting a single asset defined in asset-controller
 router.get("/:id", checkAuth, show);
+
+router.get("/:id/performance", checkAuth, performance);
 
 // create for creating a new asset defined in asset-controller
 router.post("/", checkAuth, create);

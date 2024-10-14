@@ -1,6 +1,5 @@
 import { Router } from "express";
 import * as TransportLog from "../../controllers/transport-management/transport-log-controller.js";
-import * as transportModel from "../../models/transport-management/transport-model.js";
 import {checkAuth, decodeUserFromToken} from "../../middleware/auth-mid.js";
 
 const router = Router();

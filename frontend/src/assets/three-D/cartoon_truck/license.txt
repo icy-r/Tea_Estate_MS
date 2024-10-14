@@ -1,0 +1,11 @@
+Model Information:
+* title:	Cartoon Truck
+* source:	https://sketchfab.com/3d-models/cartoon-truck-4893afa6e79a44bfbf37a6cec0c57668
+* author:	Kenko_Art (https://sketchfab.com/kenko_art)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Cartoon Truck" (https://sketchfab.com/3d-models/cartoon-truck-4893afa6e79a44bfbf37a6cec0c57668) by Kenko_Art (https://sketchfab.com/kenko_art) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

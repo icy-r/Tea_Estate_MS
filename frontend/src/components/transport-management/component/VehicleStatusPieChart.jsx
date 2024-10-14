@@ -3,7 +3,7 @@ import axios from '../../../services/axios.js';
 import { Box, Typography, CircularProgress, Paper } from '@mui/material';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-const COLORS = ['#0088FE', '#FF8042']; // Colors for the pie chart
+const COLORS = ['#1AACAC', '#FA7070']; // Colors for the pie chart
 
 const ManageVehicle = () => {
   const [vehicles, setVehicles] = useState([]);
@@ -41,7 +41,7 @@ const ManageVehicle = () => {
 
   return (
     <Box p={3}>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h8" gutterBottom>
         Manage Vehicles
       </Typography>
 
@@ -51,7 +51,7 @@ const ManageVehicle = () => {
           <CircularProgress />
         </Box>
       ) : (
-        <Paper elevation={3} sx={{ mt: 4, p: 2 }}>
+        <Paper elevation={0} sx={{ mt: 4, p: 2 }}> {/* Set elevation to 0 */}
           <Typography variant="h5" align="center" gutterBottom>
             Vehicle Status Distribution
           </Typography>

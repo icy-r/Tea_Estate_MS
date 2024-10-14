@@ -9,6 +9,7 @@ const menuItems = [
   { name: "About", link: "/about" },
   { name: "Services", link: "/services" },
   { name: "MarketPlace", link: "/marketplace" },
+  { name: "Inventory Management", link: "/admin/inventory" },
   { name: "Careers", link: "/add-applicant" },
   { name: "Login", link: "/admin", special: true },
   

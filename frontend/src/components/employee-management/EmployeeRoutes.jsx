@@ -24,7 +24,7 @@ const EmployeeRoutes = () => {
         <>
             <AdminDashboardLayout menu={menu}> 
             <Routes>
-                <Route path="/" element={<div>Home</div>} />
+                <Route path="/" element={<EmployeeDetails />} />
                 <Route path="/employeedetails/*" element={<EmployeeDetails />} />
                 <Route path="/update/:id" element={<EmployeeUpdate />} /> {/* Updated path */}
                 <Route path="/employeeadd/*" element={<EmployeeAdd />} />

@@ -58,4 +58,7 @@ async function destroy(req, res) {
   }
 }
 
+
+
 export { index, show, create, update, destroy };
+

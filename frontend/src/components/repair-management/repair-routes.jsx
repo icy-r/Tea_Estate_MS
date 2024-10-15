@@ -6,24 +6,33 @@ import ViewReports from "./pages/ViewReports.jsx";
 import ViewMaintenance from "./pages/ViewMaintenance.jsx";
 import NewMaintenance from "./pages/NewMaintenance.jsx";
 import NewAsset from "./pages/NewAsset.jsx";
+import ViewAssets from "./pages/ViewAssets.jsx";
 import AssignedTasks from "./pages/AssignedTasks.jsx";
 import ReqMaintenance from "./pages/ReqMaintenance.jsx";
 import TaskPriorityManagement from "./pages/TaskPriorityManagement.jsx";
-import TechnicianManagement from "./pages/TechnicianManagement.jsx";
+import MaintenanceScheduler from "./pages/MaintenanceScheduler.jsx";
+import AssetDetails from "./pages/AssetDetails.jsx";
+import ViewMaintenanceDetails from "./pages/ViewMaintenanceDetails.jsx";
 
 const RepairRoutes = () => {
   return (
     <AdminDashboardLayout menu={menu}>
       <Routes>
         <Route path="/" element={<HomeGraphs />} />
-        <Route path="/viewreports" element={<ViewReports />} />
-        <Route path="/maintenance" element={<ViewMaintenance />} />
-        <Route path="/newmaintenance" element={<NewMaintenance />} />
-        <Route path="/newasset" element={<NewAsset />} />
-        <Route path="/assignedtasks" element={<AssignedTasks />} />
-        <Route path="/reqmaintenance" element={<ReqMaintenance />} />
-        <Route path="/taskpriority" element={<TaskPriorityManagement />} />
-        <Route path="/technicians" element={<TechnicianManagement />} />
+        <Route path="viewreports" element={<ViewReports />} />
+        <Route path="maintenance" element={<ViewMaintenance />} />
+        <Route path="newmaintenance" element={<NewMaintenance />} />
+        <Route path="newasset" element={<NewAsset />} />
+        <Route path="viewassets" element={<ViewAssets />} />
+        <Route path="assignedtasks" element={<AssignedTasks />} />
+        <Route path="reqmaintenance" element={<ReqMaintenance />} />
+        <Route path="taskpriority" element={<TaskPriorityManagement />} />
+        <Route path="scheduler" element={<MaintenanceScheduler />} />
+        <Route path="assetDetails/:id" element={<AssetDetails />} />
+        <Route
+          path="viewmaintenance/:id"
+          element={<ViewMaintenanceDetails />}
+        />
       </Routes>
     </AdminDashboardLayout>
   );

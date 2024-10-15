@@ -20,6 +20,7 @@ import { router as utilitiesInventoryRoute } from './routes/inventory-management
 
 // sales-management
 import { router as invoicesRouter } from './routes/sales-management/invoices-route.js';
+import { router as orderRouterSales } from './routes/sales-management/order-route.js';
 
 // transport-management
 import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js';
@@ -127,6 +128,7 @@ app.use("/api/employees", EmployeeManagement);
 
 // sales-management
 app.use("/api/invoices", invoicesRouter);
+app.use("/api/ordersSales", orderRouterSales);
 
 // supply-management
 app.use('/api/supplier', supplierRouter);
@@ -163,7 +165,7 @@ app.use("/api/harvestlogs", harvestlogRouter);
 // handle 404 errors
 app.use((req, res) => {
   console.log(req);
-  res.status(405).json({ err: "Not found" });
+  res.status(404).json({ err: "Not found" });
 });
 
 // handle all other errors

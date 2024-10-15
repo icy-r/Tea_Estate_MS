@@ -69,8 +69,8 @@ async function index(req, res) {
 
 async function show(req, res) {
   try {
-    //id_transport = req.params.id
-    const transport = await TransportLog.find({id: req.params.id});
+    const transportId=req.params.id;
+    const transport = await TransportLog.findById(transportId);
     res.json(transport);
   } catch (error) {
     res.status(404).json({ error: error });

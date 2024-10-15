@@ -115,7 +115,7 @@ const ConfigureTransport = () => {
             </MenuItem>
             <MenuItem value="Employee transportation">Employee Transportation</MenuItem>
             <MenuItem value="Harvest transportation">Harvest Transportation</MenuItem>
-            <MenuItem value="Delivery transportation">Harvest Transportation</MenuItem>
+            <MenuItem value="Delivery transportation">Delivery Transportation</MenuItem>
           </Select>
         </FormControl>
 

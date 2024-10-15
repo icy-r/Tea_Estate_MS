@@ -162,7 +162,8 @@ app.use("/api/harvestlogs", harvestlogRouter);
 
 // handle 404 errors
 app.use((req, res) => {
-  res.status(404).json({ err: "Not found" });
+  console.log(req);
+  res.status(405).json({ err: "Not found" });
 });
 
 // handle all other errors

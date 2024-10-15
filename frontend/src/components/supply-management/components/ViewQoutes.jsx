@@ -43,12 +43,12 @@ const ViewQuotes = ({ data }) => {
             const response = await axios.post('/orders', newOrder);
             console.log("New order supply:", response.data);
             console.log("orderID:", response.data._id);
-            
+
             const response3= await axios.get(`/supplier/${acceptedQuote.supplierID}`);
             setSupplierDetails(response3.data[0]);
             console.log("Supplier details:", response3.data[0]);
 
-            const response2= await axios.put(`/supplier/${supplierDetails._id}`,{activeOrder:response.data._id});
+            const response2= await axios.put(`/supplier/${response3.data[0]._id}`, {activeOrder:response.data._id});
             console.log("updated Supplier details:", response2.data);
 
             // Update all quotes related to the same callingSupplyId

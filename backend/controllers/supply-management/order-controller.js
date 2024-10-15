@@ -35,6 +35,7 @@ async function create(req, res) {
 // Update an order
 async function update(req, res) {
   try {
+    console.log(req.body);
     const order = await OrderSupply.findById(req.params.id);
     if (!order) return res.status(404).json({ error: 'Order not found' });
 

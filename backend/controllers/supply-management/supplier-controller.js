@@ -34,6 +34,7 @@ async function index(req, res) {
   async function update(req, res) {
     try {
       console.log(req.body);
+      
       const supplier = await Supplier.findByIdAndUpdate( req.params.id);
   
       Object.assign(supplier, req.body);

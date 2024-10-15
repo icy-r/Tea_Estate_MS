@@ -5,6 +5,10 @@ const Schema = mongoose.Schema;
 // Define the schema for order supplies
 const orderSupplySchema = new Schema(
   {
+    _id: {
+      type: Schema.Types.ObjectId,
+      auto: true, // Auto-generate the ID
+    },
     supplierId: {
       type: String,
       required: true, // Assuming supplierId is required for an order supply
@@ -30,6 +34,21 @@ const orderSupplySchema = new Schema(
     additionalConditions: {
       type: String,
       required: false,
+    },
+    status: {
+      type: String,
+      required: false,
+      default: "Pending", // Default status is Pending
+    },
+
+    qualityRating: {
+      type: Number,
+      min: 1,
+      max: 5, // Restrict rating between 1 to 5
+      required: function() {
+        return this.status === 'Completed'; // Only required if status is 'Completed'
+      },
+      default: null
     },
   },
   {

@@ -29,7 +29,7 @@ const Profile = () => {
       <div className="bg-teal-500 h-20"></div>
 
       {/* Profile Section */}
-      <div className="bg-white p-6 shadow-md mx-8 mt-[-40px] rounded-lg  flex flex-col items-center justify-center w-2/4">
+      <div className="bg-white p-6 shadow-md mx-auto mt-[-40px] rounded-lg flex flex-col items-center justify-center w-2/4">
         <Avatar
           src="https://i.pravatar.cc/150?img=3"
           alt="Profile Picture"
@@ -38,11 +38,12 @@ const Profile = () => {
         <h2 className="mt-4 text-xl font-semibold">MIHISARANI A K S</h2>
         <p className="text-gray-500">subodhi@gmail.com</p>
         <Button
-          variant="contained"
-          sx={{ marginTop: '16px', backgroundColor: '#e0e0e0', color: '#000' }}
+        variant="contained"
+        sx={{ marginTop: '16px', backgroundColor: '#e0e0e0', color: '#000' }}
+        onClick={() => navigate('/UpdateBuyer')}
         >
-          Edit Profile
-        </Button>
+  Edit Profile
+</Button>
       </div>
 
       {/* Navigation Buttons */}

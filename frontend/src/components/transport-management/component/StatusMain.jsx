@@ -7,20 +7,25 @@ const StatusMain = () => {
     const [vehicle, setVehicle] = useState([]);
     const [count, setCount] = useState([]);
     const [route, setRoute] = useState([]);
+    const [transport, setTransport] = useState([]);
 
     useEffect(() => {
         const fetchDetails = async () => {
             try {
                 const vehiclesRes = await axios.get("/vehicles");
                 const routesRes = await axios.get("/routes");
+                const transportsRes = await axios.get("/transports");
 
                 setVehicle(vehiclesRes.data);
                 setRoute(routesRes.data);
+                setTransport(transportsRes.data);
 
                 // Set the count after fetching vehicle data
                 setCount([
                     { "title": "Vehicles", "count": vehiclesRes.data.length },
-                    { "title": "Routes", "count": routesRes.data.length }
+                    { "title": "Routes", "count": routesRes.data.length },
+                    { "title": "Transports", "count": transportsRes.data.length },
+                    
                 ]);
                
             } catch (error) {

@@ -2,12 +2,12 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const applicantSchema = new Schema({
-    Name:{
+    name:{
       type:String,
       required:true,
     },
 
-    NIC:{
+    nic:{
       type:String,
       required:true,
     },
@@ -17,22 +17,10 @@ const applicantSchema = new Schema({
       required:true,
     },
 
-    age:{
-        type:Number,
-        required:true,
-      },
-
-    address:{
-      type:String,
-      required:true,
-    },
-
-    dateOfBirth:{
-      type:String,
-      required:true,
-    },
-
- 
+    file: {
+      type: String,
+      required: true
+    }
 
 });
 

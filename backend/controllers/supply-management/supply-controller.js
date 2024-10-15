@@ -1,6 +1,5 @@
 import { Supply } from '../../models/supply-management/supply-model.js';
 
-
 async function index(req, res) {
     try {
       //get all supplies
@@ -33,9 +32,7 @@ async function index(req, res) {
   
   async function update(req, res) {
     try {
-  
       const supply = await Supply.findByIdAndUpdate(req.params.id);
-  
       Object.assign(supply, req.body);
       await supply.save();
       res.json(supply);
@@ -43,7 +40,7 @@ async function index(req, res) {
       res.status(400).json({ error: error });
     }
   }
-  
+ 
   async function destroy(req, res) {
     try {
       const supply = await Supply.findByIdAndDelete(req.params.id );
@@ -57,6 +54,5 @@ async function index(req, res) {
       res.status(500).json({ error: error });
   
     }
-  }
-  
+  } 
   export { index, show, create, update, destroy };

@@ -17,6 +17,8 @@ import { router as teaInventoryRoute } from './routes/inventory-management/inven
 import { router as fertInventoryRoute } from './routes/inventory-management/inventory-fertRoute.js';
 import { router as fuelInventoryRoute } from './routes/inventory-management/inventory-fuelRoute.js';
 import { router as utilitiesInventoryRoute } from './routes/inventory-management/inventory-utilitiesRoute.js';
+import { reduceFertilizerStock } from './controller/inventory-management/autoReduction.js';
+import { reduceFuelStock } from './controller/inventory-management/autoReduction.js';
 
 // sales-management
 import { router as invoicesRouter } from './routes/sales-management/invoices-route.js';
@@ -107,6 +109,19 @@ app.post("/send-email", (req, res) => {
     res.status(200).send("Email sent: " + info.response);
   });
 });
+
+//automatic stock reduction
+const reduceStocks = async () => {
+  try {
+      console.log("Reducing stocks...");
+      await reduceFertilizerStock();
+      await reduceFuelStock();
+      console.log("Stock reduction completed successfully.");
+  } catch (error) {
+      console.error("Error reducing stocks:", error);
+  }
+};
+setInterval(reduceStocks, 86400000);
 
 // mount routes
 app.use("/api/notifications", notificationsRouter);

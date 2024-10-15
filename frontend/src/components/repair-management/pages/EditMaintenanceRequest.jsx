@@ -16,6 +16,11 @@ const EditMaintenanceRequest = () => {
   });
   const [loading, setLoading] = useState(true);
   const [technicians, setTechnicians] = useState([]);
+  const [alert, setAlert] = useState({
+    open: false,
+    message: "",
+    severity: "",
+  });
 
   useEffect(() => {
     fetchRequest();
@@ -70,10 +75,16 @@ const EditMaintenanceRequest = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`/requestMaintenance/${id}`, request);
+      const updatedRequest = { ...request };
+      await axios.put(`/requestMaintenance/${id}`, updatedRequest);
       navigate("/admin/repair/viewreports");
     } catch (error) {
-      console.error("Error updating request:", error);
+      console.error("Error updating maintenance request:", error);
+      setAlert({
+        open: true,
+        message: "Failed to update maintenance request. Please try again.",
+        severity: "error",
+      });
     }
   };
 

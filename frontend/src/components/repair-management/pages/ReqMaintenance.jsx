@@ -139,6 +139,7 @@ const ReqMaintenance = () => {
               value={formData.requestType}
               onChange={handleChange}
               required
+              disabled
               className="w-full px-3 py-2 border rounded-md"
             >
               <option value="repair">Repair</option>

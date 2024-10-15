@@ -348,9 +348,10 @@ const EnhancedAssignedTasks = () => {
             {paginatedTasks.map((task) => (
               <tr key={task._id} className="hover:bg-gray-50 hover:text-black">
                 <td className="py-3 px-4">
-                  {task.taskType === "request"
-                    ? "Request/Repair"
-                    : "Schedule/Maintenance"}
+                  {(task.taskType === "request"
+                    ? "Request /Repair"
+                    : "Schedule/Maintenance"
+                  ).slice(0, 8)}
                 </td>
                 <td className="py-3 px-4">
                   {(task.requestNumber || task._id).slice(0, 5)}...

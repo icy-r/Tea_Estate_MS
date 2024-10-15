@@ -13,24 +13,37 @@ const ManageOrders = () => {
   // Fetch orders from backend
   const fetchOrders = async () => {
     try {
-      const response = await axios.get("/orders/");
+      const response = await axios.get('/orders/');
       setOrders(response.data);
       setFilteredOrders(response.data);
     } catch (error) {
-      console.error("Error fetching orders:", error);
+      console.error('Error fetching orders:', error);
     }
   };
 
+  // Fetch buyers from backend
+  const fetchBuyers = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/api/buyers'); // Adjust as necessary
+      setBuyers(response.data);
+    } catch (error) {
+      console.error('Error fetching buyers:', error);
+    }
+  };
+   
+
   useEffect(() => {
     fetchOrders();
+    fetchBuyers();
+
   }, []);
 
   useEffect(() => {
     setFilteredOrders(
       orders.filter((order) =>
-        order.orderID.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        order.pid.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        order.buyer_id.toLowerCase().includes(searchQuery.toLowerCase())
+        (order.orderID && order.orderID.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (order.pid && order.pid.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (order.buyer_id && order.buyer_id.toLowerCase().includes(searchQuery.toLowerCase()))
       )
     );
   }, [searchQuery, orders]);
@@ -44,17 +57,17 @@ const ManageOrders = () => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`/orders/${id}`);
-      alert("Order deleted successfully");
+      alert('Order deleted successfully');
       setOrders(orders.filter((order) => order._id !== id));
     } catch (error) {
-      console.error("Error deleting order:", error);
+      console.error('Error deleting order:', error);
     }
   };
 
   // Function to generate and download the PDF report for orders
   const handleDownloadReport = () => {
     const doc = new jsPDF();
-    const tableColumn = ["Order ID", "Order Date", "Quantity", "Product ID", "Buyer ID", "Sale ID", "Status"];
+    const tableColumn = ["Order ID", "Order Date", "Quantity", "Product ID", "Buyer ID", "Status"];
     const tableRows = [];
 
     // Add each order data to the table rows
@@ -65,7 +78,6 @@ const ManageOrders = () => {
         order.quantity,
         order.pid,
         order.buyer_id,
-        order.saleID,
         order.status,
       ];
       tableRows.push(orderData);
@@ -112,7 +124,6 @@ const ManageOrders = () => {
               <th className="py-2 px-4 text-left">Quantity</th>
               <th className="py-2 px-4 text-left">Product ID</th>
               <th className="py-2 px-4 text-left">Buyer ID</th>
-              <th className="py-2 px-4 text-left">Sale ID</th>
               <th className="py-2 px-4 text-left">Status</th>
               <th className="py-2 px-4 text-center">Actions</th>
             </tr>
@@ -121,13 +132,22 @@ const ManageOrders = () => {
             {filteredOrders.length > 0 ? (
               filteredOrders.map((order) => (
                 <tr key={order._id} className="hover:bg-gray-100">
-                  <td className="py-2 px-4 border">{order.orderID}</td>
-                  <td className="py-2 px-4 border">{new Date(order.orderDate).toLocaleDateString()}</td>
-                  <td className="py-2 px-4 border">{order.quantity}</td>
-                  <td className="py-2 px-4 border">{order.pid}</td>
-                  <td className="py-2 px-4 border">{order.buyer_id}</td>
-                  <td className="py-2 px-4 border">{order.saleID}</td>
-                  <td className="py-2 px-4 border">{order.status}</td>
+                  <td className="py-2 px-4 border">{order.orderID || 'N/A'}</td>
+                  <td className="py-2 px-4 border">{new Date(order.orderDate).toLocaleDateString() || 'N/A'}</td>
+                  <td className="py-2 px-4 border">{order.quantity || 0}</td>
+                  
+                  <td className="border px-4 py-2">
+  {order.pid
+    ? (() => {
+        const product = products.find(p => p._id === order.pid);
+        return product ? product.name : 'Unknown Product';
+      })()
+    : 'N/A'}
+</td>
+
+
+                  <td className="py-2 px-4 border">{order.buyer_id || 'N/A'}</td>
+                  <td className="py-2 px-4 border">{order.status || 'N/A'}</td>
                   <td className="py-2 px-4 border flex justify-center gap-2">
                     <button
                       className="bg-teal-500 text-white px-4 py-2 rounded-md"
@@ -146,7 +166,7 @@ const ManageOrders = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="8" className="text-center py-4">No orders available</td>
+                <td colSpan="7" className="text-center py-4">No orders available</td>
               </tr>
             )}
           </tbody>

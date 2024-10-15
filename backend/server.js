@@ -10,6 +10,11 @@ import nodemailer from "nodemailer";
 import "./config/database.js";
 
 // import routes
+//sales-management
+import { router as invoicesRouter } from './routes/sales-management/invoices-route.js'
+import{router as auctionRouter} from './routes/sales-management/auction-route.js'
+import { router as ordersRouter } from './routes/sales-management/orders-route.js'
+import { router as salesRouter } from './routes/sales-management/sales-route.js'
 
 // inventory-management
 import { router as inventoryRoute } from './routes/inventory-management/inventory-route.js';
@@ -21,9 +26,7 @@ import { router as utilitiesInventoryRoute } from './routes/inventory-management
 // import { reduceFertilizerStock } from './controller/inventory-management/autoReduction.js';
 // import { reduceFuelStock } from './controller/inventory-management/autoReduction.js';
 
-// sales-management
-import { router as invoicesRouter } from './routes/sales-management/invoices-route.js';
-import { router as orderRouterSales } from "./routes/sales-management/order-route.js";
+
 
 // transport-management
 import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js';
@@ -70,6 +73,16 @@ import { router as callingSupplyRoute } from "./routes/supply-management/calling
 import { router as supplierRouter } from "./routes/supply-management/supplier-route.js";
 import { router as supplierManagerRouter } from "./routes/supply-management/supplier-manager-route.js";
 import { router as supplyRouter } from "./routes/supply-management/supply-route.js";
+
+// inventory-management
+import { router as inventoryRoute } from "./routes/inventory-management/inventory-route.js";
+import { router as teaInventoryRoute } from "./routes/inventory-management/inventory-teaRoute.js";
+import { router as fuelInventoryRoute } from "./routes/inventory-management/inventory-fuelRoute.js";
+import { router as fertInventoryRoute } from "./routes/inventory-management/inventory-fertRoute.js";
+import { router as utilitiesInventoryRoute } from "./routes/inventory-management/inventory-utilitiesRoute.js";
+
+// import { router as userLoginRouter } from "./routes/authentication/user-auth-route.js";
+import { router as driverRouter } from "./routes/transport-management/driver-route.js";
 
 import { log } from "console";
 
@@ -124,6 +137,8 @@ app.use("/api/fuel", fuelInventoryRoute);
 app.use("/api/fert", fertInventoryRoute);
 app.use("/api/utilities", utilitiesInventoryRoute);
 
+
+
 // employee-management
 app.use("/api/empManagement", EmployeeManagement);
 app.use("/api/applicantManagement", ApplicantManagement);
@@ -131,9 +146,6 @@ app.use("/api/employeeProfile", EmployeeProfile);
 app.use("/api/applicantRoles", ApplicantRoles);
 app.use("/api/employees", EmployeeManagement);
 
-// sales-management
-app.use("/api/invoices", invoicesRouter);
-app.use("/api/ordersSales", orderRouterSales);
 
 // supply-management
 app.use("/api/supplier", supplierRouter);
@@ -160,12 +172,18 @@ app.use("/api/requestMaintenance", requestMaintenanceRouter);
 app.use("/api/maintenances", maintenancesRouter);
 app.use("/api/assets", assetsRouter);
 
-// field-management
-app.use("/api/fields", fieldRouter);
-app.use("/api/fertilizers", fertilizerRouter);
-app.use("/api/harvests", harvestRouter);
-app.use("/api/labours", labourRouter);
-app.use("/api/harvestlogs", harvestlogRouter);
+//sales-management
+app.use('/api/invoices', invoicesRouter)
+app.use('/api/auction', auctionRouter)
+app.use('/api/orders', ordersRouter)
+app.use('/api/sales', salesRouter)
+
+//field-management
+app.use('/api/fields', fieldRouter)
+app.use('/api/fertilizers', fertilizerRouter)
+app.use('/api/harvests', harvestRouter)
+app.use('/api/labours', labourRouter)
+
 
 // handle 404 errors
 app.use((req, res) => {

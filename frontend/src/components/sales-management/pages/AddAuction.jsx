@@ -10,7 +10,7 @@ const AddAuction = () => {
     auID: '',
     date: '',
     productID: '',
-    buyer_id: [],
+    buyer_id: [], // Changed to hold multiple buyer IDs
     status: '',
     meetingLink: 'https://us05web.zoom.us/j/89246140524?pwd=55Vb5cCr6EJtarp25c0xn7YrVzzauf.1', // Default meeting link
   });
@@ -101,7 +101,13 @@ const AddAuction = () => {
 
   // Send request to the server
   const sendRequest = async () => {
-    return await axios.post("http://localhost:3001/api/auction", formData).then(res => res.data);
+    try {
+      const response = await axios.post("http://localhost:3001/api/auction", formData);
+      return response.data;
+    } catch (err) {
+      console.error('Error:', err.response?.data || err.message);
+      throw err;
+    }
   };
 
   return (
@@ -165,7 +171,7 @@ const AddAuction = () => {
                 <select
                   name="buyer_id"
                   value={formData.buyer_id}
-                  onChange={(e) => setFormData({ ...formData, buyer_id: [e.target.value] })}
+                  onChange={(e) => setFormData({ ...formData, buyer_id: [e.target.value] })} // Store selected buyer
                   className={`w-full p-2 border ${errors.buyer_id ? 'border-red-500' : 'border-gray-300'} rounded`}
                   required
                 >

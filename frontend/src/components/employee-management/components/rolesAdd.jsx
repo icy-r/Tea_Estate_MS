@@ -2,6 +2,7 @@ import { useState } from 'react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../../../services/axios.js';
+import { Snackbar, Alert } from '@mui/material'; // Import Snackbar and Alert
 
 const VacancyForm = () => {
     const navigate = useNavigate(); // Use navigate for redirection
@@ -14,6 +15,10 @@ const VacancyForm = () => {
         employmentType: '', // Default value to one of the enum options
     });
 
+    const [openSnackbar, setOpenSnackbar] = useState(false);  // State to control Snackbar visibility
+    const [snackbarMessage, setSnackbarMessage] = useState('');  // Message for the Snackbar
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success');  // Snackbar severity (success/error)
+
     const handleChange = (e) => {
         setInputs((prevState) => ({
             ...prevState,
@@ -24,7 +29,20 @@ const VacancyForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(inputs);
-        sendRequest().then(() => navigate('/admin/employee/employeedetails'));
+        sendRequest()
+            .then(() => {
+                setSnackbarMessage('Vacancy added successfully!');  // Set success message
+                setSnackbarSeverity('success');
+                setOpenSnackbar(true);  // Show success Snackbar
+                setTimeout(() => {
+                    navigate('/admin/employee/employeedetails');  // Redirect after success
+                }, 2000);  // Redirect after 2 seconds
+            })
+            .catch(() => {
+                setSnackbarMessage('Failed to add vacancy. Please try again.');  // Set error message
+                setSnackbarSeverity('error');
+                setOpenSnackbar(true);  // Show error Snackbar
+            });
     };
 
     const sendRequest = async () => {
@@ -41,33 +59,36 @@ const VacancyForm = () => {
             return response.data;
         } catch (error) {
             console.error('Error adding vacancy:', error.response || error); // Log the error
-            alert('Failed to add vacancy. Please try again.');
+            throw error;
         }
     };
 
+    const handleSnackbarClose = () => {
+        setOpenSnackbar(false);  // Close Snackbar
+    };
+
     return (
+        <div className="flex justify-center bg-white-100">
+            <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-md mt-10">
+                <h1 className="text-2xl font-bold mb-4 text-center text-gray-800">Available Vacancies</h1>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                        
+                        {/* Title Input */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Title</label>
+                            <input
+                                type="text"
+                                name="title"
+                                onChange={handleChange}
+                                value={inputs.title}
+                                required
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            />
+                        </div>
 
-        <div className=" flex justify-center bg-white-100">
-        <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-md mt-10">
-            <h1 className="text-2xl font-bold mb-4 text-center text-gray-800">Available Vacancies</h1>
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                    
-                    {/* Name Input */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Title</label>
-                        <input
-                            type="text"
-                            name="title"
-                            onChange={handleChange}
-                            value={inputs.title}
-                            required
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        />
-                    </div>
-
-                    {/* department Input */}
-                    <div>
+                        {/* Department Input */}
+                        <div>
                             <label htmlFor="department" className="block text-sm font-medium text-gray-700">Department</label>
                             <div className="mt-1">
                                 <select
@@ -92,85 +113,76 @@ const VacancyForm = () => {
                             </div>
                         </div>
 
-                    {/* location From Input */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Location</label>
-                        <input
-                            type="text"
-                            name="location"
-                            onChange={handleChange}
-                            value={inputs.location}
-                            required
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        />
+                        {/* Location Input */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Location</label>
+                            <input
+                                type="text"
+                                name="location"
+                                onChange={handleChange}
+                                value={inputs.location}
+                                required
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            />
+                        </div>
+
+                        {/* Employment Type Input */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Employment Type</label>
+                            <select
+                                name="employmentType"
+                                onChange={handleChange}
+                                value={inputs.employmentType}
+                                required
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            >
+                                <option value="" disabled>Select employment type</option>
+                                <option value="Full-time">Full-time</option>
+                                <option value="Part-time">Part-time</option>
+                                <option value="Contract">Contract</option>
+                                <option value="Internship">Internship</option>
+                            </select>
+                        </div>
+
+                        {/* Description Input */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Description</label>
+                            <input
+                                type="text"
+                                name="description"
+                                onChange={handleChange}
+                                value={inputs.description}
+                                required
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            />
+                        </div>
                     </div>
 
-
-
-                    {/* Type Input */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Employee Type</label>
-                        <select
-                            name="employmentType"
-                            onChange={handleChange}
-                            value={inputs.employmentType}
-                            required
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    {/* Submit Button */}
+                    <div className="flex justify-center mt-6">
+                        <button
+                            type="submit"
+                            className="bg-blue-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 text-sm"
                         >
-                            <option value="" disabled>Select employee type</option>
-                            <option value="Full-time">Full-time</option>
-                            <option value="Part-time">Part-time</option>
-                            <option value="Contract">Contract</option>
-                            <option value="Internship">Internship</option>
-                        </select>
+                            Add Vacancy
+                        </button>
                     </div>
+                </form>
+            </div>
 
-                    {/* employeeType */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Description</label>
-                        <input
-                            type="text"
-                            name="description"
-                            onChange={handleChange}
-                            value={inputs.description}
-                            required
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        />
-                    </div>
-
-                    {/* Reason Input
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Active Vacancy</label>
-                        <input
-                            type="checkbox"
-                            name="isActive"
-                            onChange={() => setInputs((prevState) => ({
-                                ...prevState,
-                                isActive: !prevState.isActive,
-                            }))}
-                            checked={inputs.isActive}
-                            className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-                        />
-                    </div> */}
-
-                </div>
-
-                {/* Submit Button */}
-                <div className="flex justify-center mt-6">
-                    <button
-                        type="submit"
-                        className="bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 text-sm"
-                    >
-                        Add Vacancy
-                    </button>
-                </div>
-            </form>
+            {/* Success/Failure Snackbar */}
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={4000}  // Auto-hide after 4 seconds
+                onClose={handleSnackbarClose}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}  // Positioning of the Snackbar
+            >
+                <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </div>
-    </div>
-);
-        
-
-
-}
+    );
+};
 
 export default VacancyForm;

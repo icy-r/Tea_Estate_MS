@@ -7,27 +7,27 @@ import SendPdf from './ApplicantAdd';
 
 const CareerVacancy = () => {
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col items-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen h-screen bg-#ebe7e7 flex flex-col items-center py-4 px-4 lg:px-6 overflow-hidden">
             {/* Page title */}
-            <div className="w-full max-w-6xl text-center mb-8">
-                <h1 className="text-4xl font-bold text-gray-800">Career Opportunities</h1>
-                <p className="mt-2 text-lg text-gray-600">Explore our latest job openings and apply for a position that fits you!</p>
+            <div className="w-full max-w-7xl text-center mb-4">
+                <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">Career Opportunities</h1>
+                <p className="mt-1 text-sm lg:text-base text-gray-600">Explore our latest job openings and apply for a position that fits you!</p>
             </div>
             
-            <div className="w-full max-w-6xl flex flex-col lg:flex-row space-y-8 lg:space-y-0 lg:space-x-8">
+            <div className="w-full max-w-1xl grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 h-full">
                 {/* Vacancies Section */}
-                <div className="lg:w-2/3 bg-white rounded-lg shadow-lg p-6">
-                    <h2 className="text-2xl font-semibold text-gray-800 mb-4">Current Job Openings</h2>
-                    <p className="text-gray-600 mb-6">Browse our open positions and find a career that suits your talents.</p>
-                    <div className="overflow-x-auto">
+                <div className="lg:col-span-2 bg-white rounded-lg shadow-md p-4 lg:p-6 h-full overflow-hidden">
+                    <h2 className="text-lg lg:text-xl font-semibold text-gray-800 mb-1">Current Job Openings</h2>
+                    <p className="text-xs lg:text-sm text-gray-600 mb-4">Browse our open positions and find a career that suits your talents.</p>
+                    <div className="overflow-y-auto h-[calc(100%-60px)]"> {/* Adjusted to fit the height */}
                         <PublicVacancyTable />  {/* Render the table */}
                     </div>
                 </div>
 
                 {/* Application Form Section */}
-                <div className="lg:w-1/3 bg-white rounded-lg shadow-lg p-6">
-                    <h2 className="text-2xl font-semibold text-gray-800 mb-4">Submit Your Application</h2>
-                    <p className="text-gray-600 mb-6">Fill out the form and upload your resume to apply for a position.</p>
+                <div className="bg-white rounded-lg shadow-md p-4 lg:p-6 h-full overflow-hidden">
+                    <h2 className="text-lg lg:text-xl font-semibold text-gray-800 mb-1">Submit Your Application</h2>
+                    <p className="text-xs lg:text-sm text-gray-600 ">Fill out the form and upload your resume to apply for a position.</p>
                     <div className="overflow-hidden">
                         <SendPdf />  {/* Render the form */}
                     </div>

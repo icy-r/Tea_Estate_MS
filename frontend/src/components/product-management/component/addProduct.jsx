@@ -33,8 +33,9 @@ const AddProduct = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+    
         try {
+            // Check if there's an id in inputs, which indicates an update
             if (inputs.id) {
                 const response = await axios.put(`http://localhost:3001/api/catalog/${inputs.id}`, {
                     pid: String(inputs.pid),
@@ -46,6 +47,8 @@ const AddProduct = () => {
                     aucTime: String(inputs.aucTime),
                 });
                 console.log("Catalog Updated:", response.data);
+                // Navigate to ManageCatalog after updating
+                navigate('/admin/product/ManageCatalog'); 
             } else {
                 const response = await axios.post("http://localhost:3001/api/catalog/", {
                     pid: String(inputs.pid),
@@ -57,11 +60,14 @@ const AddProduct = () => {
                     aucTime: String(inputs.aucTime),
                 });
                 console.log("Product Added:", response.data);
+                // Navigate to ManageCatalog after adding
+                navigate('/admin/product/ManageCatalog'); 
             }
         } catch (error) {
             console.error("API Error:", error);
         }
     };
+    
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -94,16 +100,11 @@ const AddProduct = () => {
                             onChange={handleChange}
                         >
                             <option value="">Select quality</option>
-                            <option value="Flowery Orange Pekoe (FOP)">Flowery Orange Pekoe (FOP)</option>
-                            <option value="Orange Pekoe (OP)">Orange Pekoe (OP)</option>
-                            <option value="Pekoe (P)">Pekoe (P)</option>
-                            <option value="Broken Orange Pekoe (BOP)">Broken Orange Pekoe (BOP)</option>
-                            <option value="Broken Pekoe (BP)">Broken Pekoe (BP)</option>
-                            <option value="Broken Pekoe Fanning (BPF)">Broken Pekoe Fanning (BPF)</option>
-                            <option value="Pekoe Fannings (PF)">Pekoe Fannings (PF)</option>
-                            <option value="Dust Fannings (D)">Dust Fannings (D)</option>
-                            <option value="Golden Tips">Golden Tips</option>
-                            <option value="Silver Tips (White Tea)">Silver Tips (White Tea)</option>
+                            
+                            <option value="BOPF Green Tea">BOPF Green Tea</option>
+                            <option value="BOP Green Tea">BOP Green Tea</option>
+                            <option value="BOPF Black Tea">BOPF Black Tea</option>
+                            <option value="BOP Black Tea">BOP Black Tea</option>
                         </select>
                     </div>
 

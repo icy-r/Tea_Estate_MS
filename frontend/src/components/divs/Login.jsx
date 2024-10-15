@@ -131,7 +131,7 @@ const Login = ({ handleAuthEvt }) => {
             </div>
             <div className="mt-6 text-center text-sm text-color_focus">
               Don&apos;t have an account?{" "}
-              <Link to="/register" className="text-color_button underline">
+              <Link to="/AddBuyer" className="text-color_button underline">
                 Register
               </Link>
             </div>

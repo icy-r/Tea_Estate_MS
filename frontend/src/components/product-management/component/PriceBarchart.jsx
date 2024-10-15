@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../../services/axios.js';
 import { Box, Typography, CircularProgress, Paper, Grid } from '@mui/material';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid } from 'recharts';
 
 const UnitPriceBarGraph = () => {
   const [catalogs, setCatalogs] = useState([]);
@@ -61,30 +61,37 @@ const UnitPriceBarGraph = () => {
     <Box p={3}>
       {/* Loading spinner */}
       {loading ? (
-        <Box display="flex" justifyContent="center" alignItems="center" height="100vh ">
+        <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
           <CircularProgress />
         </Box>
       ) : (
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <Paper elevation={3} sx={{ mt: 4, p: 2 }}>
+          <Grid item xs={12}>
+            <Paper elevation={3} sx={{ mt: 4, p: 2, maxWidth: '80%', margin: '0 auto' }}> {/* Increase maxWidth and center the card */}
               <Typography variant="h5" align='center' gutterBottom>
                 Unit Price of Tea by Quality
               </Typography>
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={chartData}>
-                  <XAxis dataKey="quality" />
-                  <YAxis />
-                  <Tooltip />
+                  {/* Adding grid lines */}
+                  <CartesianGrid strokeDasharray="3 3" />
+                  {/* X-axis with label */}
+                  <XAxis dataKey="quality" label={{ value: 'Tea Quality', position: 'insideBottom', offset: -5 }} />
+                  {/* Y-axis with label */}
+                  <YAxis label={{ value: 'Unit Price (in Rs.)', angle: -90, position: 'insideLeft' }} />
+                  <Tooltip formatter={(value) => [`Rs. ${value.toFixed(2)}`, 'Unit Price']} />
                   <Legend />
-                  <Bar dataKey="unitPrice" fill="#82ca9d" />
+                  {/* Gradient color for bars */}
+                  <Bar dataKey="unitPrice" fill="url(#colorUv)" barSize={40} />
+                  <defs>
+                    <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+                      <stop offset="95%" stopColor="#8884d8" stopOpacity={0.8} />
+                    </linearGradient>
+                  </defs>
                 </BarChart>
               </ResponsiveContainer>
             </Paper>
-          </Grid>
-          {/* You can add another Grid item here for additional content in the second half of the page */}
-          <Grid item xs={12} sm={6}>
-            {/* Other content can go here */}
           </Grid>
         </Grid>
       )}

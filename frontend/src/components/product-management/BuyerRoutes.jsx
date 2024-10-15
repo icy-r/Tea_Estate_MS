@@ -32,8 +32,8 @@ const BuyerRoutes = () => {
           {/* Base Route for Buyer */}
           <Route path="addBuyer/" element={<AddBuyer />} />
           <Route path="manageBuyer/" element={<ManageBuyer />} />
-          <Route path="manageBuyer/:id" element={<UpdateBuyer />} />
-          <Route path="profile/" element={<Profile />} />
+          <Route path="updateBuyer" element={<UpdateBuyer buyerId ={"670b7934363b8e6bce2bf13d"} />} />
+          <Route path="profile/" element={<Profile buyerId ={"670b7934363b8e6bce2bf13d"}/>} />
           <Route 
             path="catalog/" 
             element={<Catalog wishlist={wishlist} toggleWishlist={toggleWishlist} />} // Pass wishlist and toggle function
@@ -43,7 +43,7 @@ const BuyerRoutes = () => {
             element={<WishList wishlist={wishlist} toggleWishlist={toggleWishlist} />} // Pass wishlist and toggle function
           />
           <Route path="orderhistory/" element={<OrderHistory />} />
-          <Route path="ordertracking/" element={<OrderTracking />} />
+          <Route path="ordertracking/" element={<OrderTracking buyerId ={"670b7934363b8e6bce2bf13d"}/>} />
           <Route path="quatation/" element={<Quatation />} />
         </Routes>
       </AdminDashboardLayout>

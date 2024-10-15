@@ -7,6 +7,7 @@ import Layouts from "./components/layouts/AdminDashboardLayout.jsx";
 // import Signup from "./components/product-management/components/Signup.jsx"
 import Register from "./components/divs/Register.jsx";
 import CareerVacancy from './components/employee-management/pages/careersPage.jsx';
+import Catalog from "./components/product-management/pages/Catalog.jsx";
 
 
 const router = createBrowserRouter([
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: "*",
     element: <Error404 />,
+  },
+  {
+    path: "/catalog",
+    element: <Catalog />,
   },
 ]);
 

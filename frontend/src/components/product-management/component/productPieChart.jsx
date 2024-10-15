@@ -58,8 +58,6 @@ const QualityPie = () => {
         height="50vh" 
         p={3}
       >
-       
-
         {/* Loading spinner */}
         {loading ? (
           <Box display="flex" alignItems="center">
@@ -69,7 +67,7 @@ const QualityPie = () => {
           <>
             {/* Conditionally render chart only if there is data */}
             {chartData.length > 0 ? (
-              <Paper elevation={3} sx={{ mt: 4, p: 2, width: '100%', maxWidth: '600px' }}>
+              <Paper elevation={3} sx={{ mt: 4, p: 2, width: '100%' }}>
                 <Typography variant="h5" align="center" gutterBottom>
                   Tea Product Quality Distribution
                 </Typography>
@@ -101,8 +99,6 @@ const QualityPie = () => {
           </>
         )}
       </Box>
-
-     
     </Box>
   );
 };

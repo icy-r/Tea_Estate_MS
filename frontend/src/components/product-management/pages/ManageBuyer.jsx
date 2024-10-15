@@ -22,11 +22,7 @@ const ManageBuyer = () => {
         fetchDetails();
     }, []);
     
-    // Handle update button click, navigating to the update page
-    const handleUpdate = (buyer) => {
-        console.log("Buyer ID:", buyer._id); 
-        navigateTo(`/admin/buyer/manageBuyer/${buyer._id}`, { state: { buyer } });
-    };
+    
     
     // Handle delete button click, deleting a buyer by id
     const handleDelete = async (id) => {
@@ -77,12 +73,7 @@ const ManageBuyer = () => {
                                     <td className="py-2 px-4 border">{buyer.telephone}</td>
                                     <td className="py-2 px-4 border">{buyer.email}</td>
                                     <td className="py-2 px-4 border text-center">
-                                        <button
-                                            onClick={() => handleUpdate(buyer)}
-                                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2" 
-                                        >
-                                            Update
-                                        </button>
+                                        
                                         <button
                                             onClick={() => handleDelete(buyer._id)}  // Correct use of _id here
                                             className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-5 rounded"

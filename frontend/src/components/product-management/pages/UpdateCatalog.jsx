@@ -53,6 +53,7 @@ const UpdateCatalog = () => {
                             type="text"
                             placeholder="Enter product ID"
                             onChange={handleChange}
+                            readOnly
                         />
                     </div>
                     <div className="mb-4">
@@ -67,16 +68,10 @@ const UpdateCatalog = () => {
                             onChange={handleChange}
                         >
                             <option value="">Select quality</option>
-                            <option value="Flowery Orange Pekoe (FOP)">Flowery Orange Pekoe (FOP)</option>
-                            <option value="Orange Pekoe (OP)">Orange Pekoe (OP)</option>
-                            <option value="Pekoe (P)">Pekoe (P)</option>
-                            <option value="Broken Orange Pekoe (BOP)">Broken Orange Pekoe (BOP)</option>
-                            <option value="Broken Pekoe (BP)">Broken Pekoe (BP)</option>
-                            <option value="Broken Pekoe Fanning (BPF)">Broken Pekoe Fanning (BPF)</option>
-                            <option value="Pekoe Fannings (PF)">Pekoe Fannings (PF)</option>
-                            <option value="Dust Fannings (D)">Dust Fannings (D)</option>
-                            <option value="Golden Tips">Golden Tips</option>
-                            <option value="Silver Tips (White Tea)">Silver Tips (White Tea)</option>
+                            <option value="BOPF Green Tea">BOPF Green Tea</option>
+                            <option value="BOP Green Tea">BOP Green Tea</option>
+                            <option value="BOPF Black Tea">BOPF Black Tea</option>
+                            <option value="BOP Black Tea">BOP Black Tea</option>
                         </select>
                     </div>
 

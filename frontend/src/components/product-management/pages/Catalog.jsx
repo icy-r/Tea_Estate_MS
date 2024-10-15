@@ -39,14 +39,11 @@ function Catalog({ wishlist = [], toggleWishlist }) { // Default wishlist to an 
     // Function to determine product image
     const image = (quality) => {
         switch (quality) {
-            case "Broken Orange Pekoe (BOP)": return bop;
-            case "Broken Pekoe (BP)": return bp;
-            case "Broken Pekoe Fanning (BPF)": return bpf;
-            case "Dust Fannings (D)": return dust; 
-            case "Flowery Orange Pekoe (FOP)": return fop;
-            case "Golden Tip": return golden;
-            case "Orange Pekoe (OP)": return op;
-            case "Pekoe (P)": return p;
+            case "BOPF Green Tea": return bop;
+            case "BOP Green Tea": return bp;
+            case "BOPF Black Tea": return golden;
+            case "BOP Black Tea": return dust; 
+           
             default: return p; // Fallback image
         }
     };

@@ -63,11 +63,7 @@ const OrderHistory = () => {
     fetchOrders();
   }, []);
 
-  // Handle update
-  const handleUpdate = (order) => {
-    navigateTo(`/admin/sales/manageorders/${order._id}`, { state: { order } });
-  };
-
+  
   // Handle delete
   const handleDelete = async (id) => {
     try {
@@ -109,15 +105,10 @@ const OrderHistory = () => {
                 <p><strong>Company Name:</strong> {buyerDetails.company}</p>
                 <p><strong>Order Date:</strong> {new Date(order.orderDate).toLocaleDateString()}</p>
                 <p><strong>Status:</strong> {order.status}</p>
-                <div className="flex justify-between mt-4">
+                <div className="flex justify-center mt-4">
+                  
                   <button
-                    className="bg-teal-500 text-white px-4 py-2 rounded-md"
-                    onClick={() => handleUpdate(order)}
-                  >
-                    Update
-                  </button>
-                  <button
-                    className="bg-red-500 text-white px-4 py-2 rounded-md"
+                    className="bg-red-500 text-white px-4 py-2 rounded-md flex align-center"
                     onClick={() => handleDelete(order._id)}
                   >
                     Delete

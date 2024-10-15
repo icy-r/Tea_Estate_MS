@@ -6,7 +6,7 @@ const AddSupplier = () => {
     return (
 
         <div>
-            <h1 className="text-2xl"><b>Supplier Management</b></h1>
+            {/* <h1 className="text-2xl"><b>Supplier Management</b></h1> */}
         <div>
           
             <SupplierForm />

@@ -32,7 +32,7 @@ const StatusUpdateForm = ({ status, setStatus, updateStatus, loading }) => {
                     ))}
                 </Select>
             </FormControl>
-            <Button variant="contained" onClick={handleUpdateClick} disabled={loading}>
+            <Button variant="contained" onClick={handleUpdateClick} disabled={loading}  sx={{ bgcolor: '#15F5BA', color: 'black' }}>
                 {loading ? 'Updating...' : 'Update Status'}
             </Button>
         </div>

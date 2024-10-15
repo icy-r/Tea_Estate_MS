@@ -38,6 +38,10 @@ const RepairRoutes = () => {
           element={<EditMaintenanceRequest />}
         />
         <Route
+          path="editmaintenancerequest/:id"
+          element={<EditMaintenanceRequest />}
+        />
+        <Route
           path="viewmaintenance/:id"
           element={<ViewMaintenanceDetails />}
         />

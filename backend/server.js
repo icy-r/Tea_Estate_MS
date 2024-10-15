@@ -10,18 +10,6 @@ import nodemailer from "nodemailer";
 import "./config/database.js";
 
 // import routes
-//sales-management
-import { router as invoicesRouter } from './routes/sales-management/invoices-route.js'
-import{router as auctionRouter} from './routes/sales-management/auction-route.js'
-import { router as ordersRouter } from './routes/sales-management/orders-route.js'
-import { router as salesRouter } from './routes/sales-management/sales-route.js'
-
-//transport-management
-import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js'
-import { router as routeRouter } from './routes/transport-management/route-route.js'
-import { router as transportLogRouter } from './routes/transport-management/transport-log-route.js'
-import { router as transportRouter } from './routes/transport-management/transport-route.js'
-//user-management
 
 // inventory-management
 import { router as inventoryRoute } from './routes/inventory-management/inventory-route.js';
@@ -32,6 +20,7 @@ import { router as utilitiesInventoryRoute } from './routes/inventory-management
 
 // sales-management
 import { router as invoicesRouter } from './routes/sales-management/invoices-route.js';
+import { router as orderRouterSales } from './routes/sales-management/order-route.js';
 
 // transport-management
 import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js';
@@ -139,6 +128,7 @@ app.use("/api/employees", EmployeeManagement);
 
 // sales-management
 app.use("/api/invoices", invoicesRouter);
+app.use("/api/ordersSales", orderRouterSales);
 
 // supply-management
 app.use('/api/supplier', supplierRouter);
@@ -165,18 +155,6 @@ app.use("/api/requestMaintenance", requestMaintenanceRouter);
 app.use("/api/maintenances", maintenancesRouter);
 app.use("/api/assets", assetsRouter);
 
-//sales-management
-app.use('/api/invoice', invoicesRouter)
-app.use('/api/auction', auctionRouter)
-app.use('/api/orders', ordersRouter)
-app.use('/api/sales', salesRouter)
-
-//field-management
-app.use('/api/fields', fieldRouter)
-app.use('/api/fertilizers', fertilizerRouter)
-app.use('/api/harvests', harvestRouter)
-app.use('/api/labours', labourRouter)
-
 // field-management
 app.use("/api/fields", fieldRouter);
 app.use("/api/fertilizers", fertilizerRouter);
@@ -187,7 +165,7 @@ app.use("/api/harvestlogs", harvestlogRouter);
 // handle 404 errors
 app.use((req, res) => {
   console.log(req);
-  res.status(405).json({ err: "Not found" });
+  res.status(404).json({ err: "Not found" });
 });
 
 // handle all other errors

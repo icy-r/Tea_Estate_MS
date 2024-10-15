@@ -71,6 +71,12 @@ const ReportTea = () => {
     doc.save('tea_report.pdf');
   };
 
+  // Function to sort by newest (addedDate)
+  const handleSortByNewest = () => {
+    const sorted = [...filteredTeaCollection].sort((a, b) => new Date(b.addedDate) - new Date(a.addedDate));
+    setFilteredTeaCollection(sorted);
+  };
+
   return (
     <div className="p-8">
       <Typography variant="h4" className="mb-4">Tea Report</Typography>
@@ -107,8 +113,16 @@ const ReportTea = () => {
           variant="contained"
           color="success"
           onClick={handleGenerateReport}
+          style={{ marginRight: '10px' }}
         >
           Generate Report
+        </Button>
+        <Button
+          variant="outlined"
+          color="default"
+          onClick={handleSortByNewest}
+        >
+          Sort by Newest
         </Button>
       </div>
 

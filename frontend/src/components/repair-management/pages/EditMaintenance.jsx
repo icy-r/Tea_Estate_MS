@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "../../../services/axios";
+import { useParams, useNavigate } from "react-router-dom";
 
 const maintenanceStatus = ["scheduled", "in-progress", "completed"];
 
-const EditMaintenance = ({ maintenanceId, onClose }) => {
+const EditMaintenance = ({ onClose }) => {
   const [technicians, setTechnicians] = useState([]);
-  const [assetlist, setAssetlist] = useState([]);
-  const [assetNumber, setAssetNumber] = useState("");
+  const [assetName, setAssetName] = useState("");
   const [loading, setLoading] = useState(true);
-
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     assetId: "",
     scheduledDate: "",
@@ -24,12 +25,8 @@ const EditMaintenance = ({ maintenanceId, onClose }) => {
   });
 
   useEffect(() => {
-    Promise.all([
-      axios.get("/empManagement"),
-      axios.get("/assets"),
-      axios.get(`/maintenances/${maintenanceId}`),
-    ])
-      .then(([techRes, assetRes, maintenanceRes]) => {
+    Promise.all([axios.get("/empManagement"), axios.get(`/maintenances/${id}`)])
+      .then(([techRes, maintenanceRes]) => {
         const techData = techRes.data
           .filter((emp) => emp.designation === "Labour")
           .map((emp) => ({
@@ -37,41 +34,32 @@ const EditMaintenance = ({ maintenanceId, onClose }) => {
             name: `${emp.firstName} ${emp.lastName}`,
           }));
         setTechnicians(techData);
-        setAssetlist(assetRes.data);
 
         const maintenanceData = maintenanceRes.data;
         setFormData(maintenanceData);
 
-        const asset = assetRes.data.find(
-          (a) => a._id === maintenanceData.assetId
-        );
-        if (asset) {
-          setAssetNumber(asset.assetNumber);
-        }
-
-        setLoading(false);
+        // Fetch asset name
+        axios
+          .get(`/assets/${maintenanceData.assetId}`)
+          .then((assetRes) => {
+            setAssetName(assetRes.data.name);
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.error("Error fetching asset:", error);
+            setLoading(false);
+          });
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
         setLoading(false);
       });
-  }, [maintenanceId]);
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === "assetNumber") {
-      setAssetNumber(value);
-      const selectedAsset = assetlist.find(
-        (asset) => asset.assetNumber === value
-      );
-      if (selectedAsset) {
-        setFormData((prevData) => ({
-          ...prevData,
-          assetId: selectedAsset._id,
-        }));
-      }
-    } else if (name === "assignedTechnician") {
+    if (name === "assignedTechnician") {
       const selectedTechnician = technicians.find((tech) => tech._id === value);
       if (selectedTechnician) {
         setFormData((prevData) => ({
@@ -95,7 +83,7 @@ const EditMaintenance = ({ maintenanceId, onClose }) => {
     console.log("Form submitted:", formData);
 
     axios
-      .put(`/maintenances/${maintenanceId}`, formData)
+      .put(`/maintenances/${id}`, formData)
       .then((response) => {
         alert("Maintenance updated successfully!");
         onClose();
@@ -116,23 +104,13 @@ const EditMaintenance = ({ maintenanceId, onClose }) => {
         <h2 className="text-xl font-semibold mb-4">Edit Maintenance</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700">Asset Number:</label>
+            <label className="block text-gray-700">Asset Name:</label>
             <input
               type="text"
-              name="assetNumber"
-              value={assetNumber}
-              onChange={handleChange}
-              list="assetlist"
-              required
-              className="w-full px-3 py-2 border rounded-md"
+              value={assetName}
+              readOnly
+              className="w-full px-3 py-2 border rounded-md bg-gray-100"
             />
-            <datalist id="assetlist">
-              {assetlist.map((asset) => (
-                <option key={asset._id} value={asset.assetNumber}>
-                  {asset.assetNumber}
-                </option>
-              ))}
-            </datalist>
           </div>
           <div className="mb-4">
             <label className="block text-gray-700">Scheduled Date:</label>
@@ -229,7 +207,14 @@ const EditMaintenance = ({ maintenanceId, onClose }) => {
           <div className="flex justify-end space-x-2">
             <button
               type="button"
-              onClick={onClose}
+              // also navigate to the maintenance page
+              onClick={() => {
+                //if onclose is not defined, navigate to the maintenance page
+                if (onClose) {
+                  onClose();
+                }
+                navigate(`/admin/repair/viewmaintenance/${id}`);
+              }}
               className="bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400"
             >
               Cancel

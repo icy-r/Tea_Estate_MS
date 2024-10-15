@@ -15,7 +15,7 @@ import AssetDetails from "./pages/AssetDetails.jsx";
 import ViewMaintenanceDetails from "./pages/ViewMaintenanceDetails.jsx";
 import EditAsset from "./pages/EditAsset.jsx";
 import EditMaintenanceRequest from "./pages/EditMaintenanceRequest.jsx";
-
+import EditMaintenance from "./pages/EditMaintenance.jsx";
 const RepairRoutes = () => {
   return (
     <AdminDashboardLayout menu={menu}>
@@ -32,6 +32,11 @@ const RepairRoutes = () => {
         <Route path="scheduler" element={<MaintenanceScheduler />} />
         <Route path="assets/edit/:id" element={<EditAsset />} />
         <Route path="assetDetails/:id" element={<AssetDetails />} />
+        <Route path="editmaintenance/:id" element={<EditMaintenance />} />
+        <Route
+          path="editmaintenancerequest/:id"
+          element={<EditMaintenanceRequest />}
+        />
         <Route
           path="editmaintenancerequest/:id"
           element={<EditMaintenanceRequest />}

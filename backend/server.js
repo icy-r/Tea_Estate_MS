@@ -17,8 +17,9 @@ import { router as teaInventoryRoute } from './routes/inventory-management/inven
 import { router as fertInventoryRoute } from './routes/inventory-management/inventory-fertRoute.js';
 import { router as fuelInventoryRoute } from './routes/inventory-management/inventory-fuelRoute.js';
 import { router as utilitiesInventoryRoute } from './routes/inventory-management/inventory-utilitiesRoute.js';
-import { reduceFertilizerStock } from './controller/inventory-management/autoReduction.js';
-import { reduceFuelStock } from './controller/inventory-management/autoReduction.js';
+// Remove the import for autoReduction.js as it's causing an error
+// import { reduceFertilizerStock } from './controller/inventory-management/autoReduction.js';
+// import { reduceFuelStock } from './controller/inventory-management/autoReduction.js';
 
 // sales-management
 import { router as invoicesRouter } from './routes/sales-management/invoices-route.js';

@@ -23,6 +23,7 @@ const menuItems = [
     subItems: [
       { name: "Add Harvest", link: "field/add-harvest" },
       { name: "View Harvest", link: "field/view-harvest" },
+      { name: "Calculate OT", link: "field/calculate-ot" },
     ],
   },
   {

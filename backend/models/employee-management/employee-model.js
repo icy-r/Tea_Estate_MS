@@ -40,7 +40,7 @@ const employeeSchema = new Schema({
     required: true,
   },
 
-  contactNumber: {  
+  contactNumber: {
     type: String,
     required: true,
   },
@@ -48,14 +48,36 @@ const employeeSchema = new Schema({
   designation: {
     type: String,
     required: true,
-    enum: ["Employee Manager", "Labour", "Supervisor" , "Technician", "Driver", "Inventory Manager", "Field Manager", "Supply Manager"
-      ,"Transport Manager","Product Manager","Sales Manager","Repair Manager"],
+    enum: [
+      "Employee Manager",
+      "Labour",
+      "Supervisor",
+      "Technician",
+      "Driver",
+      "Inventory Manager",
+      "Field Manager",
+      "Supply Manager",
+      "Transport Manager",
+      "Product Manager",
+      "Sales Manager",
+      "Repair Manager",
+    ],
   },
 
   department: {
     type: String,
     required: true,
-    enum: ["Repair", "Inventory", "Supply", "Transport", "Product", "Harvest", "Sales", "Field","Employee"],
+    enum: [
+      "Repair",
+      "Inventory",
+      "Supply",
+      "Transport",
+      "Product",
+      "Harvest",
+      "Sales",
+      "Field",
+      "Employee",
+    ],
   },
 
   dateOfJoining: {
@@ -87,6 +109,11 @@ const employeeSchema = new Schema({
     required: true,
   },
 
+  ot: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
 });
 
 // Post-save hook for additional operations for specific designations

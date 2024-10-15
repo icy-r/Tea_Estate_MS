@@ -130,7 +130,7 @@ const UpdateField = () => {
     }
     area = Math.abs(area) / 2;
 
-    const areaInHectares = area * 1.0936 * 10000;
+    const areaInHectares = area * 1.0936 * 100000;
 
     let centerLat = 0,
       centerLng = 0;

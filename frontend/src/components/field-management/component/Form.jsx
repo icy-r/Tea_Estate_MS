@@ -82,7 +82,7 @@ export default function Form() {
     area = Math.abs(area) / 2;
 
     // Convert to hectares (very rough approximation)
-    const areaInHectares = area * 1.0936 * 10000;
+    const areaInHectares = area * 1.0936 * 100000;
 
     // Calculate center point
     let centerLat = 0,

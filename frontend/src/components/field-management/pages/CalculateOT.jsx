@@ -90,6 +90,24 @@ const OvertimeCalculator = () => {
     setCalculatedData(updatedData); // Update the calculated data
   };
 
+  const handleUpdateOT = async () => {
+    try {
+      const response = await axios.post(
+        "/empManagement/update-ot",
+        calculatedData
+      );
+
+      if (response.status === 200) {
+        alert("Overtime updated successfully!");
+      } else {
+        alert("Failed to update overtime. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error updating overtime:", error);
+      alert("Error updating overtime. Please try again.");
+    }
+  };
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold text-center mb-4">
@@ -155,6 +173,12 @@ const OvertimeCalculator = () => {
           )}
         </tbody>
       </table>
+      <button
+        onClick={handleUpdateOT}
+        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+      >
+        Update OT
+      </button>
     </div>
   );
 };

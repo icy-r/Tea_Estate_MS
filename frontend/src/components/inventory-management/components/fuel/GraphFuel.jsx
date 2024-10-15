@@ -5,34 +5,34 @@ import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recha
 
 const COLORS = ['#0088FE', '#FF8042', '#FFBB28', '#00C49F'];
 
-const GraphTea = () => {
-    const [teaData, setTeaData] = useState([]);
+const GraphFuel = () => {
+    const [fuelData, setFuelData] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const fetchTeaData = async () => {
+    const fetchFuelData = async () => {
         setLoading(true);
         try {
-            const response = await axios.get("/tea/");
-            const teaCollection = response.data;
-            calculateTeaData(teaCollection);
+            const response = await axios.get("/fuel/"); // Adjust endpoint if needed
+            const fuelCollection = response.data;
+            calculateFuelData(fuelCollection);
         } catch (error) {
-            console.error("Error fetching tea data:", error);
+            console.error("Error fetching fuel data:", error);
         } finally {
             setLoading(false);
         }
     };
 
-    const calculateTeaData = (teaCollection) => {
-        const teaTypes = ['BlackTea', 'GreenTea'];
-        const data = teaTypes.map(type => ({
+    const calculateFuelData = (fuelCollection) => {
+        const fuelTypes = ['Gasoline', 'Diesel', 'Kerosene', 'LPG']; // Adjust with actual fuel types
+        const data = fuelTypes.map(type => ({
             name: type,
-            value: teaCollection.filter(tea => tea.teaName === type).length,
+            value: fuelCollection.filter(fuel => fuel.fuelType === type).reduce((acc, fuel) => acc + fuel.quantityInStock, 0), // Sum the quantities
         }));
-        setTeaData(data);
+        setFuelData(data);
     };
 
     useEffect(() => {
-        fetchTeaData();
+        fetchFuelData();
     }, []);
 
     return (
@@ -44,19 +44,19 @@ const GraphTea = () => {
             ) : (
                 <Paper elevation={3} sx={{ mt: 4, p: 2 }}>
                     <Typography variant="h5" align="center" gutterBottom>
-                        Tea Overview
+                        Fuel Overview
                     </Typography>
                     <ResponsiveContainer width="100%" height={300}>
                         <PieChart>
                             <Pie
-                                data={teaData}
+                                data={fuelData}
                                 cx="50%"
                                 cy="50%"
                                 outerRadius={80}
                                 dataKey="value"
                                 label
                             >
-                                {teaData.map((entry, index) => (
+                                {fuelData.map((entry, index) => (
                                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                 ))}
                             </Pie>
@@ -70,4 +70,4 @@ const GraphTea = () => {
     );
 };
 
-export default GraphTea;
+export default GraphFuel;

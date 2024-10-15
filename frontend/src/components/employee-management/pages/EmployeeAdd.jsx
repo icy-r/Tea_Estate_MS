@@ -21,7 +21,13 @@ const EmployeeAdd = () => {
         salary: "",
         leavesLeft: 30, // Static value
         address: "",
-        password: "",   
+        password: "",
+        confirmPassword: "", // New confirm password field
+    });
+
+    const [errors, setErrors] = useState({
+        passwordMatch: true, // Track if password and confirm password match
+        allFieldsFilled: false, // Track if all fields are filled
     });
 
     const handleChange = (e) => {
@@ -29,11 +35,11 @@ const EmployeeAdd = () => {
             ...prevState,
             [e.target.name]: e.target.value,
         }));
+        validateForm();
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(inputs);
         sendRequest().then(() => navigate('/admin/employee/employeedetails'));
     };
 
@@ -82,6 +88,16 @@ const EmployeeAdd = () => {
             console.error('Error adding employee:', error.response || error); // Log the error
             alert('Failed to add employee. Please try again.');
         }
+    };
+
+    // Form validation function
+    const validateForm = () => {
+        const passwordValid = inputs.password === inputs.confirmPassword; // Check if passwords match
+        const allFilled = Object.values(inputs).every((field) => field !== ""); // Check if all fields are filled
+        setErrors({
+            passwordMatch: passwordValid,
+            allFieldsFilled: allFilled && passwordValid, // Ensure passwords match before considering form complete
+        });
     };
 
     return (
@@ -289,17 +305,7 @@ const EmployeeAdd = () => {
                             />
                         </div>
     
-                        {/* Leaves Left Input */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">Leaves Left</label>
-                            <input
-                                type="number"
-                                name="leavesLeft"
-                                value={30} // Default value
-                                readOnly // Make the input read-only
-                                className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            />
-                        </div>
+ 
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Password</label>
                             <input
@@ -317,6 +323,35 @@ const EmployeeAdd = () => {
                                         "Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character."}
                                 </div>
                             )}
+                        </div>
+
+                        {/* Confirm Password Input */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Confirm Password</label>
+                            <input
+                                type="password"
+                                name="confirmPassword"
+                                onChange={handleChange}
+                                value={inputs.confirmPassword}
+                                required
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            />
+                            {/* Password mismatch warning */}
+                            {!errors.passwordMatch && (
+                                <p className="text-red-500 text-xs mt-1">Passwords do not match</p>
+                            )}
+                        </div>
+
+                        {/* Leaves Left Input */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Leaves Left</label>
+                            <input
+                                type="number"
+                                name="leavesLeft"
+                                value={30} // Default value
+                                readOnly // Make the input read-only
+                                className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            />
                         </div>
     
                         {/* Address Input */}

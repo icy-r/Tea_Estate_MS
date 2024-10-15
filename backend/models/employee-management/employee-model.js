@@ -88,8 +88,9 @@ const employeeSchema = new Schema({
   },
 
   ot:{
-    type: String,
+    type: Number,
     required: false,
+    default: 0,
   }
 
 });

@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 
-const vehicleSchema = new mongoose.Schema(
+const { Schema, Types } = mongoose;
+
+const vehicleSchema = new Schema(
   {
     id: {
       type: String,
@@ -12,11 +14,12 @@ const vehicleSchema = new mongoose.Schema(
     },
     chassisNo: {
       type: String,
-      required: false,
+      required: true,
+      unique: true,
     },
     manufactureYear: {
       type: Date,
-      required: false,
+      required: true,
     },
     assignedDept: {
       type: String,
@@ -24,7 +27,7 @@ const vehicleSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      required: false,
+      required: true,
     },
     driver_id: {
       type: String,
@@ -41,8 +44,9 @@ const vehicleSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      required: false,
-      default: "Active",
+      required: true,
+      enum: ["operational", "under maintenance", "out of service"],
+      default: "operational",
     },
   },
   {
@@ -57,14 +61,14 @@ vehicleSchema.post("save", async function (doc) {
     const asset = new Asset({
       assetNumber: doc.chassisNo,
       assetType: "vehicle",
-      name: doc.owner_name,
+      name: doc.owner_name || "Unknown",
       model: doc.type,
       manufacturer: "N/A",
       purchaseDate: doc.manufactureYear,
       lastMaintenanceDate: null,
       nextScheduledMaintenance: null,
       status: doc.status,
-      location: doc.owner_address,
+      location: doc.owner_address || "Unknown",
       maintenanceHistory: [],
     });
     await asset.save();

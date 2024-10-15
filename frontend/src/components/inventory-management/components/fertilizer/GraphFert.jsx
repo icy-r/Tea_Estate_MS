@@ -5,34 +5,36 @@ import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recha
 
 const COLORS = ['#0088FE', '#FF8042', '#FFBB28', '#00C49F'];
 
-const GraphTea = () => {
-    const [teaData, setTeaData] = useState([]);
+const GraphFert = () => {
+    const [fertData, setFertData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const fetchTeaData = async () => {
+    const fetchFertData = async () => {
         setLoading(true);
         try {
-            const response = await axios.get("/tea/");
-            const teaCollection = response.data;
-            calculateTeaData(teaCollection);
+            const response = await axios.get("/fert/"); // Ensure this endpoint is correct
+            const fertCollection = response.data;
+            calculateFertData(fertCollection);
         } catch (error) {
-            console.error("Error fetching tea data:", error);
+            console.error("Error fetching fertilizer data:", error);
+            setError(error);
         } finally {
             setLoading(false);
         }
     };
 
-    const calculateTeaData = (teaCollection) => {
-        const teaTypes = ['BlackTea', 'GreenTea'];
-        const data = teaTypes.map(type => ({
+    const calculateFertData = (fertCollection) => {
+        const fertilizerTypes = [...new Set(fertCollection.map(fert => fert.fertilizerType))];
+        const data = fertilizerTypes.map(type => ({
             name: type,
-            value: teaCollection.filter(tea => tea.teaName === type).length,
+            value: fertCollection.filter(fert => fert.fertilizerType === type).length,
         }));
-        setTeaData(data);
+        setFertData(data);
     };
 
     useEffect(() => {
-        fetchTeaData();
+        fetchFertData();
     }, []);
 
     return (
@@ -41,22 +43,28 @@ const GraphTea = () => {
                 <Box display="flex" justifyContent="center" alignItems="center">
                     <CircularProgress />
                 </Box>
+            ) : error ? (
+                <Paper elevation={3} sx={{ mt: 4, p: 2 }}>
+                    <Typography variant="h5" align="center" gutterBottom>
+                        Error fetching fertilizer data
+                    </Typography>
+                </Paper>
             ) : (
                 <Paper elevation={3} sx={{ mt: 4, p: 2 }}>
                     <Typography variant="h5" align="center" gutterBottom>
-                        Tea Overview
+                        Fertilizer Overview
                     </Typography>
                     <ResponsiveContainer width="100%" height={300}>
                         <PieChart>
                             <Pie
-                                data={teaData}
+                                data={fertData}
                                 cx="50%"
                                 cy="50%"
                                 outerRadius={80}
                                 dataKey="value"
                                 label
                             >
-                                {teaData.map((entry, index) => (
+                                {fertData.map((entry, index) => (
                                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                 ))}
                             </Pie>
@@ -70,4 +78,5 @@ const GraphTea = () => {
     );
 };
 
-export default GraphTea;
+
+export default GraphFert;

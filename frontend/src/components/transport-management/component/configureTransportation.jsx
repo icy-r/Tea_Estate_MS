@@ -127,7 +127,7 @@ const ConfigureTransport = () => {
           name="dailyOccurrence"
           value={formData.dailyOccurrence}
           onChange={handleChange}
-          inputProps={{ min: 1 }}
+          inputProps={{ min: 1, max: 3 }} // Set min to 1 and max to 3
           required
           fullWidth
           variant="outlined"

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../../../services/axios.js';
 import PropTypes from 'prop-types';
-import imge from '../../../assets/logo.png';
+import imge from '../../../assets/dashboard/truckPlaceholder.png';
 import {
   Typography,
   TextField,
@@ -84,6 +84,8 @@ const VehiclePortal = ({ vehicle_id, isSearchOpen = true }) => {
   };
 
   return (
+
+    <div>
     <div style={{ padding: '32px' }}>
       {/* Page Title */}
       <div className='px-32'>
@@ -178,6 +180,7 @@ const VehiclePortal = ({ vehicle_id, isSearchOpen = true }) => {
           </Typography>
         )
       )}
+    </div>
     </div>
   );
 };

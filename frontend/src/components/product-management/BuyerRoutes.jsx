@@ -27,7 +27,7 @@ const BuyerRoutes = () => {
             <Route path="catalog/" element={<Catalog />} />
             <Route path="wishlist/" element={<WishList />} /> 
             <Route path="orderhistory/" element={<OrderHistory />} />
-            <Route path="ordertracking/" element={<OrderTracking />} />
+            <Route path="ordertracking/" element={<OrderTracking buyerId ={"670b7934363b8e6bce2bf13d"}/>} />
             <Route path="teaCollection/" element={<TeaCollection />} />
             <Route path="quatation/" element={<Quatation />} />
           </Routes>

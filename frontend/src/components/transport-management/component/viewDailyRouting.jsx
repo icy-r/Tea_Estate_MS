@@ -267,10 +267,10 @@ const ViewDailyRouting = () => {
                         <TableCell>{log.time}</TableCell>
                         <TableCell>
                           {/* Update and Delete buttons */}
-                          <Button variant="contained" color="primary" sx={{ bgcolor: '#15F5BA', color:'black' }}>
+                          <Button variant="contained" onClick={() => handleUpdateClick(log)} color="primary" sx={{ bgcolor: '#15F5BA', color:'black' }}>
                             Update
                           </Button>
-                          <Button variant="contained" color="error" sx={{ backgroundColor: '#FA7070', marginLeft: '10px',color:'black' }}>
+                          <Button variant="contained" color="error" onClick={() => { setSelectedLog(log); setOpenDeleteDialog(true); }} sx={{ backgroundColor: '#FA7070', marginLeft: '10px',color:'black' }}>
                             Delete
                           </Button>
                         </TableCell>
@@ -354,7 +354,7 @@ const ViewDailyRouting = () => {
                         onChange={(e) => setUpdateForm({ ...updateForm, status: e.target.value })}
                     >
                         <MenuItem value="upcoming">Upcoming</MenuItem>
-                        <MenuItem value="completed">Completed</MenuItem>
+                        <MenuItem value="Completed">Completed</MenuItem>
                         <MenuItem value="canceled">Canceled</MenuItem>
                     </Select>
                     </FormControl>

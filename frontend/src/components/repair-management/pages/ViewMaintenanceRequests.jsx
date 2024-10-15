@@ -1,6 +1,7 @@
-import jsPDF from "jspdf";
+import React, { useState, useEffect } from "react";
 import axios from "../../../services/axios.js";
-import { useEffect, useState } from "react";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import {
   FaFilter,
   FaSearch,
@@ -9,99 +10,95 @@ import {
 } from "react-icons/fa";
 import { MdClear } from "react-icons/md";
 import { motion, AnimatePresence } from "framer-motion";
-import Form from "../components/Form.jsx";
+import { useNavigate } from "react-router-dom";
 import Status from "../../divs/Status.jsx";
-import { MenuItem, Select } from "@mui/material";
-import formdataentry from "../data-files/form-entry-data-report.js";
 
 const basicHeaderItems = [
-  "Request ID",
+  "Request Number",
   "Status",
-  "Item ID",
-  "Request Date",
-  "Issue Description",
-  "Priority Level",
-  "Assigned Technician ID",
+  "Asset",
+  "Created At",
+  "Description",
+  "Priority",
+  "Assigned Technician",
 ];
 
-//view available reported reports
 const ViewReports = () => {
   const [data, setData] = useState([]);
   const [filterOpen, setFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [isCreate, setIsCreate] = useState(false);
-  const [formRow, setFormRow] = useState({});
   const [loading, setLoading] = useState(true);
   const [statusOptions, setStatusOptions] = useState([]);
+  const navigate = useNavigate();
 
   const handlePrint = () => {
     const doc = new jsPDF();
-    doc.text("Report's report", 10, 10);
-    let bodyData;
-    if (statusFilter === "all") {
-      bodyData = data.map((item) => [
-        item.request_id,
-        item.item_id,
-        item.request_date,
-        item.issue_description,
-        item.priority_level,
-        item.assigned_technician_id,
+    doc.text("Maintenance Reports", 10, 10);
+    let bodyData = data
+      .filter((item) => statusFilter === "all" || item.status === statusFilter)
+      .map((item) => [
+        item.requestNumber,
+        item.asset.assetName,
+        new Date(item.createdAt).toLocaleDateString(),
+        item.description,
+        item.priority,
+        item.assignedTo.name,
         item.status,
       ]);
-    } else {
-      bodyData = data
-        .filter((item) => item.status === statusFilter)
-        .map((item) => [
-          item.request_id,
-          item.item_id,
-          item.request_date,
-          item.issue_description,
-          item.priority_level,
-          item.assigned_technician_id,
-          item.status,
-        ]);
-    }
 
     doc.autoTable({
-      head: [
-        [
-          "Request ID",
-          "Item ID",
-          "Request Date",
-          "Issue Description",
-          "Priority Level",
-          "Assigned Technician ID",
-          "Status",
-        ],
-      ],
+      head: [basicHeaderItems],
       body: bodyData,
     });
-    doc.save("report.pdf");
+    doc.save("maintenance_report.pdf");
   };
 
   useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
     setLoading(true);
     axios
-      .get("/repairs/")
+      .get("/requestmaintenance")
       .then((response) => {
-        //convert the date to a more readable format in response.request_date
-        response.data.forEach((item) => {
-          item.request_date = new Date(item.request_date).toLocaleDateString();
-        });
-        setData(response.data);
+        const formattedData = response.data.map((item) => ({
+          ...item,
+          createdAt: new Date(item.createdAt).toLocaleDateString(),
+        }));
+        setData(formattedData);
         const availableStatuses = [
-          ...new Set(response.data.map((item) => item.status)),
+          ...new Set(formattedData.map((item) => item.status)),
         ];
         setStatusOptions(["all", ...availableStatuses]);
+        setLoading(false);
       })
-      .catch((error) => alert(error));
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      });
+  };
 
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, [isCreate]);
+  const handleEdit = (item) => {
+    console.log(item);
+    navigate(`/admin/repair/editmaintenancerequest/${item}`);
+  };
+
+  const handleDelete = (requestId) => {
+    if (window.confirm("Are you sure you want to delete this request?")) {
+      axios
+        .delete(`/requestMaintenance/${requestId}`)
+        .then(() => {
+          setData(data.filter((item) => item._id !== requestId));
+        })
+        .catch((error) => {
+          console.error("Error deleting request:", error);
+          alert("Failed to delete the request. Please try again.");
+        });
+    }
+  };
 
   const itemsPerPage = 10;
   const filteredData = data.filter(
@@ -118,38 +115,12 @@ const ViewReports = () => {
     currentPage * itemsPerPage
   );
 
-  const handleDelete = (request_id) => {
-    axios
-      .delete(`/repairs/${request_id}`)
-      .then(() =>
-        setData(data.filter((item) => item.request_id !== request_id))
-      )
-      .catch((error) => alert(error));
-  };
-
   return (
     <div className="container mx-auto p-4 max-w-6xl">
-      {isCreate && (
-        <AnimatePresence>
-          <motion.div
-            initial={{ opacity: 0, y: -40 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -40 }}
-            transition={{ duration: 0.3 }}
-            className="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex items-center justify-center"
-          >
-            <Form
-              setIsCreate={setIsCreate}
-              dataOld={formRow}
-              setFormRow={setFormRow}
-              model={"repairs"}
-              formEntryData={formdataentry}
-            />
-          </motion.div>
-        </AnimatePresence>
-      )}
       <div className="mb-4 flex flex-wrap items-center justify-between">
-        <h1 className="text-2xl font-bold mb-2 sm:mb-0">Report Management</h1>
+        <h1 className="text-2xl font-bold mb-2 sm:mb-0">
+          Maintenance Requests
+        </h1>
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setFilterOpen(!filterOpen)}
@@ -158,16 +129,16 @@ const ViewReports = () => {
             <FaFilter className="mr-2" /> Filters
           </button>
           <button
-            onClick={() => setIsCreate(!isCreate)}
+            onClick={() => navigate("/admin/repair/reqmaintenance")}
             className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
           >
-            Add Report
+            New Request
           </button>
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
             onClick={handlePrint}
           >
-            Print Data
+            Print Report
           </button>
         </div>
       </div>
@@ -183,7 +154,6 @@ const ViewReports = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-
               <FaSearch className="absolute right-3 top-3 text-gray-400" />
             </div>
             <select
@@ -210,7 +180,7 @@ const ViewReports = () => {
         </div>
       )}
 
-      {loading && (
+      {loading ? (
         <div className="flex justify-center items-center p-5">
           <div className="loader JS_on">
             <span className="binary"></span>
@@ -218,9 +188,7 @@ const ViewReports = () => {
             <span className="getting-there">LOADING STUFF...</span>
           </div>
         </div>
-      )}
-
-      {!isCreate && !loading && (
+      ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg overflow-hidden shadow-lg">
             <thead className="bg-color_extra text-white">
@@ -238,28 +206,25 @@ const ViewReports = () => {
             <tbody className="divide-y divide-gray-200">
               {paginatedData.map((item) => (
                 <tr
-                  key={item.request_id}
+                  key={item.requestNumber}
                   className="hover:bg-white_modified transition duration-300 text-black dark:bg-gray-800 dark:text-white hover:text-black"
                 >
-                  <td className="py-3 px-4">{item.request_id}</td>
+                  <td className="py-3 px-4">{item.requestNumber}</td>
                   <td className="py-3 px-4">{item.status}</td>
-                  <td className="py-3 px-4">{item.item_id}</td>
-                  <td className="py-3 px-4">{item.request_date}</td>
-                  <td className="py-3 px-4">{item.issue_description}</td>
-                  <td className="py-3 px-4">{item.priority_level}</td>
-                  <td className="py-3 px-4">{item.assigned_technician_id}</td>
+                  <td className="py-3 px-4">{item.asset.assetName}</td>
+                  <td className="py-3 px-4">{item.createdAt}</td>
+                  <td className="py-3 px-4">{item.description}</td>
+                  <td className="py-3 px-4">{item.priority}</td>
+                  <td className="py-3 px-4">{item.assignedTo.name}</td>
                   <td className="py-3 px-4 sticky flex right-0 backdrop-blur space-x-2  bg-color_extra">
                     <button
-                      onClick={() => {
-                        setIsCreate(true);
-                        setFormRow(item);
-                      }}
-                      className=" bg-blue-500 text-white px-4 py-1 rounded-md hover:bg-blue-600"
+                      onClick={() => handleEdit(item._id)}
+                      className="bg-blue-500 text-white px-4 py-1 rounded-md hover:bg-blue-600"
                     >
                       Edit
                     </button>
                     <button
-                      onClick={() => handleDelete(item.request_id)}
+                      onClick={() => handleDelete(item._id)}
                       className="bg-red-500 text-white px-4 py-1 rounded-md hover:bg-red-600"
                     >
                       Delete
@@ -272,36 +237,34 @@ const ViewReports = () => {
         </div>
       )}
 
-      {!isCreate && (
-        <div className="mt-4 flex items-center justify-between">
-          <p className="text-sm text-gray-700">
-            Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
-            {Math.min(currentPage * itemsPerPage, filteredData.length)} of{" "}
-            {filteredData.length} results
-          </p>
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className="px-3 py-1 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50"
-            >
-              <FaChevronLeft />
-            </button>
-            <span className="text-sm text-gray-700 dark:text-gray-300">
-              Page {currentPage} of {pageCount}
-            </span>
-            <button
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, pageCount))
-              }
-              disabled={currentPage === pageCount}
-              className="px-3 py-1 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50"
-            >
-              <FaChevronRight />
-            </button>
-          </div>
+      <div className="mt-4 flex items-center justify-between">
+        <p className="text-sm text-gray-700">
+          Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
+          {Math.min(currentPage * itemsPerPage, filteredData.length)} of{" "}
+          {filteredData.length} results
+        </p>
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className="px-3 py-1 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50"
+          >
+            <FaChevronLeft />
+          </button>
+          <span className="text-sm text-gray-700 dark:text-gray-300">
+            Page {currentPage} of {pageCount}
+          </span>
+          <button
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, pageCount))
+            }
+            disabled={currentPage === pageCount}
+            className="px-3 py-1 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50"
+          >
+            <FaChevronRight />
+          </button>
         </div>
-      )}
+      </div>
     </div>
   );
 };

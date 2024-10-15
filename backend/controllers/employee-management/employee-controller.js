@@ -58,4 +58,23 @@ async function destroy(req, res) {
   }
 }
 
-export { index, show, create, update, destroy };
+async function updateOT(req, res) {
+  try {
+    const updatedEmployees = req.body;
+
+    for (const emp of updatedEmployees) {
+      await Employee.findOneAndUpdate(
+        { firstName: emp.name },
+        { $inc: { ot: emp.overtimeAllowance } },
+        { new: true }
+      );
+    }
+
+    res.status(200).json({ message: "Overtime updated successfully" });
+  } catch (error) {
+    console.error("Error updating overtime:", error);
+    res.status(500).json({ error: "Failed to update overtime" });
+  }
+}
+
+export { index, show, create, update, destroy, updateOT };

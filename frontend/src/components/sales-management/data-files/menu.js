@@ -5,7 +5,7 @@ const menuItems = [
     name: "Sales Home",
     subItems: [
       { name: "Dashboard", link: "sales/" },
-      { name: "Manage Status", link: "/manage-status"   },
+      
     ],
   },
   {
@@ -30,6 +30,7 @@ const menuItems = [
     subItems: [
       { name: "Generate Invoice", link: "sales/invoice" },
       { name: "Manage Invoice", link: "sales/addinvoice" },
+      
     ],
   },
 

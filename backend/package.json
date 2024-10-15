@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "start": "nodemon ./bin/www.js",
-    "debug": "nodemon --inspect ./bin/www.js"
+    "debug": "nodemon --inspect ./bin/www.js",
+    "test": "jest",
+    "lint": "eslint **/*.js"
   },
   "dependencies": {
     "@react-email/components": "0.0.25",

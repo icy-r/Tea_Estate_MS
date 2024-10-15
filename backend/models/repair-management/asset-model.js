@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const { Schema, Types } = mongoose;
 
 const AssetSchema = new Schema({
-  assetNumber: { type: String, required: true },
+  assetNumber: { type: String, required: true, unique: true },
   assetType: { type: String, enum: ["vehicle", "machinery"], required: true },
   name: { type: String, required: true },
   model: { type: String, required: true },

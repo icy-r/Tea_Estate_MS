@@ -20,6 +20,7 @@ import { router as utilitiesInventoryRoute } from './routes/inventory-management
 
 // sales-management
 import { router as invoicesRouter } from './routes/sales-management/invoices-route.js';
+import { router as orderRouterSales } from "./routes/sales-management/order-route.js";
 
 // transport-management
 import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js';
@@ -72,6 +73,7 @@ import { log } from "console";
 // create the express app
 const app = express();
 
+
 // basic middleware
 app.use(cors());
 app.use(logger("dev"));
@@ -106,6 +108,7 @@ app.post("/send-email", (req, res) => {
   });
 });
 
+
 // mount routes
 app.use("/api/notifications", notificationsRouter);
 app.use("/api/profiles", profilesRouter);
@@ -127,25 +130,26 @@ app.use("/api/employees", EmployeeManagement);
 
 // sales-management
 app.use("/api/invoices", invoicesRouter);
+app.use("/api/ordersSales", orderRouterSales);
 
 // supply-management
-app.use('/api/supplier', supplierRouter);
-app.use('/api/supplierManager', supplierManagerRouter);
-app.use('/api/supplies', supplyRouter);
-app.use('/api/orders', orderRouter);
-app.use('/api/quotation', quotationRouter);
-app.use('/api/callingSupply', callingSupplyRoute);
+app.use("/api/supplier", supplierRouter);
+app.use("/api/supplierManager", supplierManagerRouter);
+app.use("/api/supplies", supplyRouter);
+app.use("/api/orders", orderRouter);
+app.use("/api/quotation", quotationRouter);
+app.use("/api/callingSupply", callingSupplyRoute);
 
 // transport-management
-app.use('/api/transports', transportRouter);
-app.use('/api/routes', routeRouter);
-app.use('/api/vehicles', vehiclesRouter);
-app.use('/api/transportLog', transportLogRouter);
-app.use('/api/drivers', driverRouter);
+app.use("/api/transports", transportRouter);
+app.use("/api/routes", routeRouter);
+app.use("/api/vehicles", vehiclesRouter);
+app.use("/api/transportLog", transportLogRouter);
+app.use("/api/drivers", driverRouter);
 
 // product-management
-app.use('/api/catalog', catalogRouter);
-app.use('/api/buyers', buyersRouter);
+app.use("/api/catalog", catalogRouter);
+app.use("/api/buyers", buyersRouter);
 
 // repair-management
 app.use("/api/technicians", technicianRouter);
@@ -163,7 +167,7 @@ app.use("/api/harvestlogs", harvestlogRouter);
 // handle 404 errors
 app.use((req, res) => {
   console.log(req);
-  res.status(405).json({ err: "Not found" });
+  res.status(404).json({ err: "Not found" });
 });
 
 // handle all other errors

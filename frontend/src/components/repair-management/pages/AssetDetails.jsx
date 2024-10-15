@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import axios from "../../../services/axios.js";
 import { jsPDF } from "jspdf";
 import { QRCodeSVG } from "qrcode.react";
-
+import { useNavigate } from "react-router-dom";
 const AssetDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [asset, setAsset] = useState(null);
   const [showQR, setShowQR] = useState(false);
 
@@ -50,6 +51,16 @@ const AssetDetails = () => {
 
   const toggleQR = () => {
     setShowQR(!showQR);
+  };
+
+  const handleEdit = (id) => {
+    navigate(`/admin/repair/assets/edit/${id}`);
+  };
+
+  const handleDelete = (id) => {
+    axios.delete(`/assets/${id}`).then(() => {
+      navigate("/admin/repair/viewassets");
+    });
   };
 
   return (
@@ -119,6 +130,21 @@ const AssetDetails = () => {
             <QRCodeSVG value={asset._id} size={128} />
           </div>
         )}
+      </div>
+      {/* edit and delete buttons */}
+      <div className="mt-6 flex justify-between">
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => handleEdit(asset._id)}
+        >
+          Edit
+        </button>
+        <button
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => handleDelete(asset._id)}
+        >
+          Delete
+        </button>
       </div>
     </div>
   );

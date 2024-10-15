@@ -80,7 +80,7 @@ const LeaveForm = ({_id}) => {
     return (
 
         <div className=" flex justify-center bg-white-100">
-            <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-md mt-10">
+            <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-md mt-5">
                 <h1 className="text-2xl font-bold mb-4 text-center text-gray-800">Leave Application</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -174,7 +174,7 @@ const LeaveForm = ({_id}) => {
                     <div className="flex justify-center mt-6">
                         <button
                             type="submit"
-                            className="bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 text-sm"
+                            className="bg-blue-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 text-sm"
                         >
                             Submit Leave Application
                         </button>

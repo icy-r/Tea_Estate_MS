@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from "@mui/material";
+import { set } from "mongoose";
 
 const LeaveTable = () => {
   const [leaves, setLeaves] = useState([]);
@@ -28,6 +29,14 @@ const LeaveTable = () => {
           ...leave,
           status: "Pending" // Initialize status as "Pending"
         }));
+        setLeaves(leavesWithStatus);
+
+        // const storageStatuses = JSON.parse(localStorage.getItem('leaveStatuses'))|| {};
+        // const updatedLeaves = leavesWithStatus.map(leave => ({
+        //   ...leave,
+        //   status: storageStatuses[leave._id] || 'pending'
+        // }));
+        
         console.log("Fetched data:", leavesWithStatus); // Debugging: check if data is being fetched correctly
         setLeaves(leavesWithStatus);
         setLoading(false); // Set loading to false after fetching
@@ -177,7 +186,7 @@ const LeaveTable = () => {
                   <th className="py-3 px-4 text-left w-1/8">Name</th>
                   <th className="py-3 px-4 text-left w-1/6">Email</th>
                   <th className="py-3 px-4 text-left w-1/12">Leaves Left</th>
-                  <th className="py-3 px-4 text-left w-1/6">Reason</th>
+                  <th className="py-3 px-4 text-left w-1/8">Reason</th>
                   <th className="py-3 px-4 text-left w-1/8">Date From</th>
                   <th className="py-3 px-4 text-left w-1/8">Date To</th>
                   <th className="py-3 px-4 text-left w-1/12">Type</th>

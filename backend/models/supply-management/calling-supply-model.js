@@ -9,6 +9,7 @@ const callingSupplySchema = new Schema({
   supplyType:String,
   quantity:Number,
   status:String,
+  qnumber:Number,
 
 }, 
 {

@@ -73,14 +73,7 @@ function App() {
               </ProtectedRoutes>
             }
           />
-          <Route
-            path="/supply/*"
-            element={
-              <ProtectedRoutes user={user}>
-                <SupplyHome />
-              </ProtectedRoutes>
-            }
-          />
+          
           <Route
             path="/field/*"
             element={
@@ -156,14 +149,22 @@ function App() {
             }
           />
 
-                    <Route 
-                        path="/supplier/*"
-                        element={
-                            <ProtectedRoutes user={user}>
-                                <SupplierHome/>
-                            </ProtectedRoutes>
-                        }
-                        />
+        <Route
+          path="/supply/*"
+          element={
+            <ProtectedRoutes user={user}>
+              <SupplyHome />
+            </ProtectedRoutes>
+          }
+        />
+        <Route 
+            path="/supplier/*"
+            element={
+                <ProtectedRoutes user={user}>
+                    <SupplierHome/>
+                </ProtectedRoutes>
+            }
+            />
 
           {/* Catch-all route */}
           <Route path="/*" element={<Error404 />} />

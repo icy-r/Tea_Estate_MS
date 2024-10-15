@@ -23,6 +23,8 @@ async function show(req, res) {
   }
 }
 
+
+
 // Create a quotation
 async function create(req, res) {
   try {
@@ -35,7 +37,24 @@ async function create(req, res) {
   }
 }
 
-// Update a quotation
+async function updateStatus(req, res) {
+  try {
+    const { id } = req.params; // Get the quotation ID from request parameters
+    const updatedData = req.body; // Get the updated data from the request body
+
+    // Update the quotation using its Mongoose ID
+    const quotation = await Quotation.findByIdAndUpdate(id, updatedData, { new: true });
+    console.log(quotation);
+    if (!quotation) {
+      return res.status(404).json({ error: 'Quotation not found' });
+    }
+
+    res.json(quotation);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+}
+//update the quotation
 async function update(req, res) {
   try {
     const quotation = await Quotation.findOneAndUpdate({ callingSupplyId: req.params.id }, req.body, { new: true });
@@ -47,6 +66,7 @@ async function update(req, res) {
     res.status(400).json({ error: error.message });
   }
 }
+
 
 // Delete a quotation
 async function destroy(req, res) {
@@ -61,4 +81,4 @@ async function destroy(req, res) {
   }
 }
 
-export { index, show, create, update, destroy };
+export { index, show, create, update, destroy, updateStatus };

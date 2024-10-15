@@ -8,17 +8,16 @@ const invoiceSchema = new Schema(
         title: String,
         date: String,
         name: String,
-        id: String,
+        cid: String,
         address: String,
-        phone: String,
+        telephone: String,
+        email: String,
         description: String,
         quantity: String,
         uni_price: String,
         subtotal: String,
         sales_tax: String,
         grand_total: String,
-
-        
 
     },
     {

@@ -23,7 +23,7 @@ const GraphTea = () => {
     };
 
     const calculateTeaData = (teaCollection) => {
-        const teaTypes = ['BlackTea', 'GreenTea', 'WhiteTea', 'HerbalTea'];
+        const teaTypes = ['BlackTea', 'GreenTea'];
         const data = teaTypes.map(type => ({
             name: type,
             value: teaCollection.filter(tea => tea.teaName === type).length,

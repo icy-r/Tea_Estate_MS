@@ -13,6 +13,7 @@ const supplySchema = new Schema (
     expirationDate: Date,
     quantity: Number,
     supplyType: String,
+    
 
 },
 {

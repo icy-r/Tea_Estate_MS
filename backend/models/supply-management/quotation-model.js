@@ -22,7 +22,6 @@ const quotationSchema = new Schema({
 
   supplyType: {
     type: String,
-    enum: ['fertilizer', 'chemicals', 'fuel'], // Supply types
     required: false
   },
 
@@ -35,6 +34,7 @@ const quotationSchema = new Schema({
     type: Number,
     required: false
   },
+  
 
   status:{
     type: String,

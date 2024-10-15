@@ -1,29 +1,26 @@
-import { Router } from "express";
-import * as orderController from "../../controllers/sales-management/order-controller.js";
-import {checkAuth, decodeUserFromToken} from "../../middleware/auth-mid.js";
+import { Router } from 'express';
+import * as orderController from '../../controllers/sales-management/order-controller.js';
+import { checkAuth, decodeUserFromToken } from '../../middleware/auth-mid.js';
 
 const router = Router();
 
 /*---------- Public Routes ----------*/
+// Get all orders
+router.get('/', orderController.index);
 
+// Get a single order by ID
+router.get('/:id', orderController.show);
 
 /*---------- Protected Routes ----------*/
-router.use(decodeUserFromToken)
-// index for getting all orders defined in orderController
-router.get("/", orderController.index);
+router.use(decodeUserFromToken);
 
-// show for getting a single orders defined in orderController
-router.get("/:id", orderController.show);
+// Create a new order
+router.post('/', orderController.create);
 
-// create for creating a new order defined in orderController
-router.post("/", checkAuth, orderController.create);
+// Update an existing order
+router.put('/:id', orderController.update);
 
-// update for updating a order defined in orderController
-router.put("/:id", checkAuth, orderController.update);
-
-// destroy for deleting a order defined in orderController
-router.delete("/:id", checkAuth, orderController.destroy);
-
+// Delete an order
+router.delete('/:id', orderController.destroy);
 
 export { router };
-

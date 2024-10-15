@@ -16,6 +16,8 @@ import AdminLogin from "./login/AdminLogin.jsx";
 import LandingPage from "./landingPage/LandingPage.jsx";
 import CreateInventory from '../components/inventory-management/components/CreateInventory.jsx';
 
+import SalesHome from "../components/sales-management/pages/saleshome.jsx";
+
 
 import FunctionCard from "../components/dashboard/component/FunctionCard.jsx";
 import AdminDashboardLayout from "../components/layouts/AdminDashboardLayout.jsx";
@@ -165,6 +167,14 @@ function App() {
                 </ProtectedRoutes>
             }
             />
+          <Route
+            path="/sales/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <SalesHome />
+              </ProtectedRoutes>
+            }
+          />
 
           {/* Catch-all route */}
           <Route path="/*" element={<Error404 />} />

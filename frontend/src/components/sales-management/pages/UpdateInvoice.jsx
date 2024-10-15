@@ -46,7 +46,7 @@ const UpdateInvoice = () => {
             value={formData.invoice_Number}
             onChange={handleChange}
             className="border p-2 rounded-md w-full"
-            required
+            disabled
           />
         </div>
         <div>
@@ -79,7 +79,7 @@ const UpdateInvoice = () => {
             value={formData.name}
             onChange={handleChange}
             className="border p-2 rounded-md w-full"
-            required
+            disabled
           />
         </div>
         <div>
@@ -90,7 +90,7 @@ const UpdateInvoice = () => {
             value={formData.address}
             onChange={handleChange}
             className="border p-2 rounded-md w-full"
-            required
+            disabled
           />
         </div>
         <div>
@@ -101,7 +101,7 @@ const UpdateInvoice = () => {
             value={formData.phone}
             onChange={handleChange}
             className="border p-2 rounded-md w-full"
-            required
+            disabled
           />
         </div>
         <div>
@@ -112,7 +112,7 @@ const UpdateInvoice = () => {
             value={formData.grand_total}
             onChange={handleChange}
             className="border p-2 rounded-md w-full"
-            required
+            
           />
         </div>
         <button

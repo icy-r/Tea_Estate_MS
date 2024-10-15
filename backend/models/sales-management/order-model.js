@@ -10,7 +10,9 @@ const orderSchema = new Schema(
         pid: String,
         buyer_id: String, 
         status: String,
+      
         transportation_id: String,
+
         
     },
 
@@ -22,4 +24,7 @@ const orderSchema = new Schema(
 
 const Order = mongoose.model("orders", orderSchema);
 
-export { Order };
+
+
+export { Order };
+

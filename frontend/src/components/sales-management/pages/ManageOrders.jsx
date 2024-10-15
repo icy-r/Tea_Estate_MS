@@ -28,12 +28,13 @@ const ManageOrders = () => {
   useEffect(() => {
     setFilteredOrders(
       orders.filter((order) =>
-        order.orderID.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        order.pid.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        order.buyer_id.toLowerCase().includes(searchQuery.toLowerCase())
+        (order.orderID && order.orderID.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (order.pid && order.pid.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (order.buyer_id && order.buyer_id.toLowerCase().includes(searchQuery.toLowerCase()))
       )
     );
   }, [searchQuery, orders]);
+  
 
   // Handle update
   const handleUpdate = (order) => {

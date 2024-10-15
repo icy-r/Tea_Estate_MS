@@ -1,27 +1,43 @@
-import React from 'react';
-import { Avatar, Button } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Avatar, Button, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import axios from '../../../services/axios'; // Your axios service for API calls
 import golden from '@assets/product/GOLDEN.jpg';
 import op from '@assets/product/OP.jpg';
+import NavigateButton from '../component/NavigateButton';
 
 const Profile = () => {
   const navigate = useNavigate();
+  const [buyer, setBuyer] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const handleQuatationsNavigation = () => {
-    navigate('quatation/');
-  };
+  useEffect(() => {
+    const fetchBuyerDetails = async () => {
+      try {
+        console.log("Fetching buyer details...");
+        const token = localStorage.getItem("buyerToken"); // Get the token from localStorage
+        const buyerId = localStorage.getItem("buyerId");  // Get the buyer ID from localStorage (this should be set when logging in)
 
-  const handleOrderTrackingNavigation = () => {
-    navigate('ordertracking/');
-  };
+        if (!buyerId) {
+          throw new Error("Buyer ID is missing");
+        }
 
-  const handleOrderHistoryNavigation = () => {
-    navigate('orderhistory/');
-  };
+        const response = await axios.get(`/buyers/${buyerId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include token if required
+          },
+        });
+        console.log("Response data:", response.data); // Log response data
+        setBuyer(response.data); // Set buyer details in state
+      } catch (error) {
+        console.error("Failed to fetch buyer details", error);
+      } finally {
+        setLoading(false); // Set loading to false after the fetch attempt
+      }
+    };
 
-  const handleWishListNavigation = () => {
-    navigate('wishlist/');
-  };
+    fetchBuyerDetails();
+  }, []); // Only run once, since no hardcoded buyerId
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -30,28 +46,44 @@ const Profile = () => {
 
       {/* Profile Section */}
       <div className="bg-white p-6 shadow-md mx-auto mt-[-40px] rounded-lg flex flex-col items-center justify-center w-2/4">
-        <Avatar
-          src="https://i.pravatar.cc/150?img=3"
-          alt="Profile Picture"
-          sx={{ width: 80, height: 80 }}
-        />
-        <h2 className="mt-4 text-xl font-semibold">MIHISARANI A K S</h2>
-        <p className="text-gray-500">subodhi@gmail.com</p>
-        <Button
-        variant="contained"
-        sx={{ marginTop: '16px', backgroundColor: '#e0e0e0', color: '#000' }}
-        onClick={() => navigate('/UpdateBuyer')}
-        >
-  Edit Profile
-</Button>
+        {loading ? (
+          <CircularProgress /> // Show loading spinner
+        ) : (
+          <>
+            <Avatar
+              src={buyer ? buyer.profilePicture : "https://i.pravatar.cc/150?img=3"}
+              alt="Profile Picture"
+              sx={{ width: 80, height: 80 }}
+            />
+            {buyer ? (
+              <>
+                <h2 className="mt-4 text-xl font-semibold">
+                  {buyer.fName} {buyer.lName}
+                </h2>
+                <p className="text-gray-500">{buyer.email}</p>
+                <p className="text-gray-500">{buyer.position}</p>
+                <p className="text-gray-500">{buyer.company}</p>
+                <Button
+                  variant="contained"
+                  sx={{ marginTop: '16px', backgroundColor: '#e0e0e0', color: '#000' }}
+                  onClick={() => navigate(`/buyer/manageBuyer/${buyer._id}`)} // Use buyer._id dynamically
+                >
+                  Edit Profile
+                </Button>
+              </>
+            ) : (
+              <p>Buyer information not available.</p>
+            )}
+          </>
+        )}
       </div>
 
       {/* Navigation Buttons */}
       <div className="mt-6 flex justify-evenly">
-        <Button variant="outlined" onClick={handleQuatationsNavigation}>Quatations</Button>
-        <Button variant="outlined" onClick={handleOrderTrackingNavigation}>Track Order</Button>
-        <Button variant="outlined" onClick={handleOrderHistoryNavigation}>Order History</Button>
-        <Button variant="outlined" onClick={handleWishListNavigation}>Wish List</Button>
+        <NavigateButton text="Quotations" path="/buyer/quotation/" />
+        <NavigateButton text="Track Order" path="/buyer/ordertracking/" />
+        <NavigateButton text="Order History" path="/buyer/orderhistory/" />
+        <NavigateButton text="Wish List" path="/buyer/wishlist/" />
       </div>
 
       {/* Product Details Section */}

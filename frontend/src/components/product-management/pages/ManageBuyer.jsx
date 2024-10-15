@@ -53,7 +53,7 @@ const ManageBuyer = () => {
                 <table className="min-w-full bg-white">
                     <thead>
                         <tr className="w-full bg-teal-500 text-white">
-                            <th className="py-2 px-4 text-left">Custom Buyer ID</th>
+                            <th className="py-2 px-4 text-left">Buyer ID</th>
                             <th className="py-2 px-4 text-left">Buyer First Name</th>
                             <th className="py-2 px-4 text-left">Buyer Last Name</th>
                             <th className="py-2 px-4 text-left">Position</th>

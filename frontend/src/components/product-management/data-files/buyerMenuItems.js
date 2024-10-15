@@ -4,41 +4,17 @@ const buyerMenuItems = [
       subItems: [
     
         { name: "Profile", link: "buyer/profile" },
-        
-      ],
-    },
-    {
-      name: "Buyer",
-      subItems: [
         {name : "Sign Up", link: "buyer/AddBuyer"},
         { name: "Catalog", link: "buyer/Catalog" },
         { name: "Wish List", link: "buyer/WishList" },
         { name: "Manage Buyer", link: "buyer/ManageBuyer" },
         { name:"Order Tracking", link: "buyer/OrderTracking" },
-        ],
+        { name:"Order History", link: "buyer/OrderHistory" },
+        { name:"Quatation", link: "buyer/Quatation" },
+        
+      ],
     },
-
-    {
-      name: "Our Teas",
-      subItems: [
-        {name : "Teas", link: "buyer/TeaCollection"},
-        ],
-    },
-
-    {
-      name: "About Us",
-      subItems: [
-        {name : "About Us", link: "buyer/AddBuyer"},
-        ],
-    },
-
-    {
-      name: "Contact US",
-      subItems: [
-        {name : "Contact US", link: "buyer/AddBuyer"},
-        ],
-    },
-    
+   
 
     
   ];

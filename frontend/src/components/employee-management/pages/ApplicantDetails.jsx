@@ -165,7 +165,7 @@ function ViewPdfs({ refresh }) {
                                                     <td className="py-3 px-6">
                                                         <button
                                                             onClick={() => handleDownload(pdf.file, pdf._id)}
-                                                            className="bg-indigo-500 text-white px-2 py-1 rounded-md shadow-sm hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                                            className="bg-blue-500 text-white px-2 py-1 rounded-md shadow-sm hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                                         >
                                                             Download PDF
                                                         </button>

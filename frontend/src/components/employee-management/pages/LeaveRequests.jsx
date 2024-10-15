@@ -169,7 +169,7 @@ const LeaveTable = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white-100">
+    <div className=" bg-white-100">
       <div className="container mx-auto p-4">
         <div className="bg-white shadow-lg rounded-lg">
           <h1 className="text-2xl font-bold text-gray-800 mb-4 text-left">

@@ -49,7 +49,6 @@ async function create(req, res) {
       return res.status(404).json({ message: "Field not found" });
     }
 
-    const currentDate = new Date();
     const fertilizer = new Fertilizer({
       id,
       fieldName,
@@ -60,37 +59,13 @@ async function create(req, res) {
       })),
       frequency,
       weatherAdjustment: weatherAdjustment || false,
-      lastFertilizationDate: currentDate,
-      nextFertilizationDate: calculateNextFertilizationDate(
-        currentDate,
-        frequency
-      ),
+      lastFertilizationDate: "NA",
+      nextFertilizationDate: "NA",
       totalPerFertilizer: fertilizers.map((f) => ({
         type: f.type,
         totalApplied: 0,
       })),
     });
-
-    await fertilizer.save();
-
-    for (const fert of fertilizers) {
-      const quantity = fert.applicationRate * field.area;
-      await createFertilizerLog(
-        fertilizer._id,
-        currentDate,
-        fert.type,
-        quantity,
-        fieldName
-      );
-
-      const fertilizerTypeIndex = fertilizer.totalPerFertilizer.findIndex(
-        (t) => t.type === fert.type
-      );
-      if (fertilizerTypeIndex !== -1) {
-        fertilizer.totalPerFertilizer[fertilizerTypeIndex].totalApplied +=
-          quantity;
-      }
-    }
 
     await fertilizer.save();
 
@@ -135,8 +110,8 @@ async function destroy(req, res) {
 
 async function applyFertilizer(req, res) {
   try {
-    const { scheduleId } = req.params;
-    const fertilizer = await Fertilizer.findById(scheduleId);
+    const { id } = req.params;
+    const fertilizer = await Fertilizer.findOne({ id });
     if (!fertilizer) {
       return res.status(404).json({ message: "Fertilizer schedule not found" });
     }
@@ -150,7 +125,7 @@ async function applyFertilizer(req, res) {
     for (const fert of fertilizer.fertilizers) {
       const quantity = fert.applicationRate * field.area;
       await createFertilizerLog(
-        scheduleId,
+        fertilizer._id,
         currentDate,
         fert.type,
         quantity,

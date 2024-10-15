@@ -1,33 +1,35 @@
 import { FertilizerLog } from "../../models/field-management/fertilizerlog-model.js";
 import { Fertilizer } from "../../models/field-management/fertilizer-model.js";
+import { Field } from "../../models/field-management/field-model.js";
 
-// Controller to show fertilizer logs
- async function showFertilizerLogs(req, res) {
+async function showFertilizerLogs(req, res) {
   try {
-    const { scheduleId } = req.params; // Fetch the schedule ID from the request params
+    const { scheduleId } = req.params;
 
     let logs;
 
-    // If a specific schedule ID is provided, find logs for that schedule
     if (scheduleId) {
       logs = await FertilizerLog.find({ scheduleId });
 
       if (!logs || logs.length === 0) {
-        return res.status(404).json({ message: "No logs found for this fertilizer schedule" });
+        return res
+          .status(404)
+          .json({ message: "No logs found for this fertilizer schedule" });
       }
     } else {
-      // If no schedule ID is provided, fetch all logs
       logs = await FertilizerLog.find();
     }
 
-    // Respond with the found logs
-    res.status(200).json({ message: "Fertilizer logs retrieved successfully", logs });
+    res
+      .status(200)
+      .json({ message: "Fertilizer logs retrieved successfully", logs });
   } catch (error) {
-    res.status(500).json({ message: "Error retrieving fertilizer logs", error });
+    res
+      .status(500)
+      .json({ message: "Error retrieving fertilizer logs", error });
   }
 }
 
-// Controller to list all fertilizer logs
 async function indexFertilizerLogs(req, res) {
   try {
     const logs = await FertilizerLog.find();
@@ -36,18 +38,19 @@ async function indexFertilizerLogs(req, res) {
       return res.status(404).json({ message: "No fertilizer logs found" });
     }
 
-    // Respond with the found logs
-    res.status(200).json({ message: "Fertilizer logs retrieved successfully", logs });
+    res
+      .status(200)
+      .json({ message: "Fertilizer logs retrieved successfully", logs });
   } catch (error) {
-    res.status(500).json({ message: "Error retrieving fertilizer logs", error });
+    res
+      .status(500)
+      .json({ message: "Error retrieving fertilizer logs", error });
   }
 }
 
-
-// Existing createFertilizerLog method
 async function createFertilizerLog(req, res) {
   try {
-    const { scheduleId, fertilizerType, amount, recordedBy } = req.body;
+    const { scheduleId, fertilizerType, amount } = req.body;
 
     const schedule = await Fertilizer.findById(scheduleId);
 
@@ -55,19 +58,22 @@ async function createFertilizerLog(req, res) {
       return res.status(404).json({ message: "Fertilizer schedule not found" });
     }
 
-    const fieldArea = schedule.fieldId.area;
-    const totalAmountApplied = amount * fieldArea;
+    const field = await Field.findOne({ name: schedule.fieldName });
+    if (!field) {
+      return res.status(404).json({ message: "Field not found" });
+    }
+
+    const totalAmountApplied = amount * field.area;
 
     const newLog = new FertilizerLog({
       scheduleId,
       dateApplied: new Date(),
       fertilizerType,
       amount: totalAmountApplied,
+      fieldApplied: schedule.fieldName,
     });
 
     await newLog.save();
-
-    schedule.totalAmountApplied += totalAmountApplied;
 
     const fertilizerEntry = schedule.totalPerFertilizer.find(
       (f) => f.type === fertilizerType
@@ -102,8 +108,10 @@ function calculateNextFertilizationDate(frequency) {
       return new Date(now.setDate(now.getDate() + 7));
     case "Twice a week":
       return new Date(now.setDate(now.getDate() + 3));
-    default:
+    case "Once in 2 weeks":
       return new Date(now.setDate(now.getDate() + 14));
+    default:
+      return null; // For "When advised" or any other custom frequency
   }
 }
 

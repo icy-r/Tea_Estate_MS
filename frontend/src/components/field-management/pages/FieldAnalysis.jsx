@@ -26,6 +26,7 @@ import axios from "../../../services/axios.js";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import Chart from "chart.js/auto";
+import html2canvas from "html2canvas";
 
 const FieldAnalysis = () => {
   const [harvestData, setHarvestData] = useState([]);
@@ -169,10 +170,15 @@ const FieldAnalysis = () => {
     };
   }, []);
 
-  const handlePrint = () => {
+  const handlePrint = async () => {
     const doc = new jsPDF();
+
+    // Set title for the PDF
     doc.text("Field Analysis Summary", 10, 10);
+
+    // Add the table to the PDF
     doc.autoTable({
+      startY: 20, // Adjust the Y position so the table appears at the top
       head: [
         [
           "Field Name",
@@ -190,6 +196,50 @@ const FieldAnalysis = () => {
         stats.damagedQuality,
       ]),
     });
+
+    // Capture the bar chart and add it to the PDF
+    const barChartCanvas = barChartRef.current.canvas;
+    const barChartImage = await html2canvas(barChartCanvas).then((canvas) =>
+      canvas.toDataURL("image/png")
+    );
+    doc.addImage(
+      barChartImage,
+      "PNG",
+      10,
+      doc.autoTable.previous.finalY + 10,
+      190,
+      80
+    ); // Adjust position and size as needed
+
+    // Capture the pie chart and add it to the PDF
+    const pieChartCanvas = pieChartRef.current.canvas;
+    const pieChartImage = await html2canvas(pieChartCanvas).then((canvas) =>
+      canvas.toDataURL("image/png")
+    );
+    doc.addImage(
+      pieChartImage,
+      "PNG",
+      10,
+      doc.autoTable.previous.finalY + 100,
+      90,
+      80
+    ); // Adjust position and size as needed
+
+    // Capture the line chart and add it to the PDF
+    const lineChartCanvas = lineChartRef.current.canvas;
+    const lineChartImage = await html2canvas(lineChartCanvas).then((canvas) =>
+      canvas.toDataURL("image/png")
+    );
+    doc.addImage(
+      lineChartImage,
+      "PNG",
+      105,
+      doc.autoTable.previous.finalY + 100,
+      90,
+      80
+    ); // Adjust position and size as needed
+
+    // Save the PDF
     doc.save("field-analysis-summary.pdf");
   };
 

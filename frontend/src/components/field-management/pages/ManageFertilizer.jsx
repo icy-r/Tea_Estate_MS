@@ -20,11 +20,12 @@ const ManageFertilizer = () => {
   const [selectedFertilizerId, setSelectedFertilizerId] = useState(null);
   const [selectedFieldName, setSelectedFieldName] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [showFertilizerLog, setShowFertilizerLog] = useState(false);
   const [expandedFertilizers, setExpandedFertilizers] = useState({});
   const navigateTo = useNavigate();
 
-  // Fetch all fertilizer schedules
   const fetchFertilizerDetails = async () => {
     try {
       const response = await axios.get("/fertilizers");
@@ -38,7 +39,6 @@ const ManageFertilizer = () => {
     fetchFertilizerDetails();
   }, []);
 
-  // Function to find the field ID by its name
   const findIdByFieldName = async (fieldName) => {
     try {
       const response = await axios.get(`/fields?name=${fieldName}`);
@@ -49,28 +49,24 @@ const ManageFertilizer = () => {
     }
   };
 
-  // Navigate to the update page with selected fertilizer data
   const handleUpdate = (fertilizer) => {
     navigateTo(`/admin/field/manage-fertilizer/${fertilizer.id}`, {
       state: { fertilizer },
     });
   };
 
-  // Open delete confirmation dialog
   const handleOpenDialog = (id, fieldName) => {
     setSelectedFertilizerId(id);
-    setSelectedFieldName(fieldName); // Store the field name for use in deletion
+    setSelectedFieldName(fieldName);
     setOpenDialog(true);
   };
 
-  // Close delete confirmation dialog
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setSelectedFertilizerId(null);
     setSelectedFieldName("");
   };
 
-  // Delete fertilizer schedule and update field
   const handleDelete = async () => {
     try {
       const fieldId = await findIdByFieldName(selectedFieldName);
@@ -82,39 +78,56 @@ const ManageFertilizer = () => {
         )
       );
 
-      // Update the field's fertilizerSchedule attribute
       if (fieldId) {
         await axios.put(`/fields/${fieldId}`, { fertilizerSchedule: "none" });
       }
 
       handleCloseDialog();
+      setSnackbarMessage("Fertilizer schedule deleted successfully!");
+      setSnackbarSeverity("success");
       setSnackbarOpen(true);
     } catch (error) {
       console.error("Error deleting fertilizer schedule:", error);
+      setSnackbarMessage("Error deleting fertilizer schedule");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
     }
   };
 
-  // Close Snackbar
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
   };
 
-  // Toggle between fertilizer schedule and fertilizer log table
   const handleShowFertilizerLog = () => {
     setShowFertilizerLog(true);
   };
 
-  // Go back to fertilizer schedule table
   const handleBackToManageFertilizer = () => {
     setShowFertilizerLog(false);
   };
 
-  // Toggle details for each fertilizer
   const handleToggleDetails = (id) => {
     setExpandedFertilizers((prev) => ({
       ...prev,
       [id]: !prev[id],
     }));
+  };
+
+  const handleScheduleNow = async (fertilizer) => {
+    try {
+      const response = await axios.post(`/fertilizers/${fertilizer.id}/apply`);
+      if (response.status === 200) {
+        setSnackbarMessage("Fertilizer applied successfully!");
+        setSnackbarSeverity("success");
+        setSnackbarOpen(true);
+        fetchFertilizerDetails(); // Refresh the fertilizer list
+      }
+    } catch (error) {
+      console.error("Error applying fertilizer:", error);
+      setSnackbarMessage("Error applying fertilizer");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
+    }
   };
 
   return (
@@ -145,6 +158,7 @@ const ManageFertilizer = () => {
                   <th className="py-2 px-4 text-left">Field</th>
                   <th className="py-2 px-4 text-left">Fertilizers</th>
                   <th className="py-2 px-4 text-left">Frequency</th>
+                  <th className="py-2 px-4 text-left">Status</th>
                   <th className="py-2 px-4 text-center">Actions</th>
                   <th className="py-2 px-4 text-left">More Details</th>
                 </tr>
@@ -172,6 +186,12 @@ const ManageFertilizer = () => {
                         <td className="py-2 px-4 border">
                           {fertilizer.frequency}
                         </td>
+                        <td className="py-2 px-4 border">
+                          {fertilizer.lastFertilizationDate &&
+                          fertilizer.lastFertilizationDate !== "NA"
+                            ? "Active"
+                            : "Inactive"}
+                        </td>
                         <td className="py-2 px-4 border flex justify-center gap-2">
                           <button
                             className="bg-teal-500 text-white px-4 py-2 rounded-md"
@@ -190,6 +210,12 @@ const ManageFertilizer = () => {
                           >
                             Delete
                           </button>
+                          <button
+                            className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                            onClick={() => handleScheduleNow(fertilizer)}
+                          >
+                            Schedule Now
+                          </button>
                         </td>
                         <td className="py-2 px-4 border">
                           <button
@@ -206,7 +232,7 @@ const ManageFertilizer = () => {
                       </tr>
                       {expandedFertilizers[fertilizer.id] && (
                         <tr className="bg-gray-50">
-                          <td colSpan="7" className="py-2 px-4">
+                          <td colSpan="8" className="py-2 px-4">
                             <div className="pl-4">
                               <div>
                                 <strong>Weather Adjustment:</strong>{" "}
@@ -214,7 +240,8 @@ const ManageFertilizer = () => {
                               </div>
                               <div>
                                 <strong>Last Fertilization Date:</strong>{" "}
-                                {fertilizer.lastFertilizationDate
+                                {fertilizer.lastFertilizationDate &&
+                                fertilizer.lastFertilizationDate !== "NA"
                                   ? new Date(
                                       fertilizer.lastFertilizationDate
                                     ).toLocaleDateString()
@@ -222,7 +249,8 @@ const ManageFertilizer = () => {
                               </div>
                               <div>
                                 <strong>Next Fertilization Date:</strong>{" "}
-                                {fertilizer.nextFertilizationDate
+                                {fertilizer.nextFertilizationDate &&
+                                fertilizer.nextFertilizationDate !== "NA"
                                   ? new Date(
                                       fertilizer.nextFertilizationDate
                                     ).toLocaleDateString()
@@ -248,7 +276,7 @@ const ManageFertilizer = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="7" className="text-center py-4">
+                    <td colSpan="8" className="text-center py-4">
                       No fertilizer schedules available
                     </td>
                   </tr>
@@ -257,7 +285,6 @@ const ManageFertilizer = () => {
             </table>
           </div>
 
-          {/* Delete confirmation dialog */}
           <Dialog open={openDialog} onClose={handleCloseDialog}>
             <DialogTitle>Confirm Delete</DialogTitle>
             <DialogContent>
@@ -273,7 +300,6 @@ const ManageFertilizer = () => {
             </DialogActions>
           </Dialog>
 
-          {/* Snackbar for success message */}
           <Snackbar
             open={snackbarOpen}
             autoHideDuration={3000}
@@ -281,10 +307,10 @@ const ManageFertilizer = () => {
           >
             <Alert
               onClose={handleCloseSnackbar}
-              severity="success"
+              severity={snackbarSeverity}
               sx={{ width: "100%" }}
             >
-              Fertilizer schedule deleted successfully!
+              {snackbarMessage}
             </Alert>
           </Snackbar>
         </>

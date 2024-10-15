@@ -24,11 +24,7 @@ router.put("/:id", checkAuth, fertilizerController.update);
 // destroy for deleting a machine defined in machineController
 router.delete("/:id", checkAuth, fertilizerController.destroy);
 
-router.post(
-  "/:scheduleId/apply",
-  checkAuth,
-  fertilizerController.applyFertilizer
-);
+router.post("/:id/apply", fertilizerController.applyFertilizer);
 
 
 export { router };

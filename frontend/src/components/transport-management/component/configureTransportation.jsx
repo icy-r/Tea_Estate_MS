@@ -99,15 +99,26 @@ const ConfigureTransport = () => {
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         
         {/* Type input */}
-        <TextField
-          label="Type"
-          name="type"
-          value={formData.type}
-          onChange={handleChange}
-          required
-          fullWidth
-          variant="outlined"
-        />
+      
+        <FormControl fullWidth variant="outlined">
+          <InputLabel id="Type1">Type</InputLabel>
+          <Select
+            labelId="route-select-label"
+            name="type"
+            value={formData.type}
+            onChange={handleChange}
+            label="Type"
+            required
+          >
+            <MenuItem value="">
+              <em>Select Type</em>
+            </MenuItem>
+            <MenuItem value="Employee transportation">Employee Transportation</MenuItem>
+            <MenuItem value="Harvest transportation">Harvest Transportation</MenuItem>
+            <MenuItem value="Delivery transportation">Delivery Transportation</MenuItem>
+          </Select>
+        </FormControl>
+
 
         {/* Daily Occurrence input */}
         <TextField
@@ -138,7 +149,7 @@ const ConfigureTransport = () => {
             </MenuItem>
             {vehicles.map((vehicle) => (
               <MenuItem key={vehicle.id} value={vehicle.id}>
-                {vehicle.owner_name} ({vehicle.chassisNo})
+                Driver:{vehicle.driver_id} - {vehicle.id} - {vehicle.type}
               </MenuItem>
             ))}
           </Select>
@@ -160,7 +171,7 @@ const ConfigureTransport = () => {
             </MenuItem>
             {routes.map((route) => (
               <MenuItem key={route.id} value={route.id}>
-                Distance: {route.distance}km - Trips/Day: {route.tripsPerDayNeeded}
+                Route: {route.id}- Distance: {route.distance}km - Trips/Day: {route.tripsPerDayNeeded}
               </MenuItem>
             ))}
           </Select>
@@ -171,7 +182,8 @@ const ConfigureTransport = () => {
           type="submit"
           variant="contained"
           color="primary"
-          className="bg-blue-500 hover:bg-blue-600 text-white"
+          sx={{ bgcolor: '#15F5BA', '&:hover': { bgcolor: '#1AACAC' },boxShadow: 'none', color: 'black', border: 'none' }}
+          
         >
           Add Transport
         </Button>

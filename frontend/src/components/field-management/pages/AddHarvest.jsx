@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../../services/axios.js";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 const AddHarvest = () => {
   const [labours, setLabours] = useState([]);
@@ -7,6 +9,13 @@ const AddHarvest = () => {
   const [currentDate, setCurrentDate] = useState(
     new Date().toISOString().split("T")[0]
   );
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
   // Set the date once when the component mounts
   useEffect(() => {
@@ -31,7 +40,7 @@ const AddHarvest = () => {
     try {
       const response = await axios.get("/labours");
       const filteredLabours = response.data.filter(
-        (labour) => labour.role === "Labour"
+        (labour) => labour.role === "Labour" && labour.assignedField != "none"
       );
 
       const initialData = filteredLabours.map((labour) => ({
@@ -47,6 +56,7 @@ const AddHarvest = () => {
       setHarvestData(initialData);
     } catch (error) {
       console.error("Error fetching labour data:", error);
+      showSnackbar("Error fetching labour data", "error");
     }
   };
 
@@ -85,7 +95,7 @@ const AddHarvest = () => {
 
         // Add to harvests collection
         await axios.post("/harvests", {
-          //id: harvest.labour_id,
+          //id: harvest.id,
           labour_name: harvest.labour_name,
           field_name: harvest.field_name,
           date: harvest.date,
@@ -95,9 +105,14 @@ const AddHarvest = () => {
           total: total,
         });
 
-        // Update labour's harvest_qnty in labours collection
+        // Update labour's harvest_qnty and other quantities in labours collection
         await axios.put(`/labours/${harvest.labour_id}`, {
-          $inc: { harvest_qnty: total },
+          $inc: {
+            harvest_qnty: total,
+            best_qnty: harvest.best_qnty,
+            good_qnty: harvest.good_qnty,
+            damaged_qnty: harvest.damaged_qnty,
+          },
         });
 
         // Get field ID by field name and update field's harvest_qnty
@@ -114,14 +129,25 @@ const AddHarvest = () => {
       // Wait for all promises to resolve before proceeding
       await Promise.all(promises);
 
-      alert("Harvest data added successfully!");
+      showSnackbar("Harvest data added successfully!", "success");
       fetchLabours(); // Refresh the data after submission
     } catch (error) {
       console.error(
         "Error adding harvest data:",
         error.response?.data || error.message
       );
+      showSnackbar("Error adding harvest data", "error");
     }
+  };
+
+  const showSnackbar = (message, severity) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setSnackbarOpen(true);
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
   };
 
   return (
@@ -134,9 +160,9 @@ const AddHarvest = () => {
               <th className="py-2 px-4 text-left">Labour Name</th>
               <th className="py-2 px-4 text-left">Assigned Field</th>
               <th className="py-2 px-4 text-left">Date</th>
-              <th className="py-2 px-4 text-left">Best Quality</th>
-              <th className="py-2 px-4 text-left">Good Quality</th>
-              <th className="py-2 px-4 text-left">Poor Quality</th>
+              <th className="py-2 px-4 text-left">Best Quality (KG)</th>
+              <th className="py-2 px-4 text-left">Good Quality (KG)</th>
+              <th className="py-2 px-4 text-left">Poor Quality (KG)</th>
             </tr>
           </thead>
           <tbody>
@@ -198,6 +224,22 @@ const AddHarvest = () => {
       >
         Submit Harvest Data
       </button>
+
+      {/* Snackbar for notifications */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }} // Adjust position here
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

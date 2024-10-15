@@ -3,15 +3,14 @@ import mongoose from 'mongoose'
 const transportLogSchema = new mongoose.Schema({
 
 
-    id: {
-        type: String,
-        required: false,
-    },
+    // id: {
+    //     type: String,
+    //     required: false,
+    // },
     type: {
         type: String,
         required: true,
     },
-
     vehicle_id: {
         type: String,
         required: true,
@@ -28,10 +27,19 @@ const transportLogSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    startedTime: {
+        type: Date,
+        required: false,
+    },
+    completedTime: {
+        type: Date,
+        required: false,
+    },
     status: {
         type: String,
         required: true,
     },
+    
 
 
 },

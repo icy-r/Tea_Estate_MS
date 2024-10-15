@@ -1,7 +1,11 @@
+// ViewHarvest.js
 import React, { useEffect, useState } from "react";
 import axios from "../../../services/axios.js";
 import { FaSearch } from "react-icons/fa";
 import { MdClear } from "react-icons/md";
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
+import SummaryTable from "../component/SummaryTable.jsx"; // Import SummaryTable
 
 const ViewHarvest = () => {
   const [harvests, setHarvests] = useState([]);
@@ -9,6 +13,8 @@ const ViewHarvest = () => {
   const [selectedLabor, setSelectedLabor] = useState("all");
   const [selectedField, setSelectedField] = useState("all");
   const [filterOpen, setFilterOpen] = useState(false);
+  const [showSummary, setShowSummary] = useState(false);
+  const [fields, setFields] = useState([]);
 
   // Fetch harvest data from the collection
   const fetchHarvests = async () => {
@@ -20,9 +26,75 @@ const ViewHarvest = () => {
     }
   };
 
+  const fetchFields = async () => {
+    try {
+      const response = await axios.get("/fields/");
+      setFields(response.data);
+    } catch (error) {
+      console.error("Error fetching fields data:", error);
+    }
+  };
+
   useEffect(() => {
     fetchHarvests();
+    fetchFields();
   }, []);
+
+  const handlePrint = () => {
+    const doc = new jsPDF();
+    doc.text("Daily Harvest Information", 10, 10);
+    let bodydata;
+    if (selectedField === "all" && selectedLabor === "all") {
+      bodydata = harvests.map((harvest) => [
+        harvest.labour_name,
+        harvest.field_name,
+        new Date(harvest.date).toLocaleDateString(),
+        harvest.best_qnty,
+        harvest.good_qnty,
+        harvest.damaged_qnty,
+        harvest.total,
+      ]);
+    } else if (selectedLabor !== "all") {
+      bodydata = harvests
+        .filter((harvest) => harvest.labour_name === selectedLabor)
+        .map((harvest) => [
+          harvest.labour_name,
+          harvest.field_name,
+          new Date(harvest.date).toLocaleDateString(),
+          harvest.best_qnty,
+          harvest.good_qnty,
+          harvest.damaged_qnty,
+          harvest.total,
+        ]);
+    } else {
+      bodydata = harvests
+        .filter((harvest) => harvest.field_name === selectedField)
+        .map((harvest) => [
+          harvest.labour_name,
+          harvest.field_name,
+          new Date(harvest.date).toLocaleDateString(),
+          harvest.best_qnty,
+          harvest.good_qnty,
+          harvest.damaged_qnty,
+          harvest.total,
+        ]);
+    }
+    doc.autoTable({
+      head: [
+        [
+          "Labour",
+          "Field",
+          "Date",
+          "Best Quality",
+          "Good Quality",
+          "Poor Quality",
+          "Total",
+        ],
+      ],
+      body: bodydata,
+    });
+    doc.save("daily-harvest.pdf");
+  };
 
   // Filtered data based on search term, selected labor, and field
   const filteredHarvests = harvests.filter((harvest) => {
@@ -41,6 +113,50 @@ const ViewHarvest = () => {
   // Unique list of labors and fields for filter options
   const laborOptions = [...new Set(harvests.map((h) => h.labour_name))];
   const fieldOptions = [...new Set(harvests.map((h) => h.field_name))];
+
+  // Handle Summary Calculation for today's date
+  const calculateSummary = () => {
+    // Get today's date in the format 'YYYY-MM-DD' for comparison
+    const today = new Date().toLocaleDateString("en-CA"); // Canada locale for 'YYYY-MM-DD'
+
+    // Filter harvests by the current date
+    const todayHarvests = harvests.filter(
+      (harvest) => new Date(harvest.date).toLocaleDateString("en-CA") === today
+    );
+
+    // Calculate the summary for each field, only considering today's harvests
+    const summary = fields.map((field) => {
+      const fieldHarvests = todayHarvests.filter(
+        (harvest) => harvest.field_name === field.name
+      );
+
+      const totalBest = fieldHarvests.reduce(
+        (acc, curr) => acc + curr.best_qnty,
+        0
+      );
+      const totalGood = fieldHarvests.reduce(
+        (acc, curr) => acc + curr.good_qnty,
+        0
+      );
+      const totalDamaged = fieldHarvests.reduce(
+        (acc, curr) => acc + curr.damaged_qnty,
+        0
+      );
+      const totalAll = fieldHarvests.reduce((acc, curr) => acc + curr.total, 0);
+
+      return {
+        fieldName: field.name,
+        totalBest,
+        totalGood,
+        totalDamaged,
+        totalAll,
+      };
+    });
+
+    return summary;
+  };
+
+  const summaryData = calculateSummary();
 
   return (
     <div className="p-8">
@@ -75,6 +191,13 @@ const ViewHarvest = () => {
             <MdClear className="mr-2" /> Clear
           </button>
         </div>
+
+        <button
+          onClick={handlePrint}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+        >
+          Print Document
+        </button>
       </div>
 
       {filterOpen && (
@@ -149,6 +272,19 @@ const ViewHarvest = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Summary Button */}
+      <div className="flex justify-end mt-4">
+        <button
+          onClick={() => setShowSummary(!showSummary)}
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
+        >
+          {showSummary ? "Hide Summary" : "Show Summary"}
+        </button>
+      </div>
+
+      {/* Summary Table */}
+      {showSummary && <SummaryTable summaryData={summaryData} />}
     </div>
   );
 };

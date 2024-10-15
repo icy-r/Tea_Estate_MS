@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import AdminDashboardLayout from "../layouts/AdminDashboardLayout.jsx";
 import menu from "./data-files/menu.js";
 import HomeGraphs from "./pages/HomeGraphs.jsx";
-import ViewReports from "./pages/ViewReports.jsx";
+import ViewReports from "./pages/ViewMaintenanceRequests.jsx";
 import ViewMaintenance from "./pages/ViewMaintenance.jsx";
 import NewMaintenance from "./pages/NewMaintenance.jsx";
 import NewAsset from "./pages/NewAsset.jsx";
@@ -14,6 +14,8 @@ import MaintenanceScheduler from "./pages/MaintenanceScheduler.jsx";
 import AssetDetails from "./pages/AssetDetails.jsx";
 import ViewMaintenanceDetails from "./pages/ViewMaintenanceDetails.jsx";
 import EditAsset from "./pages/EditAsset.jsx";
+import EditMaintenanceRequest from "./pages/EditMaintenanceRequest.jsx";
+import EditMaintenance from "./pages/EditMaintenance.jsx";
 const RepairRoutes = () => {
   return (
     <AdminDashboardLayout menu={menu}>
@@ -30,6 +32,11 @@ const RepairRoutes = () => {
         <Route path="scheduler" element={<MaintenanceScheduler />} />
         <Route path="assets/edit/:id" element={<EditAsset />} />
         <Route path="assetDetails/:id" element={<AssetDetails />} />
+        <Route path="editmaintenance/:id" element={<EditMaintenance />} />
+        <Route
+          path="editmaintenancerequest/:id"
+          element={<EditMaintenanceRequest />}
+        />
         <Route
           path="viewmaintenance/:id"
           element={<ViewMaintenanceDetails />}

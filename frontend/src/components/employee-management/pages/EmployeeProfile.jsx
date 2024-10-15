@@ -6,7 +6,7 @@ import LeaveForm from '../components/LeaveForm'; // Importing LeaveForm componen
 import EmployeeDetails from '../components/EmployeeDetails'; // Importing EmployeeDetails component
 
 const EmployeeUpdate = () => {
-    const id = '66f315106d733222917e98d5';
+    const id = '67066279c76e8217d404227f';
 
     return (
         <div className="flex items-start justify-between space-x-4">

@@ -3,7 +3,7 @@
 const menuItems = [
   {
     name: "Dashboard",
-    subItems: [{ name: "Overview", link: "repair" }],
+    subItems: [{ name: "Overview", link: "repair/" }],
   },
   {
     name: "Assets",
@@ -22,10 +22,10 @@ const menuItems = [
     ],
   },
   {
-    name: "Reports",
+    name: "Maintenance Requests",
     subItems: [
-      { name: "View Reports", link: "repair/viewreports" },
-      { name: "Request Maintenance", link: "repair/reqmaintenance" },
+      { name: "New Requests", link: "repair/reqmaintenance" },
+      { name: "View Requests", link: "repair/viewreports" },
     ],
   },
   {

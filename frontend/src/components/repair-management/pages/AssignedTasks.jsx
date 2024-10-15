@@ -58,7 +58,7 @@ const EnhancedAssignedTasks = () => {
                   `/assets/${task.assetId}`
                 );
                 console.log("Fetched asset:", assetResponse.data);
-                return { ...task, assetNumber: assetResponse.data.assetNumber };
+                return { ...task, assetNumber: assetResponse.data.name };
               } catch (error) {
                 console.error(`Error fetching asset ${task.assetId}`, error);
                 return task;
@@ -348,9 +348,14 @@ const EnhancedAssignedTasks = () => {
             {paginatedTasks.map((task) => (
               <tr key={task._id} className="hover:bg-gray-50 hover:text-black">
                 <td className="py-3 px-4">
-                  {task.taskType === "request" ? "Request" : "Schedule"}
+                  {(task.taskType === "request"
+                    ? "Request /Repair"
+                    : "Schedule/Maintenance"
+                  ).slice(0, 8)}
                 </td>
-                <td className="py-3 px-4">{task.requestNumber || task._id}</td>
+                <td className="py-3 px-4">
+                  {(task.requestNumber || task._id).slice(0, 5)}...
+                </td>
                 <td className="py-3 px-4">{task.status}</td>
                 <td className="py-3 px-4">
                   {task.priority || task.maintenanceType}
@@ -360,7 +365,7 @@ const EnhancedAssignedTasks = () => {
                   {task.assignedTo?.name || task.assignedTechnician?.name}
                 </td>
                 <td className="py-3 px-4">
-                  {task.assetNumber || task.assetId}
+                  {task.assetNumber || task.asset.assetName}
                 </td>
                 <td className="py-3 px-4">
                   {new Date(task.date).toLocaleDateString()}

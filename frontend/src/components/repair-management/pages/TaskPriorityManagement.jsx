@@ -65,7 +65,7 @@ const TaskPriorityManagement = () => {
             {tasks.map((task) => (
               <tr key={task._id} className="hover:bg-gray-100">
                 <td className="py-2 px-4 border-b text-black">
-                  {task.description}
+                  {task.requestNumber}
                 </td>
                 <td className="py-2 px-4 border-b capitalize text-black text-center">
                   {task.priority}

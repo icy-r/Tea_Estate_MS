@@ -29,7 +29,7 @@ const menuItems = [
     name: "Distribution Management",
     subItems: [
       { name: "Distribution Management", link: "transport/distribute-management" },
-      { name: "Manage Service", link: "/manage-service" },
+     
     ],
   },
 ];

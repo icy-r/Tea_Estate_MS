@@ -139,7 +139,7 @@ app.use("/api/employees", EmployeeManagement);
 app.use("/api/supplier", supplierRouter);
 app.use("/api/supplierManager", supplierManagerRouter);
 app.use("/api/supplies", supplyRouter);
-app.use("/api/orders", orderRouter);
+app.use("/api/ordersSup", orderRouter);
 app.use("/api/quotation", quotationRouter);
 app.use("/api/callingSupply", callingSupplyRoute);
 

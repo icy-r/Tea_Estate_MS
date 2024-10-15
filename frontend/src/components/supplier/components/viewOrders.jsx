@@ -7,7 +7,7 @@ const ViewOrders = ({ supplierid }) => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get("/orders/");
+      const response = await axios.get("/ordersSup/");
       const filteredOrders = response.data.filter(order => order.supplierId === supplierid);
       setOrders(filteredOrders);
       console.log("Filtered Orders:", filteredOrders);

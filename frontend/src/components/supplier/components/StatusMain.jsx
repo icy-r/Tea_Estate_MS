@@ -16,7 +16,7 @@ const StatusMain = (supplierid) => {
     useEffect(() => {
         const fetchDetails = async () => {
             try {
-                const orders = await axios.get("/orders");
+                const orders = await axios.get("/ordersSup");
                 const routesRes = await axios.get("/routes");
                 const transportsRes = await axios.get("/transports");
 

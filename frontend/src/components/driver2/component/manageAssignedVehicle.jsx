@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from "../../../services/axios.js";
-import img from "../../../assets/dashboard/image 7.png";
+import img from "../../../assets/dashboard/truckPlaceholder.png";
 import {
   Card,
   CardContent,
@@ -72,7 +72,7 @@ const ManageAssignedVehicle = ({ driverId }) => {
                   <Table>
                     <TableHead>
                       <TableRow sx={{ bgcolor: '#15F5BA'}}>
-                        <TableCell><strong>Attribute</strong></TableCell>
+                        <TableCell ><strong>Attribute</strong></TableCell>
                         <TableCell><strong>Details</strong></TableCell>
                       </TableRow>
                     </TableHead>

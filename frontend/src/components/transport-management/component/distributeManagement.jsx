@@ -37,9 +37,9 @@ function getStep(status) {
     switch (status) {
         case 'upcoming':
             return 0;
-        case 'started':
+        case 'Trip Started':
             return 1;
-        case 'completed':
+        case 'Completed':
             return 2;
         default:
             return 0;
@@ -101,7 +101,7 @@ const DistributeManagement = () => {
     }, []);
 
     const fetchData = () => {
-        axios.get('/ordersSales')
+        axios.get('/orders')
             .then(response => {
                 setOrderSales(response.data);
                 setLoading(false);
@@ -110,20 +110,27 @@ const DistributeManagement = () => {
                 setError(error);
                 setLoading(false);
             });
-
-        axios.get('/transportLog')
+            axios.get('/transportLog')
             .then(response => {
-                const todayDate = getTodayDate();
+                const todayDate = getTodayDate(); // Assuming it's in 'YYYY-MM-DD' format
+                console.log(response.data);
+        
                 const filteredTransportOptions = response.data.filter(option => {
-                    const createdAtDate = option.createdAt.split('T')[0];
+                    // Format createdAtDate to 'YYYY-MM-DD' using toLocaleDateString
+                    const createdAtDate = new Date(option.date).toLocaleDateString('en-CA'); // 'en-CA' ensures 'YYYY-MM-DD'
+                    console.log("Today Date:", todayDate);
+                    console.log("Created At Date:", createdAtDate);
+        
                     return createdAtDate === todayDate && option.type === 'Delivery transportation';
                 });
+        
                 setTransportOptions(filteredTransportOptions);
+                console.log("Transport Options:", filteredTransportOptions);
             })
             .catch(error => {
                 setError(error);
             });
-    };
+        };
 
     const handleTransportChange = (orderId, transportId, buyer_id) => {
         setAssignedTransport(prevState => ({
@@ -131,7 +138,7 @@ const DistributeManagement = () => {
             [orderId]: transportId
         }));
 
-        axios.put(`/ordersSales/${orderId}`, { transportation_id: transportId })
+        axios.put(`/orders/${orderId}`, { transportation_id: transportId })
             .then(response => {
                 setSnackbarMessage(`Order ${orderId} updated successfully!`);
                 setSnackbarOpen(true);
@@ -248,7 +255,7 @@ const DistributeManagement = () => {
                                             <MenuItem value="" disabled>Select Transport</MenuItem>
                                             {transportOptions.map((option) => (
                                                 <MenuItem key={option._id} value={option._id}>
-                                                    {option.route_id} route on {option.time}
+                                                    rout:{option.route_id}  on:{option.time} vehicle:{option.vehicle_id}
                                                 </MenuItem>
                                             ))}
                                         </Select>

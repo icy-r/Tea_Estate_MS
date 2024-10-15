@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "../../../services/axios";
 import { getUser } from "../../../services/auth-service";
+import { useNavigate } from "react-router-dom";
 
 const ReqMaintenance = () => {
   const [technicians, setTechnicians] = useState([]);
   const [assets, setAssets] = useState([]);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     requestType: "repair",
     priority: "low",
@@ -115,6 +117,8 @@ const ReqMaintenance = () => {
           assetName: "",
         },
       });
+      console.log(confirmationMessage);
+      navigate("/admin/repair/viewreports");
     } catch (error) {
       console.error("Error submitting maintenance request:", error);
       setConfirmationMessage(
@@ -206,7 +210,9 @@ const ReqMaintenance = () => {
             Submit
           </button>
         </form>
-        {confirmationMessage && <p className="mt-4">{confirmationMessage}</p>}
+        {confirmationMessage && (
+          <p className="mt-4 text-black">{confirmationMessage}</p>
+        )}
       </div>
     </div>
   );

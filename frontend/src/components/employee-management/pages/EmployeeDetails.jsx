@@ -122,8 +122,8 @@ function EmployeeManagement() {
     <div className="bg-gray-100">
       <div className="container mx-auto">
         <div className="bg-white shadow-lg rounded-lg p-6">
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">Employee Management</h1>
-          <h2 className="text-xl text-gray-600 mb-8">Employee Details Page</h2>
+          <h1 className="text-2xl font-bold text-gray-800 mb-2">Employee Management</h1>
+          <h2 className="text-lg text-gray-600 mb-5">Employee Details Page</h2>
 
           {/* Search Bar, Role Filter Buttons, and Download Button on the same line */}
           <div className="mb-4 flex flex-wrap items-center space-x-4">
@@ -146,22 +146,23 @@ function EmployeeManagement() {
 
             {/* Role Filter Buttons */}
 
-            <Button onClick={() => filterByRole("Manager")} variant="contained" className="bg-red-500 text-white">
+            <Button onClick={() => filterByRole("Manager")} variant="contained" className="bg-blue-500 text-white">
               Manager
             </Button>
             <Button onClick={() => filterByRole("Labour")} variant="contained" className="bg-blue-500 text-white">
               Labour
             </Button>
-            <Button onClick={() => filterByRole("Driver")} variant="contained" className="bg-yellow-500 text-white">
+            <Button onClick={() => filterByRole("Driver")} variant="contained" className="bg-blue-500 text-white">
               Driver
             </Button>
-            <Button onClick={() => filterByRole("Technician")} variant="contained" className="bg-purple-500 text-white">
+            <Button onClick={() => filterByRole("Technician")} variant="contained" className="bg-blue-500 text-white">
               Technician
             </Button>
 
             <Button onClick={() => { setFilteredEmployees(employees); setRoleFilter(""); }} variant="contained" className="bg-gray-400 text-white">
               Clear Filter
             </Button>
+
 
             {/* Download Button */}
             <button

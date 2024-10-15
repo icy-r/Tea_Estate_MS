@@ -5,34 +5,34 @@ import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recha
 
 const COLORS = ['#0088FE', '#FF8042', '#FFBB28', '#00C49F'];
 
-const GraphTea = () => {
-    const [teaData, setTeaData] = useState([]);
+const GraphUtilities = () => {
+    const [utilitiesData, setUtilitiesData] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const fetchTeaData = async () => {
+    const fetchUtilitiesData = async () => {
         setLoading(true);
         try {
-            const response = await axios.get("/tea/");
-            const teaCollection = response.data;
-            calculateTeaData(teaCollection);
+            const response = await axios.get("/utilities/"); // Adjust the endpoint as necessary
+            const utilitiesCollection = response.data;
+            calculateUtilitiesData(utilitiesCollection);
         } catch (error) {
-            console.error("Error fetching tea data:", error);
+            console.error("Error fetching utilities data:", error);
         } finally {
             setLoading(false);
         }
     };
 
-    const calculateTeaData = (teaCollection) => {
-        const teaTypes = ['BlackTea', 'GreenTea'];
-        const data = teaTypes.map(type => ({
+    const calculateUtilitiesData = (utilitiesCollection) => {
+        const utilityTypes = [...new Set(utilitiesCollection.map(utility => utility.utilityType))];
+        const data = utilityTypes.map(type => ({
             name: type,
-            value: teaCollection.filter(tea => tea.teaName === type).length,
+            value: utilitiesCollection.filter(utility => utility.utilityType === type).length,
         }));
-        setTeaData(data);
+        setUtilitiesData(data);
     };
 
     useEffect(() => {
-        fetchTeaData();
+        fetchUtilitiesData();
     }, []);
 
     return (
@@ -44,19 +44,19 @@ const GraphTea = () => {
             ) : (
                 <Paper elevation={3} sx={{ mt: 4, p: 2 }}>
                     <Typography variant="h5" align="center" gutterBottom>
-                        Tea Overview
+                        Utilities Overview
                     </Typography>
                     <ResponsiveContainer width="100%" height={300}>
                         <PieChart>
                             <Pie
-                                data={teaData}
+                                data={utilitiesData}
                                 cx="50%"
                                 cy="50%"
                                 outerRadius={80}
                                 dataKey="value"
                                 label
                             >
-                                {teaData.map((entry, index) => (
+                                {utilitiesData.map((entry, index) => (
                                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                 ))}
                             </Pie>
@@ -70,4 +70,4 @@ const GraphTea = () => {
     );
 };
 
-export default GraphTea;
+export default GraphUtilities;

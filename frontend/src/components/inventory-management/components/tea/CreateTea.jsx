@@ -143,8 +143,6 @@ export default function CreateTea({ open, onClose, fetchTea }) {
                             <MenuItem value="" disabled>Select Tea Name</MenuItem>
                             <MenuItem value="BlackTea">Black Tea</MenuItem>
                             <MenuItem value="GreenTea">Green Tea</MenuItem>
-                            <MenuItem value="WhiteTea">White Tea</MenuItem>
-                            <MenuItem value="HerbalTea">Herbal Tea</MenuItem>
                         </Select>
                         <FormHelperText>{errors.teaName}</FormHelperText>
                     </FormControl>
@@ -160,8 +158,6 @@ export default function CreateTea({ open, onClose, fetchTea }) {
                             <MenuItem value="" disabled>Select Tea Grade</MenuItem>
                             <MenuItem value="bopf">BOPF</MenuItem>
                             <MenuItem value="bop">BOP</MenuItem>
-                            <MenuItem value="dust">Dust</MenuItem>
-                            <MenuItem value="superfine">Superfine</MenuItem>
                         </Select>
                         <FormHelperText>{errors.teaGrade}</FormHelperText>
                     </FormControl>

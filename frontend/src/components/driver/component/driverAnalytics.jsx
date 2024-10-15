@@ -6,10 +6,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ViewTodayTasks from "./TodayTaskShower.jsx";
 
 
-const api = {
-    key: "ff4430d9c19fd39aeed0e8101e4bb890",
-    base: "https://api.openweathermap.org/data/2.5/"
-};
+
 
 const DriverAnalytics = ({ vehicleId, driverId }) => {
     const [transportLog, setTransportLog] = useState([]);

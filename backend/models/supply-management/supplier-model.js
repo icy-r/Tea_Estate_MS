@@ -16,6 +16,7 @@ const supplierSchema = new Schema (
     companyName: String,
     contactNum: String,
     email: String,
+    activeOrder:String,
 },
 {
     timestamps: true, 

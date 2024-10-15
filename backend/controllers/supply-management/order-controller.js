@@ -24,29 +24,18 @@ async function show(req, res) {
 // Create an order
 async function create(req, res) {
   try {
-    const { supplierId, supplyType, quantity, additionalConditions } = req.body;
-
-    if (!supplierId || !supplyType || !quantity) {
-      return res.status(400).json({ error: 'Missing required fields' });
-    }
-
-    const newOrder = new OrderSupply({
-      supplierId,
-      supplyType,
-      quantity,
-      additionalConditions
-    });
-
-    await newOrder.save();
-    res.status(201).json(newOrder);
+    const order = new OrderSupply(req.body);
+    await order.save();
+    res.json(order);
   } catch (error) {
-    res.status(400).json({ error: 'Error creating the order' });
+    res.status(400).json({ error: error });
   }
 }
 
 // Update an order
 async function update(req, res) {
   try {
+    console.log(req.body);
     const order = await OrderSupply.findById(req.params.id);
     if (!order) return res.status(404).json({ error: 'Order not found' });
 

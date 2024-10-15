@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CallingSupplyForm from '../components/CallingSupplyForm.jsx';
 import CallingSupplyList from '../components/CallingSupplyList.jsx';
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions,Typography } from '@mui/material';
 import axios from "../../../services/axios.js"; // Axios instance
 
 const CallingSupply = () => {
@@ -24,6 +24,7 @@ const CallingSupply = () => {
         try {
             const response = await axios.get('/callingSupply/'); // Replace with correct API endpoint
             setCallingSupplies(response.data);
+            console.log("Calling supplies:", response.data);
             setLoading(false);
         } catch (error) {
             setLoading(false);
@@ -60,11 +61,12 @@ const CallingSupply = () => {
     return (
         <div>
             {/* Button to open the form in a dialog */}
-            <div className="flex justify-end mb-4">
+            <div className="flex justify-center mb-4 mt-20">
                 <Button 
                     variant="contained" 
                     color="primary" 
                     onClick={handleOpenDialog} 
+                    sx={{backgroundColor:"#15F5BA",color:"black",marginRight:"5px"}}
                     className="bg-teal-500 text-white"
                 >
                     Create New Call
@@ -73,7 +75,7 @@ const CallingSupply = () => {
 
             {/* Dialog for Calling Supply Form */}
             <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth maxWidth="sm">
-                <DialogTitle>Create a New Calling Supply</DialogTitle>
+                <DialogTitle><Typography variant="h5" className="text-center font-bold mb-6 text-teal-700">Request a New Supply</Typography></DialogTitle>
                 <DialogContent>
                     {/* Passing the addNewSupply function to the form */}
                     <CallingSupplyForm onAddSupply={addNewSupply} onCloseDialog={handleCloseDialog} />

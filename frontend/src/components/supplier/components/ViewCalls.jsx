@@ -41,11 +41,11 @@ const CallingSupplyList = ({ supplierid }) => {
         }
     };
 
-    // Filter supplies based on supplier's supply type
+    // Filter requests based on status
     useEffect(() => {
         if (supplierDetails && callingSupplies.length > 0) {
             const filtered = callingSupplies.filter(
-                (supply) => supply.supplyType === supplierDetails.supplyType
+                (supply) => supplierDetails.supplyType !== "completed"
             );
             setFilteredSupplies(filtered);
         }
@@ -105,6 +105,11 @@ const CallingSupplyList = ({ supplierid }) => {
                 price: quoteDetails.price,
                 status: quoteDetails.status,
             });
+
+            const selectedSupplydata=selectedSupply.qnumber;
+            console.log(selectedSupplydata);
+            const response2 = await axios.put(`/callingSupply/${selectedSupply.callingSupplyId}`, selectedSupplydata);
+            console.log(response2.data);
             setAlert({ open: true, message: 'Quote updated successfully', severity: 'success' });
             handleCloseDialogs();
         } catch (error) {

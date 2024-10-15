@@ -78,15 +78,16 @@ export default function SupplyForm() {
     
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="flex  justify-center min-h-screen bg-gray-100 px-40">
             <div className="flex-1 p-8">
                 <div className="flex justify-between items-center mb-8">
                     <h2 className={`text-xl font-bold text-center mb-4 ${darkMode ? "text-white" : "text-black"}`}>
-                        Add Supply
+                        Add Supply <span className="text-xs font-normal"> Add your supply type and details here</span>
                     </h2>
+
                 </div>
 
-                <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6 bg-white p-6 rounded-lg shadow-lg">
+                <form onSubmit={handleSubmit} className=" gap-6 bg-white p-6 rounded-lg shadow-lg ">
                     {/* Supply ID */}
                     <div className="mb-4">
                         <FormLabel className={`block ${darkMode ? "text-white" : "text-gray-700"}`}>Supply ID</FormLabel>
@@ -95,32 +96,6 @@ export default function SupplyForm() {
                             value={formValues.supplyId}
                             onChange={handleChange}
                             placeholder="Supply ID"
-                            className="w-full p-2 border border-gray-300 rounded"
-                            required
-                        />
-                    </div>
-
-                    {/* Supplier ID */}
-                    <div className="mb-4">
-                        <FormLabel className={`block ${darkMode ? "text-white" : "text-gray-700"}`}>Supplier ID</FormLabel>
-                        <Input
-                            name="supplierId"
-                            value={formValues.supplierId}
-                            onChange={handleChange}
-                            placeholder="Supplier ID"
-                            className="w-full p-2 border border-gray-300 rounded"
-                            required
-                        />
-                    </div>
-
-                    {/* Supplier Name */}
-                    <div className="mb-4">
-                        <FormLabel className={`block ${darkMode ? "text-white" : "text-gray-700"}`}>Supplier Name</FormLabel>
-                        <Input
-                            name="supplierName"
-                            value={formValues.supplierName}
-                            onChange={handleChange}
-                            placeholder="Supplier Name"
                             className="w-full p-2 border border-gray-300 rounded"
                             required
                         />
@@ -139,22 +114,9 @@ export default function SupplyForm() {
                         />
                     </div>
 
-                    {/* Expiration Date */}
-                    <div className="mb-4">
-                        <FormLabel className={`block ${darkMode ? "text-white" : "text-gray-700"}`}>Expiration Date</FormLabel>
-                        <Input
-                            name="expirationDate"
-                            value={formValues.expirationDate}
-                            onChange={handleChange}
-                            type="date"
-                            className="w-full p-2 border border-gray-300 rounded"
-                            required
-                        />
-                    </div>
-
                     {/* Quantity */}
                     <div className="mb-4">
-                        <FormLabel className={`block ${darkMode ? "text-white" : "text-gray-700"}`}>Quantity</FormLabel>
+                        <FormLabel className={`block ${darkMode ? "text-white" : "text-gray-700"}`}>Quantity <span className="text-xs font-normal" >Kg or Liters</span></FormLabel>
                         <Input
                             name="quantity"
                             value={formValues.quantity}
@@ -166,21 +128,20 @@ export default function SupplyForm() {
                         />
                     </div>
 
-                    {/* Supply Type */}
                     <div className="mb-4">
                         <FormLabel className={`block ${darkMode ? "text-white" : "text-gray-700"}`}>Supply Type</FormLabel>
-                        <Select
+                        <Input
                             name="supplyType"
                             value={formValues.supplyType}
                             onChange={handleChange}
+                            placeholder="Type"
                             className="w-full p-2 border border-gray-300 rounded"
                             required
-                        >
-                            <MenuItem value="fertilizer">Fertilizer</MenuItem>
-                            <MenuItem value="chemicals">Chemicals</MenuItem>
-                            <MenuItem value="fuel">Fuel</MenuItem>
-                        </Select>
+                        />
                     </div>
+
+
+                   
 
                     {/* Action Buttons */}
                     <div className="col-span-2 flex justify-between mt-6">
@@ -189,11 +150,13 @@ export default function SupplyForm() {
                             variant="contained"
                             color="primary"
                             className="bg-teal-500 text-white px-4 py-2 rounded"
+                            sx={{ backgroundColor: '#15F5BA',color:'black' }}
                         >
                             Submit
                         </Button>
                         <Button
                             type="reset"
+                            sx={{ backgroundColor: '#FA7070',color:'black' }}
                             onClick={() => setFormValues({ supplyId: '', supplierId: '', supplierName: '', purchaseDate: '', expirationDate: '', quantity: '', supplyType: '' })}
                             className="bg-gray-500 text-white px-4 py-2 rounded"
                         >

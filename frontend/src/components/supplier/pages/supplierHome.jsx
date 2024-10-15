@@ -4,6 +4,8 @@ import menuItems from '../data-files/menu.js';
 
 import {Route, Routes} from 'react-router-dom';
 import CallingSupplyList from "../components/ViewCalls.jsx";
+import ViewOrders from "../components/viewOrders.jsx";
+import Supplierhome from './home.jsx';
 
 
 const SupplierHome = () => {
@@ -11,9 +13,9 @@ const SupplierHome = () => {
         <AdminDashboardLayout menu={menuItems}>
 
             <Routes>
-                <Route path="/" element={<h1>SupplierHomepage</h1>} />
+                <Route path="/" element={<Supplierhome supplierid="ID005"/>} />
                 <Route path="/supplycalls" element={ <CallingSupplyList supplierid="ID005"/>  }/>
-                {/* <Route path="/vieworder" element={}/> */}
+                <Route path="/view-orders" element={<ViewOrders supplierid="ID005"/>}/>
             </Routes>
 
         </AdminDashboardLayout>

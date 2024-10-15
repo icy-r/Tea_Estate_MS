@@ -75,6 +75,7 @@ import { log } from "console";
 // create the express app
 const app = express();
 
+
 // basic middleware
 app.use(cors());
 app.use(logger("dev"));

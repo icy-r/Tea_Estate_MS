@@ -6,6 +6,7 @@ import {
   show,
   update,
   performance,
+  getAssetByTransportId,
 } from "../../controllers/repair-management/asset-controller.js";
 import { checkAuth, decodeUserFromToken } from "../../middleware/auth-mid.js";
 import { Router } from "express";
@@ -34,5 +35,7 @@ router.delete("/:id", checkAuth, destroy);
 
 // searchField for searching a asset defined in asset-controller
 router.get("/search/:id", checkAuth, search);
+
+router.get("/transport/:id", checkAuth, getAssetByTransportId);
 
 export { router };

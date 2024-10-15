@@ -74,16 +74,6 @@ import { router as supplierRouter } from "./routes/supply-management/supplier-ro
 import { router as supplierManagerRouter } from "./routes/supply-management/supplier-manager-route.js";
 import { router as supplyRouter } from "./routes/supply-management/supply-route.js";
 
-// inventory-management
-import { router as inventoryRoute } from "./routes/inventory-management/inventory-route.js";
-import { router as teaInventoryRoute } from "./routes/inventory-management/inventory-teaRoute.js";
-import { router as fuelInventoryRoute } from "./routes/inventory-management/inventory-fuelRoute.js";
-import { router as fertInventoryRoute } from "./routes/inventory-management/inventory-fertRoute.js";
-import { router as utilitiesInventoryRoute } from "./routes/inventory-management/inventory-utilitiesRoute.js";
-
-// import { router as userLoginRouter } from "./routes/authentication/user-auth-route.js";
-import { router as driverRouter } from "./routes/transport-management/driver-route.js";
-
 import { log } from "console";
 
 // create the express app

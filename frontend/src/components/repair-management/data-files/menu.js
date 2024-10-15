@@ -2,32 +2,35 @@
 
 const menuItems = [
   {
-    name: "Repair Home",
-    subItems: [
-      { name: "Dashboard", link: "/repair" },
-      { name: "Graphs", link: "/repair/graphs" },
-    ],
+    name: "Dashboard",
+    subItems: [{ name: "Overview", link: "repair/" }],
   },
   {
-    name: "Machine",
+    name: "Assets",
     subItems: [
-      { name: "Machine List", link: "/repair/machine" },
-      { name: "Add Machine", link: "/repair/machine/add" },
-    ],
-  },
-  {
-    name: "Repair",
-    subItems: [
-      { name: "Repair List", link: "/repair/reports" },
-      { name: "Add Repair", link: "/repair/reports/add" },
+      { name: "View Assets", link: "repair/viewassets" },
+      { name: "Add New Asset", link: "repair/newasset" },
     ],
   },
   {
     name: "Maintenance",
     subItems: [
-      { name: "Maintenance List", link: "repair/maintenance" },
-      { name: "Add Maintenance", link: "repair/newmaintenance" },
+      { name: "View Maintenance", link: "repair/maintenance" },
+      { name: "New Maintenance", link: "repair/newmaintenance" },
+      { name: "Maintenance Scheduler", link: "repair/scheduler" },
+      { name: "Task Priority", link: "repair/taskpriority" },
     ],
+  },
+  {
+    name: "Maintenance Requests",
+    subItems: [
+      { name: "New Requests", link: "repair/reqmaintenance" },
+      { name: "View Requests", link: "repair/viewreports" },
+    ],
+  },
+  {
+    name: "Tasks",
+    subItems: [{ name: "Assigned Tasks", link: "repair/assignedtasks" }],
   },
 ];
 

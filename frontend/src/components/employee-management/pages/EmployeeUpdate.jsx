@@ -82,9 +82,32 @@ const EmployeeUpdate = () => {
       }
     };
 
+    const handlePasswordChange = async (event) => {
+        event.preventDefault();
+        
+        try {
+            // Validate the old password by making an API call
+            const response = await axios.post(`http://localhost:3001/api/empManagement/validatePassword`, {
+                id, 
+                oldPassword
+            });
+
+            if (response.data.isValid) {
+                // If the old password is valid, update the password with the new one
+                await axios.put(`http://localhost:3001/api/empManagement/${id}`, { ...inputs, password: newPassword });
+                navigate('/admin/employee/employeedetails');
+            } else {
+                setErrorMessage("Old password is incorrect.");
+            }
+        } catch (error) {
+            console.error("Error validating password or updating employee data:", error);
+            setErrorMessage("An error occurred. Please try again.");
+        }
+    };
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-white-100">
-            <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-md mt-10">
+            <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-md">
                 <h1 className="text-2xl font-bold mb-4 text-center text-gray-800">Add Employee</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -123,6 +146,7 @@ const EmployeeUpdate = () => {
                                 onChange={handleChange}
                                 value={inputs.Id}
                                 pattern=".{11,11}"
+                                readOnly
                                 required
                                 title="ID must be exactly 11 characters long"
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -289,7 +313,7 @@ const EmployeeUpdate = () => {
                         </div>
     
                         {/* Leaves Left Input */}
-                        <div>
+                        {/* <div>
                             <label className="block text-sm font-medium text-gray-700">Leaves Left</label>
                             <input
                                 type="number"
@@ -298,7 +322,7 @@ const EmployeeUpdate = () => {
                                 readOnly // Make the input read-only
                                 className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             />
-                        </div>
+                        </div> */}
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Password</label>
@@ -334,15 +358,20 @@ const EmployeeUpdate = () => {
                             ></textarea>
                         </div>
                     </div>
+
+                    
     
                     {/* Submit Button */}
                     <div className="mt-6">
+                    <div className="flex justify-center">
                         <button
                             type="submit"
-                            className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            className="w-1/2 bg-blue-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         >
                             Update Employee
                         </button>
+                    </div>
+
                     </div>
                 </form>
             </div>

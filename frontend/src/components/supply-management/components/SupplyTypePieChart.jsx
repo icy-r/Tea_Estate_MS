@@ -102,7 +102,7 @@ const ManageSupplier = () => {
 
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-semibold mb-4">Supply Type Distribution</h1>
+      <h1 className="text-2xl font-semibold ">Supply Type Distribution</h1>
 
       {/* Flex container to align charts side by side */}
       <div className="flex justify-between mb-8">

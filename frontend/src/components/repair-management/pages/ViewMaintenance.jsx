@@ -48,7 +48,7 @@ const MaintenanceReportGenerator = () => {
         .then((response) => {
           setAssetDetails((prevDetails) => ({
             ...prevDetails,
-            [assetId]: response.data.assetNumber,
+            [assetId]: response.data,
           }));
         })
         .catch((error) => {
@@ -61,9 +61,17 @@ const MaintenanceReportGenerator = () => {
   };
 
   const filteredTasks = maintenanceTasks.filter((task) => {
-    const matchesSearch = Object.values(task).some((value) =>
-      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const asset = assetDetails[task.assetId] || {};
+    const matchesSearch =
+      task.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      task.maintenanceType.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (task.assignedTechnician &&
+        task.assignedTechnician.name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())) ||
+      asset.assetNumber?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      asset.assetName?.toLowerCase().includes(searchTerm.toLowerCase());
+
     const matchesStatus =
       statusFilter === "all" || task.status === statusFilter;
     const matchesDate =
@@ -85,17 +93,20 @@ const MaintenanceReportGenerator = () => {
     const doc = new jsPDF();
     doc.text("Maintenance Report", 14, 15);
 
-    const tableData = filteredTasks.map((task) => [
-      assetDetails[task.assetId] || "N/A",
-      new Date(task.scheduledDate).toLocaleDateString(),
-      task.maintenanceType,
-      task.description,
-      task.assignedTechnician ? task.assignedTechnician.name : "N/A",
-      task.status,
-      task.completionDate
-        ? new Date(task.completionDate).toLocaleDateString()
-        : "N/A",
-    ]);
+    const tableData = filteredTasks.map((task) => {
+      const asset = assetDetails[task.assetId] || {};
+      return [
+        asset.assetNumber || "N/A",
+        new Date(task.scheduledDate).toLocaleDateString(),
+        task.maintenanceType,
+        task.description,
+        task.assignedTechnician ? task.assignedTechnician.name : "N/A",
+        task.status,
+        task.completionDate
+          ? new Date(task.completionDate).toLocaleDateString()
+          : "N/A",
+      ];
+    });
 
     doc.autoTable({
       head: [
@@ -222,52 +233,55 @@ const MaintenanceReportGenerator = () => {
               </tr>
             </thead>
             <tbody className="divide-y">
-              {paginatedTasks.map((task, index) => (
-                <tr
-                  key={index}
-                  className="hover:bg-gray-50 hover:text-black hover:shadow-md transition duration-200"
-                >
-                  <td className="py-3 px-4">
-                    {assetDetails[task.assetId] || "Loading..."}
-                  </td>
-                  <td className="py-3 px-4">
-                    {new Date(task.scheduledDate).toLocaleDateString()}
-                  </td>
-                  <td className="py-3 px-4">{task.maintenanceType}</td>
-                  <td className="py-3 px-4">{task.description}</td>
-                  <td className="py-3 px-4">
-                    {task.assignedTechnician
-                      ? task.assignedTechnician.name
-                      : "N/A"}
-                  </td>
-                  <td className="py-3 px-4">{task.status}</td>
-                  <td className="py-3 px-4">
-                    {task.completionDate
-                      ? new Date(task.completionDate).toLocaleDateString()
-                      : "N/A"}
-                  </td>
-                  <td className="py-3 px-4 sticky right-0 bg-white">
-                    <div className="flex gap-1">
-                      <button
-                        onClick={() => setEditingMaintenanceId(task._id)}
-                        className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition duration-700"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => {
-                          axios
-                            .delete(`/maintenances/${task._id}`)
-                            .then(() => fetchMaintenanceTasks());
-                        }}
-                        className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition duration-700"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {paginatedTasks.map((task, index) => {
+                const asset = assetDetails[task.assetId] || {};
+                return (
+                  <tr
+                    key={index}
+                    className="hover:bg-gray-50 hover:text-black hover:shadow-md transition duration-200"
+                  >
+                    <td className="py-3 px-4">
+                      {asset.assetNumber || "Loading..."}
+                    </td>
+                    <td className="py-3 px-4">
+                      {new Date(task.scheduledDate).toLocaleDateString()}
+                    </td>
+                    <td className="py-3 px-4">{task.maintenanceType}</td>
+                    <td className="py-3 px-4">{task.description}</td>
+                    <td className="py-3 px-4">
+                      {task.assignedTechnician
+                        ? task.assignedTechnician.name
+                        : "N/A"}
+                    </td>
+                    <td className="py-3 px-4">{task.status}</td>
+                    <td className="py-3 px-4">
+                      {task.completionDate
+                        ? new Date(task.completionDate).toLocaleDateString()
+                        : "N/A"}
+                    </td>
+                    <td className="py-3 px-4 sticky right-0 bg-white">
+                      <div className="flex gap-1">
+                        <button
+                          onClick={() => setEditingMaintenanceId(task._id)}
+                          className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition duration-700"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => {
+                            axios
+                              .delete(`/maintenances/${task._id}`)
+                              .then(() => fetchMaintenanceTasks());
+                          }}
+                          className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition duration-700"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

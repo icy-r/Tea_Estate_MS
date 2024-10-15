@@ -26,6 +26,7 @@ export default function SupplierForm() {
         companyName: '',
         contactNum: '',
         email: '',
+        activeOrder:'none',
     });
     const [alert, setAlert] = useState({ open: false, message: '', severity: 'success' });
     const [darkMode, setDarkMode] = useState(false);

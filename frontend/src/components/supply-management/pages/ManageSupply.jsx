@@ -72,10 +72,10 @@ const ManageSupply = () => {
             <tr className="w-full bg-teal-500 text-white">
               <th className="py-2 px-4 text-left">Supply ID</th>
               <th className="py-2 px-4 text-left">Supply Type</th>
-              <th className="py-2 px-4 text-left">Quantity</th>
-              <th className="py-2 px-4 text-center">Supplier Name</th>
+              <th className="py-2 px-4 text-left">Quantity Kg</th>
+             
               <th className="py-2 px-4 text-center">Purchase Date</th>
-              <th className="py-2 px-4 text-center">Expiration Date</th>
+              
               <th className="py-2 px-4 text-center">Actions</th>
             </tr>
           </thead>
@@ -86,9 +86,9 @@ const ManageSupply = () => {
                   <td className="py-2 px-4 border">{supply.supplyId}</td>
                   <td className="py-2 px-4 border">{supply.supplyType}</td>
                   <td className="py-2 px-4 border">{supply.quantity}</td>
-                  <td className="py-2 px-4 border">{supply.supplierName}</td>
+           
                   <td className="py-2 px-4 border">{new Date(supply.purchaseDate).toLocaleDateString()}</td>
-                  <td className="py-2 px-4 border">{new Date(supply.expirationDate).toLocaleDateString()}</td>
+               
                   <td className="py-2 px-4 border flex justify-center gap-2">
                     <button
                       className="bg-teal-500 text-white px-4 py-2 rounded-md"
@@ -156,15 +156,7 @@ const ManageSupply = () => {
                 value={selectedSupply.quantity}
                 onChange={handleChange}
               />
-              <TextField
-                margin="dense"
-                name="supplierName"
-                label="Supplier Name"
-                type="text"
-                fullWidth
-                value={selectedSupply.supplierName}
-                onChange={handleChange}
-              />
+        
               <TextField
                 margin="dense"
                 name="purchaseDate"
@@ -172,15 +164,6 @@ const ManageSupply = () => {
                 type="date"
                 fullWidth
                 value={selectedSupply.purchaseDate ? selectedSupply.purchaseDate.split('T')[0] : ''}
-                onChange={handleChange}
-              />
-              <TextField
-                margin="dense"
-                name="expirationDate"
-                label="Expiration Date"
-                type="date"
-                fullWidth
-                value={selectedSupply.expirationDate ? selectedSupply.expirationDate.split('T')[0] : ''}
                 onChange={handleChange}
               />
             </>

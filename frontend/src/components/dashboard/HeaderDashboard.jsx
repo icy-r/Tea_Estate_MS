@@ -72,22 +72,21 @@ const pathArray = currentPath.split('/').filter(Boolean); // Remove empty elemen
       </div>
 
       {/* Middle Section (Remaining space, content aligned to the left) */}
-      <div className="flex-grow flex items-center space-x-4 pl-4">
+      <div className="flex-grow flex items-center space-x-4 pl-4 text-black">
         <h1 className="">
-
           <div id="pathContainer">
-              {pathArray.map((part, index) => (
-                <span key={index}>
-                  {index === pathArray.length - 1 ? (
-                    <span style={{ color: 'red' }}>{part}</span> // Last item in red
-                  ) : (
-                    <span>{part}</span>
-                  )}
-                  {index !== pathArray.length - 1 && '  >  '} {/* Add a separator */}
-                </span>
-              ))}
-            </div>
-
+            {pathArray.map((part, index) => (
+              <span key={index}>
+                {index === pathArray.length - 1 ? (
+                  <span style={{ color: "red" }}>{part}</span> // Last item in red
+                ) : (
+                  <span>{part}</span>
+                )}
+                {index !== pathArray.length - 1 && "  >  "}{" "}
+                {/* Add a separator */}
+              </span>
+            ))}
+          </div>
         </h1>
       </div>
 

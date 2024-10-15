@@ -24,7 +24,7 @@ const ManageBuyer = () => {
     
     // Handle update button click, navigating to the update page
     const handleUpdate = (buyer) => {
-        console.log("Buyer ID:", buyer._id);  // Debugging: Log the buyer's _id
+        console.log("Buyer ID:", buyer._id); 
         navigateTo(`/admin/buyer/manageBuyer/${buyer._id}`, { state: { buyer } });
     };
     
@@ -39,7 +39,13 @@ const ManageBuyer = () => {
             console.error("Error deleting buyer:", error);
         }
     };
-    
+
+    // Function to generate sequential buyer ID (e.g., B01, B02, etc.)
+    const generateBuyerID = (index) => {
+        const idNumber = (index + 1).toString().padStart(2, '0'); // Ensure it is two digits (01, 02, etc.)
+        return `B${idNumber}`;
+    };
+
     return (
         <div className="p-8">
             <h1 className="text-2xl font-semibold mb-4">Buyer Management</h1>
@@ -47,7 +53,7 @@ const ManageBuyer = () => {
                 <table className="min-w-full bg-white">
                     <thead>
                         <tr className="w-full bg-teal-500 text-white">
-                            <th className="py-2 px-4 text-left">ID</th>
+                            <th className="py-2 px-4 text-left">Custom Buyer ID</th>
                             <th className="py-2 px-4 text-left">Buyer First Name</th>
                             <th className="py-2 px-4 text-left">Buyer Last Name</th>
                             <th className="py-2 px-4 text-left">Position</th>
@@ -60,9 +66,9 @@ const ManageBuyer = () => {
                     </thead>
                     <tbody>
                         {buyers.length > 0 ? (
-                            buyers.map((buyer) => (
+                            buyers.map((buyer, index) => (
                                 <tr key={buyer._id} className="hover:bg-gray-100">
-                                    <td className="py-2 px-4 border">{buyer._id}</td>
+                                    <td className="py-2 px-4 border">{generateBuyerID(index)}</td>
                                     <td className="py-2 px-4 border">{buyer.fName}</td>
                                     <td className="py-2 px-4 border">{buyer.lName}</td>
                                     <td className="py-2 px-4 border">{buyer.position}</td>

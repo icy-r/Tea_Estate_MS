@@ -1,6 +1,8 @@
 import { Fertilizer } from "../../models/field-management/fertilizer-model.js";
 import { FertilizerLog } from "../../models/field-management/fertilizerlog-model.js";
 import { Field } from "../../models/field-management/field-model.js";
+import { Labour } from "../../models/field-management/labour-model.js";
+import sendWhatsAppMessage from "../../services/twilio.js";
 
 async function index(req, res) {
   try {
@@ -148,10 +150,80 @@ async function applyFertilizer(req, res) {
     );
     await fertilizer.save();
 
+    // Assign maintainer and send notifications
+    await assignMaintainerToField(field.name);
+
     res.json({ message: "Fertilizer applied successfully", fertilizer });
   } catch (error) {
     console.error("Error applying fertilizer:", error);
     res.status(500).json({ message: error.message });
+  }
+}
+
+async function assignMaintainerToField(fieldName) {
+  try {
+    // Find an available Maintainer
+    const availableMaintainer = await Labour.findOne({
+      role: "Maintainer",
+      assignedField: "none",
+    });
+
+    if (!availableMaintainer) {
+      console.log("No available Maintainer found");
+      return;
+    }
+
+    // Assign the Maintainer to the field
+    availableMaintainer.assignedField = fieldName;
+    await availableMaintainer.save();
+
+    console.log(
+      `Maintainer ${availableMaintainer.firstName} ${availableMaintainer.lastName} assigned to ${fieldName}`
+    );
+
+    // Schedule the unassignment for the next day
+    setTimeout(
+      () => unassignMaintainer(availableMaintainer._id),
+      24 * 60 * 60 * 1000
+    );
+
+    // Find the supervisor for the field
+    const supervisor = await Labour.findOne({
+      assignedField: fieldName,
+      role: "Supervisor",
+    });
+
+    if (supervisor && supervisor.phoneNumber) {
+      const message = `Maintainer ${availableMaintainer.firstName} ${availableMaintainer.lastName} has been assigned to ${fieldName} for fertilizer application.`;
+
+      try {
+        await sendWhatsAppMessage(supervisor.phoneNumber, message);
+        console.log(
+          `WhatsApp notification sent to supervisor (${supervisor.phoneNumber}) for field ${fieldName}`
+        );
+      } catch (whatsappError) {
+        console.error("Error sending WhatsApp notification:", whatsappError);
+      }
+    } else {
+      console.log(`No supervisor found for field ${fieldName}`);
+    }
+  } catch (error) {
+    console.error("Error assigning Maintainer:", error);
+  }
+}
+
+async function unassignMaintainer(maintainerId) {
+  try {
+    const maintainer = await Labour.findById(maintainerId);
+    if (maintainer) {
+      maintainer.assignedField = "none";
+      await maintainer.save();
+      console.log(
+        `Maintainer ${maintainer.firstName} ${maintainer.lastName} unassigned`
+      );
+    }
+  } catch (error) {
+    console.error("Error unassigning Maintainer:", error);
   }
 }
 

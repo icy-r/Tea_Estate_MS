@@ -1,11 +1,13 @@
 import React from 'react';
-import Status from '../components/StatusMain';
+
 import OrderPie from '../components/orderPieChart';
+
 
 const Home = () => {
   return (
     <div>
-      <Status />
+      
+     
       <OrderPie />
 
       {/* Important Notices */}

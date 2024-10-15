@@ -30,14 +30,14 @@ const AddInvoice = () => {
       invoices.filter((invoice) =>
         invoice.invoice_Number.toLowerCase().includes(searchQuery.toLowerCase()) ||
         invoice.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        invoice.name.toLowerCase().includes(searchQuery.toLowerCase())
+        (invoice.buyer_id.fName + ' ' + invoice.buyer_id.lName).toLowerCase().includes(searchQuery.toLowerCase())
       )
     );
   }, [searchQuery, invoices]);
 
   // Navigate to update invoice page
   const handleUpdate = (invoice) => {
-    navigateTo(`/admin/sales/addinvoice/${invoice.id}`, { state: { invoice } });
+    navigateTo(`/admin/sales/addinvoice/${invoice._id}`, { state: { invoice } });
   };
 
   // Delete an invoice
@@ -45,7 +45,7 @@ const AddInvoice = () => {
     try {
       await axios.delete(`/invoices/${id}`);
       alert("Invoice deleted successfully");
-      setInvoices(invoices.filter((invoice) => invoice.id !== id));
+      setInvoices(invoices.filter((invoice) => invoice._id !== id));
     } catch (error) {
       console.error("Error deleting invoice:", error);
     }
@@ -63,9 +63,9 @@ const AddInvoice = () => {
         invoice.invoice_Number,
         invoice.title,
         invoice.date,
-        invoice.name,
+        `${invoice.buyer_id.fName} ${invoice.buyer_id.lName}`,
         invoice.address,
-        invoice.phone,
+        invoice.telephone,
         invoice.grand_total
       ];
       tableRows.push(invoiceData);
@@ -122,9 +122,9 @@ const AddInvoice = () => {
                   <td className="py-2 px-4 border">{invoice.invoice_Number}</td>
                   <td className="py-2 px-4 border">{invoice.title}</td>
                   <td className="py-2 px-4 border">{invoice.date}</td>
-                  <td className="py-2 px-4 border">{invoice.name}</td>
+                  <td className="py-2 px-4 border">{`${invoice.buyer_id.fName} ${invoice.buyer_id.lName}`}</td>
                   <td className="py-2 px-4 border">{invoice.address}</td>
-                  <td className="py-2 px-4 border">{invoice.phone}</td>
+                  <td className="py-2 px-4 border">{invoice.telephone}</td>
                   <td className="py-2 px-4 border">{invoice.grand_total}</td>
                   <td className="py-2 px-4 border flex justify-center gap-2">
                     <button

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "../../../services/axios";
+import { useNavigate } from "react-router-dom";
 
 const NewAsset = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +16,26 @@ const NewAsset = () => {
     location: "",
     maintenanceHistory: [],
   });
+  const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    const errors = {};
+    if (!formData.name) errors.name = "Name is required";
+    if (!formData.model) errors.model = "Model is required";
+    if (!formData.manufacturer)
+      errors.manufacturer = "Manufacturer is required";
+    if (!formData.purchaseDate)
+      errors.purchaseDate = "Purchase date is required";
+    if (!formData.lastMaintenanceDate)
+      errors.lastMaintenanceDate = "Last maintenance date is required";
+    if (!formData.nextScheduledMaintenance)
+      errors.nextScheduledMaintenance =
+        "Next scheduled maintenance is required";
+    if (!formData.status) errors.status = "Status is required";
+    if (!formData.location) errors.location = "Location is required";
+    return errors;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,12 +47,19 @@ const NewAsset = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      axios.post("http://localhost:3001/api/assets", formData);
-    } catch (error) {
-      console.error("Error:", error);
+    const formErrors = validateForm();
+    if (Object.keys(formErrors).length === 0) {
+      try {
+        axios.post("http://localhost:3001/api/assets", formData);
+        alert("Asset added successfully");
+        navigate("/admin/repair/viewassets");
+      } catch (error) {
+        console.error("Error:", error);
+      }
+      console.log(formData);
+    } else {
+      setErrors(formErrors);
     }
-    console.log(formData);
   };
 
   return (

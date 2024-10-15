@@ -13,7 +13,6 @@ const UpdateOrder = () => {
     quantity: order.quantity,
     pid: order.pid,
     buyer_id: order.buyer_id,
-    saleID: order.saleID,
     status: order.status,
   });
 
@@ -45,7 +44,7 @@ const UpdateOrder = () => {
             value={orderData.orderID}
             onChange={handleChange}
             placeholder="Order ID"
-            required
+            disabled
             className="border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             readOnly // Order ID should not be editable
           />
@@ -70,7 +69,7 @@ const UpdateOrder = () => {
             value={orderData.pid}
             onChange={handleChange}
             placeholder="Product ID"
-            required
+            disabled
             className="border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
@@ -78,17 +77,10 @@ const UpdateOrder = () => {
             value={orderData.buyer_id}
             onChange={handleChange}
             placeholder="Buyer ID"
-            required
+            disabled
             className="border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <input
-            name="saleID"
-            value={orderData.saleID}
-            onChange={handleChange}
-            placeholder="Sale ID"
-            required
-            className="border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          
           <input
             name="status"
             value={orderData.status}

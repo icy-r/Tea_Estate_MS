@@ -78,3 +78,14 @@ export const search = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// getAssetByTransportId for getting a asset by transport id
+export const getAssetByTransportId = async (req, res) => {
+  try {
+    //assetNumber=chassisNo
+    const asset = await Asset.find({ assetNumber: req.params.id });
+    res.status(200).json(asset);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

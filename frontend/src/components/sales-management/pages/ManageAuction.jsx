@@ -8,13 +8,15 @@ const ManageAuctions = () => {
   const [auctions, setAuctions] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredAuctions, setFilteredAuctions] = useState([]);
-  const navigateTo = useNavigate();
   const [buyers, setBuyers] = useState([]);
+  const navigateTo = useNavigate();
+
 
   // Fetch auctions from backend
   const fetchAuctions = async () => {
     try {
       const response = await axios.get('/auction/'); // Adjusted endpoint to match your API
+      console.log("Auctions:", response.data);
       setAuctions(response.data);
       setFilteredAuctions(response.data);
     } catch (error) {
@@ -26,6 +28,7 @@ const ManageAuctions = () => {
   const fetchBuyers = async () => {
     try {
       const response = await axios.get('http://localhost:3001/api/buyers'); // Adjust as necessary
+      console.log("Buyers:", response.data);
       setBuyers(response.data);
     } catch (error) {
       console.error('Error fetching buyers:', error);
@@ -53,12 +56,7 @@ const ManageAuctions = () => {
 
   // Handle update
   const handleUpdate = (auction) => {
-    navigateTo(`/admin/sales/manageauctions/update/${auction._id}`, {
-      state: {
-        buyerId: auction.buyer_id, // Pass selected Buyer ID(s)
-        productId: auction.productID ? auction.productID._id : '', // Pass selected Product ID
-      },
-    });
+    navigateTo(`/admin/sales/manageauctions/${auction.id}`, { state: { auction } });
   };
 
   // Handle delete
@@ -134,12 +132,12 @@ const ManageAuctions = () => {
                 <td className="border px-4 py-2">{new Date(auction.date).toLocaleDateString()}</td>
                 <td className="border px-4 py-2">{auction.productID ? auction.productID.pid : 'N/A'}</td>
                 <td className="border px-4 py-2">
-                  {Array.isArray(auction.buyer_id) && auction.buyer_id.length > 0
-                    ? auction.buyer_id.map(buyerId => {
-                      const buyer = buyers.find(b => b._id === buyerId);
-                      return buyer ? `${buyer.fName} ${buyer.lName}` : 'Unknown Buyer';
-                    }).join(', ')
-                    : 'N/A'}
+                {auction.buyer_id && auction.buyer_id._id
+                  ? (() => {
+                  const buyer = buyers.find(b => b._id === auction.buyer_id._id);
+                  return buyer ? buyer.fName + " " + buyer.lName : 'Unknown Buyer';
+                })()
+                : 'N/A'}
                 </td>
                 <td className="border px-4 py-2">{auction.status}</td>
                 <td className="border px-4 py-2">

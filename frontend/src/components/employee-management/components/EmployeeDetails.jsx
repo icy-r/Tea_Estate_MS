@@ -43,7 +43,7 @@ const EmployeeProfile = ({ _id }) => {
 
     return (
         <div className="flex items-center justify-center bg-white-100">
-            <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-md mt-10">
+            <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-md mt-5">
                 <h1 className="text-2xl font-bold mb-4 text-center text-gray-800">Employee Profile</h1>
                 <div className="space-y-4">
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -110,7 +110,7 @@ const EmployeeProfile = ({ _id }) => {
                 <div className="mt-6 flex justify-center">
                     <button
                         onClick={() => handleUpdate(employee._id)} // Adjust the path as needed
-                        className="bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 text-sm"
+                        className="bg-blue-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 text-sm"
                     >
                         Update Profile
                     </button>

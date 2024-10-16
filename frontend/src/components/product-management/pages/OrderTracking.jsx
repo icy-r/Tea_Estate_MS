@@ -59,16 +59,23 @@ const OrderTracking = ({ buyerId }) => {
     const steps = ["Upcoming", "Trip Started", "Completed"];
 
     // Custom step icon styles
-    const CustomStepIcon = styled('div')(({ theme, active, completed }) => ({
-        color: completed ? theme.palette.success.main : active ? theme.palette.primary.main : theme.palette.grey[500],
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: 30,
-        height: 30,
-        borderRadius: '50%',
-        backgroundColor: completed ? '#15F5BA' : active ?'#15F5BA' : theme.palette.grey[500],
-        color: 'white',
+    const CustomStepIcon = styled("div")(({ theme, active, completed }) => ({
+      color: completed
+        ? theme.palette.success.main
+        : active
+        ? theme.palette.primary.main
+        : theme.palette.grey[500],
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: 30,
+      height: 30,
+      borderRadius: "50%",
+      backgroundColor: completed
+        ? "#15F5BA"
+        : active
+        ? "#15F5BA"
+        : theme.palette.grey[500],
     }));
 
     const StepIconComponent = (props) => {

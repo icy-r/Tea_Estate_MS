@@ -16,6 +16,9 @@ import ViewMaintenanceDetails from "./pages/ViewMaintenanceDetails.jsx";
 import EditAsset from "./pages/EditAsset.jsx";
 import EditMaintenanceRequest from "./pages/EditMaintenanceRequest.jsx";
 import EditMaintenance from "./pages/EditMaintenance.jsx";
+import ScanQRforAsset from "./pages/ScanQRforAsset.jsx";
+import BulkQRDownload from "./pages/BulkQRDownload.jsx";
+
 const RepairRoutes = () => {
   return (
     <AdminDashboardLayout menu={menu}>
@@ -23,6 +26,7 @@ const RepairRoutes = () => {
         <Route path="/" element={<HomeGraphs />} />
         <Route path="viewreports" element={<ViewReports />} />
         <Route path="maintenance" element={<ViewMaintenance />} />
+        <Route path="newmaintenance/:id" element={<NewMaintenance />} />
         <Route path="newmaintenance" element={<NewMaintenance />} />
         <Route path="newasset" element={<NewAsset />} />
         <Route path="viewassets" element={<ViewAssets />} />
@@ -45,6 +49,8 @@ const RepairRoutes = () => {
           path="viewmaintenance/:id"
           element={<ViewMaintenanceDetails />}
         />
+        <Route path="scanqrforasset" element={<ScanQRforAsset />} />
+        <Route path="bulkqrdownload" element={<BulkQRDownload />} />
       </Routes>
     </AdminDashboardLayout>
   );

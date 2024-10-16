@@ -5,6 +5,7 @@ const menuItems = [
   {
     name: "Assigned Vehicle",
     subItems: [
+      { name: "Dashboard", link: "driver/" },
       { name: "Manage Vehicle", link: "driver/manage-assigned-vehicle" },
       { name: "Request for Repairs", link: "driver/repair-requests" },
       { name: "Track Transports", link: "driver/view-tasks" },

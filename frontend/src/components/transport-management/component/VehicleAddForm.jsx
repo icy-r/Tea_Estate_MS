@@ -1,7 +1,8 @@
 import React, { useState,useEffect } from "react";
-import { TextField, MenuItem, Button, Snackbar,Select } from "@mui/material";
+import { TextField, MenuItem, Button, Snackbar,Select,Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import axios from "../../../services/axios.js";
+import imge from '../../../assets/dashboard/LorryReg.png';
 
 const UploadContainer = styled("div")`
   border: 2px dashed #e0e0e0;
@@ -153,8 +154,9 @@ const VehicleAddForm = () => {
 
   return (
     <>
+        
       <form onSubmit={handleSubmit} >
-        <div className="flex justify-center items-start p-8">
+        <div className="flex justify-center items-start p-8 mt-20">
           <div className="w-full max-w-lg bg-white rounded-lg shadow-md p-8">
             <h2 className="text-xl font-semibold mb-4">Vehicle Owner Details</h2>
             <div className="grid grid-cols-2 gap-4">

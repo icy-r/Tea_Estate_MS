@@ -10,6 +10,11 @@ const orderSchema = new Schema(
     productID: { type: Schema.Types.ObjectId, ref: 'Catalog' }, // Reference to Catalog model
     buyer_id: { type: Schema.Types.ObjectId, ref: 'Buyer' }, // Reference to Buyer model
     status: String,
+    transportation_id:{
+      type:String,
+      default:" ",
+      required: false,
+    }
   },
   {
     timestamps: true,

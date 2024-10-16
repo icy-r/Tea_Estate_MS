@@ -22,10 +22,8 @@ import { router as teaInventoryRoute } from './routes/inventory-management/inven
 import { router as fertInventoryRoute } from './routes/inventory-management/inventory-fertRoute.js';
 import { router as fuelInventoryRoute } from './routes/inventory-management/inventory-fuelRoute.js';
 import { router as utilitiesInventoryRoute } from './routes/inventory-management/inventory-utilitiesRoute.js';
-// Remove the import for autoReduction.js as it's causing an error
-// import { reduceFertilizerStock } from './controller/inventory-management/autoReduction.js';
-// import { reduceFuelStock } from './controller/inventory-management/autoReduction.js';
-
+import { reduceFertilizerStock } from './controllers/inventory-management/autoReduction.js';
+import { reduceFuelStock } from './controllers/inventory-management/autoReduction.js';
 
 
 // transport-management
@@ -141,7 +139,7 @@ app.use("/api/employees", EmployeeManagement);
 app.use("/api/supplier", supplierRouter);
 app.use("/api/supplierManager", supplierManagerRouter);
 app.use("/api/supplies", supplyRouter);
-app.use("/api/orders", orderRouter);
+app.use("/api/ordersSup", orderRouter);
 app.use("/api/quotation", quotationRouter);
 app.use("/api/callingSupply", callingSupplyRoute);
 

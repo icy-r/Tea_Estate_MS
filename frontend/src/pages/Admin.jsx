@@ -4,6 +4,7 @@ import RepairRoutes from "../components/repair-management/repair-routes.jsx";
 import SupplyHome from "../components/supply-management/pages/SupplyHome.jsx";
 import SupplierHome from "../components/supplier/pages/supplierHome.jsx";
 import DriverHome from "../components/driver/pages/DriverHome.jsx";
+import DriverHome2 from "../components/driver2/pages/DriverHome.jsx";
 import "../App.css";
 import Error404 from "./error404.jsx";
 import { Route, Routes } from "react-router-dom";
@@ -142,11 +143,20 @@ function App() {
             }
           />
 
+  
           <Route
             path="/driver/*"
             element={
               <ProtectedRoutes user={user}>
                 <DriverHome />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/drivers/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <DriverHome2 />
               </ProtectedRoutes>
             }
           />

@@ -20,7 +20,7 @@ const ViewOrders = () => {
   // Fetch all orders from the backend
   const fetchOrders = async () => {
     try {
-      const response = await axios.get("/orders/");
+      const response = await axios.get("/ordersSup/");
       setOrders(response.data);
       setFilteredOrders(response.data);
       console.log("Orders:", response.data);
@@ -64,7 +64,7 @@ const ViewOrders = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/orders/${id}`);
+      await axios.delete(`/ordersSup/${id}`);
       setFilteredOrders(filteredOrders.filter((order) => order._id !== id));
       setAlert({ open: true, message: 'Order deleted successfully', severity: 'success' });
     } catch (error) {

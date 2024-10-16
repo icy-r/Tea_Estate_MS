@@ -12,7 +12,7 @@ const OrderTracker = ({ data }) => {
     const updateStatus = async (newStatus) => {
         setLoading(true);
         try {
-            await axios.put(`/orders/${data._id}`, { status: newStatus });
+            await axios.put(`/ordersSup/${data._id}`, { status: newStatus });
             setStatus(newStatus); // Update local status
         } catch (error) {
             console.error('Error updating order status:', error);

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { TextField, Button, Snackbar } from "@mui/material";
+import { TextField, Button, Snackbar,Box } from "@mui/material";
 import axios from "../../../services/axios.js";
+import imge from '../../../assets/dashboard/truckOnRoute.png';
 
 const RouteAddForm = () => {
   const [formData, setFormData] = useState({
@@ -49,6 +50,7 @@ const RouteAddForm = () => {
 
   return (
     <>
+    
       <form onSubmit={handleSubmit}>
         <div className="flex justify-center items-start p-8">
           <div className="w-full max-w-lg bg-white rounded-lg shadow-md p-8">

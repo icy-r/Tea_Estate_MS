@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'; 
 import axios from '../../../services/axios.js';
 import { useNavigate } from 'react-router-dom';
-import { Snackbar, Alert, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Button } from '@mui/material';
+import { Snackbar, Alert, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable'; // Import autotable plugin
 
@@ -54,27 +54,24 @@ const ManageSupplier = () => {
 
   const handleDelete = async (id) => {
     try {
-        // Use backticks instead of slashes for template literals
-        await axios.delete(`/supplier/${id}`);
-        setFilteredSuppliers(filteredSuppliers.filter((supplier) => supplier._id !== id));
-        setAlert({ open: true, message: 'Supplier deleted successfully', severity: 'success' });
+      await axios.delete(`/supplier/${id}`);
+      setFilteredSuppliers(filteredSuppliers.filter((supplier) => supplier._id !== id));
+      setAlert({ open: true, message: 'Supplier deleted successfully', severity: 'success' });
     } catch (error) {
-        setAlert({ open: true, message: 'Error deleting supplier', severity: 'error' });
+      setAlert({ open: true, message: 'Error deleting supplier', severity: 'error' });
     }
-};
+  };
 
-const handleUpdateSupplier = async () => {
+  const handleUpdateSupplier = async () => {
     try {
-        // Use backticks instead of slashes for template literals
-        await axios.put(`/supplier/${selectedSupplier._id}`, selectedSupplier);
-        setFilteredSuppliers(filteredSuppliers.map((supplier) => (supplier._id === selectedSupplier._id ? selectedSupplier : supplier)));
-        setAlert({ open: true, message: 'Supplier updated successfully', severity: 'success' });
-        handleDialogClose();
+      await axios.put(`/supplier/${selectedSupplier._id}`, selectedSupplier);
+      setFilteredSuppliers(filteredSuppliers.map((supplier) => (supplier._id === selectedSupplier._id ? selectedSupplier : supplier)));
+      setAlert({ open: true, message: 'Supplier updated successfully', severity: 'success' });
+      handleDialogClose();
     } catch (error) {
-        setAlert({ open: true, message: 'Error updating supplier', severity: 'error' });
+      setAlert({ open: true, message: 'Error updating supplier', severity: 'error' });
     }
-};
-
+  };
 
   const handleCloseAlert = () => {
     setAlert({ ...alert, open: false });
@@ -117,7 +114,7 @@ const handleUpdateSupplier = async () => {
         <TextField
           label="Search"
           variant="outlined"
-          size="small"  // Set size to small
+          size="small"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
         />
@@ -126,61 +123,58 @@ const handleUpdateSupplier = async () => {
         </Button>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white">
-          <thead>
-            <tr className="w-full bg-teal-500 text-black ">
-              <th className="py-2 px-4 text-center">First Name</th>
-              <th className="py-2 px-4 text-center">Last Name</th>
-              <th className="py-2 px-4 text-center">NIC</th>
-              <th className="py-2 px-4 text-center">Company Name</th>
-              <th className="py-2 px-4 text-center">Contact Number</th>
-              <th className="py-2 px-4 text-center">Email</th>
-              <th className="py-2 px-4 text-center">Supply Type</th> {/* Added Supply Type column */}
-              <th className="py-2 px-4 text-center">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow sx={{ bgcolor: '#15F5BA' }}>
+              <TableCell align="center">First Name</TableCell>
+              <TableCell align="center">Last Name</TableCell>
+              <TableCell align="center">NIC</TableCell>
+              <TableCell align="center">Company Name</TableCell>
+              <TableCell align="center">Contact Number</TableCell>
+              <TableCell align="center">Email</TableCell>
+              <TableCell align="center">Supply Type</TableCell>
+              <TableCell align="center">Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {filteredSuppliers.length > 0 ? (
               filteredSuppliers.map((supplier) => (
-                <tr key={supplier._id} className="hover:bg-gray-100">
-                  <td className="py-2 px-4 border">{supplier.fname}</td>
-                  <td className="py-2 px-4 border">{supplier.lname}</td>
-                  <td className="py-2 px-4 border">{supplier.nic}</td>
-                  <td className="py-2 px-4 border">{supplier.companyName}</td>
-                  <td className="py-2 px-4 border">{supplier.contactNum}</td>
-                  <td className="py-2 px-4 border">{supplier.email}</td>
-                  <td className="py-2 px-4 border">{supplier.supplyType}</td> {/* Displaying Supply Type */}
-                  <td className="py-2 px-4 border flex justify-center gap-2">
-                    <button
-                      className="bg-teal-500 text-black px-4 py-2 rounded-md"
-                      onClick={() => handleUpdateOpen(supplier)}
-                    >
+                <TableRow key={supplier._id}>
+                  <TableCell align="left">{supplier.fname}</TableCell>
+                  <TableCell align="left">{supplier.lname}</TableCell>
+                  <TableCell align="left">{supplier.nic}</TableCell>
+                  <TableCell align="left">{supplier.companyName}</TableCell>
+                  <TableCell align="left">{supplier.contactNum}</TableCell>
+                  <TableCell align="left">{supplier.email}</TableCell>
+                  <TableCell align="left">{supplier.supplyType}</TableCell>
+                  <TableCell align="left">
+                    <Button variant="contained" sx={{ bgcolor: '#15F5BA', color: 'black' }} onClick={() => handleUpdateOpen(supplier)}>
                       Update
-                    </button>
-                    <button
-                      className="bg-red-500 text-black px-4 py-2 rounded-md"
-                      onClick={() => handleDelete(supplier._id)}
-                    >
+                    </Button>
+                    <Button variant="contained" sx={{ bgcolor: '#FA7070', color: 'black', ml: 2 }} onClick={() => handleDelete(supplier._id)}>
                       Delete
-                    </button>
-                  </td>
-                </tr>
+                    </Button>
+                  </TableCell>
+                </TableRow>
               ))
             ) : (
-              <tr>
-                <td colSpan="8" className="text-center py-4">No suppliers available</td>
-              </tr>
+              <TableRow>
+                <TableCell colSpan={8} align="center">
+                  No suppliers available
+                </TableCell>
+              </TableRow>
             )}
-          </tbody>
-        </table>
-      </div>
-      
+          </TableBody>
+        </Table>
+      </TableContainer>
+
       <div>
-      <center><Button style={{ marginTop: '20px' }}  variant="contained" color="primary" onClick={generatePDF} className="mt-4">
-        Generate PDF
-      </Button>
-      </center>
+        <center>
+          <Button style={{ marginTop: '20px' }} variant="contained" color="primary" onClick={generatePDF} className="mt-4">
+            Generate PDF
+          </Button>
+        </center>
       </div>
 
       <Snackbar open={alert.open} autoHideDuration={6000} onClose={handleCloseAlert}>
@@ -262,8 +256,12 @@ const handleUpdateSupplier = async () => {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleUpdateSupplier}>Update</Button>
-          <Button onClick={handleDialogClose}>Cancel</Button>
+          <Button onClick={handleDialogClose} color="primary" >
+            Cancel
+          </Button>
+          <Button onClick={handleUpdateSupplier} color="primary">
+            Save
+          </Button>
         </DialogActions>
       </Dialog>
     </div>

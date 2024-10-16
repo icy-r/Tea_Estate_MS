@@ -29,7 +29,7 @@ const ViewOrders = ({ supplierid }) => {
       <TableContainer component={Paper} sx={{ marginTop: 3 }}>
         <Table>
           <TableHead>
-            <TableRow>
+            <TableRow sx={{ bgcolor: '#15F5BA'}}>
               <TableCell>Order ID</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Supply Type</TableCell>

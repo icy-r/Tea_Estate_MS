@@ -60,7 +60,7 @@ function ViewPdfs({ refresh }) {
     // Function to delete a PDF
     const deletePdf = async (id) => {
         try {
-            const response = await axios.delete(`http://localhost:3001/api/applicanttManagement/${id}`, {
+            const response = await axios.delete(`http://localhost:3001/api/applicantManagement/${id}`, {
                 headers: {
                     Authorization: 'Bearer YOUR_TOKEN_HERE',
                 },

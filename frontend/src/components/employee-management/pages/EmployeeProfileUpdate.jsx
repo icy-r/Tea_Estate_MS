@@ -1,116 +1,113 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from '../../../services/axios.js';
+import axios from 'axios'; // Update the import statement for axios
+import { useParams, useNavigate } from 'react-router-dom';
 
-const EmployeeAdd = () => {
-    const navigate = useNavigate(); // Use navigate for redirection
-
+const EmployeeUpdate = () => {
+    const navigate = useNavigate();  // Initialize navigate hook
+    const { id } = useParams();  // Destructuring id from useParams
+  
     const [inputs, setInputs] = useState({
-        firstName: "",
-        lastName: "",
-        Id: "",
-        email: "",
-        age: "",
-        gender: "",
-        dateOfBirth: "",
-        contactNumber: "",
-        designation: "",
-        department: "",
-        dateOfJoining: "",
-        salary: "",
-        leavesLeft: 30, // Static value
-        address: "",
-        password: "",
-        confirmPassword: "", // New confirm password field
+      firstName: '',
+      lastName: '',
+      Id: '',
+      email: '',
+      age: '',
+      gender: '',
+      dateOfBirth: '',
+      contactNumber: '',
+      designation: '',
+      department: '',
+      dateOfJoining: '',
+      salary: '',
+      leavesLeft: 30,
+      address: ''
     });
-
-    const [errors, setErrors] = useState({
-        passwordMatch: true, // Track if password and confirm password match
-        allFieldsFilled: false, // Track if all fields are filled
-    });
-
-    const handleChange = (e) => {
-        setInputs((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value,
-        }));
-        validateForm();
+  
+    useEffect(() => {
+        const fetchHandler = async () => {
+          try {
+            const response = await axios.get(`http://localhost:3001/api/empManagement/${id}`);
+            console.log('API Response:', response.data); // Log the full response to check its structure
+      
+            // Assuming the employee data should be inside the `response.data.employee`
+            if (response.data) {
+                setInputs(response.data);  // Remove `.employee` if data is directly under `response.data`
+              }else {
+              console.error("Employee data not found.");
+            }
+          } catch (error) {
+            console.error("Error fetching employee data:", error);
+          }
+        };
+        fetchHandler();
+      }, [id]);
+      
+  
+    const handleChange = (event) => {
+      const { name, value } = event.target;
+      setInputs({ ...inputs, [name]: value });
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        sendRequest().then(() => navigate('/admin/employee/employeedetails'));
+
+
+        // Helper function to get today's date in YYYY-MM-DD format
+        const getTodayDate = () => {
+            const today = new Date();
+            return today.toISOString().split("T")[0]; // Format the date to YYYY-MM-DD
+        };
+    
+        // Helper function to get the date one month ago from today
+        const getOneMonthAgoDate = () => {
+            const oneMonthAgo = new Date();
+            oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1); // Set to one month ago
+            return oneMonthAgo.toISOString().split("T")[0]; // Format the date to YYYY-MM-DD
+        };
+    
+        const getEighteenYearsAgoDate = () => {
+            const today = new Date();
+            today.setFullYear(today.getFullYear() - 18); // Subtract 18 years from today
+            return today.toISOString().split("T")[0]; // Format the date to YYYY-MM-DD
+        };
+
+  
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+      console.log(inputs);
+      try {
+        await axios.put(`http://localhost:3001/api/empManagement/${id}`, inputs);
+        navigate('/admin/employee/employeeprofile');  // Navigate after successful update
+      } catch (error) {
+        console.error("Error updating employee data:", error);
+      }
     };
 
-    // Helper function to get today's date in YYYY-MM-DD format
-    const getTodayDate = () => {
-        const today = new Date();
-        return today.toISOString().split("T")[0]; // Format the date to YYYY-MM-DD
-    };
-
-    // Helper function to get the date one month ago from today
-    const getOneMonthAgoDate = () => {
-        const oneMonthAgo = new Date();
-        oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1); // Set to one month ago
-        return oneMonthAgo.toISOString().split("T")[0]; // Format the date to YYYY-MM-DD
-    };
-
-    const getEighteenYearsAgoDate = () => {
-        const today = new Date();
-        today.setFullYear(today.getFullYear() - 18); // Subtract 18 years from today
-        return today.toISOString().split("T")[0]; // Format the date to YYYY-MM-DD
-    };
-
-    const sendRequest = async () => {
+    const handlePasswordChange = async (event) => {
+        event.preventDefault();
+        
         try {
-            const response = await axios.post("http://localhost:3001/api/empManagement/", {
-                firstName: String(inputs.firstName),
-                lastName: String(inputs.lastName),
-                Id: String(inputs.Id),
-                email: String(inputs.email),
-                age: Number(inputs.age),
-                gender: String(inputs.gender),
-                dateOfBirth: String(inputs.dateOfBirth),
-                contactNumber: String(inputs.contactNumber),
-                designation: String(inputs.designation),
-                department: String(inputs.department),
-                dateOfJoining: String(inputs.dateOfJoining),
-                salary: Number(inputs.salary),
-                leavesLeft: Number(inputs.leavesLeft),
-                address: String(inputs.address),
-                password: String(inputs.password),
+            // Validate the old password by making an API call
+            const response = await axios.post(`http://localhost:3001/api/empManagement/validatePassword`, {
+                id, 
+                oldPassword
             });
 
-            console.log('Response:', response.data); // Log success response
-            return response.data;
+            if (response.data.isValid) {
+                // If the old password is valid, update the password with the new one
+                await axios.put(`http://localhost:3001/api/empManagement/${id}`, { ...inputs, password: newPassword });
+                navigate('/admin/employee/employeedetails');
+            } else {
+                setErrorMessage("Old password is incorrect.");
+            }
         } catch (error) {
-            console.error('Error adding employee:', error.response || error); // Log the error
-            alert('Failed to add employee. Please try again.');
+            console.error("Error validating password or updating employee data:", error);
+            setErrorMessage("An error occurred. Please try again.");
         }
-    };
-
-    
-    function getOneMonthLaterDate() {
-        const today = new Date();
-        today.setMonth(today.getMonth() + 1); // Add one month to current date
-        return today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
-    }
-    
-
-    // Form validation function
-    const validateForm = () => {
-        const passwordValid = inputs.password === inputs.confirmPassword; // Check if passwords match
-        const allFilled = Object.values(inputs).every((field) => field !== ""); // Check if all fields are filled
-        setErrors({
-            passwordMatch: passwordValid,
-            allFieldsFilled: allFilled && passwordValid, // Ensure passwords match before considering form complete
-        });
     };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-white-100">
-            <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-md mt-2">
+            <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-md">
                 <h1 className="text-2xl font-bold mb-4 text-center text-gray-800">Add Employee</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -149,6 +146,7 @@ const EmployeeAdd = () => {
                                 onChange={handleChange}
                                 value={inputs.Id}
                                 pattern=".{11,11}"
+                                readOnly
                                 required
                                 title="ID must be exactly 11 characters long"
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -293,13 +291,13 @@ const EmployeeAdd = () => {
                                 name="dateOfJoining"
                                 onChange={handleChange}
                                 value={inputs.dateOfJoining}
-                                min={getTodayDate()} // Set min date to today's date
-                                max={getOneMonthLaterDate()} // Set max date to one month in the future
+                                min={getOneMonthAgoDate()} // Set min date to one month ago
+                                max={getTodayDate()} // Set max date to today's date
                                 required
+                                readOnly
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             />
                         </div>
-
     
                         {/* Salary Input */}
                         <div>
@@ -314,45 +312,8 @@ const EmployeeAdd = () => {
                             />
                         </div>
     
- 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">Password</label>
-                            <input
-                                type="password" // Changed from 'text' to 'password' for better security
-                                name="password"
-                                onChange={handleChange}
-                                value={inputs.password}
-                                required
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            />
-                            {/* Password Validation Message */}
-                            {inputs.password && (
-                                <div className="mt-1 text-sm text-red-600">
-                                    {!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(inputs.password) && 
-                                        "Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character."}
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Confirm Password Input */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">Confirm Password</label>
-                            <input
-                                type="password"
-                                name="confirmPassword"
-                                onChange={handleChange}
-                                value={inputs.confirmPassword}
-                                required
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            />
-                            {/* Password mismatch warning */}
-                            {!errors.passwordMatch && (
-                                <p className="text-red-500 text-xs mt-1">Passwords do not match</p>
-                            )}
-                        </div>
-
                         {/* Leaves Left Input */}
-                        <div>
+                        {/* <div>
                             <label className="block text-sm font-medium text-gray-700">Leaves Left</label>
                             <input
                                 type="number"
@@ -361,6 +322,27 @@ const EmployeeAdd = () => {
                                 readOnly // Make the input read-only
                                 className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             />
+                        </div> */}
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Password</label>
+                            <input
+                                type="password" // Changed from 'text' to 'password' for better security
+                                name="password"
+                                onChange={handleChange}
+                                value={inputs.password}
+                                readOnly
+                                desabled
+                                required
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            />
+                            {/* Password Validation Message */}
+                            {/* {inputs.password && (
+                                <div className="mt-1 text-sm text-red-600">
+                                    {!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(inputs.password) && 
+                                        "Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character."}
+                                </div>
+                            )} */}
                         </div>
     
                         {/* Address Input */}
@@ -376,22 +358,26 @@ const EmployeeAdd = () => {
                             ></textarea>
                         </div>
                     </div>
+
+                    
     
                     {/* Submit Button */}
                     <div className="mt-6">
-                    <button
-                        type="submit"
-                        className="w-[40%] block mx-auto bg-blue-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    >
-                        Add Employee
-                    </button>
+                    <div className="flex justify-center">
+                        <button
+                            type="submit"
+                            className="w-1/2 bg-blue-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        >
+                            Update Employee
+                        </button>
+                    </div>
+
                     </div>
                 </form>
             </div>
         </div>
     );
     
-    
-};
+}
 
-export default EmployeeAdd;
+export default EmployeeUpdate;

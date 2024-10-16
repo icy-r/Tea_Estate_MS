@@ -10,6 +10,11 @@ import nodemailer from "nodemailer";
 import "./config/database.js";
 
 // import routes
+//sales-management
+import { router as invoicesRouter } from './routes/sales-management/invoices-route.js'
+import{router as auctionRouter} from './routes/sales-management/auction-route.js'
+import { router as ordersRouter } from './routes/sales-management/orders-route.js'
+import { router as salesRouter } from './routes/sales-management/sales-route.js'
 
 // inventory-management
 import { router as inventoryRoute } from './routes/inventory-management/inventory-route.js';
@@ -17,10 +22,9 @@ import { router as teaInventoryRoute } from './routes/inventory-management/inven
 import { router as fertInventoryRoute } from './routes/inventory-management/inventory-fertRoute.js';
 import { router as fuelInventoryRoute } from './routes/inventory-management/inventory-fuelRoute.js';
 import { router as utilitiesInventoryRoute } from './routes/inventory-management/inventory-utilitiesRoute.js';
+import { reduceFertilizerStock } from './controllers/inventory-management/autoReduction.js';
+import { reduceFuelStock } from './controllers/inventory-management/autoReduction.js';
 
-// sales-management
-import { router as invoicesRouter } from './routes/sales-management/invoices-route.js';
-import { router as orderRouterSales } from './routes/sales-management/order-route.js';
 
 // transport-management
 import { router as vehiclesRouter } from './routes/transport-management/vehicle-route.js';
@@ -108,6 +112,7 @@ app.post("/send-email", (req, res) => {
   });
 });
 
+
 // mount routes
 app.use("/api/notifications", notificationsRouter);
 app.use("/api/profiles", profilesRouter);
@@ -120,6 +125,8 @@ app.use("/api/fuel", fuelInventoryRoute);
 app.use("/api/fert", fertInventoryRoute);
 app.use("/api/utilities", utilitiesInventoryRoute);
 
+
+
 // employee-management
 app.use("/api/empManagement", EmployeeManagement);
 app.use("/api/applicantManagement", ApplicantManagement);
@@ -127,28 +134,25 @@ app.use("/api/employeeProfile", EmployeeProfile);
 app.use("/api/applicantRoles", ApplicantRoles);
 app.use("/api/employees", EmployeeManagement);
 
-// sales-management
-app.use("/api/invoices", invoicesRouter);
-app.use("/api/ordersSales", orderRouterSales);
 
 // supply-management
-app.use('/api/supplier', supplierRouter);
-app.use('/api/supplierManager', supplierManagerRouter);
-app.use('/api/supplies', supplyRouter);
-app.use('/api/orders', orderRouter);
-app.use('/api/quotation', quotationRouter);
-app.use('/api/callingSupply', callingSupplyRoute);
+app.use("/api/supplier", supplierRouter);
+app.use("/api/supplierManager", supplierManagerRouter);
+app.use("/api/supplies", supplyRouter);
+app.use("/api/ordersSup", orderRouter);
+app.use("/api/quotation", quotationRouter);
+app.use("/api/callingSupply", callingSupplyRoute);
 
 // transport-management
-app.use('/api/transports', transportRouter);
-app.use('/api/routes', routeRouter);
-app.use('/api/vehicles', vehiclesRouter);
-app.use('/api/transportLog', transportLogRouter);
-app.use('/api/drivers', driverRouter);
+app.use("/api/transports", transportRouter);
+app.use("/api/routes", routeRouter);
+app.use("/api/vehicles", vehiclesRouter);
+app.use("/api/transportLog", transportLogRouter);
+app.use("/api/drivers", driverRouter);
 
 // product-management
-app.use('/api/catalog', catalogRouter);
-app.use('/api/buyers', buyersRouter);
+app.use("/api/catalog", catalogRouter);
+app.use("/api/buyers", buyersRouter);
 
 // repair-management
 app.use("/api/technicians", technicianRouter);
@@ -156,12 +160,18 @@ app.use("/api/requestMaintenance", requestMaintenanceRouter);
 app.use("/api/maintenances", maintenancesRouter);
 app.use("/api/assets", assetsRouter);
 
-// field-management
-app.use("/api/fields", fieldRouter);
-app.use("/api/fertilizers", fertilizerRouter);
-app.use("/api/harvests", harvestRouter);
-app.use("/api/labours", labourRouter);
-app.use("/api/harvestlogs", harvestlogRouter);
+//sales-management
+app.use('/api/invoices', invoicesRouter)
+app.use('/api/auction', auctionRouter)
+app.use('/api/orders', ordersRouter)
+app.use('/api/sales', salesRouter)
+
+//field-management
+app.use('/api/fields', fieldRouter)
+app.use('/api/fertilizers', fertilizerRouter)
+app.use('/api/harvests', harvestRouter)
+app.use('/api/labours', labourRouter)
+
 
 // handle 404 errors
 app.use((req, res) => {

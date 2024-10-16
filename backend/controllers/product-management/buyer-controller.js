@@ -11,13 +11,17 @@ async function index(req, res) {
 
 }
 
+// Get a buyer by ID
 async function show(req, res) {
     try {
-        //id_buyer = req.params.id
-        const buyer = await Buyer.find({id: req.params.id});
+        // Assuming you're using MongoDB's _id
+        const buyer = await Buyer.findById(req.params.id);
+        if (!buyer) {
+            return res.status(404).json({ error: 'Buyer not found' });
+        }
         res.json(buyer);
     } catch (error) {
-        res.status(404).json({ error: error });
+        res.status(500).json({ error: error.message });
     }
 }
 

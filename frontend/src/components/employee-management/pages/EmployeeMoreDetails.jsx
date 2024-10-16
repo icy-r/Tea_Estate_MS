@@ -22,6 +22,7 @@ const EmployeeMoreDetails = () => {
         department: "",
         dateOfJoining: "",
         salary: "",
+        ot:"0",
         leavesLeft: 30,
         address: "",
     });
@@ -93,7 +94,7 @@ const EmployeeMoreDetails = () => {
     });
 
     return (
-        <div className=" flex items-center justify-center bg-gray-100">
+        <div className="flex items-center justify-center bg-gray-100">
             <div ref={componentsRef} className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-md mt-10">
                 <h1 className="text-2xl font-bold mb-4 text-center text-gray-800">Employee Details</h1>
                 <div className="space-y-4">
@@ -181,9 +182,20 @@ const EmployeeMoreDetails = () => {
                             <label className="block text-sm font-medium text-gray-700">Address</label>
                             <p className="mt-1 text-sm text-gray-600">{inputs.address}</p>
                         </div>
+
+                        {/* OT Display */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">OT</label>
+                            <p className="mt-1 text-sm text-gray-600">{inputs.ot}</p>
+                        </div>
+
+                        {/* Total Display */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Total</label>
+                            <p className="mt-1 text-sm text-gray-600">{parseFloat(inputs.salary) + parseFloat(inputs.ot)}</p>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
     );

@@ -7,6 +7,7 @@ import * as authService from "../../services/auth-service.js";
 import { Link } from "@mui/joy";
 import { motion } from "framer-motion";
 
+
 const Login = ({ handleAuthEvt }) => {
   const [formData, setFormData] = useState({
     email: "",
@@ -24,6 +25,10 @@ const Login = ({ handleAuthEvt }) => {
       [id]: value,
     }));
   };
+  const handleLoginRedirect = () => {
+    navigate("/loginUser"); // Navigate to /loginUser
+};
+
 
   const { email, password } = formData;
 
@@ -130,11 +135,15 @@ const Login = ({ handleAuthEvt }) => {
               </motion.button>
             </div>
             <div className="mt-6 text-center text-sm text-color_focus">
-              Don&apos;t have an account?{" "}
-              <Link to="/register" className="text-color_button underline">
-                Register
-              </Link>
-            </div>
+            Factory Employee? use this{" "}
+            <button 
+                onClick={handleLoginRedirect} // Call the handler on click
+                className="text-color_button underline"
+                style={{ background: 'none', border: 'none', cursor: 'pointer' }} // Optional styling to make it look like a link
+            >
+                user login
+            </button>
+        </div>
           </form>
         </motion.div>
       </div>

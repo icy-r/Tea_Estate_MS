@@ -1,6 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../../services/axios.js';
-import { Snackbar, Alert, Dialog,FormControl,InputLabel,Select, DialogActions, Rating, MenuItem, DialogContent, DialogContentText, DialogTitle, TextField, Button } from '@mui/material';
+import { 
+  Snackbar, 
+  Alert, 
+  Dialog, 
+  FormControl, 
+  InputLabel, 
+  Select, 
+  DialogActions, 
+  Rating, 
+  MenuItem, 
+  DialogContent, 
+  DialogContentText, 
+  DialogTitle, 
+  TextField, 
+  Button, 
+  Table, 
+  TableHead, 
+  TableRow, 
+  TableCell, 
+  TableBody, 
+  Paper
+} from '@mui/material';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable'; // Import autotable plugin
 import dayjs from 'dayjs'; // Import dayjs for date handling
@@ -20,7 +41,7 @@ const ViewOrders = () => {
   // Fetch all orders from the backend
   const fetchOrders = async () => {
     try {
-      const response = await axios.get("/orders/");
+      const response = await axios.get("/ordersSup/");
       setOrders(response.data);
       setFilteredOrders(response.data);
       console.log("Orders:", response.data);
@@ -64,7 +85,7 @@ const ViewOrders = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/orders/${id}`);
+      await axios.delete(`/ordersSup/${id}`);
       setFilteredOrders(filteredOrders.filter((order) => order._id !== id));
       setAlert({ open: true, message: 'Order deleted successfully', severity: 'success' });
     } catch (error) {
@@ -103,14 +124,13 @@ const ViewOrders = () => {
       order.supplierId || 'N/A',
       order.supplyType || 'N/A',
       order.quantity || 'N/A',
-  
       order.status || 'N/A',
       order.createdAt,
       order.qualityRating || 'N/A' // Add qualityRating to the PDF table
     ]);
     
     doc.autoTable({
-      head: [['Supplier', 'Supply Type', 'Quantity',  'Status', 'Quality Rating']],
+      head: [['Supplier', 'Supply Type', 'Quantity', 'Status', 'Quality Rating']],
       body: tableData,
       startY: 20,
     });
@@ -129,8 +149,6 @@ const ViewOrders = () => {
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
         />
-     
-        {/* Using native Date handling, replace the DatePicker from date-fns with TextFields */}
         <TextField
           type="date"
           label="Start Date"
@@ -148,65 +166,70 @@ const ViewOrders = () => {
           onChange={(e) => setEndDate(e.target.value)}
         />
 
-        <Button variant="contained" color="primary" size="small" onClick={handleSearch}>
+        <Button variant="contained" color="primary"  size="small" onClick={handleSearch}>
           Search
         </Button>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white">
-          <thead>
-            <tr className="w-full bg-teal-500 text-white">
-              <th className="py-2 px-4 text-left">Supplier</th>
-              <th className="py-2 px-4 text-left">Supply Type</th>
-              <th className="py-2 px-4 text-left">Quantity</th>
-              <th className="py-2 px-4 text-left">Date</th>
-              <th className="py-2 px-4 text-left">Status</th>
-              <th className="py-2 px-4 text-left">Quality Rating</th> {/* New Column for Rating */}
-              <th className="py-2 px-4 text-left">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+      <Paper>
+        <Table>
+          <TableHead>
+            <TableRow sx={{ bgcolor: '#15F5BA' }}>
+              <TableCell>Supplier</TableCell>
+              <TableCell>Supply Type</TableCell>
+              <TableCell>Quantity</TableCell>
+              <TableCell>Date</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Quality Rating</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {filteredOrders.length > 0 ? (
               filteredOrders.map((order) => (
-                <tr key={order._id} className="hover:bg-gray-100">
-                  <td className="py-2 px-4 border">{order.supplierId || 'N/A'}</td>
-                  <td className="py-2 px-4 border">{order.supplyType || 'N/A'}</td>
-                  <td className="py-2 px-4 border">{order.quantity || 'N/A'}</td>
-                  <td className="py-2 px-4 border">{order.createdAt || 'N/A'}</td>
-                  <td className="py-2 px-4 border">{order.status || 'N/A'}</td>
-                  <td className="py-2 px-4 border">
-                    {/* Display the quality rating as stars */}
+                <TableRow key={order._id} hover>
+                  <TableCell>{order.supplierId || 'N/A'}</TableCell>
+                  <TableCell>{order.supplyType || 'N/A'}</TableCell>
+                  <TableCell>{order.quantity || 'N/A'}</TableCell>
+                  <TableCell>{dayjs(order.createdAt).format('YYYY-MM-DD') || 'N/A'}</TableCell>
+                  <TableCell>{order.status || 'N/A'}</TableCell>
+                  <TableCell>
                     <Rating
                       value={order.qualityRating || 0}
-                      readOnly // Make it read-only for display
+                      readOnly
                       precision={0.5}
                     />
-                  </td>
-                  <td className="py-2 px-4 border flex justify-center gap-2">
-                    <button
-                      className="bg-teal-500 text-white px-2 py-1 rounded"
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      sx={{ bgcolor: '#15F5BA' , color: 'black' }}
                       onClick={() => handleDialogOpen(order)}
                     >
                       Edit
-                    </button>
-                    <button
-                      className="bg-red-500 text-white px-2 py-1 rounded"
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      sx={{ bgcolor: '#FA7070', color: 'black' }}
                       onClick={() => handleDelete(order._id)}
                     >
                       Delete
-                    </button>
-                  </td>
-                </tr>
+                    </Button>
+                  </TableCell>
+                </TableRow>
               ))
             ) : (
-              <tr>
-                <td colSpan="7" className="py-2 px-4 text-center">No orders found</td>
-              </tr>
+              <TableRow>
+                <TableCell colSpan={7} align="center">
+                  No orders found
+                </TableCell>
+              </TableRow>
             )}
-          </tbody>
-        </table>
-      </div>
+          </TableBody>
+        </Table>
+      </Paper>
 
       <Button variant="contained" color="primary" onClick={generatePDF}>
         Generate PDF
@@ -216,9 +239,7 @@ const ViewOrders = () => {
       <Dialog open={dialogOpen} onClose={handleDialogClose}>
         <DialogTitle>Update Order</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Update the order details.
-          </DialogContentText>
+          <DialogContentText>Update the order details.</DialogContentText>
           <TextField
             autoFocus
             margin="dense"
@@ -238,30 +259,32 @@ const ViewOrders = () => {
             onChange={handleChange}
             fullWidth
           />
-        <FormControl fullWidth margin="dense">
-          <InputLabel id="status-select-label">Status</InputLabel>
-          <Select
-            labelId="status-select-label"
-            name="status"
-            value={selectedOrder?.status || ''}
-            onChange={handleChange}
-            variant="outlined"
-          >
-           
-            <MenuItem value="Pending">Pending</MenuItem>
-            <MenuItem value="Completed">Completed</MenuItem>
-            <MenuItem value="Canceled">Canceled</MenuItem>
-            {/* Add more status options as needed */}
-          </Select>
-        </FormControl>
-          <Rating
-            name="qualityRating"
-            value={selectedOrder?.qualityRating || 0}
-            onChange={(event, newValue) => setSelectedOrder({ ...selectedOrder, qualityRating: newValue })}
-          />
+          <FormControl fullWidth margin="dense">
+            <InputLabel>Status</InputLabel>
+            <Select
+              name="status"
+              value={selectedOrder?.status || ''}
+              onChange={handleChange}
+            >
+              <MenuItem value="pending">Pending</MenuItem>
+              <MenuItem value="completed">Completed</MenuItem>
+              <MenuItem value="cancelled">Cancelled</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl fullWidth margin="dense">
+            <InputLabel>Quality Rating</InputLabel>
+            <Rating
+              name="qualityRating"
+              value={selectedOrder?.qualityRating || 0}
+              onChange={(event, newValue) => {
+                setSelectedOrder({ ...selectedOrder, qualityRating: newValue });
+              }}
+              precision={0.5}
+            />
+          </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDialogClose} color="primary">
+          <Button onClick={handleDialogClose} color="secondary">
             Cancel
           </Button>
           <Button onClick={handleUpdateOrder} color="primary">
@@ -270,11 +293,13 @@ const ViewOrders = () => {
         </DialogActions>
       </Dialog>
 
-
-
-      {/* Snackbar for alerts */}
-      <Snackbar open={alert.open} autoHideDuration={6000} onClose={handleCloseAlert}>
-        <Alert onClose={handleCloseAlert} severity={alert.severity} sx={{ width: '100%' }}>
+      {/* Alert */}
+      <Snackbar
+        open={alert.open}
+        autoHideDuration={6000}
+        onClose={handleCloseAlert}
+      >
+        <Alert onClose={handleCloseAlert} severity={alert.severity}>
           {alert.message}
         </Alert>
       </Snackbar>

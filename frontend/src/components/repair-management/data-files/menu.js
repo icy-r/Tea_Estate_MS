@@ -8,6 +8,8 @@ const menuItems = [
   {
     name: "Assets",
     subItems: [
+      { name: "Scan QR for Asset", link: "repair/scanqrforasset" },
+      { name: "Bulk QR Download", link: "repair/bulkqrdownload" },
       { name: "View Assets", link: "repair/viewassets" },
       { name: "Add New Asset", link: "repair/newasset" },
     ],

@@ -4,6 +4,7 @@ import RepairRoutes from "../components/repair-management/repair-routes.jsx";
 import SupplyHome from "../components/supply-management/pages/SupplyHome.jsx";
 import SupplierHome from "../components/supplier/pages/supplierHome.jsx";
 import DriverHome from "../components/driver/pages/DriverHome.jsx";
+import DriverHome2 from "../components/driver2/pages/DriverHome.jsx";
 import "../App.css";
 import Error404 from "./error404.jsx";
 import { Route, Routes } from "react-router-dom";
@@ -15,6 +16,8 @@ import BuyerRoutes from "../components/product-management/BuyerRoutes.jsx";
 import AdminLogin from "./login/AdminLogin.jsx";
 import LandingPage from "./landingPage/LandingPage.jsx";
 import CreateInventory from '../components/inventory-management/components/CreateInventory.jsx';
+
+import SalesHome from "../components/sales-management/pages/saleshome.jsx";
 
 
 import FunctionCard from "../components/dashboard/component/FunctionCard.jsx";
@@ -140,11 +143,20 @@ function App() {
             }
           />
 
+  
           <Route
             path="/driver/*"
             element={
               <ProtectedRoutes user={user}>
                 <DriverHome />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/drivers/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <DriverHome2 />
               </ProtectedRoutes>
             }
           />
@@ -165,6 +177,14 @@ function App() {
                 </ProtectedRoutes>
             }
             />
+          <Route
+            path="/sales/*"
+            element={
+              <ProtectedRoutes user={user}>
+                <SalesHome />
+              </ProtectedRoutes>
+            }
+          />
 
           {/* Catch-all route */}
           <Route path="/*" element={<Error404 />} />

@@ -30,6 +30,7 @@ async function create(req, res) {
 
         // Check if driver already exists
         let driver = await Driver.findOne({ driver_id });
+        console.log(driver);
 
         if (driver) {
             // If driver exists, update the vehicle_id
@@ -39,13 +40,16 @@ async function create(req, res) {
         } else {
             // If driver does not exist, create a new driver
             driver = new Driver(req.body);
+            console.log(driver);
             await driver.save();
             return res.status(201).json({ message: 'Driver created successfully', driver });
         }
     } catch (error) {
-        res.status(400).json({ error: error });
+        console.error("Error saving the driver:", error);  // <-- Add more detailed logging here
+        res.status(400).json({ error: error.message });
     }
 }
+
 
 async function update(req, res) {
     try {

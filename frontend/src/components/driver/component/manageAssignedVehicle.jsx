@@ -71,7 +71,7 @@ const ManageAssignedVehicle = ({ driverId }) => {
                 <TableContainer component={Paper}>
                   <Table>
                     <TableHead>
-                      <TableRow>
+                      <TableRow sx={{ bgcolor: '#15F5BA'}}>
                         <TableCell><strong>Attribute</strong></TableCell>
                         <TableCell><strong>Details</strong></TableCell>
                       </TableRow>

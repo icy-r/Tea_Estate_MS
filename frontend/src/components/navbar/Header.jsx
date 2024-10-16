@@ -9,9 +9,9 @@ const menuItems = [
   { name: "About", link: "/about" },
   { name: "Services", link: "/services" },
   { name: "MarketPlace", link: "/marketplace" },
-  { name: "Inventory Management", link: "/admin/inventory" },
+  { name: "Catelog", link: "/Catelog" },
   { name: "Careers", link: "/add-applicant" },
-  { name: "Login", link: "/admin", special: true },
+  
   
 ];
 
@@ -58,7 +58,7 @@ const Header = (props) => {
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center space-x-4">
+        <div className="hidden md:flex items-center space-x-4 ml-5">
           {menuItems
             .filter((item) => !item.special)
             .map((item) => (

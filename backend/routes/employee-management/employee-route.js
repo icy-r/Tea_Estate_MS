@@ -26,6 +26,9 @@ router.put("/:id", EmployeeController.update);
 // destroy for deleting a machine defined in EmployeeController
 router.delete("/:id", EmployeeController.destroy);
 
+// harvest
+router.post("/update-ot", checkAuth, EmployeeController.updateOT);
+
 
 export { router };
 

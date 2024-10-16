@@ -1,42 +1,62 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from '../../../services/axios.js';  // Adjust your axios setup
+import axios from '../../../services/axios.js';  // Adjust this import path as needed
 
 const Order = () => {
   const navigate = useNavigate();
 
-  // State to manage form data
+  // State for form data
   const [formData, setFormData] = useState({
-    orderID: '',
+    orderID: '', // Auto-generated (to be set after submission)
     orderDate: '',
     quantity: 1,
-    pid: '',
-    buyer_id: '',
-    saleID: '',
-    status: '',
+    pid: '',       // Product ID
+    buyer_id: '',  // Buyer ID
+    status: 'Processing', // Default status
   });
 
   const [errors, setErrors] = useState({});
+  const [buyers, setBuyers] = useState([]);   // For storing buyer list
+  const [products, setProducts] = useState([]);  // For storing product list
 
-  // Handle input change
+  // Fetch Buyers and Products
+  useEffect(() => {
+    const fetchBuyers = async () => {
+      try {
+        const buyerResponse = await axios.get('http://localhost:3001/api/buyers');
+        setBuyers(buyerResponse.data);
+      } catch (error) {
+        console.error('Error fetching buyers:', error);
+      }
+    };
+
+    const fetchProducts = async () => {
+      try {
+        const productResponse = await axios.get('http://localhost:3001/api/catalog');
+        setProducts(productResponse.data); // Store fetched products
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchBuyers();
+    fetchProducts();
+  }, []);
+
+  // Handle form input changes
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
-
     setErrors({ ...errors, [e.target.name]: '' });
   };
 
-  // Validate form data
+  // Validate form input
   const validate = () => {
     let tempErrors = {};
     let isValid = true;
 
-    if (!formData.orderID) {
-      tempErrors.orderID = 'Order ID is required';
-      isValid = false;
-    }
     if (!formData.orderDate) {
       tempErrors.orderDate = 'Order date is required';
       isValid = false;
@@ -53,14 +73,6 @@ const Order = () => {
       tempErrors.buyer_id = 'Buyer ID is required';
       isValid = false;
     }
-    if (!formData.saleID) {
-      tempErrors.saleID = 'Sale ID is required';
-      isValid = false;
-    }
-    if (!formData.status) {
-      tempErrors.status = 'Status is required';
-      isValid = false;
-    }
 
     setErrors(tempErrors);
     return isValid;
@@ -70,12 +82,20 @@ const Order = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-      console.log("Order Data Submitted", formData);
       try {
-        await sendRequest();
+        const orderData = await sendRequest();
         alert('Order submitted successfully!');
-        navigate('/admin/sales/manageorders');  // Navigate to ManageOrders after successful submission
+        setFormData({ // Reset form data
+          orderID: '',
+          orderDate: '',
+          quantity: 1,
+          pid: '',
+          buyer_id: '',
+          status: 'Processing',
+        });
+        navigate('/admin/sales/manageorders', { state: { orderData } });
       } catch (error) {
+        console.error('Error submitting order:', error.response?.data || error.message);
         alert('Error submitting order. Please try again.');
       }
     } else {
@@ -83,31 +103,29 @@ const Order = () => {
     }
   };
 
-  // Send request to the server
+  // Send request to server
   const sendRequest = async () => {
-    return await axios.post("http://localhost:3001/api/orders/", formData).then(res => res.data);
+    return await axios.post('http://localhost:3001/api/orders', formData).then(res => res.data);
   };
 
   return (
-    <div className="flex">
-      <div className="flex-1 p-8">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold text-center">Create Order</h2>
         <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-2 gap-6 bg-white p-6 rounded-lg shadow-lg">
+          <div className="grid grid-cols-1 gap-6 bg-white p-6 rounded-lg shadow-lg">
             {/* Order Details */}
             <div>
               <h3 className="text-xl font-semibold mb-4">Order Information</h3>
               <div className="mb-4">
-                <label className="block text-gray-700">Order ID</label>
+                <label className="block text-gray-700">Order ID (Auto-generated)</label>
                 <input
                   type="text"
                   name="orderID"
                   value={formData.orderID}
-                  onChange={handleChange}
-                  className={`w-full p-2 border ${errors.orderID ? 'border-red-500' : 'border-gray-300'} rounded`}
-                  required
+                  className="w-full p-2 border border-gray-300 rounded"
+                  readOnly // Order ID is auto-generated
                 />
-                {errors.orderID && <p className="text-red-500">{errors.orderID}</p>}
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Order Date</label>
@@ -129,71 +147,70 @@ const Order = () => {
                   value={formData.quantity}
                   onChange={handleChange}
                   className={`w-full p-2 border ${errors.quantity ? 'border-red-500' : 'border-gray-300'} rounded`}
-                  min="1"
                   required
                 />
                 {errors.quantity && <p className="text-red-500">{errors.quantity}</p>}
               </div>
-            </div>
-
-            {/* Product and Buyer Information */}
-            <div>
-              <h3 className="text-xl font-semibold mb-4">Product & Buyer Details</h3>
               <div className="mb-4">
-                <label className="block text-gray-700">Product ID</label>
-                <input
-                  type="text"
+                <label className="block text-gray-700">Product</label>
+                <select
                   name="pid"
                   value={formData.pid}
                   onChange={handleChange}
                   className={`w-full p-2 border ${errors.pid ? 'border-red-500' : 'border-gray-300'} rounded`}
                   required
-                />
+                >
+                  <option value="">Select Product</option>
+                  {products.map((product) => (
+                    <option key={product._id} value={product._id}>
+                      {product.pid} {/* Display the correct product ID (pid) */}
+                    </option>
+                  ))}
+                </select>
                 {errors.pid && <p className="text-red-500">{errors.pid}</p>}
               </div>
+
               <div className="mb-4">
-                <label className="block text-gray-700">Buyer ID</label>
-                <input
-                  type="text"
+                <label className="block text-gray-700">Buyer</label>
+                <select
                   name="buyer_id"
                   value={formData.buyer_id}
                   onChange={handleChange}
                   className={`w-full p-2 border ${errors.buyer_id ? 'border-red-500' : 'border-gray-300'} rounded`}
                   required
-                />
+                >
+                  <option value="">Select Buyer</option>
+                  {buyers.map((buyer) => (
+                    <option key={buyer._id} value={buyer._id}>
+                      {buyer.fName} {buyer.lName}
+                    </option>
+                  ))}
+                </select>
                 {errors.buyer_id && <p className="text-red-500">{errors.buyer_id}</p>}
               </div>
-              <div className="mb-4">
-                <label className="block text-gray-700">Sale ID</label>
-                <input
-                  type="text"
-                  name="saleID"
-                  value={formData.saleID}
-                  onChange={handleChange}
-                  className={`w-full p-2 border ${errors.saleID ? 'border-red-500' : 'border-gray-300'} rounded`}
-                  required
-                />
-                {errors.saleID && <p className="text-red-500">{errors.saleID}</p>}
-              </div>
+
               <div className="mb-4">
                 <label className="block text-gray-700">Status</label>
-                <input
-                  type="text"
+                <select
                   name="status"
                   value={formData.status}
                   onChange={handleChange}
-                  className={`w-full p-2 border ${errors.status ? 'border-red-500' : 'border-gray-300'} rounded`}
-                  placeholder="Processing/Completed/Cancelled"
-                  required
-                />
-                {errors.status && <p className="text-red-500">{errors.status}</p>}
+                  className="w-full p-2 border border-gray-300 rounded"
+                >
+                  <option value="Processing">Processing</option>
+                  <option value="Completed">Completed</option>
+                  <option value="Cancelled">Cancelled</option>
+                </select>
               </div>
             </div>
           </div>
 
           {/* Submit Button */}
-          <div className="mt-6">
-            <button type="submit" className="bg-teal-500 text-white px-4 py-2 rounded">
+          <div className="flex justify-center mb-4">
+            <button
+              type="submit"
+              className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-200"
+            >
               Submit Order
             </button>
           </div>

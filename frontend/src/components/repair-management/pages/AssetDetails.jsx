@@ -1,14 +1,17 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "../../../services/axios.js";
 import { jsPDF } from "jspdf";
 import { QRCodeSVG } from "qrcode.react";
 import { useNavigate } from "react-router-dom";
+import { saveAs } from "file-saver";
+
 const AssetDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [asset, setAsset] = useState(null);
   const [showQR, setShowQR] = useState(false);
+  const qrRef = useRef(null);
 
   useEffect(() => {
     axios.get(`/assets/${id}`).then((response) => {
@@ -53,6 +56,27 @@ const AssetDetails = () => {
     setShowQR(!showQR);
   };
 
+  const downloadQR = () => {
+    if (qrRef.current) {
+      const svgElement = qrRef.current.querySelector("svg");
+      if (svgElement) {
+        const svgData = new XMLSerializer().serializeToString(svgElement);
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        const img = new Image();
+        img.onload = () => {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+          canvas.toBlob((blob) => {
+            saveAs(blob, "qrcode.png");
+          });
+        };
+        img.src = "data:image/svg+xml;base64," + btoa(svgData);
+      }
+    }
+  };
+
   const handleEdit = (id) => {
     navigate(`/admin/repair/assets/edit/${id}`);
   };
@@ -61,6 +85,10 @@ const AssetDetails = () => {
     axios.delete(`/assets/${id}`).then(() => {
       navigate("/admin/repair/viewassets");
     });
+  };
+
+  const handleMaintenance = (id) => {
+    navigate(`/admin/repair/newmaintenance/${id}`);
   };
 
   return (
@@ -126,8 +154,16 @@ const AssetDetails = () => {
           </button>
         </div>
         {showQR && (
-          <div className="mt-4 flex justify-center">
-            <QRCodeSVG value={asset._id} size={128} />
+          <div className="mt-4 flex flex-col items-center">
+            <div ref={qrRef}>
+              <QRCodeSVG value={asset._id} size={128} />
+            </div>
+            <button
+              onClick={downloadQR}
+              className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Download QR Code
+            </button>
           </div>
         )}
       </div>
@@ -144,6 +180,12 @@ const AssetDetails = () => {
           onClick={() => handleDelete(asset._id)}
         >
           Delete
+        </button>
+        <button
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => handleMaintenance(asset._id)}
+        >
+          Add Maintenance
         </button>
       </div>
     </div>

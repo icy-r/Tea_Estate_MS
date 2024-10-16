@@ -133,9 +133,9 @@ const CallingSupplyList = ({ supplierid }) => {
 
     return (
         <div>
-            <h1 className="text-2xl font-bold ml-5 mb-6">Supplier Details</h1>
+            {/* <h1 className="text-2xl font-bold ml-5 mb-6">Supplier Details</h1> */}
 
-            {supplierDetails ? (
+            {/* {supplierDetails ? (
                 <div className="ml-5 mb-9 ">
                     <Typography variant="h6">Supplier Name: {supplierDetails.companyName}</Typography>
                     <Typography variant="body1">Contact: {supplierDetails.contactNum}</Typography>
@@ -145,9 +145,9 @@ const CallingSupplyList = ({ supplierid }) => {
                 </div>
             ) : (
                 <Typography variant="body1" className="mb-4">Loading supplier details...</Typography>
-            )}
+            )} */}
 
-            <h1 className="text-2xl font-bold mb-6">View Calling Supplies</h1>
+            <h1 className="text-2xl font-bold mb-6 mt-4">View Calling Supplies</h1>
 
             {loading ? (
                 <div className="flex justify-center items-center min-h-screen">
@@ -157,7 +157,7 @@ const CallingSupplyList = ({ supplierid }) => {
                 <TableContainer component={Paper} className="shadow-lg rounded-lg">
                     <Table>
                         <TableHead>
-                            <TableRow sx={{ backgroundColor: "#14b8a6", color: "black", marginRight: "5px"}}>
+                            <TableRow sx={{ backgroundColor: "#15F5BA", color: "black", marginRight: "5px"}}>
                                 <TableCell><b><center>Supply Type</center></b></TableCell>
                                 <TableCell><b><center>Quantity</center></b></TableCell>
                                 <TableCell><b><center>Status</center></b></TableCell>
@@ -173,8 +173,8 @@ const CallingSupplyList = ({ supplierid }) => {
                                         <TableCell><center>{supply.status}</center></TableCell>
                                         <TableCell>
                                             <center>
-                                                <Button onClick={() => handleOpenQuoteDialog(supply)} variant="outlined" color="primary">Send Quote</Button>
-                                                <Button onClick={() => handleOpenViewQuoteDialog(supply)} variant="contained" color="secondary" className="ml-2">View Quote</Button>
+                                                <Button onClick={() => handleOpenQuoteDialog(supply)} variant="outlined" color="primary" >Send Quote</Button>
+                                                <Button onClick={() => handleOpenViewQuoteDialog(supply)} variant="contained" color="secondary "  sx={{ bgcolor: '#FA7070', color: 'black' }} className="ml-5">View Quote</Button>
                                             </center>
                                         </TableCell>
                                     </TableRow>

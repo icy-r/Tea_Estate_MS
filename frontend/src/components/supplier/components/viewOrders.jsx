@@ -7,7 +7,7 @@ const ViewOrders = ({ supplierid }) => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get("/orders/");
+      const response = await axios.get("/ordersSup/");
       const filteredOrders = response.data.filter(order => order.supplierId === supplierid);
       setOrders(filteredOrders);
       console.log("Filtered Orders:", filteredOrders);
@@ -29,7 +29,7 @@ const ViewOrders = ({ supplierid }) => {
       <TableContainer component={Paper} sx={{ marginTop: 3 }}>
         <Table>
           <TableHead>
-            <TableRow>
+            <TableRow sx={{ bgcolor: '#15F5BA'}}>
               <TableCell>Order ID</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Supply Type</TableCell>

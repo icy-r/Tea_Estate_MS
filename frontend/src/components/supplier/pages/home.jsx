@@ -15,7 +15,7 @@ const Supplierhome = ({ supplierid }) => {
             setSupplierDetails(response.data[0]);
             console.log("Supplier details:", response.data[0]);
             if (response.data[0].activeOrder !== 'none') {
-                const orderResponse = await axios.get(`/orders`);
+                const orderResponse = await axios.get(`/ordersSup`);
                 setOrderDetails(orderResponse.data[0]);
                 console.log("Order details:", orderResponse.data);
 

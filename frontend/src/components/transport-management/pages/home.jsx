@@ -3,6 +3,7 @@ import VehicleStatusPieChart from '../component/VehicleStatusPieChart.jsx';
 import ManageVehicleGraph from '../component/ManageVehicleDept.jsx';
 import StatusMain from "../component/StatusMain.jsx";
 import axios from "../../../services/axios.js";
+import TransportationsLogCharts from '../component/TransportationsLogCharts.jsx';
 
 const Home = () => {
 
@@ -55,6 +56,11 @@ const Home = () => {
                     <ManageVehicleGraph />
                 </div>
             </div>
+            <div className='mt-5 flex pr-3'>
+
+            <TransportationsLogCharts />
+            </div>
+            
         </div>
     );
 };

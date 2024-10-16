@@ -40,7 +40,7 @@ const ViewQuotes = ({ data }) => {
             };
 
             // Send a request to create a new order supply
-            const response = await axios.post('/orders', newOrder);
+            const response = await axios.post('/ordersSup', newOrder);
             console.log("New order supply:", response.data);
             console.log("orderID:", response.data._id);
 

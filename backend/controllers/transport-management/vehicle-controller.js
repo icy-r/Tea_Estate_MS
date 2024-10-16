@@ -26,6 +26,7 @@ async function create(req, res) {
     res.json(vehicle);
   } catch (error) {
     res.status(400).json({ error: error });
+    console.log("error");
   }
 }
 async function update(req, res) {

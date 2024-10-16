@@ -90,6 +90,14 @@ const EmployeeAdd = () => {
         }
     };
 
+    
+    function getOneMonthLaterDate() {
+        const today = new Date();
+        today.setMonth(today.getMonth() + 1); // Add one month to current date
+        return today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+    }
+    
+
     // Form validation function
     const validateForm = () => {
         const passwordValid = inputs.password === inputs.confirmPassword; // Check if passwords match
@@ -285,12 +293,13 @@ const EmployeeAdd = () => {
                                 name="dateOfJoining"
                                 onChange={handleChange}
                                 value={inputs.dateOfJoining}
-                                min={getOneMonthAgoDate()} // Set min date to one month ago
-                                max={getTodayDate()} // Set max date to today's date
+                                min={getTodayDate()} // Set min date to today's date
+                                max={getOneMonthLaterDate()} // Set max date to one month in the future
                                 required
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             />
                         </div>
+
     
                         {/* Salary Input */}
                         <div>

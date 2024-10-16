@@ -15,7 +15,7 @@ import VacancyForm from './components/rolesAdd';
 import VacancyDisplay from './components/VacancyDisplay';  
 import PublicVacancyTable from './components/publicVacncyTable';    
 import ApplicantDetails from './pages/ApplicantDetails';
-
+import EmployeePrifileUpdate from './pages/EmployeeProfileUpdate';
 
 
 const EmployeeRoutes = () => {
@@ -38,6 +38,7 @@ const EmployeeRoutes = () => {
                 <Route path="/vacancyDisplay/*" element={<VacancyDisplay/>} />
                 <Route path='/publicVacancyTable/*' element={<PublicVacancyTable/>} />
                 <Route path='/applicantdetails/*' element={<ApplicantDetails/>} />
+                <Route path='/employeeprofileupdate/*' element={<EmployeePrifileUpdate/>} />    
             </Routes>
             </AdminDashboardLayout>
         </>

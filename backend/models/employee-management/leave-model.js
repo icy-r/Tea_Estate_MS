@@ -34,7 +34,8 @@ const leaveSchema = new Schema({
 
     status:{
       type:String,
-      required:false
+      required:false,
+      default:"Pending"
     }
 });
 

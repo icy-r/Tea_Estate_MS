@@ -175,7 +175,9 @@ const FieldAnalysis = () => {
 
     // Set title for the PDF
     doc.text("Field Analysis Summary", 10, 10);
-
+    // Add the current date to the PDF
+    const currentDate = format(new Date(), "dd-MM-yyyy");
+    doc.text(`Date: ${currentDate}`, 150, 10); // Adjust the X position to align on the same row
     // Add the table to the PDF
     doc.autoTable({
       startY: 20, // Adjust the Y position so the table appears at the top

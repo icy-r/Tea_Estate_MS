@@ -104,7 +104,7 @@ const UpdateFertilizerSchedule = () => {
           defaultApplicationRate: parseFloat(f.applicationRate), // Add this if it's required by your schema
         })),
         frequency: fertilizerData.frequency,
-        weatherAdjustment: fertilizerData.weatherAdjustment,
+        // weatherAdjustment: fertilizerData.weatherAdjustment,
       };
 
       // Ensure that the payload structure matches what the backend expects

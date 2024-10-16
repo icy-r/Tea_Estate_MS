@@ -14,7 +14,7 @@ const fertilizerSchema = new Schema({
     },
   ],
   frequency: { type: String, required: true },
-  weatherAdjustment: { type: Boolean, default: false },
+  //weatherAdjustment: { type: Boolean, default: false },
   lastFertilizationDate: { type: String, default: "NA" },
   nextFertilizationDate: { type: String, default: "NA" },
   totalPerFertilizer: [

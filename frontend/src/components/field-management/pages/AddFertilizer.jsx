@@ -26,7 +26,7 @@ const AddFertilizerSchedule = () => {
     fieldName: "",
     scheduleName: "",
     frequency: "",
-    weatherAdjustment: false,
+    //weatherAdjustment: false,
   });
   const [notification, setNotification] = useState({
     open: false,
@@ -242,7 +242,7 @@ const AddFertilizerSchedule = () => {
             </FormControl>
 
             {/* Weather Adjustment */}
-            <FormControlLabel
+            {/* <FormControlLabel
               control={
                 <Checkbox
                   checked={formValues.weatherAdjustment}
@@ -250,7 +250,7 @@ const AddFertilizerSchedule = () => {
                 />
               }
               label="Weather Adjustment"
-            />
+            /> */}
 
             <Button type="submit" variant="contained" color="primary">
               Submit

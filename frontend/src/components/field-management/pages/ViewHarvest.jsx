@@ -44,6 +44,8 @@ const ViewHarvest = () => {
   const handlePrint = () => {
     const doc = new jsPDF();
     doc.text("Daily Harvest Information", 10, 10);
+    const currentDate = format(new Date(), "dd-MM-yyyy");
+    doc.text(`Date: ${currentDate}`, 150, 10);
     let bodydata;
 
     if (showSummary) {

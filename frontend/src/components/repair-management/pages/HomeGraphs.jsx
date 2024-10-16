@@ -13,6 +13,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import axios from "../../../services/axios.js";
+import AssetMaintenanceTimeline from "./AssetMaintenanceTimeline";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"];
 
@@ -122,6 +123,7 @@ const AssetDashboard = () => {
             </BarChart>
           </ResponsiveContainer>
         </div>
+        <AssetMaintenanceTimeline />
       </div>
 
       <div className="mt-8">

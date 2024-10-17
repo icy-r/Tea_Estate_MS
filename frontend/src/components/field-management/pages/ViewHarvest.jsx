@@ -4,7 +4,7 @@ import { FaSearch } from "react-icons/fa";
 import { MdClear } from "react-icons/md";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
-import SummaryTable from "../component/SummaryTable.jsx"; // Import SummaryTable
+import SummaryTable from "../component/SummaryTable.jsx";
 
 const ViewHarvest = () => {
   const [harvests, setHarvests] = useState([]);
@@ -43,56 +43,71 @@ const ViewHarvest = () => {
 
   const handlePrint = () => {
     const doc = new jsPDF();
-    doc.text("Daily Harvest Information", 10, 10);
-    const currentDate = format(new Date(), "dd-MM-yyyy");
-    doc.text(`Date: ${currentDate}`, 150, 10);
-    let bodydata;
+
+    // Add title
+    doc.setFontSize(16);
+    doc.text("Daily Harvest Information", 14, 20);
+
+    // Add current date
+    const currentDate = new Date().toLocaleDateString();
+    doc.setFontSize(12);
+    doc.text(`Date: ${currentDate}`, 14, 30);
+
+    // Define columns for the table
+    let columns, rows;
 
     if (showSummary) {
-      // Create summary data for printing
-      const summaryData = calculateSummary();
-      bodydata = summaryData.map((summary) => [
-        summary.fieldName,
-        summary.totalBest,
-        summary.totalGood,
-        summary.totalDamaged,
-        summary.totalAll,
-      ]);
+      // Summary table columns and data
+      columns = [
+        { header: "Field", dataKey: "field" },
+        { header: "Best Quality", dataKey: "best" },
+        { header: "Good Quality", dataKey: "good" },
+        { header: "Poor Quality", dataKey: "poor" },
+        { header: "Total", dataKey: "total" },
+      ];
 
-      doc.autoTable({
-        head: [
-          ["Field", "Best Quality", "Good Quality", "Poor Quality", "Total"],
-        ],
-        body: bodydata,
-      });
+      rows = summaryData.map((summary) => ({
+        field: summary.fieldName,
+        best: summary.totalBest.toString(),
+        good: summary.totalGood.toString(),
+        poor: summary.totalDamaged.toString(),
+        total: summary.totalAll.toString(),
+      }));
     } else {
-      // Create harvest data for printing
-      bodydata = filteredHarvests.map((harvest) => [
-        harvest.labour_name,
-        harvest.field_name,
-        new Date(harvest.date).toLocaleDateString(),
-        harvest.best_qnty,
-        harvest.good_qnty,
-        harvest.damaged_qnty,
-        harvest.total,
-      ]);
+      // Detailed harvest table columns and data
+      columns = [
+        { header: "Labour", dataKey: "labour" },
+        { header: "Field", dataKey: "field" },
+        { header: "Date", dataKey: "date" },
+        { header: "Best Quality", dataKey: "best" },
+        { header: "Good Quality", dataKey: "good" },
+        { header: "Poor Quality", dataKey: "poor" },
+        { header: "Total", dataKey: "total" },
+      ];
 
-      doc.autoTable({
-        head: [
-          [
-            "Labour",
-            "Field",
-            "Date",
-            "Best Quality",
-            "Good Quality",
-            "Poor Quality",
-            "Total",
-          ],
-        ],
-        body: bodydata,
-      });
+      rows = filteredHarvests.map((harvest) => ({
+        labour: harvest.labour_name,
+        field: harvest.field_name,
+        date: new Date(harvest.date).toLocaleDateString(),
+        best: `${harvest.best_qnty} kg`,
+        good: `${harvest.good_qnty} kg`,
+        poor: `${harvest.damaged_qnty} kg`,
+        total: `${harvest.total} kg`,
+      }));
     }
 
+    // Generate the table
+    doc.autoTable({
+      startY: 40,
+      columns: columns,
+      body: rows,
+      theme: "grid",
+      styles: { fontSize: 10, cellPadding: 2 },
+      headStyles: { fillColor: [41, 128, 185], textColor: 255 },
+      alternateRowStyles: { fillColor: [245, 245, 245] },
+    });
+
+    // Save the PDF
     doc.save("daily-harvest.pdf");
   };
 

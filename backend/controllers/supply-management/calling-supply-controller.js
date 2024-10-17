@@ -27,6 +27,7 @@ async function show(req, res) {
 async function create(req, res) {
   try {
     const callingSupply = new CallingSupply(req.body);
+    console.log(callingSupply);
     await callingSupply.save();
     res.json(callingSupply);
   } catch (error) {

@@ -5,6 +5,7 @@ const menuItems = [
   {
     name: "Vehicle management",
     subItems: [
+      { name: "dashboard", link: "transport/" },
       { name: "Add Vehicle", link: "transport/add-vehicle" },
       { name: "Manage Vehicles", link: "transport/manage-vehicle" },
       { name: "Vehicle Details", link: "transport/vehicle-portal" },
@@ -29,7 +30,7 @@ const menuItems = [
     name: "Distribution Management",
     subItems: [
       { name: "Distribution Management", link: "transport/distribute-management" },
-      { name: "Manage Service", link: "/manage-service" },
+     
     ],
   },
 ];

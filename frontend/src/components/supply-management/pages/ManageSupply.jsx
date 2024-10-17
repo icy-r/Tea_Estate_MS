@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../../services/axios.js';
-import { Snackbar, Alert, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Button } from '@mui/material';
+import {
+  Snackbar, Alert, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Button,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
+} from '@mui/material';
 
 const ManageSupply = () => {
   const [supplies, setSupplies] = useState([]);
@@ -64,55 +67,55 @@ const ManageSupply = () => {
 
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-semibold mb-4">Supply Management</h1>
+      <h1 className="text-2xl font-semibold mt-3 mb-8">Supply Management</h1>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white">
-          <thead>
-            <tr className="w-full bg-teal-500 text-white">
-              <th className="py-2 px-4 text-left">Supply ID</th>
-              <th className="py-2 px-4 text-left">Supply Type</th>
-              <th className="py-2 px-4 text-left">Quantity</th>
-              <th className="py-2 px-4 text-center">Supplier Name</th>
-              <th className="py-2 px-4 text-center">Purchase Date</th>
-              <th className="py-2 px-4 text-center">Expiration Date</th>
-              <th className="py-2 px-4 text-center">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+      <TableContainer component={Paper}>
+        <Table aria-label="supply table">
+          <TableHead>
+            <TableRow sx={{ bgcolor: '#15F5BA' }}>
+              <TableCell>Supply ID</TableCell>
+              <TableCell>Supply Type</TableCell>
+              <TableCell>Quantity (Kg/l)</TableCell>
+              <TableCell align="center">Date</TableCell>
+              <TableCell align="center">Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {supplies.length > 0 ? (
               supplies.map((supply) => (
-                <tr key={supply._id} className="hover:bg-gray-100">
-                  <td className="py-2 px-4 border">{supply.supplyId}</td>
-                  <td className="py-2 px-4 border">{supply.supplyType}</td>
-                  <td className="py-2 px-4 border">{supply.quantity}</td>
-                  <td className="py-2 px-4 border">{supply.supplierName}</td>
-                  <td className="py-2 px-4 border">{new Date(supply.purchaseDate).toLocaleDateString()}</td>
-                  <td className="py-2 px-4 border">{new Date(supply.expirationDate).toLocaleDateString()}</td>
-                  <td className="py-2 px-4 border flex justify-center gap-2">
-                    <button
-                      className="bg-teal-500 text-white px-4 py-2 rounded-md"
+                <TableRow key={supply._id}>
+                  <TableCell>{supply.supplyId}</TableCell>
+                  <TableCell>{supply.supplyType}</TableCell>
+                  <TableCell>{supply.quantity}</TableCell>
+                  <TableCell align="center">{new Date(supply.purchaseDate).toLocaleDateString()}</TableCell>
+                  <TableCell align="center">
+                    <Button
+                      variant="contained"
+                      sx={{ bgcolor: '#15F5BA', color: 'black', mr: 1 }}
                       onClick={() => handleUpdateOpen(supply)}
                     >
                       Update
-                    </button>
-                    <button
-                      className="bg-red-500 text-white px-4 py-2 rounded-md"
+                    </Button>
+                    <Button
+                      variant="contained"
+                      sx={{ bgcolor: '#FA7070', color: 'black' }}
                       onClick={() => handleDelete(supply._id)}
                     >
                       Delete
-                    </button>
-                  </td>
-                </tr>
+                    </Button>
+                  </TableCell>
+                </TableRow>
               ))
             ) : (
-              <tr>
-                <td colSpan="7" className="text-center py-4">No supplies available</td>
-              </tr>
+              <TableRow>
+                <TableCell colSpan={5} align="center">
+                  No supplies available
+                </TableCell>
+              </TableRow>
             )}
-          </tbody>
-        </table>
-      </div>
+          </TableBody>
+        </Table>
+      </TableContainer>
 
       <Snackbar open={alert.open} autoHideDuration={6000} onClose={handleCloseAlert}>
         <Alert onClose={handleCloseAlert} severity={alert.severity} sx={{ width: '100%' }}>
@@ -123,9 +126,7 @@ const ManageSupply = () => {
       <Dialog open={dialogOpen} onClose={handleDialogClose}>
         <DialogTitle>Update Supply</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Edit the supply details below.
-          </DialogContentText>
+          <DialogContentText>Edit the supply details below.</DialogContentText>
           {selectedSupply && (
             <>
               <TextField
@@ -158,29 +159,11 @@ const ManageSupply = () => {
               />
               <TextField
                 margin="dense"
-                name="supplierName"
-                label="Supplier Name"
-                type="text"
-                fullWidth
-                value={selectedSupply.supplierName}
-                onChange={handleChange}
-              />
-              <TextField
-                margin="dense"
                 name="purchaseDate"
                 label="Purchase Date"
                 type="date"
                 fullWidth
                 value={selectedSupply.purchaseDate ? selectedSupply.purchaseDate.split('T')[0] : ''}
-                onChange={handleChange}
-              />
-              <TextField
-                margin="dense"
-                name="expirationDate"
-                label="Expiration Date"
-                type="date"
-                fullWidth
-                value={selectedSupply.expirationDate ? selectedSupply.expirationDate.split('T')[0] : ''}
                 onChange={handleChange}
               />
             </>

@@ -1,4 +1,5 @@
 import { Notification } from "../../models/repair-management/notification-model.js";
+import { setInterval } from "timers";
 
 // Get all notifications
 export const index = async (req, res) => {
@@ -50,3 +51,24 @@ export const deleteNotification = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+//delete 1 day old notifications
+const deleteOldNotifications = async () => {
+  try {
+    const oneDayAgo = new Date();
+    oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+
+    const result = await Notification.deleteMany({
+      createdAt: { $lte: oneDayAgo },
+    });
+
+    console.log(
+      `${result.deletedCount} old notifications deleted successfully`
+    );
+  } catch (error) {
+    console.error("Error deleting old notifications:", error);
+  }
+};
+
+//delete old notifications every 10 minutes
+setInterval(deleteOldNotifications, 10 * 60 * 1000);

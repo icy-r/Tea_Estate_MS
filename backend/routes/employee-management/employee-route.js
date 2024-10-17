@@ -28,6 +28,9 @@ router.delete("/:id", checkAuth, EmployeeController.destroy);
 
 router.post("/update-ot", checkAuth, EmployeeController.updateOT);
 
+// harvest
+router.post("/update-ot", checkAuth, EmployeeController.updateOT);
+
 
 export { router };
 

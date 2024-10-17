@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from "../../../services/axios.js";
+import img from "../../../assets/dashboard/image 7.png";
 import {
   Card,
   CardContent,
@@ -61,67 +62,64 @@ const ManageAssignedVehicle = ({ driverId }) => {
       {loading ? (
         <CircularProgress />
       ) : vehicleDetails ? (
-        <Card sx={{ maxWidth: 800, margin: '0 auto', mt: 2 }}>
-          <CardContent>
-            <Typography variant="h5" gutterBottom>
-              Vehicle Details
-            </Typography>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell><strong>Attribute</strong></TableCell>
-                    <TableCell><strong>Details</strong></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>Vehicle ID</TableCell>
-                    <TableCell>{vehicleDetails.id || 'N/A'}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Owner Name</TableCell>
-                    <TableCell>{vehicleDetails.owner_name || 'N/A'}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Chassis Number</TableCell>
-                    <TableCell>{vehicleDetails.chassisNo || 'N/A'}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Manufacture Year</TableCell>
-                    <TableCell>{vehicleDetails.manufactureYear || 'N/A'}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Assigned Department</TableCell>
-                    <TableCell>{vehicleDetails.assignedDept || 'N/A'}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Vehicle Type</TableCell>
-                    <TableCell>{vehicleDetails.type || 'N/A'}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Driver ID</TableCell>
-                    <TableCell>{vehicleDetails.driver_id || 'N/A'}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Owner Address</TableCell>
-                    <TableCell>{vehicleDetails.owner_address || 'N/A'}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Image URL</TableCell>
-                    <TableCell>
-                      <img src={vehicleDetails.imageUrl} alt="Vehicle" width="100" />
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Status</TableCell>
-                    <TableCell>{vehicleDetails.status}</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </CardContent>
-        </Card>
+        <div className='px-20'>
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={6} container alignItems="center" justifyContent="center">
+                <img src={img} alt="Vehicle" width="100%" style={{ maxHeight: '300px', objectFit: 'contain' }} />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TableContainer component={Paper}>
+                  <Table>
+                    <TableHead>
+                      <TableRow sx={{ bgcolor: '#15F5BA'}}>
+                        <TableCell><strong>Attribute</strong></TableCell>
+                        <TableCell><strong>Details</strong></TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>Vehicle ID</TableCell>
+                        <TableCell>{vehicleDetails.id || 'N/A'}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Owner Name</TableCell>
+                        <TableCell>{vehicleDetails.owner_name || 'N/A'}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Chassis Number</TableCell>
+                        <TableCell>{vehicleDetails.chassisNo || 'N/A'}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Manufacture Year</TableCell>
+                        <TableCell>{vehicleDetails.manufactureYear || 'N/A'}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Assigned Department</TableCell>
+                        <TableCell>{vehicleDetails.assignedDept || 'N/A'}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Vehicle Type</TableCell>
+                        <TableCell>{vehicleDetails.type || 'N/A'}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Driver ID</TableCell>
+                        <TableCell>{vehicleDetails.driver_id || 'N/A'}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Owner Address</TableCell>
+                        <TableCell>{vehicleDetails.owner_address || 'N/A'}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Status</TableCell>
+                        <TableCell>{vehicleDetails.status || 'N/A'}</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Grid>
+           
+            </Grid>
+        </div>
       ) : (
         <Typography variant="body1" color="textSecondary">
           No vehicle assigned to this driver.

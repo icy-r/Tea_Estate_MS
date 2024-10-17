@@ -1,16 +1,20 @@
 import axios from "../../../services/axios";
 import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 
 const maintenanceStatus = ["scheduled", "in-progress"];
 
 const NewMaintenance = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [technicians, setTechnicians] = useState([]);
   const [assetlist, setAssetlist] = useState([]);
   const [assetNumber, setAssetNumber] = useState("");
+  const { id } = useParams();
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/empManagement")
+      .get("/empManagement")
       .then((res) => {
         const technicians = res.data
           .filter((emp) => emp.designation === "Labour")
@@ -18,17 +22,29 @@ const NewMaintenance = () => {
             _id: emp._id,
             name: emp.firstName + " " + emp.lastName,
           }));
-        console.log("Fetched technicians:", technicians); // Add this line
+        console.log("Fetched technicians:", technicians);
         setTechnicians(technicians);
       })
       .catch((error) => {
-        console.error("Error fetching technicians:", error); // Add this line
+        console.error("Error fetching technicians:", error);
       });
-  }, []);
+
+    if (id) {
+      axios.get(`/assets/${id}`).then((res) => {
+        setAssetNumber(res.data.assetNumber);
+        setFormData((prevData) => ({
+          ...prevData,
+          assetId: res.data._id,
+        }));
+      });
+    }
+  }, [id]);
 
   const [formData, setFormData] = useState({
     assetId: "",
-    scheduledDate: "",
+    scheduledDate: location.state?.scheduledDate
+      ? new Date(location.state.scheduledDate).toISOString().split("T")[0]
+      : "",
     maintenanceType: "",
     description: "",
     assignedTechnician: {
@@ -45,27 +61,15 @@ const NewMaintenance = () => {
 
     if (name === "assetNumber") {
       setAssetNumber(value);
-      const selectedAsset = assetlist.find(
-        (asset) => asset.assetNumber === value
-      );
-      if (selectedAsset) {
-        setFormData((prevData) => ({
-          ...prevData,
-          assetId: selectedAsset._id,
-        }));
-      } else {
-        axios
-          .get(`http://localhost:3001/api/assets/search/${value}`)
-          .then((res) => {
-            if (res.data.length > 0) {
-              setFormData((prevData) => ({
-                ...prevData,
-                assetId: res.data[0]._id,
-              }));
-              setAssetlist(res.data);
-            }
-          });
-      }
+      axios.get(`/assets/search/${value}`).then((res) => {
+        if (res.data.length > 0) {
+          setFormData((prevData) => ({
+            ...prevData,
+            assetId: res.data[0]._id,
+          }));
+          setAssetlist(res.data);
+        }
+      });
     } else if (name === "assignedTechnician") {
       const selectedTechnician = technicians.find((tech) => tech._id === value);
       if (selectedTechnician) {
@@ -90,7 +94,7 @@ const NewMaintenance = () => {
     console.log("Form submitted:", formData);
 
     axios
-      .post("http://localhost:3001/api/maintenances", formData)
+      .post("/maintenances", formData)
       .then((response) => {
         alert("Maintenance scheduled successfully!");
         setFormData({
@@ -107,6 +111,7 @@ const NewMaintenance = () => {
           notes: "",
         });
         setAssetNumber("");
+        navigate(`/admin/repair/maintenance`);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -125,6 +130,7 @@ const NewMaintenance = () => {
               type="text"
               name="assetNumber"
               value={assetNumber}
+              disabled={id}
               onChange={handleChange}
               list="assetlist"
               required

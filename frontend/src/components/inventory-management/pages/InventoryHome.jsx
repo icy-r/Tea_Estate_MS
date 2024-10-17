@@ -1,11 +1,12 @@
-import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import GenerateGraphs from './GenerateGraphs'; 
+import React, { useEffect, useState } from "react";
+import { AppBar, Toolbar, Typography, Box } from "@mui/material";
+import TeaGraph from '../components/tea/GraphTea';
+import GraphFert from '../components/fertilizer/GraphFert';
+import GraphFuel from '../components/fuel/GraphFuel'; 
+import GraphUtilities from '../components/utilities/GraphUtilities'; // Import the GraphUtilities component
 
-export default function InventoryForm() {
+export default function InventoryHome() {
     const [darkMode, setDarkMode] = useState(false);
-    const navigate = useNavigate();
 
     useEffect(() => {
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -17,19 +18,33 @@ export default function InventoryForm() {
 
     return (
         <div>
-            <AppBar position="static" color={darkMode ? "default" : "primary"}>
-                <Toolbar>
-                    <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                        Bio Tea Factory
-                    </Typography>
-                    <Button color="inherit" onClick={() => navigate('/admin/inventory/read-inventory')}>
-                        Read Inventory
-                    </Button>
-                </Toolbar>
-            </AppBar>
-            <Box className={`flex flex-col items-center mt-4 ${darkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
-                {/* GenerateGraphs component here */}
-                <GenerateGraphs />
+            <Box
+                className={`flex flex-col items-center mt-4 ${darkMode ? 'bg-gray-900' : 'bg-gray-100'}`}
+                sx={{
+                    flexGrow: 1,
+                    p: 2,
+                    height: 'calc(100vh - 64px)',
+                    overflowY: 'auto',
+                }}
+            >
+                <Typography variant="h4" align="center" gutterBottom>
+                    BIO TEA FACTORY
+                </Typography>
+
+                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2, width: '100%' }}>
+                    <Box sx={{ p: 1 }}>
+                        <TeaGraph />
+                    </Box>
+                    <Box sx={{ p: 1 }}>
+                        <GraphFert />
+                    </Box>
+                    <Box sx={{ p: 1 }}>
+                        <GraphFuel /> 
+                    </Box>
+                    <Box sx={{ p: 1 }}>
+                        <GraphUtilities /> {/* Render the GraphUtilities here */}
+                    </Box>
+                </Box>
             </Box>
         </div>
     );

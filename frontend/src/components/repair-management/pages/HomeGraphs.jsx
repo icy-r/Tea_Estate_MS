@@ -13,12 +13,14 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import axios from "../../../services/axios.js";
+import AssetMaintenanceTimeline from "./AssetMaintenanceTimeline";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"];
 
 const AssetDashboard = () => {
   const [assetData, setAssetData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,6 +29,7 @@ const AssetDashboard = () => {
         setAssetData(response.data);
       } catch (error) {
         console.error("Error fetching asset data:", error);
+        setError("Failed to load asset data. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -36,7 +39,19 @@ const AssetDashboard = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="text-white text-center mt-8">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500 text-center mt-8">{error}</div>;
+  }
+
+  if (assetData.length === 0) {
+    return (
+      <div className="text-white text-center mt-8">
+        No asset data available.
+      </div>
+    );
   }
 
   const assetStatusData = assetData.reduce((acc, asset) => {
@@ -108,6 +123,7 @@ const AssetDashboard = () => {
             </BarChart>
           </ResponsiveContainer>
         </div>
+        <AssetMaintenanceTimeline />
       </div>
 
       <div className="mt-8">

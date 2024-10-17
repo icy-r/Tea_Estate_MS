@@ -18,6 +18,7 @@ router.post("/", checkAuth, quotationController.create);
 
 // Update an order
 router.put("/:id", checkAuth, quotationController.update);
+router.put("/:id/status", checkAuth, quotationController.updateStatus);
 
 // Delete an order
 router.delete("/:id", checkAuth, quotationController.destroy);

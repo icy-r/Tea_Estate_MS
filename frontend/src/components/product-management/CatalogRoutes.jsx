@@ -9,6 +9,7 @@ import AdminDashboardLayout from "../../components/layouts/AdminDashboardLayout.
 import catalogMenuItems from "./data-files/catalogMenuItems.js";
 import Catalog from "./pages/Catalog.jsx";
 // import WishList from "./pages/WishList.jsx";
+import TeaProduct from "./pages/TeaProducts.jsx";
 const CatalogtRoutes = () => {
     return (
       <div>
@@ -21,6 +22,7 @@ const CatalogtRoutes = () => {
             <Route path="catalog/" element={<Catalog />} />
             {/* <Route path="wishlist/" element={<WishList />} /> */}
             <Route path="manageBuyer/" element={<ManageBuyer />} />
+            <Route path="teaProducts/" element={<TeaProduct />} />
           </Routes>
         </AdminDashboardLayout>
       </div>

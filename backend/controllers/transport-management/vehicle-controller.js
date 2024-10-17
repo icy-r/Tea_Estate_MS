@@ -26,17 +26,19 @@ async function create(req, res) {
     res.json(vehicle);
   } catch (error) {
     res.status(400).json({ error: error });
+    console.log("error");
   }
 }
 async function update(req, res) {
   try {
 
     const vehicle = await Vehicle.findOne({id: req.params.id});
-
+    console.log("updating");
     Object.assign(vehicle, req.body);
     await vehicle.save();
     res.json(vehicle);
   } catch (error) {
+    console.log("hi");
     res.status(400).json({ error: error });
   }
 }

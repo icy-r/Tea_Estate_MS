@@ -111,63 +111,58 @@ const employeeSchema = new Schema({
 
   ot: {
     type: Number,
-    required: true,
+    required: false,
     default: 0,
   },
 });
 
 // Post-save hook for additional operations for specific designations
-employeeSchema.post('save', async function (doc) {
-  try{
-  if (doc.designation === 'Labour' || doc.designation === 'Supervisor') {
-    // Add additional attributes if needed for Labour/Supervisor
-    const updatedEmployee = {
-      firstName: doc.firstName,
-      lastName: doc.lastName,
-      id: doc.Id,
-      role: doc.designation,
-      assignedField: "none", // or any other field that makes sense for 'Labour'
-      best_qnty: 0,
-      good_qnty: 0,
-      damaged_qnty: 0,
-      harvest_qnty: 0,
-      phoneNumber: doc.contactNumber,
+employeeSchema.post("save", async function (doc) {
+  try {
+    if (doc.designation === "Labour" || doc.designation === "Supervisor") {
+      // Add additional attributes if needed for Labour/Supervisor
+      const updatedEmployee = {
+        firstName: doc.firstName,
+        lastName: doc.lastName,
+        id: doc.Id,
+        role: doc.designation,
+        assignedField: "none", // or any other field that makes sense for 'Labour'
+        best_qnty: 0,
+        good_qnty: 0,
+        damaged_qnty: 0,
+        harvest_qnty: 0,
+        phoneNumber: doc.contactNumber,
+      };
 
-    };
-
-    // Insert into 'Labour' collection
+      // Insert into 'Labour' collection
       const Labour = mongoose.model("Labour");
       await Labour.create(updatedEmployee);
+    }
+
+    // Handle Driver designation
+    if (doc.designation === "Driver") {
+      const updatedDriver = {
+        name: `${doc.firstName} ${doc.lastName}`,
+        id: doc.Id,
+        phoneNumber: "000000000",
+        address: doc.address,
+        dateOfBirth: new Date(doc.dateOfBirth), // Convert to Date object
+        assignedVehicle: "none", // Default value, update as necessary
+      };
+
+      const Driver = mongoose.model("Driver");
+      await Driver.create(updatedDriver);
+    }
+  } catch (err) {
+    console.error("Error inserting into Labour or Driver collection:", err);
   }
-  
-
-  // Handle Driver designation
-  if (doc.designation === "Driver") {
-    const updatedDriver = {
-      name: `${doc.firstName} ${doc.lastName}`,
-      id: doc.Id,
-      phoneNumber: "000000000", 
-      address: doc.address,
-      dateOfBirth: new Date(doc.dateOfBirth), // Convert to Date object
-      assignedVehicle: "none", // Default value, update as necessary
-    };
-
-    const Driver = mongoose.model("Driver");
-    await Driver.create(updatedDriver);
-  }
-
-} catch (err) {
-  console.error("Error inserting into Labour or Driver collection:", err);
-}
-
-
 });
 
 // Pre-save hook for hashing password if modified
-employeeSchema.pre('save', async function (next) {
+employeeSchema.pre("save", async function (next) {
   const employee = this;
 
-  if (!employee.isModified('password')) return next();
+  if (!employee.isModified("password")) return next();
 
   try {
     const hash = await bcrypt.hash(employee.password, saltRounds);
@@ -184,13 +179,16 @@ employeeSchema.methods.comparePassword = async function (tryPassword) {
 };
 
 // Pre-validate hook to check if Id is already present in the database
-employeeSchema.pre('save', async function (next) {
+employeeSchema.pre("save", async function (next) {
   const employee = this;
 
   // Check if the Id is unique
   const existingEmployee = await Employee.findOne({ Id: employee.Id });
-  if (existingEmployee && existingEmployee._id.toString() !== employee._id.toString()) {
-    const error = new Error('Employee with this ID already exists');
+  if (
+    existingEmployee &&
+    existingEmployee._id.toString() !== employee._id.toString()
+  ) {
+    const error = new Error("Employee with this ID already exists");
     return next(error); // Stop the save operation
   }
 

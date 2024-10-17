@@ -30,6 +30,12 @@ const leaveSchema = new Schema({
     type:{
       type:String,
       required:true
+    },
+
+    status:{
+      type:String,
+      required:false,
+      default:"Pending"
     }
 });
 

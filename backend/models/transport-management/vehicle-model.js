@@ -1,93 +1,95 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
+const { Schema, Types } = mongoose;
 
-const vehicleSchema = new mongoose.Schema({
-
-    
-    id: {//have
-        type: String,
-        required: false,
+const vehicleSchema = new Schema(
+  {
+    id: {
+      type: String,
+      required: false,
     },
-
-
-    owner_name: {//have
-        type: String,
-        required: false,
+    owner_name: {
+      type: String,
+      required: false,
     },
-    chassisNo: {//have
-        type: String,
-        required: false,
+    chassisNo: {
+      type: String,
+      required: true,
+      unique: true,
     },
-
-    manufactureYear: {//have
-        type: Date,
-        required: false,
+    manufactureYear: {
+      type: Date,
+      required: true,
     },
-    assignedDept: {//have
-        type: String,
-        required: false,
+    assignedDept: {
+      type: String,
+      required: false,
     },
-    type: {//have
-        type: String,
-        required: false,
+    type: {
+      type: String,
+      required: true,
     },
-    // driver_id is a foreign key comes from driver model
     driver_id: {
-        type: String,
-        required: false,
+      type: String,
+      required: false,
     },
-    owner_address: {//have
-        type: String,
-        required: false,
+    owner_address: {
+      type: String,
+      required: false,
     },
     imageUrl: {
-        type: String,
-        required: false,
-        default:"img",
+      type: String,
+      required: false,
+      default: "img",
     },
-    status:{
-        type: String,
-        required: false,
-        default:"Active",
+    status: {
+      type: String,
+      required: true,
+      enum: ["operational", "under maintenance", "out of service"],
+      default: "operational",
     },
-    
-
-}, 
-
-{
+  },
+  {
     timestamps: true,
-  
-});
+  }
+);
 
 vehicleSchema.post("save", async function (doc) {
-  //add to asset model as well
-  const Asset = mongoose.model("Asset");
-  const asset = new Asset({
-    assetNumber: doc.chassisNo,
-    assetType: "vehicle",
-    name: doc.owner_name,
-    model: doc.type,
-    manufacturer: "N/A",
-    purchaseDate: doc.manufactureYear,
-    lastMaintenanceDate: null,
-    nextScheduledMaintenance: null,
-    status: doc.status,
-    location: doc.owner_address,
-    maintenanceHistory: [],
-  });
-  await asset.save();
+  try {
+    // Only create an asset on initial save
+    const Asset = mongoose.model("Asset");
+    const asset = new Asset({
+      assetNumber: doc.chassisNo,
+      assetType: "vehicle",
+      name: doc.owner_name || "Unknown",
+      model: doc.type,
+      manufacturer: "N/A",
+      purchaseDate: doc.manufactureYear,
+      lastMaintenanceDate: null,
+      nextScheduledMaintenance: null,
+      status: doc.status,
+      location: doc.owner_address || "Unknown",
+      maintenanceHistory: [],
+    });
+    await asset.save();
+  } catch (error) {
+    console.error("Error saving asset:", error);
+  }
 });
 
 vehicleSchema.post("findOneAndDelete", async function (doc) {
-  //delete from asset model as well
-  const Asset = mongoose.model("Asset");
-  await Asset.findOne({
-    assetNumber: doc.chassisNo,
-  }).deleteOne();
+  if (doc && doc.chassisNo) {
+    try {
+      const Asset = mongoose.model("Asset");
+      await Asset.deleteOne({
+        assetNumber: doc.chassisNo,
+      });
+    } catch (error) {
+      console.error("Error deleting asset:", error);
+    }
+  }
 });
 
 const Vehicle = mongoose.model("Vehicle", vehicleSchema);
 
 export { Vehicle };
-
-

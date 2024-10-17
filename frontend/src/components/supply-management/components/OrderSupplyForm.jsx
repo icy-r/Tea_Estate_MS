@@ -37,7 +37,7 @@ const OrderSupplies = () => {
     };
 
     try {
-      const response = await axios.post('/orders/', orderData); // Adjust the endpoint as needed
+      const response = await axios.post('/ordersSup/', orderData); // Adjust the endpoint as needed
       setOrderDetails(response.data); // Store the order details for PDF and view
       setAlert({ open: true, message: 'Order placed successfully!', severity: 'success' });
       // Reset the form fields

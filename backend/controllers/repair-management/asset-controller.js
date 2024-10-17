@@ -10,6 +10,17 @@ export const index = async (req, res) => {
   }
 };
 
+// performance for getting the performance of the asset
+export const performance = async (req, res) => {
+  try {
+    const asset = await Asset.findById(req.params.id);
+    const performance = await Asset.findById(req.params.id);
+    res.status(200).json(performance);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // show for getting a single asset
 export const show = async (req, res) => {
   try {
@@ -63,6 +74,17 @@ export const search = async (req, res) => {
     });
     console.log(assets);
     res.status(200).json(assets);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// getAssetByTransportId for getting a asset by transport id
+export const getAssetByTransportId = async (req, res) => {
+  try {
+    //assetNumber=chassisNo
+    const asset = await Asset.find({ assetNumber: req.params.id });
+    res.status(200).json(asset);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

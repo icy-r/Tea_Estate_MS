@@ -6,7 +6,14 @@ const OvertimeCalculator = () => {
   const [otValue, setOtValue] = useState(60); // Default value for overtime amount per kg
   const [fixedWeight, setFixedWeight] = useState(20); // Default fixed weight threshold
   const [currentDate, setCurrentDate] = useState(
-    new Date().toISOString().split("T")[0]
+    new Date().toLocaleDateString("en-CA")
+  );
+  const [currentTime, setCurrentTime] = useState(
+    new Date().toLocaleTimeString("en-CA", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    })
   );
   const [calculatedData, setCalculatedData] = useState([]);
 
@@ -50,6 +57,23 @@ const OvertimeCalculator = () => {
     fetchHarvestData();
   }, [currentDate]);
 
+  // Update current time every minute
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date().toLocaleTimeString("en-CA", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+      setCurrentTime(now);
+    };
+
+    updateTime(); // Set initial time
+    const interval = setInterval(updateTime, 60 * 1000); // Update time every minute
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, []);
+
   // Calculate overtime allowance for each employee
   const handleCalculate = () => {
     if (harvestData.length === 0) {
@@ -64,6 +88,24 @@ const OvertimeCalculator = () => {
     });
 
     setCalculatedData(updatedData); // Update the calculated data
+  };
+
+  const handleUpdateOT = async () => {
+    try {
+      const response = await axios.post(
+        "/empManagement/update-ot",
+        calculatedData
+      );
+
+      if (response.status === 200) {
+        alert("Overtime updated successfully!");
+      } else {
+        alert("Failed to update overtime. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error updating overtime:", error);
+      alert("Error updating overtime. Please try again.");
+    }
   };
 
   return (
@@ -105,7 +147,7 @@ const OvertimeCalculator = () => {
 
       <table className="w-full border-collapse bg-white">
         <thead>
-          <tr className="bg-gray-200">
+          <tr className="w-full bg-teal-500 text-white">
             <th className="border p-3">Name</th>
             <th className="border p-3">Total Harvest Today</th>
             <th className="border p-3">Overtime Allowance</th>
@@ -131,6 +173,12 @@ const OvertimeCalculator = () => {
           )}
         </tbody>
       </table>
+      <button
+        onClick={handleUpdateOT}
+        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+      >
+        Update OT
+      </button>
     </div>
   );
 };

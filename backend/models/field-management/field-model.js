@@ -14,8 +14,15 @@ const fieldSchema = new Schema({
   },
 
   location: {
-    type: String,
-    required: true,
+    // Store location as coordinates (latitude and longitude)
+    latitude: {
+      type: Number,
+      required: true,
+    },
+    longitude: {
+      type: Number,
+      required: true,
+    },
   },
 
   fertilizerSchedule: {

@@ -9,30 +9,28 @@ const menuItems = [
       { name: "Add Field", link: "field/add" },
       { name: "Manage Field", link: "field/manage" },
       { name: "Assign Labours", link: "field/labours" },
-      { name: "Add Field", link: "field/add" },
-      { name: "Manage Field", link: "field/manage" },
-      { name: "Assign Labours", link: "field/labours" },
-    ],
-  },
-  {
-    name: "Harvest Management",
-    subItems: [
-      { name: "Add Harvest", link: "field/add-harvest", active: true },
-      { name: "View Harvest", link: "field/view-harvest" },
     ],
   },
   {
     name: "Fertilizer Management",
     subItems: [
-      { name: "Schedule a routine", link: "field/schedule-routine" },
-      { name: "Manage Routines", link: "field/manage-routines" },
+      { name: "Add Fertilizer Schedule", link: "field/add-fertilizer" },
+      { name: "Manage Fertilizer Schedules", link: "field/manage-fertilizer" },
     ],
   },
   {
-    name: "Distribution Management",
+    name: "Harvest Management",
     subItems: [
-      { name: "Manage Distributions", link: "field/manage-distributions" },
-      { name: "Delivery Complains", link: "field/delivery-complains" },
+      { name: "Add Harvest", link: "field/add-harvest" },
+      { name: "View Harvest", link: "field/view-harvest" },
+      { name: "Calculate OT", link: "field/calculate-ot" },
+    ],
+  },
+  {
+    name: "Insight and Overview",
+    subItems: [
+      { name: "Field Analysis", link: "field/field-analysis" },
+      { name: "Labour Performance", link: "field/labour-performance" },
     ],
   },
 ];

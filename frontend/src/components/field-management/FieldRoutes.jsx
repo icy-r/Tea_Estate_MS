@@ -13,6 +13,8 @@ import CalculateOT from "./pages/CalculateOT.jsx";
 import AddFertilizer from "./pages/AddFertilizer.jsx";
 import ManageFertilizer from "./pages/ManageFertilizer.jsx";
 import UpdateFertilizer from "./pages/UpdateFertilizer.jsx";
+import FieldAnalysis from "./pages/FieldAnalysis.jsx";
+import LabourPerformance from "./pages/LabourPerformance.jsx";
 
 const FieldRoutes = () => {
   return (
@@ -30,6 +32,8 @@ const FieldRoutes = () => {
           <Route path="/add-fertilizer" element={<AddFertilizer />} />
           <Route path="/manage-fertilizer" element={<ManageFertilizer />} />
           <Route path="/manage-fertilizer/:id" element={<UpdateFertilizer />} />
+          {<Route path="/field-analysis" element={<FieldAnalysis />} />}
+          <Route path="/labour-performance" element={<LabourPerformance />} />
         </Routes>
       </AdminDashboardLayout>
     </>

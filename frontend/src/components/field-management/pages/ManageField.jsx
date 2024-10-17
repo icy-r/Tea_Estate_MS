@@ -10,17 +10,20 @@ import {
   Snackbar,
   Alert,
 } from "@mui/material";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import { ExpandMore, ExpandLess } from "@mui/icons-material"; // Updated import
 
 const ManageField = () => {
   const [fields, setFields] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedFieldId, setSelectedFieldId] = useState(null);
-  const [selectedFieldName, setSelectedFieldName] = useState(null); // Track selected field name
+  const [selectedFieldName, setSelectedFieldName] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [expandedField, setExpandedField] = useState(null);
   const navigateTo = useNavigate();
 
-  // Fetch fields
   const fetchDetails = async () => {
     try {
       const response = await axios.get("/fields/");
@@ -38,10 +41,9 @@ const ManageField = () => {
     navigateTo(`/admin/field/manage/${field.id}`, { state: { field } });
   };
 
-  // Open delete confirmation dialog
   const handleOpenDialog = (id, name) => {
     setSelectedFieldId(id);
-    setSelectedFieldName(name); // Set the selected field name
+    setSelectedFieldName(name);
     setOpenDialog(true);
   };
 
@@ -51,7 +53,6 @@ const ManageField = () => {
     setSelectedFieldName(null);
   };
 
-  // Fetch fertilizer schedule ID by field name
   const getFertilizerScheduleIdByFieldName = async (fieldName) => {
     try {
       const response = await axios.get("/fertilizers", {
@@ -60,14 +61,13 @@ const ManageField = () => {
       const fertilizerSchedule = response.data.find(
         (f) => f.fieldName === fieldName
       );
-      return fertilizerSchedule ? fertilizerSchedule.id : null; // Return fertilizer schedule ID
+      return fertilizerSchedule ? fertilizerSchedule.id : null;
     } catch (error) {
       console.error("Error fetching fertilizer schedule:", error);
       return null;
     }
   };
 
-  // Reassign only laborers whose assignedField matches the field being deleted
   const reassignLaborers = async (fieldName) => {
     try {
       const response = await axios.get("/labours", {
@@ -86,13 +86,10 @@ const ManageField = () => {
     }
   };
 
-  // Handle field deletion
   const handleDelete = async () => {
     try {
-      // Delete the field
       await axios.delete(`/fields/${selectedFieldId}`);
 
-      // Fetch and delete fertilizer schedule by field name
       const fertilizerScheduleId = await getFertilizerScheduleIdByFieldName(
         selectedFieldName
       );
@@ -100,14 +97,11 @@ const ManageField = () => {
         await axios.delete(`/fertilizers/${fertilizerScheduleId}`);
       }
 
-      // Reassign laborers whose assignedField is the deleted field
       await reassignLaborers(selectedFieldName);
 
-      // Update the fields state after deletion
       setFields(fields.filter((field) => field.id !== selectedFieldId));
       handleCloseDialog();
 
-      // Set success notification and open snackbar
       setSnackbarMessage("Field and related data deleted successfully!");
       setSnackbarOpen(true);
     } catch (error) {
@@ -119,6 +113,10 @@ const ManageField = () => {
     setSnackbarOpen(false);
   };
 
+  const toggleExpand = (fieldId) => {
+    setExpandedField(expandedField === fieldId ? null : fieldId);
+  };
+
   return (
     <div className="p-8">
       <h1 className="text-2xl font-semibold mb-4">Field Management</h1>
@@ -126,50 +124,37 @@ const ManageField = () => {
         <table className="min-w-full bg-white">
           <thead>
             <tr className="w-full bg-teal-500 text-white">
-              <th className="py-2 px-4 text-left">Field No</th>
+              <th className="py-2 px-4 text-left">Field ID</th>
               <th className="py-2 px-4 text-left">Field Name</th>
-              <th className="py-2 px-4 text-left">Location</th>
               <th className="py-2 px-4 text-left">Fertilizer Schedule</th>
-              <th className="py-2 px-4 text-left">Area</th>
-              <th className="py-2 px-4 text-left">Supervisor</th>
               <th className="py-2 px-4 text-left">Field Status</th>
               <th className="py-2 px-4 text-center">Actions</th>
+              <th className="py-2 px-4 text-center">Details</th>
             </tr>
           </thead>
           <tbody>
-            {fields.length > 0 ? (
-              fields.map((field) => (
-                <tr key={field.id} className="hover:bg-gray-100">
+            {fields.map((field) => (
+              <React.Fragment key={field.id}>
+                <tr className="hover:bg-gray-100">
                   <td className="py-2 px-4 border">{field.id}</td>
                   <td className="py-2 px-4 border">{field.name}</td>
-                  <td className="py-2 px-4 border">{field.location}</td>
                   <td className="py-2 px-4 border">
                     {field.fertilizerSchedule}
                   </td>
-                  <td className="py-2 px-4 border">{field.area}</td>
-                  <td className="py-2 px-4 border">{field.labour}</td>
-                  {/* <td className="py-2 px-4 border">{field.fieldStatus}</td> */}
-                  <td className="py-3 px-4">
-                    {field.fieldStatus === "Active" && (
-                      <span className="bg-green-500 text-white px-6 py-1 rounded-full text-xs">
-                        Active
-                      </span>
-                    )}
-                    {field.fieldStatus === "Inactive" && (
-                      <span className="bg-red-500 text-white px-6 py-1 rounded-full text-xs">
-                        Inactive
-                      </span>
-                    )}
-                    {field.fieldStatus === "In Progress" && (
-                      <span className="bg-yellow-500 text-white px-5 py-1 rounded-full text-xs">
-                        In Progress
-                      </span>
-                    )}
-                    {field.fieldStatus === "Needs Maintenance" && (
-                      <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-xs">
-                        Needs Maintenance
-                      </span>
-                    )}
+                  <td className="py-2 px-4 border">
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs ${
+                        field.fieldStatus === "Active"
+                          ? "bg-green-500 text-white"
+                          : field.fieldStatus === "Inactive"
+                          ? "bg-red-500 text-white"
+                          : field.fieldStatus === "In Progress"
+                          ? "bg-yellow-500 text-white"
+                          : "bg-orange-500 text-white"
+                      }`}
+                    >
+                      {field.fieldStatus}
+                    </span>
                   </td>
                   <td className="py-2 px-4 border flex justify-center gap-2">
                     <button
@@ -180,20 +165,73 @@ const ManageField = () => {
                     </button>
                     <button
                       className="bg-red-500 text-white px-4 py-2 rounded-md"
-                      onClick={() => handleOpenDialog(field.id, field.name)} // Open delete dialog
+                      onClick={() => handleOpenDialog(field.id, field.name)}
                     >
                       Delete
                     </button>
                   </td>
+                  <td className="py-2 px-4 border text-center">
+                    <button
+                      className="text-blue-500 hover:text-blue-700"
+                      onClick={() => toggleExpand(field.id)}
+                    >
+                      {expandedField === field.id ? (
+                        <ExpandLess /> // Updated icon
+                      ) : (
+                        <ExpandMore /> // Updated icon
+                      )}
+                    </button>
+                  </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="9" className="text-center py-4">
-                  No fields available
-                </td>
-              </tr>
-            )}
+                {expandedField === field.id && (
+                  <tr>
+                    <td colSpan="6" className="py-4 px-4 border">
+                      <div className="flex">
+                        <div className="w-1/2 pr-4">
+                          <MapContainer
+                            center={[
+                              field.location.latitude,
+                              field.location.longitude,
+                            ]}
+                            zoom={13}
+                            style={{ height: "200px", width: "100%" }}
+                          >
+                            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                            <Marker
+                              position={[
+                                field.location.latitude,
+                                field.location.longitude,
+                              ]}
+                            />
+                          </MapContainer>
+                        </div>
+                        <div className="w-1/2 pl-4">
+                          <h3 className="font-semibold mb-2">
+                            Additional Details
+                          </h3>
+                          <p>
+                            <span className="font-medium">
+                              Calculated Area:
+                            </span>{" "}
+                            {field.area} hectares
+                          </p>
+                          <p>
+                            <span className="font-medium">
+                              Harvest Quantity:
+                            </span>{" "}
+                            {field.harvest_qnty}
+                          </p>
+                          <p>
+                            <span className="font-medium">Supervisor:</span>{" "}
+                            {field.labour}
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
+            ))}
           </tbody>
         </table>
       </div>

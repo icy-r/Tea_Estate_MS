@@ -223,9 +223,9 @@ const DistributeManagement = () => {
                     <TableHead>
                         <TableRow sx={{ bgcolor: '#15F5BA' }}>
                             <TableCell>Order ID</TableCell>
-                            <TableCell>Buyer ID</TableCell>
-                            <TableCell>Product ID</TableCell>
-                            <TableCell>Quantity</TableCell>
+                            {/* <TableCell>Buyer ID</TableCell>
+                            <TableCell>Product ID</TableCell> */}
+                            <TableCell>Quantity <span className='text-xs'>in Kg</span></TableCell>
                             <TableCell>Transportation</TableCell>
                             <TableCell>Order Date</TableCell>
                             <TableCell>Assign Transportation</TableCell>
@@ -235,8 +235,8 @@ const DistributeManagement = () => {
                         {filteredOrders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((order) => (
                             <TableRow key={order._id}>
                                 <TableCell>{order.orderID}</TableCell>
-                                <TableCell>{order.buyer_id}</TableCell>
-                                <TableCell>{order.productID}</TableCell>
+                                {/* <TableCell>{order.buyer_id}</TableCell>
+                                <TableCell>{order.productID}</TableCell> */}
                                 <TableCell>{order.quantity}</TableCell>
                                 <TableCell>
                                     <Button onClick={() => fetchTransportDetails(order.transportation_id)} sx={{ color: '#1AACAC' }}>

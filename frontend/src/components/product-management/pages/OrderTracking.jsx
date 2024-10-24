@@ -68,7 +68,7 @@ const OrderTracking = ({ buyerId }) => {
         height: 30,
         borderRadius: '50%',
         backgroundColor: completed ? '#15F5BA' : active ?'#15F5BA' : theme.palette.grey[500],
-        color: 'white',
+        
     }));
 
     const StepIconComponent = (props) => {

@@ -7,7 +7,7 @@ const AddHarvest = () => {
   const [labours, setLabours] = useState([]);
   const [harvestData, setHarvestData] = useState([]);
   const [currentDate, setCurrentDate] = useState(
-    new Date().toISOString().split("T")[0]
+    new Date().toLocaleDateString("en-CA")
   );
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -19,12 +19,12 @@ const AddHarvest = () => {
 
   // Set the date once when the component mounts
   useEffect(() => {
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date().toLocaleDateString("en-CA");
     setCurrentDate(today); // Set current date
   }, []);
 
   const updateDate = () => {
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date().toLocaleDateString("en-CA");
     setCurrentDate(today);
   };
 
@@ -40,7 +40,7 @@ const AddHarvest = () => {
     try {
       const response = await axios.get("/labours");
       const filteredLabours = response.data.filter(
-        (labour) => labour.role === "Labour" && labour.assignedField != "none"
+        (labour) => labour.role === "Labour" && labour.assignedField !== "none"
       );
 
       const initialData = filteredLabours.map((labour) => ({
@@ -95,7 +95,6 @@ const AddHarvest = () => {
 
         // Add to harvests collection
         await axios.post("/harvests", {
-          //id: harvest.id,
           labour_name: harvest.labour_name,
           field_name: harvest.field_name,
           date: harvest.date,
@@ -117,12 +116,10 @@ const AddHarvest = () => {
 
         // Get field ID by field name and update field's harvest_qnty
         const fieldId = await getFieldIdByName(harvest.field_name);
-        console.log("Fetched field ID:", fieldId); // Debugging
         if (fieldId) {
           await axios.put(`/fields/${fieldId}`, {
             $inc: { harvest_qnty: total },
           });
-          console.log("Field updated successfully!"); // Debugging
         }
       });
 
@@ -152,7 +149,10 @@ const AddHarvest = () => {
 
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-semibold mb-4">Add Daily Harvest</h1>
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-semibold">Add Daily Harvest</h1>
+        <span className="text-lg font-medium">{currentDate}</span>
+      </div>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white">
           <thead>

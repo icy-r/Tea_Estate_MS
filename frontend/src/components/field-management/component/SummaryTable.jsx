@@ -72,7 +72,7 @@ const SummaryTable = ({ summaryData }) => {
       <div className="flex justify-end mt-4">
         <button
           onClick={handleUpdateHarvestLog}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-300"
         >
           Update Harvest Log
         </button>

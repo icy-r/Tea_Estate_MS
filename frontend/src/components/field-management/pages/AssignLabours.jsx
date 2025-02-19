@@ -12,18 +12,16 @@ const AssignLabours = () => {
     try {
       const response = await axios.get("/labours/");
       const labourList = response.data;
-      
       setLabours(labourList);
     } catch (error) {
       console.error("Error fetching labours data:", error);
     }
   };
 
-  // Fetch fields from the collection
   const fetchFields = async () => {
     try {
       const response = await axios.get("/fields/");
-      setFields(response.data); // Store fields data in state
+      setFields(response.data);
     } catch (error) {
       console.error("Error fetching fields data:", error);
     }
@@ -63,17 +61,16 @@ const AssignLabours = () => {
       console.log("Selected Field:", selectedField);
 
       try {
-        // Update the labour's assignedField
         const response = await axios.put(`/labours/${selectedLabour.id}`, {
           assignedField: selectedField,
         });
 
         console.log("Response from server:", response.data);
 
-        setIsAssigning(false); // Close the form
-        setSelectedField(""); // Clear the selected field
-        setSelectedLabour(null); // Clear the selected labour
-        fetchDetails(); // Refresh the labours data to reflect the changes
+        setIsAssigning(false);
+        setSelectedField("");
+        setSelectedLabour(null);
+        fetchDetails();
       } catch (error) {
         console.error("Error assigning field:", error);
       }
@@ -85,6 +82,39 @@ const AssignLabours = () => {
   return (
     <div className="p-8">
       <h1 className="text-2xl font-semibold mb-4">Assign Labours</h1>
+
+      {/* Show the form if assigning */}
+      {isAssigning && (
+        <div className="mt-8 mb-4">
+          <h2 className="text-xl font-semibold mb-4">
+            Assign Field to {selectedLabour.firstName}
+          </h2>
+          <div className="mb-4">
+            <label className="block mb-2 text-sm font-medium">
+              Select Field
+            </label>
+            <select
+              value={selectedField}
+              onChange={(e) => setSelectedField(e.target.value)}
+              className="w-full px-4 py-2 border rounded"
+            >
+              <option value="">Select a field</option>
+              {fields.map((field) => (
+                <option key={field.id} value={field.name}>
+                  {field.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <button
+            onClick={handleAssignSubmit}
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+          >
+            Submit
+          </button>
+        </div>
+      )}
+
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white">
           <thead>
@@ -147,38 +177,6 @@ const AssignLabours = () => {
           </tbody>
         </table>
       </div>
-
-      {/* Show the form if assigning */}
-      {isAssigning && (
-        <div className="mt-8">
-          <h2 className="text-xl font-semibold mb-4">
-            Assign Field to {selectedLabour.firstName}
-          </h2>
-          <div className="mb-4">
-            <label className="block mb-2 text-sm font-medium">
-              Select Field
-            </label>
-            <select
-              value={selectedField}
-              onChange={(e) => setSelectedField(e.target.value)}
-              className="w-full px-4 py-2 border rounded"
-            >
-              <option value="">Select a field</option>
-              {fields.map((field) => (
-                <option key={field.id} value={field.name}>
-                  {field.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <button
-            onClick={handleAssignSubmit}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
-          >
-            Submit
-          </button>
-        </div>
-      )}
     </div>
   );
 };

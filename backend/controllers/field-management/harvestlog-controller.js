@@ -3,6 +3,7 @@ import { Field } from "../../models/field-management/field-model.js";
 import { Labour } from "../../models/field-management/labour-model.js";
 import { Fertilizer } from "../../models/field-management/fertilizer-model.js";
 import sendWhatsAppMessage from "../../services/twilio.js";
+import { addDays } from "date-fns";
 
 // Store a new harvest log
 async function create(req, res) {
@@ -20,7 +21,7 @@ async function create(req, res) {
 
       if (field) {
         if (damagedPercentage > 30) {
-          field.fieldStatus = "Needs Maintenance";
+          field.fieldStatus = "In Progress";
 
           // Update fertilizer schedule for poor-quality harvests
           await updateFertilizerSchedule(log.fieldName, damagedPercentage);
@@ -36,7 +37,7 @@ async function create(req, res) {
               field.name
             }" has ${damagedPercentage.toFixed(
               2
-            )}% damaged crops and has been marked as "Needs Maintenance". The fertilizer schedule has been automatically updated. Please take necessary actions.`;
+            )}% damaged crops and has been marked as "In Progress". The fertilizer schedule has been automatically updated.`;
 
             try {
               await sendWhatsAppMessage(supervisor.phoneNumber, message);
@@ -91,11 +92,18 @@ async function updateFertilizerSchedule(fieldName, poorQualityPercentage) {
 
       // Update the frequency based on the poor quality percentage
       let updatedFrequency = fertilizerSchedule.frequency;
+      let daysToAdd = 7; // Default to once a week
       if (poorQualityPercentage > 30 && poorQualityPercentage <= 50) {
         updatedFrequency = "Twice a week";
+        daysToAdd = 3; // Twice a week
       } else if (poorQualityPercentage > 50) {
         updatedFrequency = "Thrice a week";
+        daysToAdd = 2; // Thrice a week
       }
+
+      // Calculate the next application date
+      const today = new Date();
+      const nextApplicationDate = addDays(today, daysToAdd);
 
       // Save updated schedule
       const updatedSchedule = await Fertilizer.findOneAndUpdate(
@@ -104,6 +112,7 @@ async function updateFertilizerSchedule(fieldName, poorQualityPercentage) {
           $set: {
             fertilizers: updatedFertilizers,
             frequency: updatedFrequency,
+            nextFertilizationDate: nextApplicationDate,
           },
         },
         { new: true, runValidators: true }
@@ -142,6 +151,9 @@ async function resetFertilizerSchedule(fieldName) {
         })
       );
 
+      // Calculate the next application date (7 days from today for "Once a week")
+      const nextApplicationDate = addDays(new Date(), 7);
+
       // Reset the frequency to normal and update the schedule
       const updatedSchedule = await Fertilizer.findOneAndUpdate(
         { fieldName: fieldName },
@@ -149,6 +161,7 @@ async function resetFertilizerSchedule(fieldName) {
           $set: {
             fertilizers: resetFertilizers,
             frequency: "Once a week",
+            nextFertilizationDate: nextApplicationDate,
           },
         },
         { new: true, runValidators: true }
